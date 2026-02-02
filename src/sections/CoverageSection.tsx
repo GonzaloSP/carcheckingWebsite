@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -122,6 +123,7 @@ export default function CoverageSection() {
   }, []);
 
   const openWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'coverage' });
     window.open(whatsappUrl(), '_blank');
   };
 

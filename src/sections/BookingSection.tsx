@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MessageCircle, ArrowRight, Check } from 'lucide-react';
 import { PRICING, servicePriceText } from '../config/pricing';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,6 +122,12 @@ export default function BookingSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    trackEvent('lead_submit', {
+      source: 'home_booking_section_form',
+      has_message: false,
+    });
+
     // Simulate form submission
     setIsSubmitted(true);
     setTimeout(() => {
@@ -130,6 +137,7 @@ export default function BookingSection() {
   };
 
   const openWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'home_booking_section' });
     window.open(whatsappUrl(), '_blank');
   };
 

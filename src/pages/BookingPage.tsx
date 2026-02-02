@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { PRICING, servicePriceText } from '../config/pricing';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 import Navigation from '../sections/Navigation';
 import { Check, Phone, MapPin, Clock, Shield, FileText, Camera } from 'lucide-react';
 
@@ -95,6 +96,12 @@ export default function BookingPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    trackEvent('lead_submit', {
+      source: 'booking_page_form',
+      has_message: Boolean(formData.mensaje && formData.mensaje.trim()),
+    });
+
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
@@ -112,6 +119,7 @@ export default function BookingPage() {
 
   const openWhatsApp = () => {
     // Always open WhatsApp Web (not the phone dialer). If the user typed a message, keep it.
+    trackEvent('whatsapp_click', { source: 'booking_page', has_message: Boolean(formData.mensaje && formData.mensaje.trim()) });
     window.open(whatsappUrl(formData.mensaje), '_blank');
   };
 

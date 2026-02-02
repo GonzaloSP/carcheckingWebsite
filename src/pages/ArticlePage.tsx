@@ -1,4 +1,6 @@
 import { useRef, useLayoutEffect } from 'react';
+// useLayoutEffect is also used for analytics event after article resolves
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HelmetProvider } from 'react-helmet-async';
@@ -8,6 +10,7 @@ import Navigation from '../sections/Navigation';
 import { getArticleBySlug, getRecentArticles } from '../data/articles';
 import { Calendar, User, Tag, ArrowLeft, MessageCircle } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +21,13 @@ export default function ArticlePage() {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const recentArticles = getRecentArticles(3).filter((a) => a.slug !== slug);
+
+  // Track article view with slug/title (in addition to the route-level event)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useLayoutEffect(() => {
+    if (!article) return;
+    trackEvent('article_view', { slug: article.slug, title: article.title });
+  }, [article]);
 
   useLayoutEffect(() => {
     if (!article) return;
@@ -65,6 +75,7 @@ export default function ArticlePage() {
   }
 
   const openWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'article_page', slug });
     window.open(whatsappUrl(), '_blank');
   };
 

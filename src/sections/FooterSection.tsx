@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 import { Phone, Clock, MapPin } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -100,11 +101,13 @@ export default function FooterSection() {
   }, []);
 
   const openWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'footer' });
     window.open(whatsappUrl(), '_blank');
   };
 
   const callPhone = () => {
     // Do not open the phone dialer; send users to WhatsApp Web instead.
+    trackEvent('whatsapp_click', { source: 'footer_phone_button' });
     window.open(whatsappUrl(), '_blank');
   };
 

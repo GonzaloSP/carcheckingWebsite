@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
+import { trackEvent } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -92,6 +93,7 @@ export default function WhyInspectSection() {
   }, []);
 
   const openWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'why_inspect' });
     window.open(whatsappUrl(), '_blank');
   };
 
