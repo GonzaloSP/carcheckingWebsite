@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
 import { getArticleBySlug, getRecentArticles } from '../data/articles';
 import { Calendar, User, Tag, ArrowLeft, MessageCircle } from 'lucide-react';
+import { whatsappUrl } from '../config/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,7 +65,7 @@ export default function ArticlePage() {
   }
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/541156980573', '_blank');
+    window.open(whatsappUrl(), '_blank');
   };
 
   // Convert markdown-like content to HTML

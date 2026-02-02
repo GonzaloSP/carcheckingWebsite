@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import { whatsappUrl } from '../config/whatsapp';
 import { Phone, Clock, MapPin } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -99,11 +100,12 @@ export default function FooterSection() {
   }, []);
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/541156980573', '_blank');
+    window.open(whatsappUrl(), '_blank');
   };
 
   const callPhone = () => {
-    window.open('tel:+541156980573', '_self');
+    // Do not open the phone dialer; send users to WhatsApp Web instead.
+    window.open(whatsappUrl(), '_blank');
   };
 
   return (

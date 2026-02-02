@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, CheckCircle } from 'lucide-react';
+import { whatsappUrl } from '../config/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,7 +92,7 @@ export default function WhyInspectSection() {
   }, []);
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/541156980573', '_blank');
+    window.open(whatsappUrl(), '_blank');
   };
 
   return (

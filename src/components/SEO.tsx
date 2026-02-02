@@ -82,7 +82,7 @@ export default function SEO({
             areaServed: 'AR',
           },
           sameAs: [
-            'https://wa.me/541156980573',
+            'https://web.whatsapp.com/send?phone=5491156980573',
           ],
         })}
       </script>

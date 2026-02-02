@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { PRICING, servicePriceText } from '../config/pricing';
+import { whatsappUrl } from '../config/whatsapp';
 import Navigation from '../sections/Navigation';
 import { Check, Phone, MapPin, Clock, Shield, FileText, Camera } from 'lucide-react';
 
@@ -110,7 +111,8 @@ export default function BookingPage() {
   };
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/541156980573', '_blank');
+    // Always open WhatsApp Web (not the phone dialer). If the user typed a message, keep it.
+    window.open(whatsappUrl(formData.mensaje), '_blank');
   };
 
   const features = [
