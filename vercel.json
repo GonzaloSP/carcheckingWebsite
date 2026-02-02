@@ -1,0 +1,34 @@
+{
+  "redirects": [
+    {
+      "source": "/consejos/para-que-sirve-escanear-un-vehiculo",
+      "destination": "/blog/para-que-sirve-escanear-un-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/guia-para-verificar-que-el-cuentakilometros-no-ha-sido-alterado",
+      "destination": "/blog/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/como-saber-el-kilometraje-real-del-vehiculo-sin-revisarlo",
+      "destination": "/blog/como-saber-kilometraje-real-sin-revisar",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/10-cosas-a-tener-en-cuenta-al-comprar-un-vehiculo-usado-en-argentina",
+      "destination": "/blog/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/que-diferencia-carchecking-de-la-competencia",
+      "destination": "/blog/que-diferencia-carchecking-de-la-competencia",
+      "permanent": true
+    },
+    {
+      "source": "/articulos-con-consejos",
+      "destination": "/blog",
+      "permanent": true
+    }
+  ]
+}
