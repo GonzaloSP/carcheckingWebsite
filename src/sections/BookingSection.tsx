@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MessageCircle, ArrowRight, Check } from 'lucide-react';
 import { PRICING, servicePriceText } from '../config/pricing';
-import { whatsappUrl } from '../config/whatsapp';
+import { buildWhatsAppLeadMessage, whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -120,25 +120,42 @@ export default function BookingSection() {
     return () => ctx.revert();
   }, []);
 
+  const openWhatsApp = (overrideMessage?: string) => {
+    const message =
+      overrideMessage ??
+      buildWhatsAppLeadMessage({
+        ...formData,
+        servicio: PRICING.serviceName,
+      });
+
+    trackEvent('whatsapp_click', {
+      source: 'home_booking_section',
+      has_message: Boolean(message && message.trim()),
+    });
+
+    window.open(whatsappUrl(message), '_blank');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    trackEvent('lead_submit', {
-      source: 'home_booking_section_form',
-      has_message: false,
+    const message = buildWhatsAppLeadMessage({
+      ...formData,
+      servicio: PRICING.serviceName,
     });
 
-    // Simulate form submission
+    trackEvent('lead_submit', {
+      source: 'home_booking_section_form',
+      has_message: true,
+    });
+
+    openWhatsApp(message);
+
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({ nombre: '', telefono: '', zona: '', fecha: '' });
     }, 3000);
-  };
-
-  const openWhatsApp = () => {
-    trackEvent('whatsapp_click', { source: 'home_booking_section' });
-    window.open(whatsappUrl(), '_blank');
   };
 
   return (
@@ -219,8 +236,7 @@ export default function BookingSection() {
                 setFormData({ ...formData, telefono: e.target.value })
               }
               className="w-full bg-[#141416] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors"
-              placeholder="11 1234 5678"
-              required
+              placeholder="(opcional)"
             />
           </div>
 
@@ -235,8 +251,7 @@ export default function BookingSection() {
                 setFormData({ ...formData, zona: e.target.value })
               }
               className="w-full bg-[#141416] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors"
-              placeholder="Ej: Palermo, CABA"
-              required
+              placeholder="(opcional)"
             />
           </div>
 
@@ -251,7 +266,6 @@ export default function BookingSection() {
                 setFormData({ ...formData, fecha: e.target.value })
               }
               className="w-full bg-[#141416] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] focus:border-[#C8A161] focus:outline-none transition-colors"
-              required
             />
           </div>
         </form>
@@ -276,7 +290,7 @@ export default function BookingSection() {
             )}
           </button>
           <button
-            onClick={openWhatsApp}
+            onClick={() => openWhatsApp()}
             className="flex items-center justify-center gap-2 text-[#C8A161] hover:text-[#D4B896] transition-colors group"
           >
             <span className="text-sm tracking-wide">

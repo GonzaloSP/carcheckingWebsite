@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { PRICING, servicePriceText } from '../config/pricing';
-import { whatsappUrl } from '../config/whatsapp';
+import { buildWhatsAppLeadMessage, whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
 import Navigation from '../sections/Navigation';
 import { Check, Phone, MapPin, Clock, Shield, FileText, Camera } from 'lucide-react';
@@ -94,13 +94,37 @@ export default function BookingPage() {
     return () => ctx.revert();
   }, []);
 
+  const openWhatsApp = (overrideMessage?: string) => {
+    const message =
+      overrideMessage ??
+      buildWhatsAppLeadMessage({
+        ...formData,
+        servicio: PRICING.serviceName,
+      });
+
+    trackEvent('whatsapp_click', {
+      source: 'booking_page',
+      has_message: Boolean(message && message.trim()),
+    });
+
+    window.open(whatsappUrl(message), '_blank');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const message = buildWhatsAppLeadMessage({
+      ...formData,
+      servicio: PRICING.serviceName,
+    });
 
     trackEvent('lead_submit', {
       source: 'booking_page_form',
       has_message: Boolean(formData.mensaje && formData.mensaje.trim()),
     });
+
+    // Send the user to WhatsApp with the filled-in info
+    openWhatsApp(message);
 
     setIsSubmitted(true);
     setTimeout(() => {
@@ -115,12 +139,6 @@ export default function BookingPage() {
         mensaje: '',
       });
     }, 3000);
-  };
-
-  const openWhatsApp = () => {
-    // Always open WhatsApp Web (not the phone dialer). If the user typed a message, keep it.
-    trackEvent('whatsapp_click', { source: 'booking_page', has_message: Boolean(formData.mensaje && formData.mensaje.trim()) });
-    window.open(whatsappUrl(formData.mensaje), '_blank');
   };
 
   const features = [
@@ -204,15 +222,14 @@ export default function BookingPage() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                           <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                            Teléfono *
+                            Teléfono
                           </label>
                           <input
                             type="tel"
                             value={formData.telefono}
                             onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                             className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors"
-                            placeholder="11 1234 5678"
-                            required
+                            placeholder="(opcional)"
                           />
                         </div>
                         <div>
@@ -231,29 +248,27 @@ export default function BookingPage() {
 
                       <div>
                         <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                          Zona / Dirección *
+                          Zona / Dirección
                         </label>
                         <input
                           type="text"
                           value={formData.zona}
                           onChange={(e) => setFormData({ ...formData, zona: e.target.value })}
                           className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors"
-                          placeholder="Ej: Palermo, CABA"
-                          required
+                          placeholder="(opcional)"
                         />
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                           <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                            Fecha preferida *
+                            Fecha preferida
                           </label>
                           <input
                             type="date"
                             value={formData.fecha}
                             onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
                             className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] focus:border-[#C8A161] focus:outline-none transition-colors"
-                            required
                           />
                         </div>
                         <div>
@@ -307,7 +322,7 @@ export default function BookingPage() {
                         También puede contactarnos directamente al{' '}
                         <button
                           type="button"
-                          onClick={openWhatsApp}
+                          onClick={() => openWhatsApp()}
                           className="text-[#C8A161] hover:underline"
                         >
                           11-5698-0573
@@ -350,7 +365,7 @@ export default function BookingPage() {
                         <div>
                           <p className="text-sm text-[#B8B2AA]">WhatsApp / Teléfono</p>
                           <button
-                            onClick={openWhatsApp}
+                            onClick={() => openWhatsApp()}
                             className="text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
                           >
                             11-5698-0573
@@ -376,7 +391,7 @@ export default function BookingPage() {
 
                   {/* Quick WhatsApp */}
                   <button
-                    onClick={openWhatsApp}
+                    onClick={() => openWhatsApp()}
                     className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-3 transition-colors"
                   >
                     <WhatsAppLogo className="w-6 h-6" />
