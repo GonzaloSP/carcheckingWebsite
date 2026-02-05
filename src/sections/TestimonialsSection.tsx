@@ -17,7 +17,7 @@ const testimonials = [
     quote:
       'El informe escrito me dio la tranquilidad para negociar el precio. Excelente servicio.',
     author: 'Lucía R.',
-    location: 'Córdoba',
+    location: 'GBA',
     rating: 5,
   },
   {

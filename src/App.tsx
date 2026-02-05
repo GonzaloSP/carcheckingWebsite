@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
 import BookingPage from './pages/BookingPage';
+import GestoriaPage from './pages/GestoriaPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticlePage />} />
+        <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
       </Routes>
     </Router>

@@ -126,10 +126,7 @@ export default function SEO({
               '@type': 'State',
               name: 'Buenos Aires',
             },
-            {
-              '@type': 'City',
-              name: 'Córdoba',
-            },
+            // Córdoba removed
           ],
         })}
       </script>

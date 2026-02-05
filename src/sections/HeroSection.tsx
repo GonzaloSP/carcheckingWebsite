@@ -179,8 +179,8 @@ export default function HeroSection() {
         className="absolute left-0 top-0 w-[62vw] h-full overflow-hidden"
       >
         <img
-          src={`${import.meta.env.BASE_URL}images/hero_car.jpg`}
-          alt="Vehículo en Buenos Aires"
+          src={`${import.meta.env.BASE_URL}images/hero_mecanico_03.jpg`}
+          alt="Mecánico inspeccionando un vehículo"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0B0B0D]/80" />
@@ -246,7 +246,7 @@ export default function HeroSection() {
         className="absolute bottom-8 right-8 lg:right-12 text-right"
       >
         <p className="text-xs text-[#B8B2AA] tracking-wider uppercase">
-          Capital Federal · Gran Buenos Aires · Córdoba Capital
+          Capital Federal · Gran Buenos Aires
         </p>
       </div>
     </section>

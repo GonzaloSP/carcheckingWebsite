@@ -134,7 +134,7 @@ export default function BookingPage() {
     <HelmetProvider>
       <SEO
         title="Solicitar Turno | carChecking - Inspección de Vehículos a Domicilio"
-        description={`Reserve su turno para inspección de vehículos. ${PRICING.serviceName} ${servicePriceText()}. Más de 350 puntos revisados. CABA, GBA y Córdoba Capital.`}
+        description={`Reserve su turno para inspección de vehículos. ${PRICING.serviceName} ${servicePriceText()}. Más de 350 puntos revisados. CABA y GBA.`}
         canonicalUrl="/solicitar-turno"
       />
       <div className="relative bg-[#0B0B0D] min-h-screen">
@@ -368,7 +368,7 @@ export default function BookingPage() {
                         <MapPin className="w-5 h-5 text-[#C8A161]" />
                         <div>
                           <p className="text-sm text-[#B8B2AA]">Cobertura</p>
-                          <p className="text-[#F4F1EC]">CABA · Gran Buenos Aires · Córdoba Capital</p>
+                          <p className="text-[#F4F1EC]">CABA · Gran Buenos Aires</p>
                         </div>
                       </div>
                     </div>

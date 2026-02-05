@@ -11,6 +11,7 @@ import { getArticleBySlug, getRecentArticles } from '../data/articles';
 import { Calendar, User, Tag, ArrowLeft, MessageCircle } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
+import TransferCostCalculator from '../components/TransferCostCalculator';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,6 +82,8 @@ export default function ArticlePage() {
 
   // Convert markdown-like content to HTML
   const renderContent = (content: string) => {
+    // Custom component markers supported in article content.
+    // Use a full line like: [[transfer_cost_calculator]]
     const lines = content.split('\n');
     let inList = false;
     let listItems: string[] = [];
@@ -106,6 +109,17 @@ export default function ArticlePage() {
 
     lines.forEach((line) => {
       const trimmed = line.trim();
+
+      // Component injection markers
+      if (trimmed === '[[transfer_cost_calculator]]') {
+        flushList();
+        elements.push(
+          <div key={`calc-${key++}`} className="my-8">
+            <TransferCostCalculator />
+          </div>
+        );
+        return;
+      }
 
       if (trimmed.startsWith('## ')) {
         flushList();
@@ -335,7 +349,7 @@ export default function ArticlePage() {
                           <span className="text-[#F4F1EC]">Horario:</span> Lun-Sáb 9-19hs
                         </p>
                         <p className="text-[#B8B2AA]">
-                          <span className="text-[#F4F1EC]">Cobertura:</span> CABA, GBA, Córdoba
+                          <span className="text-[#F4F1EC]">Cobertura:</span> CABA, GBA
                         </p>
                       </div>
                     </div>

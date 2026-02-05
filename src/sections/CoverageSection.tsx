@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 const coverageAreas = [
   { name: 'Capital Federal', x: 45, y: 55 },
   { name: 'Gran Buenos Aires', x: 45, y: 45 },
-  { name: 'Córdoba Capital', x: 35, y: 65 },
 ];
 
 export default function CoverageSection() {
@@ -147,7 +146,7 @@ export default function CoverageSection() {
               ref={bodyRef}
               className="text-base lg:text-lg text-[#B8B2AA] leading-relaxed mb-8"
             >
-              Operamos en Capital Federal, Gran Buenos Aires y Córdoba Capital.
+              Operamos en Capital Federal y Gran Buenos Aires.
               Si su zona está en el mapa, podemos estar ahí.
             </p>
             <button

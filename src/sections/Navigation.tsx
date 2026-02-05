@@ -97,6 +97,13 @@ export default function Navigation() {
               Consejos para comprar
             </Link>
             <Link
+              to="/servicio-gestoria"
+              className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
+              title="Servicio de gestoría del automotor"
+            >
+              Gestoría
+            </Link>
+            <Link
               to="/solicitar-turno"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
             >
@@ -169,6 +176,12 @@ export default function Navigation() {
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Consejos para comprar
+          </Link>
+          <Link
+            to="/servicio-gestoria"
+            className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
+          >
+            Gestoría
           </Link>
           <Link
             to="/solicitar-turno"

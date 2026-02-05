@@ -9,6 +9,7 @@ import WhyInspectSection from '../sections/WhyInspectSection';
 import WhatWeCheckSection from '../sections/WhatWeCheckSection';
 import HowItWorksSection from '../sections/HowItWorksSection';
 import CoverageSection from '../sections/CoverageSection';
+import ServicesSection from '../sections/ServicesSection';
 import TestimonialsSection from '../sections/TestimonialsSection';
 import BookingSection from '../sections/BookingSection';
 import FooterSection from '../sections/FooterSection';
@@ -72,7 +73,7 @@ function HomePage() {
     <HelmetProvider>
       <SEO
         title="carChecking | Inspección de Vehículos a Domicilio - La Forma Segura de Comprar"
-        description="Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. Escaneo computarizado, informe escrito con fotos. CABA, GBA y Córdoba Capital."
+        description="Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. Escaneo computarizado, informe escrito con fotos. CABA y GBA."
         keywords="inspección vehicular, revisión de autos, compra segura de autos usados, mecánico a domicilio, escaneo computarizado, carChecking Argentina, verificación de vehículos"
         canonicalUrl="/"
       />
@@ -82,6 +83,7 @@ function HomePage() {
         <main className="relative">
           <HeroSection />
           <WhyInspectSection />
+          <ServicesSection />
           <WhatWeCheckSection />
           <HowItWorksSection />
           <CoverageSection />

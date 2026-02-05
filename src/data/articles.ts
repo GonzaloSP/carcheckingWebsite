@@ -20,6 +20,42 @@ const base = import.meta.env.BASE_URL;
 
 export const articles: Article[] = [
   {
+    id: 'transfer-costs-calculator',
+    slug: 'calculadora-costos-transferencia-auto-usado',
+    title: 'Calculadora de costos de transferencia: estimación rápida (Argentina)',
+    excerpt: 'Ingresá el precio del vehículo y obtené un estimado de costos de transferencia en Argentina con un desglose simple (aranceles + sellos).',
+    author: 'carChecking',
+    date: '2026-02-05',
+    category: 'Documentación',
+    tags: ['transferencia', 'costos', 'autos usados', 'DNRPA', 'sellos', '08'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Calculadora de costos de transferencia de autos usados (Argentina) | carChecking',
+    metaDescription: 'Calculadora simple para estimar costos de transferencia de un auto usado en Argentina. Incluye desglose de aranceles y sellos. Valores aproximados.',
+    content: `
+## Calculadora de costos de transferencia de autos usados (Argentina)
+
+Si estás por comprar o vender un auto usado, una de las preguntas típicas es cuánto sale la transferencia. En la práctica el costo final depende de múltiples variables (jurisdicción, registro, valuación, situación del vehículo), pero podés tener un **estimado rápido** para planificar.
+
+A continuación tenés una calculadora que toma el **precio del vehículo** y muestra un **desglose** de los conceptos más comunes (aranceles y sellos) para obtener un total aproximado.
+
+[[transfer_cost_calculator]]
+
+### Importante
+
+- Es una **estimación**: pueden existir costos adicionales (gestoría, verificaciones, certificaciones, etc.).
+- Para contrastar el valor, podés consultar la **tabla de valuación** del DNRPA (referencia usada por registros):
+  - http://www.dnrpa.gov.ar/valuacion/informacion/05-04-2018.pdf
+
+### Qué incluye este cálculo (resumen)
+
+- Arancel de transferencia (porcentaje sobre el precio)
+- Sellos provinciales (porcentaje sobre el precio)
+- Otros conceptos fijos (formularios/aranceles)
+
+Si querés, decime la provincia o el caso (particular / compra en agencia / con prenda) y lo adaptamos.
+    `,
+  },
+  {
     id: '7',
     slug: 'inspeccion-pre-compra-auto-a-domicilio',
     title: 'Inspección pre compra auto: qué incluye una inspección a domicilio y por qué conviene',

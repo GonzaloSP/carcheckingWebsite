@@ -183,7 +183,7 @@ export default function FooterSection() {
             <p className="text-sm text-[#B8B2AA] uppercase tracking-wider mb-2">
               Cobertura
             </p>
-            <p className="text-[#F4F1EC]">CABA · GBA · Córdoba</p>
+            <p className="text-[#F4F1EC]">CABA · GBA</p>
           </div>
         </div>
       </div>
