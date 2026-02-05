@@ -20,12 +20,12 @@ export default function SEO({
   title,
   description,
   keywords = 'inspección vehicular, revisión de autos, compra segura de autos usados, mecánico a domicilio, escaneo computarizado, carChecking Argentina',
-  ogImage = 'https://carchecking.com.ar/images/hero_car.jpg',
+  ogImage = 'https://www.carchecking.com.ar/images/hero_car.jpg',
   ogType = 'website',
   canonicalUrl,
   article,
 }: SEOProps) {
-  const siteUrl = 'https://carchecking.com.ar';
+  const siteUrl = 'https://www.carchecking.com.ar';
   const fullCanonicalUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : siteUrl;
 
   return (

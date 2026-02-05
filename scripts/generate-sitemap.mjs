@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Keep this in sync with SEO.tsx
-const siteUrl = 'https://carchecking.com.ar';
+const siteUrl = 'https://www.carchecking.com.ar';
 
 // NOTE: we don't import TS directly (Node doesn't understand it without extra loaders).
 // Instead we do a lightweight parse of src/data/articles.ts.
@@ -26,10 +26,10 @@ const fmt = (d) => d.toISOString().slice(0, 10);
 
 const urls = [
   { loc: '/', changefreq: 'weekly', priority: '1.0', lastmod: fmt(now) },
-  { loc: '/blog', changefreq: 'weekly', priority: '0.8', lastmod: fmt(now) },
+  { loc: '/guias', changefreq: 'weekly', priority: '0.8', lastmod: fmt(now) },
   { loc: '/solicitar-turno', changefreq: 'monthly', priority: '0.9', lastmod: fmt(now) },
   ...articles.map((a) => ({
-    loc: `/blog/${a.slug}`,
+    loc: `/guias/${a.slug}`,
     changefreq: 'monthly',
     priority: '0.6',
     lastmod: a?.date && !Number.isNaN(Date.parse(a.date)) ? a.date : fmt(now),

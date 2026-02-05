@@ -413,7 +413,7 @@ export default function BookingPage() {
               <Link to="/" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Inicio
               </Link>
-              <Link to="/blog" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+              <Link to="/guias" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Consejos para comprar
               </Link>
               <Link to="/solicitar-turno" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">

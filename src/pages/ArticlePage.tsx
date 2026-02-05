@@ -72,7 +72,7 @@ export default function ArticlePage() {
   }, [article]);
 
   if (!article) {
-    return <Navigate to="/blog" replace />;
+    return <Navigate to="/guias" replace />;
   }
 
   const openWhatsApp = () => {
@@ -177,7 +177,7 @@ export default function ArticlePage() {
         title={article.metaTitle}
         description={article.metaDescription}
         keywords={article.tags.join(', ')}
-        canonicalUrl={`/blog/${article.slug}`}
+        canonicalUrl={`/guias/${article.slug}`}
         ogImage={new URL(article.image, 'https://carchecking.com.ar/').toString()}
         ogType="article"
         article={{
@@ -213,7 +213,7 @@ export default function ArticlePage() {
                       Inicio
                     </Link>
                     <span>/</span>
-                    <Link to="/blog" className="hover:text-[#C8A161] transition-colors">
+                    <Link to="/guias" className="hover:text-[#C8A161] transition-colors">
                       Blog
                     </Link>
                     <span>/</span>
@@ -272,7 +272,7 @@ export default function ArticlePage() {
                   {/* Back to Blog */}
                   <div className="mt-10">
                     <Link
-                      to="/blog"
+                      to="/guias"
                       className="inline-flex items-center gap-2 text-[#C8A161] hover:text-[#D4B896] transition-colors"
                     >
                       <ArrowLeft className="w-4 h-4" />
@@ -311,7 +311,7 @@ export default function ArticlePage() {
                           {recentArticles.map((recent) => (
                             <Link
                               key={recent.id}
-                              to={`/blog/${recent.slug}`}
+                              to={`/guias/${recent.slug}`}
                               className="block group"
                             >
                               <h4 className="text-sm text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors line-clamp-2 mb-1">
@@ -370,7 +370,7 @@ export default function ArticlePage() {
               <Link to="/" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Inicio
               </Link>
-              <Link to="/blog" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+              <Link to="/guias" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Blog
               </Link>
               <Link to="/solicitar-turno" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">

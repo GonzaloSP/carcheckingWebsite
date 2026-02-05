@@ -101,11 +101,11 @@ Te cuento lo típico que debería incluir una inspección completa (lo important
 
 Tip: un motor “lavado a nuevo” a veces es para disimular pérdidas. No siempre, pero vale prestarle atención.
 
-Si tu duda principal es el kilometraje, te puede servir esta guía: [cómo verificar que el cuentakilómetros no ha sido alterado](/blog/guia-verificar-cuentakilometros-no-alterado).
+Si tu duda principal es el kilometraje, te puede servir esta guía: [cómo verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado).
 
 ### 2) Escaneo OBD pre compra (diagnóstico computarizado)
 
-El **escaneo OBD** sirve para leer información de la computadora del auto (si querés profundizar, mirá esta guía: [para qué sirve escanear un vehículo](/blog/para-que-sirve-escanear-un-vehiculo)). Es muy útil para:
+El **escaneo OBD** sirve para leer información de la computadora del auto (si querés profundizar, mirá esta guía: [para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo)). Es muy útil para:
 - Ver **códigos de falla** (activos o “pendientes”)
 - Detectar si **borraron fallas** hace poco
 - Revisar datos en vivo (según el auto)
@@ -181,9 +181,9 @@ Es una señal de alerta. Si está todo bien, lo normal es que no haya problema c
 
 Si estás armando tu compra paso a paso, estas dos guías te van a servir muchísimo:
 
-[Qué revisar antes de comprar un auto usado (checklist)](/blog/que-revisar-antes-de-comprar-auto-usado-checklist)
+[Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
 
-[Qué papeles revisar al comprar un auto usado en Argentina](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+[Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
 
 Si estás por comprar un usado, una inspección pre compra auto a domicilio te ayuda a decidir con tranquilidad y, si hace falta, a negociar con argumentos.
     `
@@ -205,7 +205,7 @@ Si estás por comprar un usado, una inspección pre compra auto a domicilio te a
 
 Si estás por comprar un auto usado, te conviene ir con una checklist. No hace falta ser mecánico: con algunas observaciones básicas podés evitar errores típicos.
 
-Acá tenés una guía práctica con lo que más importa. Y si querés ir a lo seguro, lo ideal es sumar una inspección pre compra profesional (acá explicamos cómo es: [inspección pre compra auto a domicilio](/blog/inspeccion-pre-compra-auto-a-domicilio)).
+Acá tenés una guía práctica con lo que más importa. Y si querés ir a lo seguro, lo ideal es sumar una inspección pre compra profesional (acá explicamos cómo es: [inspección pre compra auto a domicilio](/guias/inspeccion-pre-compra-auto-a-domicilio)).
 
 ## 1) Motor: lo que conviene mirar primero
 - ¿Ves pérdidas de aceite o refrigerante?
@@ -271,7 +271,7 @@ Los autos inundados suelen dar problemas eléctricos con el tiempo, incluso si �
 
 ## 9) Cómo saber si el kilometraje fue adulterado (sin volverse loco)
 
-No hay un truco mágico, pero estas señales ayudan (si querés profundizar: [guía para verificar que el cuentakilómetros no ha sido alterado](/blog/guia-verificar-cuentakilometros-no-alterado)):
+No hay un truco mágico, pero estas señales ayudan (si querés profundizar: [guía para verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado)):
 - Desgaste interior no coincide con los km
 - Historial de service con inconsistencias
 - Escaneo OBD (en algunos modelos se puede contrastar info)
@@ -279,7 +279,7 @@ No hay un truco mágico, pero estas señales ayudan (si querés profundizar: [gu
 
 ## Bonus: escaneo OBD antes de comprar
 
-Si podés, pedí un escaneo OBD antes de cerrar. Si te interesa el tema, acá tenés una guía más completa: [para qué sirve escanear un vehículo](/blog/para-que-sirve-escanear-un-vehiculo).
+Si podés, pedí un escaneo OBD antes de cerrar. Si te interesa el tema, acá tenés una guía más completa: [para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo).
 
 Sirve para:
 - Ver fallas activas o pendientes
@@ -292,9 +292,9 @@ Esta checklist te ayuda a reducir el riesgo. Pero si querés tomar la mejor deci
 
 ## También te puede interesar
 
-[Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
+[Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
 
-[Papeles para comprar un auto usado en Argentina: guía simple](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+[Papeles para comprar un auto usado en Argentina: guía simple](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
     `
   },
   {
@@ -316,7 +316,7 @@ En Argentina, un auto puede estar impecable… y aun así ser un problema si la 
 
 Acá va una guía simple, bien “a tierra”.
 
-Si además querés revisar el auto por fuera y por dentro, te recomiendo esta checklist: [qué revisar antes de comprar un auto usado](/blog/que-revisar-antes-de-comprar-auto-usado-checklist).
+Si además querés revisar el auto por fuera y por dentro, te recomiendo esta checklist: [qué revisar antes de comprar un auto usado](/guias/que-revisar-antes-de-comprar-auto-usado-checklist).
 
 ## 1) Informe de dominio auto: qué es y por qué te conviene pedirlo
 
@@ -386,9 +386,9 @@ Así reducís muchísimo el riesgo y comprás con tranquilidad.
 
 ## También te puede interesar
 
-[Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
+[Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
 
-[Qué revisar antes de comprar un auto usado (checklist)](/blog/que-revisar-antes-de-comprar-auto-usado-checklist)
+[Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
     `
   },
 
@@ -450,8 +450,8 @@ Un vehículo en uso normal recorre entre 10.000 y 15.000 kilómetros al año. A 
 
 Para complementar, te puede servir:
 
-- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
-- [Qué papeles revisar al comprar un auto usado en Argentina](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
+- [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
     `
   },
   {
@@ -483,11 +483,11 @@ Existen diversas opciones para comprar un vehículo usado en Argentina, desde ve
 
 Antes de comprar un vehículo usado en Argentina, es esencial que verifiques el estado mecánico del vehículo. Para ello, te recomendamos nuestro servicio de revisión de vehículos a comprar.
 
-Si querés entender bien el proceso y qué incluye, mirá esta guía: [inspección pre compra auto a domicilio](/blog/inspeccion-pre-compra-auto-a-domicilio).
+Si querés entender bien el proceso y qué incluye, mirá esta guía: [inspección pre compra auto a domicilio](/guias/inspeccion-pre-compra-auto-a-domicilio).
 
 ## 5. Revisa la documentación del vehículo
 
-Además de verificar el estado mecánico del vehículo, es importante que revises la documentación del vehículo. Si estás en Argentina, acá tenés una guía simple y completa: [qué papeles revisar al comprar un auto usado en Argentina](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial).
+Además de verificar el estado mecánico del vehículo, es importante que revises la documentación del vehículo. Si estás en Argentina, acá tenés una guía simple y completa: [qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial).
 
 En general, vas a querer revisar:
 
@@ -500,7 +500,7 @@ En general, vas a querer revisar:
 
 Antes de tomar una decisión de compra, es recomendable que realices una prueba de manejo para verificar el comportamiento del vehículo en diferentes condiciones.
 
-Si querés una lista rápida de qué mirar (motor, carrocería y prueba de manejo), usá esta checklist: [qué revisar antes de comprar un auto usado](/blog/que-revisar-antes-de-comprar-auto-usado-checklist).
+Si querés una lista rápida de qué mirar (motor, carrocería y prueba de manejo), usá esta checklist: [qué revisar antes de comprar un auto usado](/guias/que-revisar-antes-de-comprar-auto-usado-checklist).
 
 ## 7. Negocia el precio
 
@@ -610,8 +610,8 @@ En carChecking combinamos el **examen ocular de nuestros expertos con el escaneo
 
 Si querés ver cómo se aplica esto en una compra real, te puede servir:
 
-- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
-- [Qué revisar antes de comprar un auto usado (checklist)](/blog/que-revisar-antes-de-comprar-auto-usado-checklist)
+- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
+- [Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
     `
   },
   {
@@ -645,7 +645,7 @@ En cuanto a los seguros, el precio de un 0Km suele incluir la primera cuota del 
 
 Se calcula que un auto utilizado normalmente debe recorrer unos 10.000 km al año. Si, por ejemplo, un auto de tres años de antigüedad lleva recorridos más de 35.000 km, significa que ha sido sometido a un uso intensivo.
 
-**¡Cuidado con la alteración del cuentakilómetros!** Lamentablemente es un delito bastante común. Si querés ver señales claras, mirá esta guía: [cómo verificar que el cuentakilómetros no ha sido alterado](/blog/guia-verificar-cuentakilometros-no-alterado).
+**¡Cuidado con la alteración del cuentakilómetros!** Lamentablemente es un delito bastante común. Si querés ver señales claras, mirá esta guía: [cómo verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado).
 
 ### Tecnología y personalización
 
@@ -685,9 +685,9 @@ Los seguros para autos usados son más económicos que los de coches 0Km. Ademá
 
 Para seguir, te recomiendo estas guías:
 
-- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
-- [Qué revisar antes de comprar un auto usado (checklist)](/blog/que-revisar-antes-de-comprar-auto-usado-checklist)
-- [Qué papeles revisar al comprar un auto usado en Argentina](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
+- [Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
+- [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
     `
   },
   {
@@ -723,7 +723,7 @@ De la misma forma que al indicar un presupuesto de la reparación del vehículo 
 
 ## 2. La computadora de diagnóstico
 
-El segundo punto a tener en cuenta a la hora de contratar el servicio es la computadora que utiliza el inspector para escanear el vehículo (si querés entender bien qué puede revelar un escaneo, mirá: [para qué sirve escanear un vehículo](/blog/para-que-sirve-escanear-un-vehiculo)).
+El segundo punto a tener en cuenta a la hora de contratar el servicio es la computadora que utiliza el inspector para escanear el vehículo (si querés entender bien qué puede revelar un escaneo, mirá: [para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo)).
 
 Hoy por hoy hay una gran variedad de computadoras para escanear vehículos así como un amplio rango de precios los cuales van desde $350 hasta $25.000. La diferencia entre estas computadoras está en la capacidad que tienen para acceder a todos los sensores –módulos del vehículo y la exactitud con la que devuelve los resultados.
 
@@ -745,9 +745,9 @@ En carChecking hacemos un esfuerzo día a día para brindar el mejor servicio po
 
 Si querés ver ejemplos prácticos (y usarlo como guía antes de comprar), acá tenés tres lecturas útiles:
 
-- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/blog/inspeccion-pre-compra-auto-a-domicilio)
-- [Qué revisar antes de comprar un auto usado (checklist)](/blog/que-revisar-antes-de-comprar-auto-usado-checklist)
-- [Qué papeles revisar al comprar un auto usado en Argentina](/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+- [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
+- [Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
+- [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
     `
   },
   {

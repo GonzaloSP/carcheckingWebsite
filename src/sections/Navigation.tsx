@@ -90,7 +90,7 @@ export default function Navigation() {
             )}
             {/* Blog Link with SEO text */}
             <Link
-              to="/blog"
+              to="/guias"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
               title="Consejos para la compra de vehículos usados"
             >
@@ -172,7 +172,7 @@ export default function Navigation() {
           )}
           {/* Blog Link Mobile */}
           <Link
-            to="/blog"
+            to="/guias"
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Consejos para comprar

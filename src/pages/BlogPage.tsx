@@ -60,9 +60,9 @@ export default function BlogPage() {
   return (
     <HelmetProvider>
       <SEO
-        title="Blog | carChecking - Consejos y Guías sobre Vehículos Usados"
+        title="Guías | carChecking - Consejos y Guías sobre Vehículos Usados"
         description="Artículos, consejos y guías sobre compra segura de vehículos usados. Aprenda a detectar fraudes, negociar precios y verificar el estado de un auto."
-        canonicalUrl="/blog"
+        canonicalUrl="/guias"
       />
       <div className="relative bg-[#0B0B0D] min-h-screen">
         <div className="grain-overlay" />
@@ -77,10 +77,10 @@ export default function BlogPage() {
                   Inicio
                 </Link>
                 <span>/</span>
-                <span className="text-[#C8A161]">Blog</span>
+                <span className="text-[#C8A161]">Guías</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F4F1EC] mb-4">
-                BLOG
+                GUÍAS
               </h1>
               <p className="text-lg text-[#B8B2AA] max-w-2xl">
                 Consejos, guías y artículos para ayudarle a tomar la mejor decisión al comprar un vehículo usado.
@@ -120,7 +120,7 @@ export default function BlogPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Link
-                    to="/blog/inspeccion-pre-compra-auto-a-domicilio"
+                    to="/guias/inspeccion-pre-compra-auto-a-domicilio"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
@@ -132,7 +132,7 @@ export default function BlogPage() {
                   </Link>
 
                   <Link
-                    to="/blog/que-revisar-antes-de-comprar-auto-usado-checklist"
+                    to="/guias/que-revisar-antes-de-comprar-auto-usado-checklist"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
@@ -144,7 +144,7 @@ export default function BlogPage() {
                   </Link>
 
                   <Link
-                    to="/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
+                    to="/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
@@ -168,7 +168,7 @@ export default function BlogPage() {
                   className="article-card group bg-[#141416] border border-[#2a2a2c] rounded-lg overflow-hidden hover:border-[#C8A161]/50 transition-all duration-300"
                 >
                   {/* Image */}
-                  <Link to={`/blog/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
+                  <Link to={`/guias/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
                     <img
                       src={article.image}
                       alt={article.title}
@@ -198,7 +198,7 @@ export default function BlogPage() {
                     </div>
 
                     <h2 className="text-xl font-bold text-[#F4F1EC] mb-3 group-hover:text-[#C8A161] transition-colors line-clamp-2">
-                      <Link to={`/blog/${article.slug}`}>{article.title}</Link>
+                      <Link to={`/guias/${article.slug}`}>{article.title}</Link>
                     </h2>
 
                     <p className="text-sm text-[#B8B2AA] mb-4 line-clamp-3">
@@ -218,7 +218,7 @@ export default function BlogPage() {
                         ))}
                       </div>
                       <Link
-                        to={`/blog/${article.slug}`}
+                        to={`/guias/${article.slug}`}
                         className="flex items-center gap-1 text-sm text-[#C8A161] hover:text-[#D4B896] transition-colors"
                       >
                         Leer
@@ -261,7 +261,7 @@ export default function BlogPage() {
               <Link to="/" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Inicio
               </Link>
-              <Link to="/blog" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+              <Link to="/guias" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Blog
               </Link>
               <Link to="/solicitar-turno" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">

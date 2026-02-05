@@ -16,9 +16,9 @@ export default function AnalyticsRouter() {
     trackPageView(path);
 
     // Optional: high-level page type events
-    if (location.pathname === '/blog') {
+    if (location.pathname === '/guias') {
       trackEvent('blog_view');
-    } else if (location.pathname.startsWith('/blog/')) {
+    } else if (location.pathname.startsWith('/guias/')) {
       trackEvent('article_view', { page_path: path });
     } else if (location.pathname === '/solicitar-turno') {
       trackEvent('booking_view');

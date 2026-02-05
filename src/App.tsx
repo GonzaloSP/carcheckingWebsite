@@ -12,8 +12,8 @@ function App() {
       <AnalyticsRouter />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<ArticlePage />} />
+        <Route path="/guias" element={<BlogPage />} />
+        <Route path="/guias/:slug" element={<ArticlePage />} />
         <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
       </Routes>

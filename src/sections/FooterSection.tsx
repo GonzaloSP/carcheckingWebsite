@@ -205,25 +205,25 @@ export default function FooterSection() {
               WhatsApp
             </button>
             <Link
-              to="/blog"
+              to="/guias"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Blog
             </Link>
             <Link
-              to="/blog/inspeccion-pre-compra-auto-a-domicilio"
+              to="/guias/inspeccion-pre-compra-auto-a-domicilio"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Inspección pre compra (a domicilio)
             </Link>
             <Link
-              to="/blog/que-revisar-antes-de-comprar-auto-usado-checklist"
+              to="/guias/que-revisar-antes-de-comprar-auto-usado-checklist"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Checklist para comprar un usado
             </Link>
             <Link
-              to="/blog/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
+              to="/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Papeles en Argentina (guía)
