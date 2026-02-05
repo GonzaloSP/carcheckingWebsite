@@ -90,6 +90,16 @@ export default function ArticlePage() {
     const elements: React.ReactElement[] = [];
     let key = 0;
 
+    const formatInline = (raw: string) =>
+      raw
+        // Links first, so we don't accidentally match `[` `]` inside HTML we inject later.
+        .replace(
+          /\[(.*?)\]\((.*?)\)/g,
+          '<a href="$2" class="text-[#C8A161] hover:underline">$1</a>'
+        )
+        // Bold second. Use inline style (not Tailwind arbitrary class) to avoid `[]` sequences.
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#F4F1EC">$1</strong>');
+
     const flushList = () => {
       if (inList && listItems.length > 0) {
         elements.push(
@@ -97,7 +107,7 @@ export default function ArticlePage() {
             {listItems.map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-[#B8B2AA]">
                 <span className="w-1.5 h-1.5 bg-[#C8A161] rounded-full mt-2 flex-shrink-0" />
-                <span dangerouslySetInnerHTML={{ __html: item }} />
+                <span dangerouslySetInnerHTML={{ __html: formatInline(item) }} />
               </li>
             ))}
           </ul>
@@ -158,9 +168,7 @@ export default function ArticlePage() {
             key={`p-${key++}`}
             className="text-[#B8B2AA] leading-relaxed mb-4"
             dangerouslySetInnerHTML={{
-              __html: trimmed
-                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#F4F1EC]">$1</strong>')
-                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-[#C8A161] hover:underline">$1</a>'),
+              __html: formatInline(trimmed),
             }}
           />
         );
@@ -214,7 +222,7 @@ export default function ArticlePage() {
                     </Link>
                     <span>/</span>
                     <Link to="/guias" className="hover:text-[#C8A161] transition-colors">
-                      Blog
+                      Guías
                     </Link>
                     <span>/</span>
                     <span className="text-[#C8A161]">{article.category}</span>
