@@ -120,38 +120,38 @@ export default function BlogPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Link
-                    to="/guias/inspeccion-pre-compra-auto-a-domicilio"
+                    to="/guias/revision-precompra-a-domicilio-caba-gba"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
-                      Inspección pre compra auto (a domicilio)
+                      Revisión precompra a domicilio en CABA y GBA
                     </h3>
                     <p className="text-sm text-[#B8B2AA]">
-                      Qué incluye, cómo es el proceso, escaneo OBD y qué preguntar antes de contratar.
+                      Qué incluye, cuánto tarda y cuánto cuesta revisar un auto antes de comprar.
                     </p>
                   </Link>
 
                   <Link
-                    to="/guias/que-revisar-antes-de-comprar-auto-usado-checklist"
+                    to="/guias/donde-revisar-auto-antes-de-comprar-caba-gba"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
-                      Qué revisar antes de comprar un auto usado (checklist)
+                      Dónde revisar un auto antes de comprar (CABA y GBA)
                     </h3>
                     <p className="text-sm text-[#B8B2AA]">
-                      Una lista simple para mirar motor, carrocería, prueba de manejo y señales de alerta.
+                      Taller vs a domicilio vs perito: pros, contras y qué conviene según tu caso.
                     </p>
                   </Link>
 
                   <Link
-                    to="/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
+                    to="/guias/informe-de-dominio-auto-argentina-caba-gba"
                     className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                   >
                     <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
-                      Papeles para comprar un auto usado en Argentina
+                      Informe de dominio: qué es y cuándo pedirlo
                     </h3>
                     <p className="text-sm text-[#B8B2AA]">
-                      Informe de dominio, verificación policial, prenda, multas, VTV y grabado de autopartes.
+                      Qué muestra (prenda, embargo, titularidad) y por qué conviene antes de señar.
                     </p>
                   </Link>
                 </div>

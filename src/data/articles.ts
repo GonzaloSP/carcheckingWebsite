@@ -189,6 +189,198 @@ Coordinamos por WhatsApp y vamos al lugar.
     `,
   },
   {
+    id: 'donde-revisar-auto-caba-gba',
+    slug: 'donde-revisar-auto-antes-de-comprar-caba-gba',
+    title:
+      'Dónde revisar un auto antes de comprar en CABA y GBA: taller vs a domicilio vs perito',
+    excerpt:
+      'Comparativa práctica para decidir dónde revisar un auto usado en CABA y GBA: taller, perito/inspector a domicilio o revisión rápida. Pros, contras y recomendaciones.',
+    author: 'carChecking',
+    date: '2026-02-05',
+    category: 'Revisión del Vehículo',
+    tags: [
+      'donde revisar auto',
+      'revisar auto antes de comprar',
+      'revisión precompra',
+      'CABA',
+      'GBA',
+      'taller mecánico',
+      'mecánico a domicilio',
+      'perito automotor',
+    ],
+    image: `${base}images/engine_bay.jpg`,
+    metaTitle:
+      'Dónde revisar un auto antes de comprar en CABA y GBA (taller vs a domicilio) | carChecking',
+    metaDescription:
+      'Dónde revisar un auto usado antes de comprar en CABA y Gran Buenos Aires: comparativa entre taller, inspector a domicilio y perito. Qué conviene según tu caso.',
+    content: `
+## Dónde revisar un auto antes de comprar en CABA y GBA
+
+Si estás a punto de comprar un usado, una de las mejores decisiones que podés tomar es **revisarlo antes de señar/pagar**. La pregunta es: **¿dónde conviene hacerlo en CABA y Gran Buenos Aires?**
+
+Acá va una comparativa simple (con pros y contras reales) para elegir bien.
+
+---
+
+## Opción 1: Taller mecánico
+
+**Cuándo conviene**
+- Si ya tenés un taller de confianza
+- Si querés elevador/fosa (según el taller)
+
+**Pros**
+- Puede haber más herramientas y elevación
+- Si el taller es bueno, pueden detectar cosas mecánicas profundas
+
+**Contras**
+- Tenés que mover el auto (y el vendedor a veces no quiere)
+- Si el auto tiene un problema “intermitente”, puede no aparecer en el traslado
+- No siempre incluyen escaneo/informe claro
+
+---
+
+## Opción 2: Revisión precompra a domicilio (inspector/mecánico va al auto)
+
+**Cuándo conviene**
+- Cuando el auto está en una cochera, concesionaria o casa del vendedor
+- Cuando querés un diagnóstico práctico para decidir rápido
+
+**Pros**
+- No dependés de trasladar el auto
+- Ideal para ver el vehículo “como está” en el momento
+- Suele incluir **escaneo OBD** e **informe** (según el servicio)
+
+**Contras**
+- No es un desarme profundo
+- Depende de condiciones del lugar (luz/espacio)
+
+Si querés entender bien cómo es, mirá esta guía: [revisión precompra a domicilio en CABA y GBA](/guias/revision-precompra-a-domicilio-caba-gba).
+
+---
+
+## Opción 3: Perito/inspector especializado (enfocado en choque, pintura, estructura)
+
+**Cuándo conviene**
+- Si tu mayor miedo es “auto chocado” / reparaciones ocultas
+- Si el auto es caro o querés máxima tranquilidad
+
+**Pros**
+- Muy buenos para detectar repintados, masilla, piezas reemplazadas
+
+**Contras**
+- A veces no cubren tanto la parte mecánica/electrónica
+- Puede terminar siendo “complementario” (perito + mecánico)
+
+---
+
+## ¿Qué conviene en la práctica?
+
+- Si querés una decisión rápida y completa: **revisión precompra a domicilio**.
+- Si ya tenés taller de confianza y el vendedor acepta: **taller**.
+- Si te preocupa fuerte la estructura/pintura: sumar **perito** (solo o combinado).
+
+---
+
+## Checklist mínima (si vas a ver el auto vos)
+
+- Verificá que arranque en frío y no humee raro
+- Revisá señales de repintado (tonos distintos, tornillos marcados)
+- Mirá desgaste interior vs kilometraje
+- Pedí papeles básicos y, si te interesa, considerá un **informe de dominio**
+
+---
+
+## ¿Querés que lo revisemos por vos en CABA o GBA?
+
+Coordinamos por WhatsApp y vamos al lugar.
+
+- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
+    `,
+  },
+  {
+    id: 'informe-dominio-caba-gba',
+    slug: 'informe-de-dominio-auto-argentina-caba-gba',
+    title:
+      'Informe de dominio en Argentina: qué es, qué muestra y cuándo pedirlo (CABA y GBA)',
+    excerpt:
+      'Guía simple del informe de dominio para comprar un auto usado en Argentina: qué información trae (prendas, embargos, titularidad) y cuándo conviene pedirlo en CABA/GBA.',
+    author: 'carChecking',
+    date: '2026-02-05',
+    category: 'Documentación',
+    tags: [
+      'informe de dominio',
+      'gestoría',
+      'transferencia',
+      'autos usados',
+      'prenda',
+      'embargo',
+      'CABA',
+      'GBA',
+    ],
+    image: `${base}images/scanner_hands.jpg`,
+    metaTitle:
+      'Informe de dominio: qué es, qué muestra y cuándo pedirlo (Argentina) | carChecking',
+    metaDescription:
+      'Qué es el informe de dominio del automotor, qué información muestra (prendas, embargos, titularidad) y cuándo conviene pedirlo antes de comprar un auto usado en Argentina.',
+    content: `
+## Informe de dominio en Argentina: qué es y para qué sirve
+
+Cuando vas a comprar un usado, no alcanza con que el auto “ande bien”: también tenés que chequear la **situación jurídica/documental**.
+
+El **informe de dominio** (también llamado informe de dominio del automotor) sirve para conocer si el vehículo tiene situaciones que te pueden complicar la compra.
+
+---
+
+## ¿Qué muestra un informe de dominio?
+
+Según el caso, puede incluir información como:
+
+- Titularidad / datos del titular
+- **Prendas**
+- **Embargos**
+- Denuncia de venta o robo
+- Radicación
+- Pedido de secuestro
+- Prohibición para circular
+- Trámites pendientes
+
+---
+
+## ¿Cuándo conviene pedirlo?
+
+- Cuando el auto tiene un precio atractivo “demasiado bueno”
+- Cuando el vendedor no es titular o hay dudas de papeles
+- Antes de señar un vehículo (ideal)
+- Si vas a cerrar rápido y querés reducir riesgo
+
+---
+
+## Informe de dominio + revisión mecánica: la mejor combinación
+
+La forma más segura de comprar es combinar:
+- **revisión precompra** (mecánica + escaneo) y
+- **chequeo documental** (informe de dominio / gestoría)
+
+Si te interesa, mirá nuestro **Servicio de Gestoría**:
+- [/servicio-gestoria](/servicio-gestoria)
+
+Y si querés inspección a domicilio:
+- [/solicitar-turno](/solicitar-turno)
+
+---
+
+## Pregunta típica: ¿el informe de dominio reemplaza la verificación mecánica?
+
+No. El informe de dominio te protege de problemas documentales. La inspección mecánica te protege de problemas técnicos (kilometraje adulterado, choques ocultos, fallas, etc.).
+
+---
+
+## ¿Querés que lo gestionemos por vos?
+
+- **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
+    `,
+  },
+  {
     id: '7',
     slug: 'inspeccion-pre-compra-auto-a-domicilio',
     title: 'Inspección pre compra auto: qué incluye una inspección a domicilio y por qué conviene',
