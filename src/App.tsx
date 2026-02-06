@@ -5,6 +5,7 @@ import ArticlePage from './pages/ArticlePage';
 import BookingPage from './pages/BookingPage';
 import GestoriaPage from './pages/GestoriaPage';
 import ReciboDeSenaPage from './pages/ReciboDeSenaPage';
+import RevisionLandingPage from './pages/RevisionLandingPage';
 import RevisionLocalidadPage from './pages/RevisionLocalidadPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
 
@@ -19,6 +20,14 @@ function App() {
         <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
 
+        <Route
+          path="/revision-vehiculos/revision-automóvil"
+          element={<RevisionLandingPage />}
+        />
+        <Route
+          path="/revision-vehiculos/revision-automovil"
+          element={<RevisionLandingPage />}
+        />
         <Route
           path="/revision-vehiculos/revision-automóvil/:localidad"
           element={<RevisionLocalidadPage />}
