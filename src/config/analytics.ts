@@ -3,7 +3,7 @@ export const ANALYTICS = {
   ga4MeasurementId: 'G-ZXBXXR89DX',
 
   // Meta (Facebook) Pixel ID (example: 123456789012345)
-  metaPixelId: '',
+  metaPixelId: '1792776697616988',
 
   // Optional: disable tracking in development
   enabledInDev: false,
