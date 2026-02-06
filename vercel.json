@@ -47,6 +47,12 @@
       "destination": "/servicio-gestoria",
       "permanent": true
     },
+
+    {
+      "source": "/revision-vehiculos/revision-automovil/:path*",
+      "destination": "/revision-vehiculos/revision-autom%C3%B3vil/:path*",
+      "permanent": true
+    },
     {
       "source": "/cobertura",
       "destination": "/#cobertura",
@@ -58,8 +64,8 @@
       "permanent": true
     },
     {
-      "source": "/revision-vehiculos/(.*)",
-      "destination": "/solicitar-turno",
+      "source": "/revision-vehiculos",
+      "destination": "/revision-vehiculos/revision-autom%C3%B3vil",
       "permanent": true
     },
     {
