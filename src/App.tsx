@@ -20,6 +20,10 @@ function App() {
         <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
 
+        <Route path="/revision-vehiculos" element={<RevisionLandingPage />} />
+        <Route path="/revision-vehiculos/:localidad" element={<RevisionLocalidadPage />} />
+
+        {/* Legacy paths */}
         <Route
           path="/revision-vehiculos/revision-automóvil"
           element={<RevisionLandingPage />}

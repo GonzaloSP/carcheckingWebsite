@@ -10,7 +10,7 @@ export default function RevisionLandingPage() {
       <SEO
         title={`Revisión precompra a domicilio en ${localidad} | carChecking`}
         description={`Inspección de autos usados a domicilio en ${localidad}. Más de 350 puntos revisados, escaneo computarizado e informe con fotos. Solicite turno.`}
-        canonicalUrl="/revision-vehiculos/revision-automóvil"
+        canonicalUrl="/revision-vehiculos"
       />
       <HomePage localidad={localidad} />
     </HelmetProvider>

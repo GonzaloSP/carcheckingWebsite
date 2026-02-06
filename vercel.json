@@ -26,6 +26,7 @@
       "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
       "permanent": true
     },
+
     {
       "source": "/que-diferencia-carchecking-de-la-competencia",
       "destination": "/guias/que-diferencia-carchecking-de-la-competencia",
@@ -49,10 +50,26 @@
     },
 
     {
-      "source": "/revision-vehiculos/revision-automovil/:path*",
-      "destination": "/revision-vehiculos/revision-autom%C3%B3vil/:path*",
+      "source": "/revision-vehiculos/revision-automóvil",
+      "destination": "/revision-vehiculos",
       "permanent": true
     },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/:path*",
+      "destination": "/revision-vehiculos/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automovil",
+      "destination": "/revision-vehiculos",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automovil/:path*",
+      "destination": "/revision-vehiculos/:path*",
+      "permanent": true
+    },
+
     {
       "source": "/cobertura",
       "destination": "/#cobertura",
@@ -63,11 +80,7 @@
       "destination": "/solicitar-turno",
       "permanent": true
     },
-    {
-      "source": "/revision-vehiculos",
-      "destination": "/revision-vehiculos/revision-autom%C3%B3vil",
-      "permanent": true
-    },
+
     {
       "source": "/blog",
       "destination": "/guias",
@@ -88,7 +101,6 @@
       "destination": "/guias",
       "permanent": true
     },
-
 
     {
       "source": "/consejos/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
