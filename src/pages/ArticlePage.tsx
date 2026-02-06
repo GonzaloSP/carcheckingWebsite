@@ -16,12 +16,15 @@ import TransferCostCalculator from '../components/TransferCostCalculator';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ArticlePage() {
-  const { slug } = useParams<{ slug: string }>();
-  const article = slug ? getArticleBySlug(slug) : undefined;
+  const params = useParams();
+  const slugParam = (params as any).slug as string | undefined;
+  const splat = (params as any)['*'] as string | undefined;
+  const rawSlug = slugParam ?? splat;
+  const article = rawSlug ? getArticleBySlug(rawSlug) : undefined;
   const contentRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const recentArticles = getRecentArticles(3).filter((a) => a.slug !== slug);
+  const recentArticles = getRecentArticles(3).filter((a) => a.slug !== rawSlug);
 
   // Track article view with slug/title (in addition to the route-level event)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,7 +79,7 @@ export default function ArticlePage() {
   }
 
   const openWhatsApp = () => {
-    trackEvent('whatsapp_click', { source: 'article_page', slug });
+    trackEvent('whatsapp_click', { source: 'article_page', slug: rawSlug });
     window.open(whatsappUrl(), '_blank');
   };
 

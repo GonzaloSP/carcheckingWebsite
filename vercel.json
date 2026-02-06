@@ -66,6 +66,17 @@
       "destination": "/guias/$1",
       "permanent": true
     },
+    {
+      "source": "/category/(.*)",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/tag/(.*)",
+      "destination": "/guias",
+      "permanent": true
+    },
+
 
     {
       "source": "/consejos/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
@@ -101,8 +112,13 @@
     },
 
     {
-      "source": "/consejos/(.*)",
+      "source": "/consejos",
       "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/(.*)",
+      "destination": "/guias/$1",
       "permanent": true
     }
   ]

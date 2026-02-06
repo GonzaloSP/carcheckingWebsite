@@ -1413,7 +1413,13 @@ Antes de señar, además de la documentación, es clave revisar el estado real d
 
 // Helper functions
 export const getArticleBySlug = (slug: string): Article | undefined => {
-  return articles.find((article) => article.slug === slug);
+  const normalized = slug.replace(/^\/+|\/+$/g, '');
+  const lastSegment = normalized.includes('/')
+    ? normalized.split('/').filter(Boolean).slice(-1)[0]
+    : normalized;
+
+  return articles.find((article) => article.slug === normalized) ||
+    articles.find((article) => article.slug === lastSegment);
 };
 
 export const getArticlesByCategory = (category: string): Article[] => {
