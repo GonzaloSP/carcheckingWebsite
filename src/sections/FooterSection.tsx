@@ -118,7 +118,7 @@ export default function FooterSection() {
       className="relative bg-[#0B0B0D] min-h-screen flex flex-col z-[70]"
     >
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 lg:px-12 py-24">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 lg:px-12 py-16 sm:py-24">
         {/* Headline */}
         <h2
           ref={headlineRef}
@@ -128,17 +128,17 @@ export default function FooterSection() {
         </h2>
 
         {/* CTA Row */}
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4 mb-16">
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4 mb-12 sm:mb-16 w-full sm:w-auto">
           <Link
             to="/solicitar-turno"
-            className="btn-primary flex items-center gap-3"
+            className="btn-primary flex items-center justify-center gap-3 w-full sm:w-auto"
           >
             <WhatsAppLogo className="w-5 h-5" />
             Solicitar turno
           </Link>
           <button
             onClick={callPhone}
-            className="btn-secondary flex items-center gap-3"
+            className="btn-secondary flex items-center justify-center gap-3 w-full sm:w-auto"
           >
             <Phone className="w-5 h-5" />
             11-5698-0573
@@ -197,7 +197,7 @@ export default function FooterSection() {
           <p className="text-sm text-[#5a5a5c]">
             © carChecking 2011–2026. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3 text-center">
             <button
               onClick={openWhatsApp}
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
