@@ -28,6 +28,7 @@ const urls = [
   { loc: '/', changefreq: 'weekly', priority: '1.0', lastmod: fmt(now) },
   { loc: '/guias', changefreq: 'weekly', priority: '0.8', lastmod: fmt(now) },
   { loc: '/solicitar-turno', changefreq: 'monthly', priority: '0.9', lastmod: fmt(now) },
+  { loc: '/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo', changefreq: 'yearly', priority: '0.5', lastmod: fmt(now) },
   ...articles.map((a) => ({
     loc: `/guias/${a.slug}`,
     changefreq: 'monthly',

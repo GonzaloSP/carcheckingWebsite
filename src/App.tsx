@@ -4,6 +4,7 @@ import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
 import BookingPage from './pages/BookingPage';
 import GestoriaPage from './pages/GestoriaPage';
+import ReciboDeSenaPage from './pages/ReciboDeSenaPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
 
 function App() {
@@ -16,6 +17,10 @@ function App() {
         <Route path="/guias/:slug" element={<ArticlePage />} />
         <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
+        <Route
+          path="/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo"
+          element={<ReciboDeSenaPage />}
+        />
       </Routes>
     </Router>
   );
