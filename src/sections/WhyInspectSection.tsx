@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
+import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,8 @@ export default function WhyInspectSection() {
   const statsRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (!isDesktop()) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -104,7 +107,7 @@ export default function WhyInspectSection() {
       className="section-pinned bg-[#0B0B0D] z-20"
     >
       {/* Left Text Panel */}
-      <div className="absolute left-0 top-0 w-[45vw] h-full bg-[#0B0B0D] flex flex-col justify-center px-8 lg:px-16">
+      <div className="relative md:absolute md:left-0 md:top-0 w-full md:w-[45vw] min-h-[60svh] md:h-full bg-[#0B0B0D] flex flex-col justify-center px-6 sm:px-8 lg:px-16 py-12 md:py-0">
         {/* Headline */}
         <h2
           ref={headlineRef}
@@ -126,7 +129,7 @@ export default function WhyInspectSection() {
         <button
           ref={ctaRef}
           onClick={openWhatsApp}
-          className="flex items-center gap-2 text-[#C8A161] hover:text-[#D4B896] transition-colors group w-fit mb-12"
+          className="flex items-center justify-between sm:justify-start gap-2 text-[#C8A161] hover:text-[#D4B896] transition-colors group w-full sm:w-fit mb-10 sm:mb-12"
         >
           <span className="text-sm tracking-wide uppercase font-semibold">
             Conozca el servicio
@@ -156,7 +159,7 @@ export default function WhyInspectSection() {
       {/* Diagonal Divider */}
       <div
         ref={diagonalRef}
-        className="absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
+        className="hidden md:block absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
         style={{
           left: '44vw',
           transformOrigin: 'top center',
@@ -167,7 +170,7 @@ export default function WhyInspectSection() {
       {/* Right Image Panel */}
       <div
         ref={imageRef}
-        className="absolute right-0 top-0 w-[58vw] h-full overflow-hidden"
+        className="relative md:absolute md:right-0 md:top-0 w-full md:w-[58vw] h-[40svh] md:h-full overflow-hidden"
       >
         <img
           src={`${import.meta.env.BASE_URL}images/engine_bay.jpg`}

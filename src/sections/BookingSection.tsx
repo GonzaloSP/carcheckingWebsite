@@ -5,6 +5,7 @@ import { MessageCircle, ArrowRight, Check } from 'lucide-react';
 import { PRICING, servicePriceText } from '../config/pricing';
 import { buildWhatsAppLeadMessage, whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
+import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,8 @@ export default function BookingSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useLayoutEffect(() => {
+    if (!isDesktop()) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -166,7 +169,7 @@ export default function BookingSection() {
       {/* Left Image Panel */}
       <div
         ref={imageRef}
-        className="absolute left-0 top-0 w-[55vw] h-full overflow-hidden"
+        className="relative md:absolute md:left-0 md:top-0 w-full md:w-[55vw] h-[34svh] md:h-full overflow-hidden"
       >
         <img
           src={`${import.meta.env.BASE_URL}images/mechanic_working.jpg`}
@@ -179,7 +182,7 @@ export default function BookingSection() {
       {/* Diagonal Divider */}
       <div
         ref={diagonalRef}
-        className="absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
+        className="hidden md:block absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
         style={{
           left: '52vw',
           transformOrigin: 'top center',
@@ -188,7 +191,7 @@ export default function BookingSection() {
       />
 
       {/* Right Text Panel */}
-      <div className="absolute right-0 top-0 w-[48vw] h-full bg-[#0B0B0D] flex flex-col justify-center px-8 lg:px-12">
+      <div className="relative md:absolute md:right-0 md:top-0 w-full md:w-[48vw] min-h-[66svh] md:h-full bg-[#0B0B0D] flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-12 md:py-0">
         {/* Headline */}
         <h2
           ref={headlineRef}

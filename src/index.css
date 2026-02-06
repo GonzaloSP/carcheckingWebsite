@@ -41,6 +41,7 @@
   body {
     @apply bg-[#0B0B0D] text-[#F4F1EC] antialiased;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -99,6 +100,16 @@
   
   .section-pinned {
     @apply relative w-screen h-screen overflow-hidden;
+  }
+
+  /* Mobile: allow sections to flow/stack instead of forcing full-screen pinned panels */
+  @media (max-width: 767px) {
+    .section-pinned {
+      width: 100%;
+      height: auto;
+      min-height: 100svh;
+      overflow: visible;
+    }
   }
   
   .text-balance {

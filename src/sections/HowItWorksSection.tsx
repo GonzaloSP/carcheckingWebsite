@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Calendar, MapPin, FileCheck, MessageCircle } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
+import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,6 +38,8 @@ export default function HowItWorksSection() {
   const ctaRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
+    if (!isDesktop()) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -136,7 +139,7 @@ export default function HowItWorksSection() {
       {/* Left Image Panel */}
       <div
         ref={imageRef}
-        className="absolute left-0 top-0 w-[55vw] h-full overflow-hidden"
+        className="relative md:absolute md:left-0 md:top-0 w-full md:w-[55vw] h-[40svh] md:h-full overflow-hidden"
       >
         <img
           src={`${import.meta.env.BASE_URL}images/scanner_hands.jpg`}
@@ -149,7 +152,7 @@ export default function HowItWorksSection() {
       {/* Diagonal Divider */}
       <div
         ref={diagonalRef}
-        className="absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/80"
+        className="hidden md:block absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/80"
         style={{
           left: '52vw',
           transformOrigin: 'top center',
@@ -158,7 +161,7 @@ export default function HowItWorksSection() {
       />
 
       {/* Right Text Panel */}
-      <div className="absolute right-0 top-0 w-[48vw] h-full bg-[#6B4B3A] flex flex-col justify-center px-8 lg:px-12">
+      <div className="relative md:absolute md:right-0 md:top-0 w-full md:w-[48vw] min-h-[60svh] md:h-full bg-[#6B4B3A] flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-12 md:py-0">
         {/* Headline */}
         <h2
           ref={headlineRef}
@@ -190,7 +193,7 @@ export default function HowItWorksSection() {
         <button
           ref={ctaRef}
           onClick={openWhatsApp}
-          className="btn-primary flex items-center gap-3 w-fit bg-[#0B0B0D] text-[#C8A161] hover:bg-[#1a1a1c]"
+          className="btn-primary flex items-center gap-3 w-full sm:w-fit bg-[#0B0B0D] text-[#C8A161] hover:bg-[#1a1a1c]"
         >
           <MessageCircle className="w-5 h-5" />
           Reservar turno

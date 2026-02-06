@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,8 +82,10 @@ export default function HeroSection() {
     return () => ctx.revert();
   }, []);
 
-  // Scroll-driven exit animation
+  // Scroll-driven exit animation (desktop only; pinned scroll is rough on mobile)
   useLayoutEffect(() => {
+    if (!isDesktop()) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -176,7 +179,7 @@ export default function HeroSection() {
       {/* Left Image Panel */}
       <div
         ref={imageRef}
-        className="absolute left-0 top-0 w-[62vw] h-full overflow-hidden"
+        className="relative md:absolute md:left-0 md:top-0 w-full md:w-[62vw] h-[44svh] md:h-full overflow-hidden"
       >
         <img
           src={`${import.meta.env.BASE_URL}images/hero_mecanico_03.jpg`}
@@ -189,7 +192,7 @@ export default function HeroSection() {
       {/* Diagonal Divider */}
       <div
         ref={diagonalRef}
-        className="absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
+        className="hidden md:block absolute top-0 h-[120%] w-[2px] bg-[#C8A161]/70"
         style={{
           left: '58vw',
           transformOrigin: 'top center',
@@ -198,7 +201,7 @@ export default function HeroSection() {
       />
 
       {/* Right Text Panel */}
-      <div className="absolute right-0 top-0 w-[42vw] h-full bg-[#0B0B0D] flex flex-col justify-center px-8 lg:px-12">
+      <div className="relative md:absolute md:right-0 md:top-0 w-full md:w-[42vw] min-h-[56svh] md:h-full bg-[#0B0B0D] flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-12 md:py-0">
         {/* Headline */}
         <h1
           ref={headlineRef}
@@ -224,7 +227,7 @@ export default function HeroSection() {
         <div ref={ctaRef} className="flex flex-col gap-4">
           <Link
             to="/solicitar-turno"
-            className="btn-primary flex items-center gap-3 w-fit"
+            className="btn-primary flex items-center gap-3 w-full sm:w-fit"
           >
             <WhatsAppLogo className="w-5 h-5" />
             Solicitar turno
@@ -243,7 +246,7 @@ export default function HeroSection() {
       {/* Trust Line */}
       <div
         ref={trustRef}
-        className="absolute bottom-8 right-8 lg:right-12 text-right"
+        className="relative md:absolute bottom-8 right-8 lg:right-12 text-right px-6 sm:px-8 md:px-0 pb-8 md:pb-0"
       >
         <p className="text-xs text-[#B8B2AA] tracking-wider uppercase">
           Capital Federal · Gran Buenos Aires
