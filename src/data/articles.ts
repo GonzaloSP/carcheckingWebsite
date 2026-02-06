@@ -1366,6 +1366,49 @@ Si querés reducir el riesgo, podés sumar una **revisión precompra** (mecánic
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
     `,
   },
+  {
+    id: 'recibo-de-sena-pdf',
+    slug: 'recibo-de-sena-de-venta-de-vehiculo',
+    title: 'Recibo de seña de venta de vehículo (PDF): descargar modelo',
+    excerpt:
+      'Descargá un modelo de recibo de seña para compra-venta de un vehículo. Incluye campos básicos para dejar constancia del pago y condiciones.',
+    author: 'carChecking',
+    date: '2026-02-06',
+    category: 'Documentación',
+    tags: ['recibo de seña', 'seña', 'compra venta', 'documentación', 'auto usado', 'PDF'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Recibo de seña de venta de vehículo (PDF) – modelo para descargar | carChecking',
+    metaDescription:
+      'Modelo de recibo de seña para compra-venta de un vehículo (PDF). Qué datos incluir, recomendaciones y descarga directa.',
+    content: `
+## Recibo de seña de venta de vehículo (modelo PDF)
+
+Si vas a señar un auto, conviene dejar constancia por escrito del monto, la fecha, los datos de las partes y las condiciones básicas (por ejemplo, qué pasa si alguna de las partes se arrepiente).
+
+### Descargar PDF
+
+- **Descargar recibo_de_sena.pdf:** [/docs/recibo_de_sena.pdf](/docs/recibo_de_sena.pdf)
+
+---
+
+## Qué conviene incluir en un recibo de seña
+
+- Datos del comprador y del vendedor (DNI/CUIT, nombre y apellido)
+- Dominio y datos del vehículo
+- Monto de la seña y forma de pago
+- Fecha y lugar
+- Plazo para completar la operación
+- Condiciones de devolución / penalidades
+
+---
+
+## Recomendación
+
+Antes de señar, además de la documentación, es clave revisar el estado real del vehículo.
+
+- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
+    `,
+  },
 ];
 
 // Helper functions

@@ -90,6 +90,17 @@
     },
 
     {
+      "source": "/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo/",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+
+    {
       "source": "/consejos/(.*)",
       "destination": "/guias",
       "permanent": true
