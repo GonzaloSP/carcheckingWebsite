@@ -1273,6 +1273,99 @@ Además de la documentación, lo crítico es el estado real del vehículo. En ca
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
     `,
   },
+  {
+    id: 'garantias-auto-usado',
+    slug: 'garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber',
+    title: 'Garantías al comprar un auto usado: todo lo que debés saber (Argentina)',
+    excerpt:
+      'La garantía legal cubre aspectos técnicos y de papeles del auto usado. Qué aplica si comprás en concesionaria vs particular, plazos, certificado y qué hacer si necesitás reclamar.',
+    author: 'carChecking',
+    date: '2019-01-22',
+    category: 'Documentación',
+    tags: [
+      'garantía',
+      'garantía legal',
+      'auto usado',
+      'defensa del consumidor',
+      'concesionaria',
+      'compra-venta',
+      'reclamos',
+    ],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle:
+      'Garantías al comprar un auto usado: todo lo que debés saber (Argentina) | carChecking',
+    metaDescription:
+      'Qué garantías existen al comprar un auto usado en Argentina: garantía legal (LDC), diferencias entre concesionaria y particular, certificado de garantía y pasos para reclamar.',
+    content: `
+## Garantías al comprar un auto usado (Argentina)
+
+Durante 2018 se transfirieron más de 1,6 millones de autos usados (vs. ~800.000 patentamientos). Es normal preocuparse por lo mecánico, pero además existe una **protección legal** importante cuando la compra es en concesionaria.
+
+En esta guía tenés un resumen práctico de **qué cubre la garantía**, qué pasa si comprás a un particular y qué hacer si necesitás reclamar.
+
+---
+
+## Garantías al comprar un auto usado: en agencia vs a particular
+
+### Compra de auto usado en concesionaria
+
+Es un error creer que al comprar un usado “no se puede reclamar”. Cuando comprás en concesionaria existe una **garantía legal** (mínimo) y el vendedor debe cumplir requisitos.
+
+La garantía legal está prevista por la **Ley 24.240 (Defensa del Consumidor)** y, desde una modificación en 2015, contempla un **plazo mínimo de 3 meses** para bienes muebles usados.
+
+Además, algunas marcas ofrecen programas de “usados certificados” (según la marca y condiciones) con una garantía adicional.
+
+### Compra a un particular
+
+En operaciones **entre particulares**, la Ley de Defensa del Consumidor normalmente **no aplica** como relación de consumo, por lo que el vendedor no está obligado a otorgar garantía legal.
+
+Aun así, podés **negociar** condiciones y protegerte con un **contrato de compraventa** donde conste el estado en que se entrega el vehículo.
+
+---
+
+## Todo sobre la garantía legal (LDC)
+
+La garantía legal se vincula con el Art. 11 de la LDC y se relaciona con:
+
+- **Servicio técnico** adecuado y suministro de partes y repuestos (Art. 12)
+- **Responsabilidad solidaria** de productores/importadores/distribuidores/vendedores (Art. 13)
+- **Certificado de garantía**: debe estar en castellano, claro y legible, y contener datos del vendedor + identificación técnica del vehículo + condiciones de uso/mantenimiento/reparación (Art. 14)
+
+---
+
+## Cómo se computa el plazo y cuándo se modifica
+
+- El plazo (mínimo) es de **3 meses desde la entrega**.
+- Puede **aumentarse por acuerdo** entre partes.
+- Si el auto entra al taller por una reparación en garantía, el plazo se **extiende** por el tiempo que el vehículo no estuvo disponible.
+- Si se realiza una reparación, el garante debe entregar una **constancia de reparación** (Art. 15) con: naturaleza de la reparación, piezas reemplazadas/reparadas y fechas de ingreso/entrega.
+- Si la reparación no es satisfactoria y se sustituye el auto, se computa un **nuevo plazo de garantía**.
+
+---
+
+## Qué hacer si necesitás ejecutar la garantía
+
+Antes de ir a una vía judicial, tenés alternativas:
+
+- Reclamo por escrito (con constancia de recepción)
+- Carta documento (citando LDC + decreto 1798/94, y reservando derechos)
+- Denuncia en Defensa del Consumidor según la jurisdicción / Sistema Federal de Reclamos
+- Solicitar mediación / arbitraje (según corresponda)
+
+Si la compra fue a un particular, la lógica es similar: reclamo por escrito → carta documento → mediación.
+
+---
+
+## Recomendaciones carChecking
+
+- Leé el contrato, especialmente la letra chica.
+- Verificá **técnica + documentación** antes de cerrar.
+
+Si querés reducir el riesgo, podés sumar una **revisión precompra** (mecánica + electrónica + carrocería) con informe:
+
+- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
+    `,
+  },
 ];
 
 // Helper functions

@@ -66,6 +66,18 @@
       "destination": "/guias/$1",
       "permanent": true
     },
+
+    {
+      "source": "/consejos/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
+      "destination": "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber/",
+      "destination": "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
+      "permanent": true
+    },
+
     {
       "source": "/consejos/(.*)",
       "destination": "/guias",
