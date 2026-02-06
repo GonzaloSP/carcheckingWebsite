@@ -19,6 +19,8 @@ gsap.registerPlugin(ScrollTrigger);
 function HomePage() {
   // Global scroll snap for pinned sections
   useEffect(() => {
+    let snapTrigger: ScrollTrigger | null = null;
+
     const timer = setTimeout(() => {
       const pinned = ScrollTrigger.getAll()
         .filter((st) => st.vars.pin)
@@ -34,7 +36,10 @@ function HomePage() {
           (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
       }));
 
-      ScrollTrigger.create({
+      // Important: only kill the snap trigger on unmount.
+      // Killing *all* ScrollTriggers here breaks other routes (e.g. /solicitar-turno)
+      // because those pages also use ScrollTrigger for fade-in.
+      snapTrigger = ScrollTrigger.create({
         snap: {
           snapTo: (value: number) => {
             const inPinned = pinnedRanges.some(
@@ -60,12 +65,7 @@ function HomePage() {
 
     return () => {
       clearTimeout(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      snapTrigger?.kill();
     };
   }, []);
 
