@@ -16,7 +16,7 @@ import FooterSection from '../sections/FooterSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function HomePage({ localidad }: { localidad?: string }) {
+function HomePage() {
   // Global scroll snap for pinned sections
   useEffect(() => {
     let snapTrigger: ScrollTrigger | null = null;
@@ -72,41 +72,15 @@ function HomePage({ localidad }: { localidad?: string }) {
   return (
     <HelmetProvider>
       <SEO
-        title={
-          localidad
-            ? `Revisión precompra a domicilio en ${localidad} | carChecking`
-            : 'carChecking | Inspección de Vehículos a Domicilio - La Forma Segura de Comprar'
-        }
-        description={
-          localidad
-            ? `Inspección de autos usados a domicilio en ${localidad}. Más de 350 puntos revisados. Escaneo computarizado e informe escrito con fotos.`
-            : 'Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. Escaneo computarizado, informe escrito con fotos. CABA y GBA.'
-        }
+        title="carChecking | Inspección de Vehículos a Domicilio - La Forma Segura de Comprar"
+        description="Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. Escaneo computarizado, informe escrito con fotos. CABA y GBA."
         keywords="inspección vehicular, revisión de autos, compra segura de autos usados, mecánico a domicilio, escaneo computarizado, carChecking Argentina, verificación de vehículos"
-        canonicalUrl={
-          localidad
-            ? `/revision-vehiculos/revision-automóvil/${encodeURIComponent(localidad)}`
-            : '/'
-        }
+        canonicalUrl="/"
       />
       <div className="relative bg-[#0B0B0D] min-h-screen">
         <div className="grain-overlay" />
         <Navigation />
         <main className="relative">
-          {localidad && (
-            <div className="pt-24 px-6 lg:px-12">
-              <div className="max-w-6xl mx-auto">
-                <div className="bg-[#141416] border border-[#2a2a2c] rounded-lg px-5 py-4">
-                  <p className="text-sm text-[#B8B2AA]">
-                    <span className="text-[#F4F1EC] font-semibold">
-                      Revisión precompra a domicilio en {localidad}
-                    </span>
-                    <span className="hidden sm:inline"> — mecánico + escaneo + informe con fotos.</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
           <HeroSection />
           <WhyInspectSection />
           <ServicesSection />

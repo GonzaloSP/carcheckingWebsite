@@ -1,9 +1,7 @@
 {
   "routes": [
     { "handle": "filesystem" },
-
     { "src": "^/(.*)/assets/(.*)$", "dest": "/assets/$2" },
-
     { "src": "/.*", "dest": "/index.html" }
   ],
   "redirects": [
@@ -51,23 +49,8 @@
     },
 
     {
-      "source": "/revision-vehiculos/revision-automóvil",
-      "destination": "/revision-vehiculos",
-      "permanent": true
-    },
-    {
-      "source": "/revision-vehiculos/revision-automóvil/:path*",
-      "destination": "/revision-vehiculos/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/revision-vehiculos/revision-automovil",
-      "destination": "/revision-vehiculos",
-      "permanent": true
-    },
-    {
-      "source": "/revision-vehiculos/revision-automovil/:path*",
-      "destination": "/revision-vehiculos/:path*",
+      "source": "/revision-vehiculos/(.*)",
+      "destination": "/solicitar-turno",
       "permanent": true
     },
 
