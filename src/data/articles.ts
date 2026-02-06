@@ -1177,6 +1177,102 @@ La única forma de estar 100% seguro del estado real del vehículo es contratand
 **¿Va a comprar un vehículo usado?** No se arriesgue. En carChecking verificamos el kilometraje real y más de 350 puntos del vehículo.
     `
   },
+  {
+    id: 'quien-paga-transferencia-auto-usado',
+    slug: 'quien-paga-la-transferencia-de-un-vehiculo-usado',
+    title: '¿Quién paga la transferencia de un vehículo usado? (Argentina)',
+    excerpt:
+      'Guía clara sobre quién suele pagar la transferencia de un auto usado en Argentina: qué gastos existen, qué se negocia y ejemplos de acuerdos entre comprador y vendedor.',
+    author: 'carChecking',
+    date: '2026-02-06',
+    category: 'Documentación',
+    tags: [
+      'transferencia',
+      'auto usado',
+      'comprador',
+      'vendedor',
+      'DNRPA',
+      '08',
+      'sellos',
+      'gestoría',
+    ],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle:
+      '¿Quién paga la transferencia de un auto usado en Argentina? (comprador vs vendedor) | carChecking',
+    metaDescription:
+      'Quién paga la transferencia de un vehículo usado en Argentina: costos típicos (aranceles, sellos, verificación, gestoría), qué se negocia y acuerdos comunes.',
+    content: `
+## ¿Quién paga la transferencia de un vehículo usado?
+
+En Argentina no existe una única respuesta “de manual”, porque **se negocia**. Pero sí hay una práctica común: 
+
+- En la mayoría de operaciones entre particulares, **el comprador suele pagar la transferencia** (aranceles y sellos).
+- El vendedor suele encargarse de **entregar la documentación en regla** y firmar lo necesario para que la transferencia se pueda hacer.
+
+Lo importante es que **lo hablen antes de señar** y lo dejen claro (aunque sea por WhatsApp) para evitar discusiones.
+
+---
+
+## Qué gastos existen en una transferencia (para hablar con precisión)
+
+Cuando alguien dice “la transferencia”, en realidad suele englobar varios conceptos. Los más comunes:
+
+- **Aranceles DNRPA** (formularios / trámite de transferencia)
+- **Sellos/impuestos provinciales** (según jurisdicción)
+- **Verificación policial** (según el caso)
+- **Certificación de firmas** (si corresponde)
+- **Informe de dominio** (recomendado para el comprador)
+- **Gestoría** (si se usa)
+
+Por eso la pregunta real es: **¿quién paga qué?**
+
+---
+
+## Lo más habitual (acuerdos típicos)
+
+### Caso 1: Compra-venta entre particulares (lo más común)
+- **Comprador:** paga aranceles + sellos + gastos del registro.
+- **Vendedor:** entrega la documentación y firma (08 / título / cédulas), y asume sus deudas personales si las hubiera.
+
+### Caso 2: “Transferencia 50/50”
+- Se divide el costo total de la transferencia a la mitad.
+- Recomendación: definan si incluyen o no verificación policial, gestoría y/o informe de dominio.
+
+### Caso 3: En concesionaria / agencia
+- A veces la agencia incluye parte del costo dentro del precio (o lo cobra como “gastos administrativos”).
+- Pedí siempre el detalle: **qué incluye** y **qué no**.
+
+---
+
+## Qué conviene negociar (y por qué)
+
+- Si el vehículo tiene particularidades (prenda, sucesión, titularidad compleja), puede haber costos extra.
+- Para el comprador, es muy recomendable pedir un **informe de dominio** antes de avanzar.
+
+Si querés un estimado rápido del costo total, podés usar nuestra calculadora:
+
+- **Calculadora de costos:** [/guias/calculadora-costos-transferencia-auto-usado](/guias/calculadora-costos-transferencia-auto-usado)
+
+---
+
+## Consejo práctico antes de señar
+
+Antes de pagar una seña:
+
+- Acordá quién paga la transferencia (y qué incluye).
+- Definí un plazo para hacerla.
+- Si vas a señar, usá un recibo simple (modelo PDF):
+  - [/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo](/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo)
+
+---
+
+## ¿Querés comprar con más seguridad?
+
+Además de la documentación, lo crítico es el estado real del vehículo. En carChecking realizamos una **revisión precompra** (mecánica + electrónica + carrocería) y entregamos **informe escrito con fotos**.
+
+- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
+    `,
+  },
 ];
 
 // Helper functions
