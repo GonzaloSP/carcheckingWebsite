@@ -79,6 +79,17 @@
     },
 
     {
+      "source": "/consejos/documentacion-vehiculo/quien-paga-la-transferencia-de-un-vehiculo-vehiculo-usado",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/quien-paga-la-transferencia-de-un-vehiculo-vehiculo-usado/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+
+    {
       "source": "/consejos/(.*)",
       "destination": "/guias",
       "permanent": true
