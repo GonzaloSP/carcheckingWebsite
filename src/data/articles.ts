@@ -1752,7 +1752,7 @@ Nuestro servicio de gestoría te asesora y se encarga de todo el trámite.
     date: '2026-02-11',
     category: 'Revisión del Vehículo',
     tags: ['VTV', 'verificación técnica', 'seguridad vial', 'CABA', 'Provincia de Buenos Aires', 'turno VTV', 'multas'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_working.jpg`,
     metaTitle: 'VTV: qué es, qué se controla y cómo hacerla en CABA y Provincia (Argentina) | carChecking',
     metaDescription:
       'Aprendé qué es la VTV (Verificación Técnica Vehicular), qué se controla, qué llevar, cómo sacar turno y qué significa Apto/Condicional/Rechazado en CABA y Provincia.',
@@ -1840,7 +1840,7 @@ La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más 
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['estafas', 'autos usados', 'informe de dominio', 'prenda', 'embargo', 'kilometraje', 'concesionarias'],
-    image: `${base}images/mechanic_working.jpg`,
+    image: `${base}images/scanner_hands.jpg`,
     metaTitle: 'Cómo evitar estafas al comprar un auto usado en Argentina | carChecking',
     metaDescription:
       'Guía práctica para evitar estafas al comprar un usado: revisión mecánica + escaneo, y papeles (informe de dominio, multas, prenda, inhibiciones).',
@@ -1912,7 +1912,7 @@ Podemos hacer revisión precompra (mecánica + estructura + escaneo) y ayudarte 
     date: '2026-02-11',
     category: 'Revisión del Vehículo',
     tags: ['garantía', 'inspección vehicular', 'revisión precompra', 'póliza', 'letra chica'],
-    image: `${base}images/mechanic_portrait.jpg`,
+    image: `${base}images/engine_bay.jpg`,
     metaTitle: 'Garantía sobre informes de inspección vehicular: qué significa y qué mirar | carChecking',
     metaDescription:
       'Te explicamos cómo funcionan (y qué limitaciones tienen) las garantías en inspecciones vehiculares: exclusiones por desgaste, requisitos y recomendaciones.',
@@ -1974,7 +1974,7 @@ Y si querés coordinar:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['negociación', 'precio', 'autos usados', 'descuento', 'inspección', 'CCA'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/hero_mecanico_03.jpg`,
     metaTitle: 'Cómo negociar el precio de un auto usado en Argentina (con estrategia) | carChecking',
     metaDescription:
       'Guía para negociar el precio de un auto usado: investigación de mercado, margen real, argumentos técnicos, y cómo cerrar la operación de forma segura.',
@@ -2044,7 +2044,7 @@ Si el auto está bien y el precio es razonable:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['tiempo', 'transferencia', 'registro automotor', 'compra', 'usados'],
-    image: `${base}images/mechanic_working.jpg`,
+    image: `${base}images/mechanic_portrait.jpg`,
     metaTitle: '¿Cuánto tiempo lleva comprar un auto usado en Argentina? | carChecking',
     metaDescription:
       'Guía para estimar tiempos al comprar un auto usado: búsqueda, visitas, inspección precompra y transferencia. Cómo reducir demoras y riesgos.',
@@ -2094,7 +2094,7 @@ Podés coordinar una inspección en concesionaria o domicilio.
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['auto robado', 'informe de dominio', 'verificación policial', 'chasis', 'motor', 'documentación'],
-    image: `${base}images/engine_bay.jpg`,
+    image: `${base}images/hero_car.jpg`,
     metaTitle: 'Cómo saber si un auto es robado (Argentina): informe de dominio y verificación | carChecking',
     metaDescription:
       'Pasos para comprar un auto usado con seguridad: revisar chasis/motor, pedir informe de dominio, hacer verificación policial y evitar señales típicas de fraude.',
@@ -2160,7 +2160,7 @@ Antes de pagar, combiná **revisión técnica** + **papeles**.
     date: '2026-02-11',
     category: 'Revisión del Vehículo',
     tags: ['viaje', 'ruta', 'vacaciones', 'neumáticos', 'frenos', 'luces', 'seguridad vial'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_working.jpg`,
     metaTitle: 'Checklist del auto antes de salir a la ruta (vacaciones) | carChecking',
     metaDescription:
       'Lista completa para revisar el auto antes de viajar: neumáticos, frenos, líquidos, luces, correa, amortiguadores, documentación y equipo obligatorio en Argentina.',
@@ -2249,7 +2249,7 @@ Para papeles, mirá la guía específica:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['comprar auto usado', 'Argentina', 'transferencia', 'informe de dominio', 'verificación policial', 'garantía'],
-    image: `${base}images/mechanic_working.jpg`,
+    image: `${base}images/scanner_hands.jpg`,
     metaTitle: 'Cómo comprar un auto usado en Argentina: guía paso a paso | carChecking',
     metaDescription:
       'Guía paso a paso para comprar un auto usado en Argentina: revisión técnica, papeles, informe de dominio, verificación policial y transferencia. Evitá estafas.',
@@ -2315,7 +2315,7 @@ Usá un recibo bien hecho:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['concesionaria', 'agencia', 'usados', 'garantía', 'estafas', 'kilometraje'],
-    image: `${base}images/hero_mecanico_03.jpg`,
+    image: `${base}images/engine_bay.jpg`,
     metaTitle: 'Comprar un usado en concesionaria: ¿es siempre seguro? (Argentina) | carChecking',
     metaDescription:
       'Te contamos pros y contras de comprar un auto usado en concesionaria: garantía, riesgos típicos y cómo protegerte con revisión técnica + papeles.',
@@ -2366,7 +2366,7 @@ No necesariamente. Hay concesionarias muy serias y otras que trabajan mal. La di
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['transferencia', '08', 'registro automotor', 'cédula verde', 'comprar usado'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/hero_mecanico_03.jpg`,
     metaTitle: '¿Es necesario hacer la transferencia al comprar un auto usado? | carChecking',
     metaDescription:
       'Explicación clara: por qué conviene transferir inmediatamente un auto usado, qué riesgos hay si no lo hacés y qué pasa si vence el 08.',
@@ -2408,7 +2408,7 @@ Y si necesitás asistencia:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['seguro', 'auto usado', 'póliza', 'cobertura', 'robo'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_portrait.jpg`,
     metaTitle: 'Seguro al comprar un auto usado: cuándo contratarlo (Argentina) | carChecking',
     metaDescription:
       'Guía: cuándo contratar el seguro al comprar un usado, qué pasa si el auto se roba antes de transferir, y consejos para activar cobertura sin demoras.',
@@ -2457,7 +2457,7 @@ Para el resto del proceso de compra:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['Uber', 'Cabify', 'kilometraje', 'desgaste', 'service', 'compra'],
-    image: `${base}images/mechanic_working.jpg`,
+    image: `${base}images/hero_car.jpg`,
     metaTitle: 'Comprar un auto ex Uber/Cabify: ¿conviene? Qué revisar | carChecking',
     metaDescription:
       'Guía para evaluar autos usados como Uber o Cabify: cuándo conviene, qué revisar en mecánica y desgaste, y cómo estimar el valor real.',
@@ -2506,7 +2506,7 @@ En estos casos, la inspección precompra es clave.
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['kilometraje', 'ruta', 'ciudad', 'desgaste', 'autos usados'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_working.jpg`,
     metaTitle: 'Cuántos kilómetros conviene que tenga un auto usado (Argentina) | carChecking',
     metaDescription:
       'Te explicamos cómo evaluar el kilometraje de un auto usado: uso en ruta vs ciudad, señales de desgaste real y cómo evitar pagar de más por un odómetro “bajo”.',
@@ -2552,7 +2552,7 @@ En general:
     date: '2026-02-11',
     category: 'Comprando un vehículo usado',
     tags: ['Uber', 'trabajar', 'autos', 'consumo', 'GNC', 'repuestos'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/scanner_hands.jpg`,
     metaTitle: 'Mejores autos para Uber en Argentina: qué modelos convienen | carChecking',
     metaDescription:
       'Listado de autos usados elegidos para Uber por consumo y mantenimiento. Recomendaciones para bajar costo por km (incluido GNC) y qué revisar antes de comprar.',
@@ -2605,7 +2605,7 @@ Si lo vas a usar intensivamente, **revisalo** como corresponde (mecánica + esca
     date: '2026-02-11',
     category: 'Venta de vehículos',
     tags: ['vender auto', 'publicación', 'fotos', 'precio', 'MercadoLibre', 'Facebook'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/engine_bay.jpg`,
     metaTitle: 'Cómo vender tu auto rápido: guía para vender en una semana | carChecking',
     metaDescription:
       'Guía para vender un auto usado más rápido: portales, redes sociales, fotos correctas, descripción, respuestas y estrategia de precio para acelerar la venta.',
@@ -2674,7 +2674,7 @@ Guía: [¿Qué papeles revisar al comprar/vender un usado?](/guias/papeles-auto-
     date: '2026-02-11',
     category: 'Venta de vehículos',
     tags: ['vender auto', 'precio', 'transferencia', 'seña', 'seguridad'],
-    image: `${base}images/mechanic_portrait.jpg`,
+    image: `${base}images/hero_mecanico_03.jpg`,
     metaTitle: 'Cómo vender mi auto en Argentina: guía completa | carChecking',
     metaDescription:
       'Aprendé a vender tu auto usado en Argentina: cómo fijar precio, dónde publicarlo, cómo mostrarlo con seguridad y cómo cerrar pago y transferencia.',
@@ -2727,7 +2727,7 @@ Guía relacionada:
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['turno', 'transferencia', 'registro automotor', 'gestoría', '08'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_portrait.jpg`,
     metaTitle: 'Turno rápido para transferencia automotor: opciones y consejos | carChecking',
     metaDescription:
       'Guía para conseguir turno rápido en el registro para transferencia: alternativas, firma del 08, uso de gestor y recomendaciones para comprar sin demoras.',
@@ -2777,7 +2777,7 @@ Guía: [Qué papeles revisar al comprar un auto usado](/guias/papeles-auto-usado
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['ruta', 'vacaciones', 'documentación', 'Mi Argentina', 'seguro', 'VTV'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/scanner_hands.jpg`,
     metaTitle: 'Documentación para salir a la ruta en Argentina (checklist) | carChecking',
     metaDescription:
       'Checklist de documentación para viajar en auto en Argentina: DNI, licencia, cédula, seguro, VTV/RTO, patentes visibles y requisitos si tenés GNC.',
@@ -2816,7 +2816,7 @@ La app **Mi Argentina** permite llevar licencia y cédulas digitales (cuando est
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['costo transferencia', 'arancel', 'DNRPA', 'sellos', 'valuación', '08'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_working.jpg`,
     metaTitle: 'Costo de transferencia de auto usado en Argentina: guía completa | carChecking',
     metaDescription:
       'Conocé qué se paga en una transferencia: aranceles DNRPA, valuación, sellos y tasas. Incluye consejos y una calculadora para estimar el total.',
@@ -2865,7 +2865,7 @@ Antes de pagar una seña grande, pedí:
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['transferencia', 'Buenos Aires', 'DNRPA', '08', '13', 'CeTA', 'verificación'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/scanner_hands.jpg`,
     metaTitle: 'Requisitos para transferencia de auto en Buenos Aires (Provincia) | carChecking',
     metaDescription:
       'Guía práctica con requisitos para transferir un auto en Provincia de Buenos Aires: DNI, CUIT/CUIL, título, cédula, 08, 13, verificación y plazos.',
@@ -2906,7 +2906,7 @@ Guía: [Informe de dominio: qué muestra](/guias/informe-de-dominio-auto-argenti
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['transferencia', '08', 'vendedor', 'escribano', 'registro automotor'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/engine_bay.jpg`,
     metaTitle: 'Transferencia de auto sin el vendedor: opciones reales (Argentina) | carChecking',
     metaDescription:
       'Te explicamos cuándo se puede transferir sin el vendedor (08 firmado y certificado) y qué alternativas hay si no lo encontrás o no quiere firmar.',
@@ -2938,7 +2938,7 @@ Guía relacionada:
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['patentes', 'deuda', 'transferencia', 'multas', 'usados'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/hero_mecanico_03.jpg`,
     metaTitle: 'Deuda de patentes: cómo revisar un auto antes de comprar (Argentina) | carChecking',
     metaDescription:
       'Guía práctica para revisar si un vehículo tiene deuda de patentes antes de comprar: qué consultar, cómo negociar el pago y por qué conviene chequearlo.',
@@ -2977,7 +2977,7 @@ Guía complementaria:
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['patente', 'infracciones', 'deudas', 'informe de dominio', 'transferencia'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/mechanic_portrait.jpg`,
     metaTitle: 'Verificación de patente (Argentina): qué revisar antes de comprar | carChecking',
     metaDescription:
       'Guía para verificar un dominio/patente antes de comprar un auto usado: infracciones, patentes adeudadas e informe de dominio para evitar bloqueos en la transferencia.',
@@ -3013,7 +3013,7 @@ Si corresponde por año/caso, sumá verificación física para confirmar chasis/
     date: '2026-02-11',
     category: 'Documentación',
     tags: ['08 online', 'transferencia digital', 'DNRPA', 'turno', 'registro automotor'],
-    image: `${base}images/hero_car.jpg`,
+    image: `${base}images/engine_bay.jpg`,
     metaTitle: '08 online: cómo hacer la transferencia digital en Argentina (paso a paso) | carChecking',
     metaDescription:
       'Guía paso a paso para hacer el 08 online/transferencia digital (DNRPA): requisitos, carga de datos, turno, pago y presentación en registro con comprador y vendedor.',
