@@ -1,9 +1,4 @@
 {
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "^/(.*)/assets/(.*)$", "dest": "/assets/$2" },
-    { "src": "/.*", "dest": "/index.html" }
-  ],
   "redirects": [
     {
       "source": "/consejos/para-que-sirve-escanear-un-vehiculo",
