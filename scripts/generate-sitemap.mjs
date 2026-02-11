@@ -21,6 +21,14 @@ const dates = [...src.matchAll(dateRe)].map((m) => m[1]);
 
 const articles = slugs.map((slug, i) => ({ slug, date: dates[i] }));
 
+// Locations (SEO landings)
+// We keep this as a plain TS file with { slug: '...', name: '...' } entries,
+// and parse slugs with a regex to avoid TS imports in Node.
+const locationsPath = path.resolve('src/data/locations.ts');
+const locationsSrc = fs.readFileSync(locationsPath, 'utf8');
+const locationSlugRe = /\{\s*slug:\s*'([^']+)'\s*,\s*name:\s*'[^']+'\s*\}/g;
+const locationSlugs = [...locationsSrc.matchAll(locationSlugRe)].map((m) => m[1]);
+
 const now = new Date();
 const fmt = (d) => d.toISOString().slice(0, 10);
 
@@ -29,6 +37,12 @@ const urls = [
   { loc: '/guias', changefreq: 'weekly', priority: '0.8', lastmod: fmt(now) },
   { loc: '/solicitar-turno', changefreq: 'monthly', priority: '0.9', lastmod: fmt(now) },
   { loc: '/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo', changefreq: 'yearly', priority: '0.5', lastmod: fmt(now) },
+  ...locationSlugs.map((slug) => ({
+    loc: `/revision-vehiculo-en/${slug}`,
+    changefreq: 'monthly',
+    priority: '0.55',
+    lastmod: fmt(now),
+  })),
   ...articles.map((a) => ({
     loc: `/guias/${a.slug}`,
     changefreq: 'monthly',

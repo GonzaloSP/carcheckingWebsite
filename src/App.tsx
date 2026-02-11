@@ -5,6 +5,7 @@ import ArticlePage from './pages/ArticlePage';
 import BookingPage from './pages/BookingPage';
 import GestoriaPage from './pages/GestoriaPage';
 import ReciboDeSenaPage from './pages/ReciboDeSenaPage';
+import LocationLandingPage from './pages/LocationLandingPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
         <Route path="/guias/*" element={<ArticlePage />} />
         <Route path="/servicio-gestoria" element={<GestoriaPage />} />
         <Route path="/solicitar-turno" element={<BookingPage />} />
+
+        <Route path="/revision-vehiculo-en/:slug" element={<LocationLandingPage />} />
 
         <Route
           path="/guias/recibo-de-sena-de-venta-de-vehiculo"
