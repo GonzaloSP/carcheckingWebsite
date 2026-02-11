@@ -1,4 +1,7 @@
 {
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "redirects": [
     {
       "source": "/consejos/para-que-sirve-escanear-un-vehiculo",
@@ -111,6 +114,17 @@
     {
       "source": "/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo/",
       "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+
+    {
+      "source": "/consejos/documentacion-vehiculo/calculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/calculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
       "permanent": true
     },
 
