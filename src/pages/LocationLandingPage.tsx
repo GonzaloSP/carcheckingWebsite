@@ -2,7 +2,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Navigate, useParams, Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
-import HeroSection from '../sections/HeroSection';
+import LocationHeroSection from '../sections/LocationHeroSection';
 import WhyInspectSection from '../sections/WhyInspectSection';
 import ServicesSection from '../sections/ServicesSection';
 import WhatWeCheckSection from '../sections/WhatWeCheckSection';
@@ -62,7 +62,7 @@ export default function LocationLandingPage() {
 
         {/* Same layout/sections as the Home page (do not change existing pages) */}
         <main className="relative">
-          <HeroSection />
+          <LocationHeroSection place={place} />
           <WhyInspectSection />
           <ServicesSection />
           <WhatWeCheckSection />
