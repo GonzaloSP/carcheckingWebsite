@@ -80,6 +80,7 @@ export const locations: Location[] = [
   { slug: 'juan-maria-gutierrez', name: 'Juan María Gutiérrez' },
   { slug: 'la-capilla', name: 'La Capilla' },
   { slug: 'la-lucila', name: 'La Lucila' },
+  { slug: 'la-matanza', name: 'La Matanza' },
   { slug: 'la-reja', name: 'La Reja' },
   { slug: 'la-tablada', name: 'La Tablada' },
   { slug: 'la-union', name: 'La Unión' },
