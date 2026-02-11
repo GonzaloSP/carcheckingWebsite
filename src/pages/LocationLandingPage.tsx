@@ -54,8 +54,7 @@ export default function LocationLandingPage() {
               Revisión de vehículo en {place}
             </h1>
             <p className="text-[#B8B2AA] max-w-3xl">
-              Si estás por comprar un auto usado en {place}, una inspección precompra te ayuda a detectar
-              problemas mecánicos, choques ocultos y fallas electrónicas antes de pagar.
+              Inspección precompra y revisión de autos usados a domicilio en {place}, con escaneo computarizado e informe con fotos.
             </p>
           </div>
         </div>
