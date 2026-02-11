@@ -13,7 +13,7 @@ export default function ReciboDeSenaPage() {
         title="Recibo de seña de venta de vehículo (PDF) | carChecking"
         description="Descargá un modelo de recibo de seña para compra-venta de un vehículo. Incluye campos básicos para dejar constancia del pago de la seña."
         keywords="recibo de seña, seña compra venta auto, boleto de compraventa, documentación vehículo, argentina"
-        canonicalUrl="/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo"
+        canonicalUrl="/guias/recibo-de-sena-de-venta-de-vehiculo"
         ogImage="https://www.carchecking.com.ar/images/hero_car.jpg"
       />
 

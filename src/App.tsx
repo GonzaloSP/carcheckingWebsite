@@ -19,7 +19,7 @@ function App() {
         <Route path="/solicitar-turno" element={<BookingPage />} />
 
         <Route
-          path="/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo"
+          path="/guias/recibo-de-sena-de-venta-de-vehiculo"
           element={<ReciboDeSenaPage />}
         />
       </Routes>
