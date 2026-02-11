@@ -3056,6 +3056,120 @@ No pagues el 100% si no tenés resuelta la firma/certificación.
 Guía: [Qué hacer si el vendedor no quiere firmar el 08](/guias/que-hacer-si-vendedor-no-firma-formulario-08)
 ` ,
   },
+  {
+    id: 'detectar-auto-usado-como-remis',
+    slug: 'como-detectar-si-auto-fue-remis',
+    title: 'Cómo detectar si un auto usado fue remis: señales de desgaste y chequeos (Argentina)',
+    excerpt:
+      'Guía práctica para descubrir si un usado tuvo uso intensivo como remis: desgaste interior, puertas, A/C, kilometraje, rastros de taxímetro y consultas a registros.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Revisión del Vehículo',
+    tags: ['remis', 'uso intensivo', 'kilometraje', 'desgaste', 'puertas', 'aire acondicionado', 'estafas', 'autos usados'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: 'Cómo detectar si un auto fue remis (Argentina): guía y checklist | carChecking',
+    metaDescription:
+      'Aprendé a detectar si un auto usado fue remis: señales de desgaste, chequeos del interior, puertas y A/C, pistas de taxímetro y cómo confirmar con documentación.',
+    content: `
+## ¿Por qué importa saber si un auto fue remis?
+
+Un auto que trabajó como **remis** suele tener un **uso intensivo**: muchos kilómetros por año, muchas aperturas/cierres de puertas y horas de motor encendido.
+
+Eso no significa que sea “malo” sí o sí, pero **cambia el valor real** y el tipo de problemas que podés esperar (desgaste de tren delantero, embrague, interiores, climatización, etc.).
+
+> Lo ideal es que el vendedor lo declare. Cuando no pasa, estas señales te ayudan a detectarlo.
+
+---
+
+## Señal #1: Kilometraje y desgaste que no cierran
+
+El clásico: odómetro bajo, pero el auto muestra desgaste de vehículo de trabajo.
+
+Mirá especialmente:
+- **volante** (brillo/exceso de desgaste),
+- **palanca de cambios**,
+- **pedales**,
+- **tapizados** y espumas hundidas,
+- **alfombras** / pisaderas.
+
+Guías relacionadas:
+- [Guía para verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado)
+- [Cómo saber el kilometraje real del vehículo sin revisarlo](/guias/como-saber-kilometraje-real-sin-revisar)
+
+---
+
+## Señal #2: Desgaste “desparejo” típico del remis
+
+En muchos remises se ve más desgaste en:
+- **butaca del conductor** (subidas/bajadas constantes),
+- **asiento trasero derecho** (pasajero frecuente).
+
+Revisá también el **cierre de puertas**: si están “caídas” o requieren más fuerza, puede indicar uso intenso.
+
+---
+
+## Señal #3: Pistas de instalación de taxímetro o accesorios de flota
+
+Algunas agencias colocan **taxímetro** u otros accesorios. Al retirarlos pueden quedar:
+- marcas de tornillos,
+- perforaciones,
+- cables cortados o empalmes en el tablero/consola.
+
+---
+
+## Señal #4: Aire acondicionado / climatización con mucho uso
+
+Por comodidad del pasajero, un remis suele usar el A/C muchas horas al día.
+
+Indicadores:
+- compresor ruidoso,
+- baja performance,
+- historial de cargas frecuentes,
+- ventilación con olores persistentes.
+
+---
+
+## Señal #5: Modelo/color y configuración (no concluyente, pero suma)
+
+En traslados corporativos se suelen elegir sedanes de colores neutros (negro/gris/blanco). En agencias de barrio puede ser cualquier cosa.
+
+**Ojo:** esto solo no prueba nada, pero combinado con el resto puede ser pista.
+
+---
+
+## Paso extra: ¿se puede confirmar por registro?
+
+Depende de la **jurisdicción** y de si el vehículo fue habilitado formalmente como remis.
+
+Si estuvo habilitado, puede haber registros locales. Si trabajó “en negro”, no siempre aparece.
+
+---
+
+## Lo más efectivo: inspección completa + escaneo
+
+Cuando el auto fue usado como remis, puede estar bien cuidado… o puede estar **tapado** para la venta (cubreasientos, cubrevolante, cubiertas “nuevas” de última, etc.).
+
+Por eso, antes de comprar:
+- revisá estructura/mecánica,
+- hacé escaneo,
+- y revisá documentación.
+
+- Solicitar turno: [/solicitar-turno](/solicitar-turno)
+
+---
+
+## Preguntas frecuentes
+
+### ¿Un auto ex remis siempre es mala compra?
+No necesariamente. Si tuvo mantenimiento al día y el precio refleja el desgaste, puede ser una compra razonable.
+
+### ¿Qué es lo más caro que suele aparecer?
+Tren delantero, embrague/caja (según modelo), y problemas de climatización por uso continuo.
+
+### ¿Conviene evitarlo para reventa?
+Si tu idea es revender rápido, el “uso comercial” suele impactar en precio y facilidad de venta.
+` ,
+  },
 ];
 
 // Helper functions

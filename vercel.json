@@ -401,6 +401,16 @@
       "permanent": true
     },
     {
+      "source": "/consejos/revision-vehiculo/gu%C3%ADa-detectar-si-el-auto-fue-utilizado-como-remis",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/gu%C3%ADa-detectar-si-el-auto-fue-utilizado-como-remis/",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
       "source": "/consejos",
       "destination": "/guias",
       "permanent": true
