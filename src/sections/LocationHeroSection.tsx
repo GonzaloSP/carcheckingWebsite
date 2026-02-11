@@ -133,7 +133,10 @@ export default function LocationHeroSection({ place }: { place: string }) {
         </p>
 
         {/* Subheadline */}
-        <p ref={subheadRef} className="text-base lg:text-lg text-[#B8B2AA] max-w-md mb-10 leading-relaxed">
+        <p ref={subheadRef} className="text-base lg:text-lg text-[#B8B2AA] max-w-md mb-4 leading-relaxed">
+          Si estás por comprar un auto usado en {place}, una inspección precompra te ayuda a detectar problemas mecánicos, choques ocultos y fallas electrónicas antes de pagar.
+        </p>
+        <p className="text-base lg:text-lg text-[#B8B2AA] max-w-md mb-10 leading-relaxed">
           Revisamos autos usados a domicilio con un mecánico especializado y escaneo computarizado. Recibís un informe claro con fotos para comprar con tranquilidad.
         </p>
 
