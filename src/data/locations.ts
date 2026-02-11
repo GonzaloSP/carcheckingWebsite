@@ -176,6 +176,11 @@ export const locations: Location[] = [
   { slug: 'wilde', name: 'Wilde' },
   { slug: 'william-c-morris', name: 'William C. Morris' },
   { slug: 'zeballos', name: 'Zeballos' },
+  { slug: 'la-plata', name: 'La Plata' },
+  { slug: 'villa-elisa', name: 'Villa Elisa' },
+  { slug: 'gonnet', name: 'Gonnet' },
+  { slug: 'ringuelet', name: 'Ringuelet' },
+  { slug: 'tolosa', name: 'Tolosa' },
 ];
 
 export const getLocationBySlug = (slug: string): Location | undefined =>
