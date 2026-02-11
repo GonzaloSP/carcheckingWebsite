@@ -1742,6 +1742,1320 @@ Nuestro servicio de gestoría te asesora y se encarga de todo el trámite.
 - **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
     `,
   },
+  {
+    id: 'vtv-verificacion-tecnica-vehicular',
+    slug: 'verificacion-tecnica-vehicular-vtv-argentina',
+    title: 'Verificación Técnica Vehicular (VTV): qué es, cuándo vence y cómo hacerla (Argentina)',
+    excerpt:
+      'Guía clara para entender la VTV: qué se controla, documentación, turnos, plazos en CABA y Provincia y qué pasa si te sale condicional o rechazada.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Revisión del Vehículo',
+    tags: ['VTV', 'verificación técnica', 'seguridad vial', 'CABA', 'Provincia de Buenos Aires', 'turno VTV', 'multas'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'VTV: qué es, qué se controla y cómo hacerla en CABA y Provincia (Argentina) | carChecking',
+    metaDescription:
+      'Aprendé qué es la VTV (Verificación Técnica Vehicular), qué se controla, qué llevar, cómo sacar turno y qué significa Apto/Condicional/Rechazado en CABA y Provincia.',
+    content: `
+## VTV (Verificación Técnica Vehicular): qué es y por qué conviene hacerla a tiempo
+
+La **Verificación Técnica Vehicular (VTV)** es un control periódico del estado del vehículo (seguridad + emisiones). Es obligatoria para circular según la jurisdicción y **una vez aprobada es válida en todo el país**.
+
+Hacerla a tiempo sirve para:
+- reducir riesgos mecánicos en la calle/ruta,
+- evitar multas y problemas en controles,
+- detectar fallas antes de que sean caras.
+
+---
+
+## Qué se controla en una VTV (resumen)
+
+Según planta/jurisdicción, normalmente revisan:
+- **Luces, bocina y limpiaparabrisas**
+- **Frenos** (equilibrio por eje)
+- **Dirección y tren delantero**
+- **Suspensión**
+- **Neumáticos** (desgaste)
+- **Parte inferior** (pérdidas, escapes, chasis visible)
+- **Gases de escape / emisiones**
+- **Identificación** (patente, grabados y coincidencia con documentación)
+
+---
+
+## VTV en Provincia de Buenos Aires: plazos orientativos
+
+Los plazos dependen de tipo de vehículo y antigüedad. A modo guía:
+- Motos: exentas al inicio; luego **anual**.
+- Autos particulares: exentos al inicio; luego **anual**.
+- Vehículos comerciales: pueden tener frecuencia **semestral**.
+
+Para info oficial, consultá la página de VTV de Provincia.
+
+### Documentación típica
+- Cédula verde/azul
+- DNI / licencia
+- Título (a veces solo la primera vez)
+- Obvios extras si aplica (GNC, reverificación, etc.)
+
+---
+
+## VTV en CABA: cuándo corresponde
+
+En CABA rige para vehículos particulares con más de cierto uso/antigüedad. Se gestiona con **turno** en plantas habilitadas y suele tardar ~20 minutos.
+
+---
+
+## Resultados: Apto, Condicional o Rechazado
+
+- **Apto:** sin defectos relevantes. Te entregan oblea + certificado.
+- **Condicional:** defectos leves. Te dan un plazo para corregir y **reverificar**.
+- **Rechazado:** defectos graves. No deberías circular hasta reparar y reverificar.
+
+---
+
+## Consejos prácticos para aprobar (y no perder tiempo)
+
+- Revisá **luces**, **balizas**, **limpia parabrisas** y **bocina** antes de ir.
+- Chequeá **presión y estado de neumáticos**.
+- Si tenés testigos encendidos, hacé un **escaneo** antes.
+
+> Guía relacionada: [Para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo)
+
+---
+
+## ¿Vas a comprar un usado? Ojo: la VTV aprobada no garantiza que esté “perfecto”
+
+La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más seguro es una **revisión precompra** (mecánica + estructura + escaneo) para detectar choques ocultos, kilometraje inconsistente y fallas.
+
+- Solicitar turno: [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'evitar-estafas-comprar-auto',
+    slug: 'como-evitar-estafas-al-comprar-auto-usado',
+    title: 'Cómo evitar estafas al comprar un auto usado en Argentina (guía simple)',
+    excerpt:
+      'Dos etapas clave para evitar estafas: revisar el vehículo (mecánica/estructura/electrónica) y revisar papeles (informe de dominio, multas, prenda, etc.).',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['estafas', 'autos usados', 'informe de dominio', 'prenda', 'embargo', 'kilometraje', 'concesionarias'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: 'Cómo evitar estafas al comprar un auto usado en Argentina | carChecking',
+    metaDescription:
+      'Guía práctica para evitar estafas al comprar un usado: revisión mecánica + escaneo, y papeles (informe de dominio, multas, prenda, inhibiciones).',
+    content: `
+## Cómo evitar estafas al comprar un auto usado: el método en 2 etapas
+
+En Argentina, muchas estafas en compra/venta de autos aparecen por dos motivos:
+1) el auto tiene **problemas ocultos** (mecánicos/estructurales/electrónicos),
+2) el auto tiene **problemas legales** (prenda, embargo, inhibición, denuncia, etc.).
+
+Para ordenarte, pensalo en **dos etapas**.
+
+---
+
+## Etapa 1: Revisar el vehículo (antes de pagar)
+
+Aunque “sepas algo de autos”, una revisión profesional suele ahorrarte plata.
+
+Qué conviene mirar sí o sí:
+- **Chapa y estructura:** señales de choque, repintado, alineaciones.
+- **Motor y transmisión:** pérdidas, ruidos, humo, vibraciones.
+- **Tren delantero/frenos:** ruidos, juego, desgaste.
+- **Electrónica:** escaneo OBD para detectar fallas registradas.
+- **Kilometraje:** coherencia entre odómetro y desgaste real.
+
+Guías relacionadas:
+- [Guía para verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado)
+- [Para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo)
+
+---
+
+## Etapa 2: Revisar la documentación
+
+Cuando el auto “cierra”, viene lo clave: **papeles**.
+
+Checklist documental básico:
+- **Informe de dominio** (titularidad + gravámenes)
+- **Multas** y **patentes** (deudas)
+- **Verificación policial** (si corresponde)
+- Confirmar que quien vende **puede transferir**
+
+Guía recomendada:
+- [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+
+---
+
+## Reglas de oro (para no caer)
+
+- No señes ni pagues sin **identidad + documentación** mínimamente chequeada.
+- Desconfiá de “ofertas” demasiado por debajo del mercado.
+- No aceptes formularios firmados “por fuera” sin entender qué estás firmando.
+
+---
+
+## ¿Querés que revisemos el auto por vos?
+
+Podemos hacer revisión precompra (mecánica + estructura + escaneo) y ayudarte a decidir.
+
+- Solicitar turno: [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'garantia-informe-inspeccion',
+    slug: 'garantia-informe-inspeccion-vehicular',
+    title: 'Garantía sobre informes de inspección vehicular: qué cubre y qué no (en la práctica)',
+    excerpt:
+      'Qué considerar cuando una empresa promete “garantía” sobre una inspección: letras chicas, desgaste, exclusiones típicas y cómo comparar servicios de revisión.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Revisión del Vehículo',
+    tags: ['garantía', 'inspección vehicular', 'revisión precompra', 'póliza', 'letra chica'],
+    image: `${base}images/mechanic_portrait.jpg`,
+    metaTitle: 'Garantía sobre informes de inspección vehicular: qué significa y qué mirar | carChecking',
+    metaDescription:
+      'Te explicamos cómo funcionan (y qué limitaciones tienen) las garantías en inspecciones vehiculares: exclusiones por desgaste, requisitos y recomendaciones.',
+    content: `
+## “Garantía” en una inspección vehicular: qué significa de verdad
+
+Es común ver servicios que ofrecen “garantía” sobre el informe de inspección. Suena muy bien, pero **casi siempre hay condiciones** que la vuelven difícil de ejecutar.
+
+La clave es entender:
+- quién responde (empresa vs aseguradora),
+- qué cubre y qué excluye,
+- qué requisitos te piden para que sea válida.
+
+---
+
+## Por qué muchas garantías terminan cubriendo poco
+
+En la práctica, muchas pólizas excluyen problemas atribuidos a:
+- **desgaste normal**,
+- mantenimiento deficiente,
+- uso posterior del vehículo,
+- fallas preexistentes no detectables sin desarme.
+
+Y la mayoría de los problemas reales en un usado se explican, justamente, por **desgaste**.
+
+---
+
+## Preguntas para hacer antes de contratar
+
+- ¿Me dan la **póliza** o condiciones por escrito?
+- ¿Qué pasa si aparece una falla a los 15/30/60 días?
+- ¿Exigen que repare todo lo observado para “activar” la cobertura?
+- ¿Qué talleres habilitan? ¿cómo se reclama?
+
+---
+
+## Nuestra recomendación
+
+Más que buscar una promesa de garantía, elegí un servicio por:
+- experiencia del inspector,
+- checklist real (estructura + mecánica + electrónica),
+- calidad del informe (claro, con fotos, con prioridades),
+- independencia (que no te quiera vender repuestos).
+
+Si estás por comprar un usado, lo ideal es combinar inspección y escaneo:
+- [Revisión precompra a domicilio en CABA y GBA](/guias/revision-precompra-a-domicilio-caba-gba)
+
+Y si querés coordinar:
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'negociar-descuento-auto-usado',
+    slug: 'como-negociar-precio-auto-usado-descuento',
+    title: 'Cómo negociar el precio de un auto usado: estrategia para conseguir mejor descuento',
+    excerpt:
+      'Técnicas realistas para negociar un usado en Argentina: cómo comparar precios, detectar margen, usar hallazgos de la inspección y cerrar sin apuro.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['negociación', 'precio', 'autos usados', 'descuento', 'inspección', 'CCA'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Cómo negociar el precio de un auto usado en Argentina (con estrategia) | carChecking',
+    metaDescription:
+      'Guía para negociar el precio de un auto usado: investigación de mercado, margen real, argumentos técnicos, y cómo cerrar la operación de forma segura.',
+    content: `
+## Cómo negociar el precio de un auto usado (sin quemarte ni perder oportunidades)
+
+Negociar no es “regatear por deporte”: es **pagar lo justo** según el estado real del auto y el mercado.
+
+---
+
+## 1) Llegá con datos (no con opiniones)
+
+Antes de visitar:
+- compará publicaciones similares (año/versión/km/zona),
+- mirá referencias de precios cuando existan,
+- anotá un rango realista.
+
+Guía relacionada:
+- [Cómo calcular el precio de un auto usado en Argentina](/guias/como-calcular-precio-auto-usado-argentina)
+
+---
+
+## 2) El descuento se gana con “hallazgos” (no con cara de póker)
+
+Lo que más mueve el precio:
+- detalles de chapa/pintura (repintado, choque),
+- neumáticos y frenos (gastos inmediatos),
+- pérdidas, ruidos, service pendiente,
+- fallas electrónicas detectadas por escaneo,
+- documentación (multas, deudas, prenda, etc.).
+
+Por eso, si podés, hacé una inspección y llevá el informe a la negociación.
+
+- [Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
+
+---
+
+## 3) Ofrecé en serio y cerrá rápido cuando el auto lo vale
+
+Si el auto está bien y el precio es razonable:
+- negociá un margen lógico,
+- pedí que te reserven con una seña **documentada**,
+- no estires semanas porque aparece otro comprador.
+
+---
+
+## 4) Errores comunes al negociar
+
+- Enamorarte del auto y perder objetividad.
+- Discutir sin revisar papeles.
+- Pagar todo sin tener la transferencia encaminada.
+
+---
+
+## ¿Querés una revisión precompra para negociar con base?
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'cuanto-tiempo-lleva-comprar-auto',
+    slug: 'cuanto-tiempo-lleva-comprar-auto-usado',
+    title: 'Cuánto tiempo lleva comprar un auto usado: búsqueda, revisiones y transferencia',
+    excerpt:
+      'Estimación realista del tiempo total para comprar un usado: cuántas visitas suelen ser, cuánto tarda revisar, y cuánto tiempo lleva la transferencia.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['tiempo', 'transferencia', 'registro automotor', 'compra', 'usados'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: '¿Cuánto tiempo lleva comprar un auto usado en Argentina? | carChecking',
+    metaDescription:
+      'Guía para estimar tiempos al comprar un auto usado: búsqueda, visitas, inspección precompra y transferencia. Cómo reducir demoras y riesgos.',
+    content: `
+## ¿Cuánto tiempo se “pierde” al comprar un auto usado?
+
+Comprar un usado suele llevar más de lo que uno imagina. Entre **buscar**, **visitar**, **revisar** y **transferir**, es fácil que se te vaya más de un día.
+
+---
+
+## Tiempo típico (estimación)
+
+- Búsqueda + llamados + coordinación: 1–3 horas (o más)
+- Visita y revisión básica por auto: 1–2 horas
+- Prueba de manejo + charla + papeles: 30–60 min
+- Transferencia / turnos / registro: 2–5 horas (según caso)
+
+En promedio, muchas personas visitan varios autos antes de decidir.
+
+---
+
+## Cómo reducir tiempo (sin aumentar riesgo)
+
+1) Filtrá mejor online (fotos, historial, documentación)
+2) Hacé una **revisión precompra** antes de señar/pagar
+3) Chequeá papeles temprano (informe de dominio)
+4) Si necesitás hacerlo rápido, considerá gestoría
+
+- Guía: [Qué papeles revisar al comprar un auto usado](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+
+---
+
+## Si querés que lo hagamos por vos
+
+Podés coordinar una inspección en concesionaria o domicilio.
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'auto-robado-como-saber',
+    slug: 'como-saber-si-un-auto-es-robado-argentina',
+    title: 'Cómo saber si un auto es robado en Argentina: pasos para comprar con seguridad',
+    excerpt:
+      'Guía para reducir riesgos: chequeo de números de chasis/motor, informe de dominio, verificación policial y señales de alerta en la operación.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['auto robado', 'informe de dominio', 'verificación policial', 'chasis', 'motor', 'documentación'],
+    image: `${base}images/engine_bay.jpg`,
+    metaTitle: 'Cómo saber si un auto es robado (Argentina): informe de dominio y verificación | carChecking',
+    metaDescription:
+      'Pasos para comprar un auto usado con seguridad: revisar chasis/motor, pedir informe de dominio, hacer verificación policial y evitar señales típicas de fraude.',
+    content: `
+## Comprar un auto robado: por qué es un riesgo enorme
+
+Si comprás un vehículo con pedido de captura o adulterado:
+- podés **perder el auto**,
+- podés tener problemas legales,
+- y la plata es difícil de recuperar.
+
+La idea es **prevenir** con un proceso simple.
+
+---
+
+## Paso 1: Revisá números de chasis/motor y señales de adulteración
+
+En la inspección, prestá atención a:
+- grabados irregulares,
+- zonas lijadas/repintadas donde no debería,
+- tornillería marcada por desarme,
+- inconsistencias con la documentación.
+
+---
+
+## Paso 2: Pedí un informe de dominio
+
+El **informe de dominio** te permite ver titularidad y gravámenes (prenda, embargo, etc.) y te da un panorama legal.
+
+- Guía: [Informe de dominio en Argentina: qué es y cuándo pedirlo](/guias/informe-de-dominio-auto-argentina-caba-gba)
+
+---
+
+## Paso 3: Hacé verificación policial (cuando corresponde)
+
+La verificación física es un filtro importante para detectar autos adulterados.
+
+---
+
+## Señales rojas durante la operación
+
+- apuro excesivo por cobrar,
+- “precio regalo” sin explicación,
+- no quieren ir al registro,
+- documentación rara o incompleta.
+
+---
+
+## Recomendación final
+
+Antes de pagar, combiná **revisión técnica** + **papeles**.
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'auto-antes-vacaciones',
+    slug: 'checklist-auto-antes-viaje-vacaciones',
+    title: 'Checklist del auto antes de salir a la ruta en vacaciones (Argentina)',
+    excerpt:
+      'Neumáticos, frenos, fluidos, luces, correa, amortiguadores y equipo obligatorio: lista práctica para viajar más seguro y evitar quedarte tirado.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Revisión del Vehículo',
+    tags: ['viaje', 'ruta', 'vacaciones', 'neumáticos', 'frenos', 'luces', 'seguridad vial'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Checklist del auto antes de salir a la ruta (vacaciones) | carChecking',
+    metaDescription:
+      'Lista completa para revisar el auto antes de viajar: neumáticos, frenos, líquidos, luces, correa, amortiguadores, documentación y equipo obligatorio en Argentina.',
+    content: `
+## Antes de salir a la ruta: revisá esto y viajá más tranquilo
+
+Viajar en tu auto puede ser cómodo y más económico, pero en ruta cualquier falla se paga caro. Acá tenés un **checklist práctico**.
+
+---
+
+## 1) Neumáticos
+
+- dibujo (mínimo legal),
+- presión (incluida la rueda de auxilio),
+- cortes o “huevos” en laterales,
+- desgaste parejo (si está comido raro: alineación/amortiguación).
+
+---
+
+## 2) Frenos
+
+- que no haga ruido metálico,
+- que el pedal no se vaya al fondo,
+- revisar líquido de frenos.
+
+---
+
+## 3) Líquidos
+
+- aceite (nivel + cambio al día),
+- refrigerante,
+- dirección asistida,
+- limpiaparabrisas.
+
+---
+
+## 4) Correa de distribución
+
+Si estás cerca del kilometraje/tiempo recomendado, **no lo patees**.
+
+---
+
+## 5) Amortiguadores
+
+Si rebota o está “blando”, afecta estabilidad y gasta neumáticos.
+
+---
+
+## 6) Luces
+
+- posición, baja, alta,
+- guiños, balizas,
+- antiniebla si tenés.
+
+---
+
+## 7) Equipo para llevar
+
+- matafuegos vigente,
+- balizas,
+- chaleco reflectivo,
+- gato y llave,
+- cargador de celular.
+
+---
+
+## 8) Documentación
+
+Para papeles, mirá la guía específica:
+- [Documentación para salir a la ruta en Argentina](/guias/documentacion-para-salir-a-la-ruta-argentina)
+
+---
+
+## ¿Querés una revisión completa antes de viajar?
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'comprar-auto-usado-argentina',
+    slug: 'como-comprar-auto-usado-argentina',
+    title: 'Cómo comprar un auto usado en Argentina: pasos legales y técnicos (guía 2026)',
+    excerpt:
+      'Proceso completo para comprar un usado: verificación técnica, prueba, checklist, informe de dominio, verificación policial y transferencia sin riesgos.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['comprar auto usado', 'Argentina', 'transferencia', 'informe de dominio', 'verificación policial', 'garantía'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: 'Cómo comprar un auto usado en Argentina: guía paso a paso | carChecking',
+    metaDescription:
+      'Guía paso a paso para comprar un auto usado en Argentina: revisión técnica, papeles, informe de dominio, verificación policial y transferencia. Evitá estafas.',
+    content: `
+## Comprar un auto usado en Argentina: el paso a paso que te evita problemas
+
+Esta guía resume lo importante para comprar un usado con la menor cantidad de sorpresas.
+
+---
+
+## Paso 1: Definí presupuesto (incluí costos extra)
+
+Sumá:
+- transferencia,
+- seguro,
+- posibles arreglos iniciales.
+
+---
+
+## Paso 2: Revisá el auto (idealmente con un profesional)
+
+- estructura/chapa,
+- mecánica,
+- escaneo.
+
+Guías:
+- [Qué revisar antes de comprar un auto usado](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
+- [Para qué sirve escanear un vehículo](/guias/para-que-sirve-escanear-un-vehiculo)
+
+---
+
+## Paso 3: Revisá papeles
+
+- [Qué papeles revisar al comprar un auto usado](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+
+---
+
+## Paso 4: Señá solo si está todo encaminado
+
+Usá un recibo bien hecho:
+- [Recibo de seña de venta de vehículo](/guias/recibo-de-sena-de-venta-de-vehiculo)
+
+---
+
+## Paso 5: Transferí lo antes posible
+
+- [¿Es necesario hacer la transferencia?](/guias/es-necesario-hacer-transferencia-auto-usado)
+
+---
+
+## ¿Querés que revisemos el auto por vos?
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'comprar-usado-en-concesionaria',
+    slug: 'comprar-auto-usado-en-concesionaria-es-seguro',
+    title: '¿Conviene comprar un auto usado en concesionaria? Ventajas, riesgos y cómo cubrirte',
+    excerpt:
+      'Las agencias pueden dar más comodidad, pero no siempre más seguridad. Qué revisar, qué preguntar y cómo usar una inspección precompra para evitar sorpresas.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['concesionaria', 'agencia', 'usados', 'garantía', 'estafas', 'kilometraje'],
+    image: `${base}images/hero_mecanico_03.jpg`,
+    metaTitle: 'Comprar un usado en concesionaria: ¿es siempre seguro? (Argentina) | carChecking',
+    metaDescription:
+      'Te contamos pros y contras de comprar un auto usado en concesionaria: garantía, riesgos típicos y cómo protegerte con revisión técnica + papeles.',
+    content: `
+## ¿Es siempre seguro comprar un vehículo usado en una concesionaria?
+
+No necesariamente. Hay concesionarias muy serias y otras que trabajan mal. La diferencia suele estar en:
+- transparencia,
+- historial y reputación,
+- cómo resuelven garantías,
+- estado real del vehículo.
+
+---
+
+## Ventajas típicas de comprar en agencia
+
+- mayor oferta en un solo lugar,
+- posible financiación,
+- a veces, algún tipo de garantía.
+
+---
+
+## Riesgos frecuentes (lo que vemos seguido)
+
+- kilometraje adulterado,
+- arreglos cosméticos para “tapar” fallas,
+- componentes no originales,
+- agencias nuevas que cambian de nombre.
+
+---
+
+## Cómo cubrirte
+
+1) Buscá reseñas y antigüedad real del comercio.
+2) Pedí papeles y chequeá el informe de dominio.
+3) Hacé una revisión precompra (sí, también en agencia).
+
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'es-necesario-transferir',
+    slug: 'es-necesario-hacer-transferencia-auto-usado',
+    title: '¿Es necesario hacer la transferencia cuando comprás un auto usado? Sí: por estas razones',
+    excerpt:
+      'Dejar el 08 sin transferir es una mala idea: vencimientos, riesgos civiles, problemas para vender y complicaciones si perdés contacto con el titular.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['transferencia', '08', 'registro automotor', 'cédula verde', 'comprar usado'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: '¿Es necesario hacer la transferencia al comprar un auto usado? | carChecking',
+    metaDescription:
+      'Explicación clara: por qué conviene transferir inmediatamente un auto usado, qué riesgos hay si no lo hacés y qué pasa si vence el 08.',
+    content: `
+## ¿Se puede “comprar” y no transferir? Se puede… pero es riesgoso
+
+Mucha gente compra un auto y se queda con el **08 firmado** para “transferir después”. El problema es que eso puede dejarte en un limbo.
+
+---
+
+## Riesgos de no transferir
+
+- Si vence el 08, necesitás al vendedor otra vez.
+- Si perdés contacto con el titular, el trámite se complica.
+- El auto sigue a nombre del vendedor (responsabilidad civil, multas, etc.).
+
+---
+
+## Recomendación
+
+Siempre que puedas:
+- firmá y certificá correctamente,
+- **transferí lo antes posible**.
+
+Si querés acortar tiempos:
+- [Turno rápido para transferencia](/guias/turno-rapido-transferencia-automotor)
+
+Y si necesitás asistencia:
+- [/servicio-gestoria](/servicio-gestoria)
+` ,
+  },
+  {
+    id: 'seguro-al-comprar-usado',
+    slug: 'seguro-al-comprar-auto-usado',
+    title: 'Seguro al comprar un auto usado: cuándo contratarlo y qué errores evitar',
+    excerpt:
+      'No manejes sin seguro. Te explicamos por qué conviene asegurar antes de retirar el auto, qué pasa con la póliza del vendedor y tips para activarlo bien.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['seguro', 'auto usado', 'póliza', 'cobertura', 'robo'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Seguro al comprar un auto usado: cuándo contratarlo (Argentina) | carChecking',
+    metaDescription:
+      'Guía: cuándo contratar el seguro al comprar un usado, qué pasa si el auto se roba antes de transferir, y consejos para activar cobertura sin demoras.',
+    content: `
+## Seguro al comprar un usado: cuándo conviene contratarlo
+
+En Argentina es ilegal circular sin seguro. Además, hay un punto clave:
+
+Si comprás el auto y lo retirás “para después” hacer el seguro, en ese período podés quedar expuesto.
+
+---
+
+## Riesgo típico: sin seguro a tu nombre
+
+Si el auto se roba y la póliza está a nombre del vendedor, **quien cobra es el vendedor** (salvo acuerdo específico).
+
+---
+
+## Recomendación práctica
+
+- Coordiná el seguro **antes de manejar**.
+- Consultá desde qué hora/día te cubre (algunas compañías activan al día siguiente).
+- Tené a mano datos de la cédula y fotos si te las piden.
+
+---
+
+## Checklist rápido
+
+- ¿Cobertura contra terceros / todo riesgo?
+- ¿Granizo? ¿robo total?
+- ¿Franquicia?
+
+---
+
+Para el resto del proceso de compra:
+- [Cómo comprar un auto usado en Argentina](/guias/como-comprar-auto-usado-argentina)
+` ,
+  },
+  {
+    id: 'ex-uber-cabify-conviene',
+    slug: 'comprar-auto-ex-uber-cabify-conviene',
+    title: '¿Conviene comprar un auto que fue Uber o Cabify? Qué mirar antes de decidir',
+    excerpt:
+      'Autos con pocos años y muchos kilómetros: no siempre es malo. Te contamos cuándo puede convenir y qué revisar (desgaste real, service, tren delantero, etc.).',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['Uber', 'Cabify', 'kilometraje', 'desgaste', 'service', 'compra'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: 'Comprar un auto ex Uber/Cabify: ¿conviene? Qué revisar | carChecking',
+    metaDescription:
+      'Guía para evaluar autos usados como Uber o Cabify: cuándo conviene, qué revisar en mecánica y desgaste, y cómo estimar el valor real.',
+    content: `
+## Autos ex Uber o Cabify: la pregunta real es el uso que le vas a dar
+
+Hoy es común ver autos con 2–3 años y 50.000 a 80.000 km (o más). Eso no significa automáticamente que sea una mala compra.
+
+---
+
+## Cuándo puede convenir
+
+- Si el precio refleja el kilometraje.
+- Si tuvo **services al día**.
+- Si el desgaste es coherente y el auto está bien mantenido.
+
+---
+
+## Qué revisar sí o sí
+
+- tren delantero y suspensión,
+- frenos,
+- embrague/caja (según modelo),
+- estado interior (butacas, volante, pedales),
+- escaneo (fallas recurrentes),
+- historial de mantenimiento.
+
+Guía complementaria:
+- [Cuántos kilómetros conviene que tenga un auto usado](/guias/cuantos-kilometros-conviene-auto-usado)
+
+---
+
+## Recomendación
+
+En estos casos, la inspección precompra es clave.
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'cuantos-km-auto-usado',
+    slug: 'cuantos-kilometros-conviene-auto-usado',
+    title: '¿Cuántos kilómetros conviene que tenga un auto usado? (y por qué no es lo único importante)',
+    excerpt:
+      'El kilometraje solo no alcanza: importa el tipo de uso (ruta vs ciudad), el mantenimiento y el desgaste real. Cómo interpretarlo para pagar lo justo.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['kilometraje', 'ruta', 'ciudad', 'desgaste', 'autos usados'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Cuántos kilómetros conviene que tenga un auto usado (Argentina) | carChecking',
+    metaDescription:
+      'Te explicamos cómo evaluar el kilometraje de un auto usado: uso en ruta vs ciudad, señales de desgaste real y cómo evitar pagar de más por un odómetro “bajo”.',
+    content: `
+## Kilometraje: dato importante, pero no definitivo
+
+Un auto con pocos km puede estar mal tratado. Y uno con muchos km en ruta puede estar mejor de lo que parece.
+
+Regla general orientativa: un uso “normal” suele estar alrededor de 10.000 a 15.000 km por año.
+
+---
+
+## Ruta vs ciudad: por qué cambia todo
+
+En general:
+- km en **ruta/autopista** = desgaste más parejo y menor,
+- km en **ciudad** = más frenadas, baches, embrague, etc.
+
+---
+
+## Qué mirar además del odómetro
+
+- volante/pedales/butacas,
+- neumáticos y fecha,
+- cierre/alineación de puertas,
+- historial de mantenimiento.
+
+---
+
+## Si te preocupa el kilometraje adulterado
+
+- [Cómo saber el kilometraje real sin revisarlo](/guias/como-saber-kilometraje-real-sin-revisar)
+- [Guía para verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado)
+` ,
+  },
+  {
+    id: 'mejores-autos-uber',
+    slug: 'mejores-autos-para-uber-argentina',
+    title: 'Los mejores autos para trabajar con Uber en Argentina: consumo, mantenimiento y costo',
+    excerpt:
+      'Qué modelos suelen elegirse por bajo consumo y repuestos accesibles, qué año mínimo exige la plataforma y consejos para bajar costo por kilómetro.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Comprando un vehículo usado',
+    tags: ['Uber', 'trabajar', 'autos', 'consumo', 'GNC', 'repuestos'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Mejores autos para Uber en Argentina: qué modelos convienen | carChecking',
+    metaDescription:
+      'Listado de autos usados elegidos para Uber por consumo y mantenimiento. Recomendaciones para bajar costo por km (incluido GNC) y qué revisar antes de comprar.',
+    content: `
+## Qué conviene buscar en un auto para Uber
+
+Si vas a trabajar con apps, lo que manda es:
+- **consumo**,
+- **mantenimiento** y repuestos,
+- confiabilidad,
+- comodidad para pasajeros.
+
+También revisá requisitos de la plataforma (año mínimo, etc.).
+
+---
+
+## Modelos típicos por relación costo/uso
+
+En el mercado suelen elegirse modelos como:
+- Chevrolet Corsa / Agile / Prisma
+- Fiat Siena
+- Volkswagen Voyage
+- Renault Logan
+
+> Ojo: la mejor opción depende de tu zona, presupuesto y disponibilidad.
+
+---
+
+## ¿GNC sí o no?
+
+Puede bajar costo por km, pero depende del motor y del estado del equipo. Comprá solo si:
+- el equipo está declarado y en regla,
+- el auto está sano (compresión, temperatura).
+
+---
+
+## Recomendación antes de comprar
+
+Si lo vas a usar intensivamente, **revisalo** como corresponde (mecánica + escaneo).
+- [/solicitar-turno](/solicitar-turno)
+` ,
+  },
+  {
+    id: 'vender-auto-rapido-una-semana',
+    slug: 'como-vender-auto-rapido-una-semana',
+    title: 'Cómo vender tu auto rápido (en una semana): publicación, fotos y estrategia',
+    excerpt:
+      'Tácticas para vender un usado más rápido: cómo armar el aviso, qué fotos sacar, dónde publicar (portales + redes) y cómo ajustar precio sin regalarlo.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Venta de vehículos',
+    tags: ['vender auto', 'publicación', 'fotos', 'precio', 'MercadoLibre', 'Facebook'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Cómo vender tu auto rápido: guía para vender en una semana | carChecking',
+    metaDescription:
+      'Guía para vender un auto usado más rápido: portales, redes sociales, fotos correctas, descripción, respuestas y estrategia de precio para acelerar la venta.',
+    content: `
+## Vender un auto rápido: la clave es el aviso (y el precio)
+
+Si querés vender en pocos días, necesitás dos cosas:
+- un aviso que genere confianza,
+- un precio dentro de mercado.
+
+---
+
+## 1) Publicá mejor (no solo “publicar”)
+
+Un buen aviso tiene:
+- fotos nítidas (sin contraluz),
+- descripción clara (sin mentir),
+- información completa (año, versión, km, services, detalles),
+- ortografía.
+
+---
+
+## 2) Fotos: lo que más vende
+
+Sugerencia de set mínimo:
+- frente/trasera/laterales,
+- interior (tablero, asientos),
+- motor,
+- cubiertas,
+- detalles (rayas, golpes).
+
+---
+
+## 3) Dónde publicar
+
+- Portales de avisos
+- Grupos de Facebook de tu zona
+
+---
+
+## 4) Ajuste de precio
+
+Si en 3–5 días no hay consultas reales:
+- revisá fotos,
+- revisá precio,
+- considerá bajar un pequeño porcentaje.
+
+---
+
+## Para evitar estafas en la operación
+
+- No muestres el auto en tu casa.
+- Cobrá por medios trazables.
+- Cerrá con transferencia.
+
+Guía: [¿Qué papeles revisar al comprar/vender un usado?](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+` ,
+  },
+  {
+    id: 'como-vender-mi-auto-argentina',
+    slug: 'como-vender-mi-auto-argentina',
+    title: 'Cómo vender mi auto en Argentina: precio, seguridad, seña y transferencia',
+    excerpt:
+      'Guía paso a paso para vender un auto usado: cómo poner precio, dónde publicar, cómo mostrarlo con seguridad y cómo cobrar y transferir sin riesgos.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Venta de vehículos',
+    tags: ['vender auto', 'precio', 'transferencia', 'seña', 'seguridad'],
+    image: `${base}images/mechanic_portrait.jpg`,
+    metaTitle: 'Cómo vender mi auto en Argentina: guía completa | carChecking',
+    metaDescription:
+      'Aprendé a vender tu auto usado en Argentina: cómo fijar precio, dónde publicarlo, cómo mostrarlo con seguridad y cómo cerrar pago y transferencia.',
+    content: `
+## Vender un auto usado: el paso a paso para hacerlo bien
+
+---
+
+## 1) Definí el precio de mercado
+
+Compará tu auto contra publicaciones similares (año/versión/km/zona/estado). Si necesitás vender rápido, el precio manda.
+
+---
+
+## 2) Publicá donde está la demanda
+
+Hoy la mayoría de compradores busca online. Publicá en varios lugares.
+
+---
+
+## 3) Mostralo con seguridad
+
+- en lugar público,
+- idealmente con alguien más,
+- verificá que quien prueba tenga licencia.
+
+---
+
+## 4) Negociación y seña
+
+Si aceptás seña, dejá todo por escrito.
+
+---
+
+## 5) Cobro y transferencia
+
+Lo más seguro es recibir el pago por medios bancarios y hacer la transferencia correctamente.
+
+Guía relacionada:
+- [Costo de la transferencia de un auto usado](/guias/costo-transferencia-auto-usado-argentina)
+` ,
+  },
+  {
+    id: 'turno-rapido-transferencia',
+    slug: 'turno-rapido-transferencia-automotor',
+    title: 'Cómo conseguir un turno rápido para transferencia automotor (Argentina)',
+    excerpt:
+      'Qué hacer cuando el registro te da turno lejano: alternativas reales, firma de 08, gestoría y cómo evitar quedarte con el auto “en el aire”.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['turno', 'transferencia', 'registro automotor', 'gestoría', '08'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Turno rápido para transferencia automotor: opciones y consejos | carChecking',
+    metaDescription:
+      'Guía para conseguir turno rápido en el registro para transferencia: alternativas, firma del 08, uso de gestor y recomendaciones para comprar sin demoras.',
+    content: `
+## Cuando el registro te da turno lejano: qué opciones tenés
+
+A veces el registro da turnos a 20–30 días. Si necesitás resolver rápido, lo importante es **no aumentar riesgo**.
+
+---
+
+## Opción 1: Gestoría
+
+Un gestor puede ayudar con:
+- turnos,
+- control de papeles,
+- seguimiento del trámite.
+
+- [/servicio-gestoria](/servicio-gestoria)
+
+---
+
+## Opción 2: Firmar y certificar el 08 primero
+
+Si conseguís turno para firma/certificación, podés avanzar con el 08 y luego completar la transferencia.
+
+Ojo: no dejes que venza.
+
+---
+
+## Recomendación
+
+Si estás comprando, combiná:
+- informe de dominio,
+- verificación (si corresponde),
+- firma correcta.
+
+Guía: [Qué papeles revisar al comprar un auto usado](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+` ,
+  },
+  {
+    id: 'documentacion-ruta-vacaciones',
+    slug: 'documentacion-para-salir-a-la-ruta-argentina',
+    title: 'Documentación para salir a la ruta en Argentina: qué te pueden pedir',
+    excerpt:
+      'Lista rápida de papeles obligatorios y recomendados para circular: DNI, licencia, cédula, seguro, VTV/RTO y más. Plus: Mi Argentina.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['ruta', 'vacaciones', 'documentación', 'Mi Argentina', 'seguro', 'VTV'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Documentación para salir a la ruta en Argentina (checklist) | carChecking',
+    metaDescription:
+      'Checklist de documentación para viajar en auto en Argentina: DNI, licencia, cédula, seguro, VTV/RTO, patentes visibles y requisitos si tenés GNC.',
+    content: `
+## Checklist de documentación para viajar en auto (Argentina)
+
+Si vas a salir a la ruta, te pueden pedir:
+- DNI
+- Licencia vigente
+- Cédula del vehículo (verde o azul)
+- Comprobante de seguro vigente
+- Oblea/certificado de VTV o RTO (según jurisdicción)
+- Patentes colocadas, legibles y sin alteraciones
+- Si tenés GNC: oblea y comprobante vigente
+
+---
+
+## Tip útil: Mi Argentina
+
+La app **Mi Argentina** permite llevar licencia y cédulas digitales (cuando están habilitadas/actualizadas).
+
+---
+
+## Para viajar seguro (revisión previa)
+
+- [Checklist del auto antes de salir a la ruta](/guias/checklist-auto-antes-viaje-vacaciones)
+` ,
+  },
+  {
+    id: 'costo-transferencia-auto',
+    slug: 'costo-transferencia-auto-usado-argentina',
+    title: 'Costo de transferencia de un auto usado en Argentina: qué se paga y cómo se calcula',
+    excerpt:
+      'Qué compone el costo: arancel de transferencia, valuación, formularios, certificaciones, sellos, verificación y tasas según jurisdicción. Guía + calculadora.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['costo transferencia', 'arancel', 'DNRPA', 'sellos', 'valuación', '08'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Costo de transferencia de auto usado en Argentina: guía completa | carChecking',
+    metaDescription:
+      'Conocé qué se paga en una transferencia: aranceles DNRPA, valuación, sellos y tasas. Incluye consejos y una calculadora para estimar el total.',
+    content: `
+## ¿Cuánto cuesta transferir un auto usado en Argentina?
+
+El costo final depende de:
+- valuación/valor declarado,
+- jurisdicción (sellos),
+- si hay prenda, cambios de radicación,
+- trámites extra (verificación, certificaciones).
+
+---
+
+## Componentes típicos del costo
+
+- Arancel de transferencia (porcentaje)
+- Formularios/aranceles del registro
+- Certificación de firmas (si aplica)
+- Cédula y título
+- Sellos e impuestos provinciales/municipales
+
+---
+
+## Calculadora rápida
+
+Podés usar nuestra calculadora para estimar:
+- [Calculadora de costos de transferencia](/guias/calculadora-costos-transferencia-auto-usado)
+
+---
+
+## Recomendación
+
+Antes de pagar una seña grande, pedí:
+- informe de dominio,
+- chequeo de multas/deudas.
+` ,
+  },
+  {
+    id: 'requisitos-transferencia-buenos-aires',
+    slug: 'requisitos-transferencia-auto-buenos-aires',
+    title: 'Requisitos para transferir un auto en Buenos Aires (Provincia): papeles y pasos',
+    excerpt:
+      'Documentación necesaria, formularios (08/13), verificación, CeTA cuando corresponde y plazos. Guía práctica para no ir y venir al registro.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['transferencia', 'Buenos Aires', 'DNRPA', '08', '13', 'CeTA', 'verificación'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Requisitos para transferencia de auto en Buenos Aires (Provincia) | carChecking',
+    metaDescription:
+      'Guía práctica con requisitos para transferir un auto en Provincia de Buenos Aires: DNI, CUIT/CUIL, título, cédula, 08, 13, verificación y plazos.',
+    content: `
+## Transferencia en Provincia de Buenos Aires: requisitos principales
+
+La transferencia es el acto que te convierte en titular. Si no la hacés, el vehículo puede quedar “en el aire”.
+
+---
+
+## Documentación usual
+
+- DNI comprador/vendedor (y cónyuges si corresponde)
+- CUIT/CUIL/CDI
+- Título y cédula
+- Formulario 08 (precarga online o presencial)
+- Formulario 13
+- Verificación (según año/caso)
+- CeTA (si corresponde por valuación)
+
+---
+
+## Consejos
+
+- Revisá situación legal con un informe de dominio.
+- No pagues todo sin tener firma/certificación resuelta.
+
+Guía: [Informe de dominio: qué muestra](/guias/informe-de-dominio-auto-argentina-caba-gba)
+` ,
+  },
+  {
+    id: 'transferencia-sin-vendedor',
+    slug: 'transferencia-auto-sin-vendedor',
+    title: 'Transferencia de auto sin el vendedor: cuándo se puede y qué alternativas hay',
+    excerpt:
+      'Si no está el vendedor, normalmente no se puede transferir salvo que ya tengas 08 firmado y certificado. Qué hacer si no lo encontrás.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['transferencia', '08', 'vendedor', 'escribano', 'registro automotor'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Transferencia de auto sin el vendedor: opciones reales (Argentina) | carChecking',
+    metaDescription:
+      'Te explicamos cuándo se puede transferir sin el vendedor (08 firmado y certificado) y qué alternativas hay si no lo encontrás o no quiere firmar.',
+    content: `
+## ¿Se puede transferir un auto sin el vendedor?
+
+En general, **no**. La transferencia requiere la firma del titular (o representación válida) y su certificación.
+
+La excepción práctica: si ya contás con el **Formulario 08 firmado y certificado**, podés continuar el trámite sin que el vendedor esté presente.
+
+---
+
+## Si no tenés 08 firmado
+
+- necesitás contactar al titular,
+- o buscar alternativas como certificación ante escribano (según jurisdicción).
+
+Guía relacionada:
+- [Qué hacer si el vendedor no quiere firmar el 08](/guias/que-hacer-si-vendedor-no-firma-formulario-08)
+` ,
+  },
+  {
+    id: 'deuda-patentes-auto',
+    slug: 'como-saber-si-auto-tiene-deuda-de-patentes',
+    title: 'Cómo saber si un auto tiene deuda de patentes (antes de comprar)',
+    excerpt:
+      'Antes de transferir, revisá deuda de patentes. Qué consultar, dónde buscar según jurisdicción y cómo negociar si aparecen deudas.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['patentes', 'deuda', 'transferencia', 'multas', 'usados'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Deuda de patentes: cómo revisar un auto antes de comprar (Argentina) | carChecking',
+    metaDescription:
+      'Guía práctica para revisar si un vehículo tiene deuda de patentes antes de comprar: qué consultar, cómo negociar el pago y por qué conviene chequearlo.',
+    content: `
+## Deuda de patentes: por qué conviene chequear antes de comprar
+
+Para transferir, conviene confirmar que el vehículo no tenga deudas relevantes. Si aparecen, lo mejor es **negociarlo antes** de cerrar.
+
+---
+
+## Cómo revisar (según jurisdicción)
+
+La consulta cambia por provincia/municipio. En general necesitás:
+- dominio/patente,
+- en algunos casos datos adicionales.
+
+---
+
+## Qué hacer si hay deuda
+
+Opciones típicas:
+- que el vendedor pague antes,
+- descontarlo del precio y que pague el comprador (con comprobante).
+
+Guía complementaria:
+- [¿Quién paga la transferencia de un vehículo usado?](/guias/quien-paga-la-transferencia-de-un-vehiculo-usado)
+` ,
+  },
+  {
+    id: 'verificacion-patente',
+    slug: 'verificacion-patente-argentina',
+    title: 'Verificación de patente antes de comprar: infracciones, patentes, dominio e informe',
+    excerpt:
+      'Antes de pagar un usado, chequeá infracciones, deuda de patentes e informe de dominio. Guía rápida para evitar sorpresas en el registro.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['patente', 'infracciones', 'deudas', 'informe de dominio', 'transferencia'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Verificación de patente (Argentina): qué revisar antes de comprar | carChecking',
+    metaDescription:
+      'Guía para verificar un dominio/patente antes de comprar un auto usado: infracciones, patentes adeudadas e informe de dominio para evitar bloqueos en la transferencia.',
+    content: `
+## Verificar la patente antes de comprar: 3 chequeos que te ahorran problemas
+
+Antes de pagar un auto usado, hacé estos pasos:
+
+### 1) Infracciones de tránsito
+Revisá multas en la jurisdicción donde circula/radica.
+
+### 2) Deuda de patentes
+- [Cómo revisar deuda de patentes](/guias/como-saber-si-auto-tiene-deuda-de-patentes)
+
+### 3) Informe de dominio
+Te muestra titularidad y gravámenes.
+- [Informe de dominio: qué es y qué muestra](/guias/informe-de-dominio-auto-argentina-caba-gba)
+
+---
+
+## Bonus: verificación física / policial
+
+Si corresponde por año/caso, sumá verificación física para confirmar chasis/motor.
+` ,
+  },
+  {
+    id: 'formulario-08-online',
+    slug: 'formulario-08-online-transferencia-digital',
+    title: 'Formulario 08 online y transferencia digital: paso a paso (Argentina)',
+    excerpt:
+      'Qué necesitás para iniciar la transferencia digital (DNRPA), cómo cargar datos, sacar turno, pagar y completar el trámite en el registro.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['08 online', 'transferencia digital', 'DNRPA', 'turno', 'registro automotor'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: '08 online: cómo hacer la transferencia digital en Argentina (paso a paso) | carChecking',
+    metaDescription:
+      'Guía paso a paso para hacer el 08 online/transferencia digital (DNRPA): requisitos, carga de datos, turno, pago y presentación en registro con comprador y vendedor.',
+    content: `
+## 08 online / Transferencia digital: qué es
+
+La DNRPA permite iniciar la **transferencia digital** (precarga online). Ojo: en la mayoría de casos, **comprador y vendedor igual deben presentarse** a firmar en el registro.
+
+---
+
+## Requisitos típicos
+
+Del vehículo:
+- dominio/patente,
+- datos de chasis (según formulario),
+
+De las personas:
+- datos personales,
+- contacto (email/teléfono),
+- datos del cónyuge si corresponde,
+- representación si firma otra persona.
+
+---
+
+## Paso a paso (resumen)
+
+1) Entrá al sitio de DNRPA y elegí transferencia digital.
+2) Cargá datos del vendedor y del comprador.
+3) Elegí el registro correspondiente.
+4) Solicitá turno.
+5) Pagá si corresponde.
+6) Presentate en el registro en la fecha/hora con la documentación.
+
+---
+
+## Consejo clave
+
+No pagues el 100% si no tenés resuelta la firma/certificación.
+
+Guía: [Qué hacer si el vendedor no quiere firmar el 08](/guias/que-hacer-si-vendedor-no-firma-formulario-08)
+` ,
+  },
 ];
 
 // Helper functions
