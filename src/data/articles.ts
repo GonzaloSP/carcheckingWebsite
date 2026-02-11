@@ -1409,6 +1409,339 @@ Antes de señar, además de la documentación, es clave revisar el estado real d
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
     `,
   },
+  {
+    id: 'como-calcular-precio-auto-usado',
+    slug: 'como-calcular-precio-auto-usado-argentina',
+    title: 'Cómo calcular el precio de un auto usado en Argentina: guía práctica',
+    excerpt: 'Guía completa para saber cuánto vale un auto usado en Argentina: fuentes de referencia, factores que afectan el precio y errores comunes al tasar.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Compra de Vehículos',
+    tags: ['precio auto usado', 'valuación', 'tasar auto', 'cuánto vale mi auto', 'autos usados', 'Argentina', 'comprar auto usado'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Cómo calcular el precio de un auto usado en Argentina: guía práctica | carChecking',
+    metaDescription: 'Guía para calcular el precio de un auto usado en Argentina: fuentes de referencia (InfoAuto, Mercado Libre), factores que suben o bajan el valor y errores comunes.',
+    content: `
+## Cómo calcular el precio de un auto usado en Argentina
+
+Si estás por comprar o vender un usado, la primera pregunta es siempre la misma: **¿cuánto vale?**
+
+El precio de un auto usado no es un número mágico: depende de varios factores y hay fuentes confiables para orientarte. Acá te cuento cómo hacer una valuación razonable sin volverte loco.
+
+---
+
+## Fuentes de referencia para tasar un auto usado en Argentina
+
+### 1) InfoAuto (referencia del mercado)
+
+**InfoAuto** es la guía de precios más usada en Argentina. La usan concesionarias, seguros y registros del automotor.
+
+- Entrás con marca, modelo, versión y año
+- Te da un precio de referencia (no es obligatorio, pero es un piso/techo orientativo)
+- Es pago, pero muchas veces encontrás capturas o referencias en foros
+
+**Link:** [https://www.infoauto.com.ar](https://www.infoauto.com.ar)
+
+### 2) Mercado Libre / portales de clasificados
+
+Mirar publicaciones similares en **Mercado Libre Autos** o **DeMotores** te da una idea de los precios de "calle":
+
+- Buscá tu modelo exacto (versión, año, motor)
+- Filtrá por kilometraje similar
+- Mirá los que tienen más tiempo publicados (suelen estar caros) vs los recién publicados
+
+> **Tip:** el precio publicado no es el precio final. En general hay margen para negociar un 5-15% dependiendo del caso.
+
+### 3) Grupos de Facebook / foros de marca
+
+Si el auto es de una marca específica (por ejemplo, un Peugeot 308, un Corolla, un Hilux), los grupos de Facebook o foros de marca suelen tener mucha data real de operaciones.
+
+---
+
+## Factores que suben o bajan el precio de un usado
+
+No todos los autos del mismo modelo valen lo mismo. Acá van los factores clave:
+
+### Factores que SUBEN el precio
+
+- **Pocos kilómetros** (y que sean reales, ojo con el cuentakilómetros adulterado)
+- **Único dueño** (o pocos dueños)
+- **Service oficial** con historial documentado
+- **Color neutro** (blanco, gris, negro suelen valer más que colores raros)
+- **Equipamiento completo** (cuero, techo, cámara, sensores)
+- **Sin choques ni repintados**
+- **Cubiertas y frenos nuevos**
+- **VTV al día y papeles en regla**
+
+### Factores que BAJAN el precio
+
+- **Muchos kilómetros** (más de 20.000 km/año se considera alto)
+- **Varios dueños** (desconfianza)
+- **Sin service documentado** (¿le hicieron mantenimiento o no?)
+- **Choques o repintados** (aunque estén bien hechos, bajan el valor)
+- **Detalles estéticos** (abolladuras, tapizado roto, plásticos dañados)
+- **Mecánica pendiente** (embrague, distribución, suspensión)
+- **GNC mal instalado o vencido**
+- **Deuda de patentes, multas o infracciones**
+
+---
+
+## Cómo calcular el precio paso a paso
+
+### Paso 1: Conseguí el precio de referencia (InfoAuto o similar)
+
+Ese es tu punto de partida. Por ejemplo: "InfoAuto dice $15.000.000".
+
+### Paso 2: Ajustá según el kilometraje
+
+- Si tiene menos km que el promedio → sumale un 5-10%
+- Si tiene más km que el promedio → restale un 5-15%
+
+### Paso 3: Ajustá según el estado general
+
+- Impecable, sin detalles → precio de referencia o un poco más
+- Algunos detalles menores → precio de referencia
+- Detalles importantes (choque, mecánica) → restá entre 10-25%
+
+### Paso 4: Compará con el mercado real
+
+Mirá publicaciones similares. Si tu cálculo da $14M y hay 10 autos iguales a $12M, el mercado está más bajo.
+
+### Paso 5: Considerá el margen de negociación
+
+Si vas a vender, publicá un poco arriba para tener margen. Si vas a comprar, ofrecé un poco abajo.
+
+---
+
+## Errores comunes al tasar un auto usado
+
+### "Me dijeron que vale más porque le puse X"
+
+La realidad: accesorios como stereo, llantas o escapes no suman tanto como creés. A veces ni suman.
+
+### "Tiene pocos kilómetros, vale más"
+
+Ojo: si el auto tiene pocos km pero estuvo parado mucho tiempo, puede tener problemas (gomas secas, batería, frenos pegados). No siempre "poco km" = mejor.
+
+### "Lo compré hace un año a X, ahora vale más"
+
+En Argentina con inflación puede pasar, pero no es regla. Depende de la demanda del modelo y del estado del auto.
+
+### "El mecánico me dijo que está perfecto"
+
+Tener una opinión está bien, pero para negociar (o para estar seguro) conviene una **revisión formal con informe**.
+
+---
+
+## ¿Conviene pedir una revisión antes de comprar?
+
+Sí, siempre. No importa qué tan lindo se vea: una inspección precompra te puede ahorrar un problema de miles de dólares.
+
+Si el auto tiene fallas ocultas, el precio que te piden no tiene sentido. Y si está perfecto, tenés argumento para no dejarte bajar el precio.
+
+**¿Querés que lo revisemos por vos?**
+
+- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
+
+---
+
+## Resumen rápido
+
+| Paso | Qué hacer |
+|------|-----------|
+| 1 | Consultá InfoAuto o similar |
+| 2 | Ajustá por km |
+| 3 | Ajustá por estado |
+| 4 | Compará con publicaciones reales |
+| 5 | Dejá margen para negociar |
+
+Y si tenés dudas sobre el estado real del auto, pedí una revisión antes de cerrar.
+
+---
+
+## Preguntas frecuentes
+
+**¿InfoAuto es obligatorio?**
+No. Es una referencia. El precio final lo definen comprador y vendedor.
+
+**¿Puedo confiar en el kilometraje?**
+No al 100%. Si te interesa verificarlo, mirá esta guía: [cómo verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado).
+
+**¿Qué pasa si el auto tiene prenda o deuda?**
+Eso baja el valor (o directamente hace que no convenga comprarlo). Pedí un **informe de dominio** antes de señar.
+
+- **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
+    `,
+  },
+  {
+    id: 'vendedor-no-firma-08',
+    slug: 'que-hacer-si-vendedor-no-firma-formulario-08',
+    title: '¿Qué sucede si el vendedor no quiere firmar el 08? Guía completa',
+    excerpt: 'Qué hacer si el vendedor del auto no quiere firmar el formulario 08: alternativas legales, cómo prevenir el problema y qué dice la ley en Argentina.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Documentación',
+    tags: ['formulario 08', 'transferencia', 'vendedor no firma', 'DNRPA', 'documentación', 'autos usados', 'Argentina'],
+    image: `${base}images/scanner_hands.jpg`,
+    metaTitle: '¿Qué hacer si el vendedor no quiere firmar el 08? | carChecking',
+    metaDescription: 'Guía sobre qué hacer si el vendedor no firma el formulario 08 en Argentina: opciones legales, cómo prevenirlo y quién paga los costos de transferencia.',
+    content: `
+## ¿Qué sucede si el vendedor no quiere firmar el formulario 08?
+
+Una de las situaciones más complicadas al comprar un auto usado es cuando el vendedor **se niega a firmar el formulario 08** o directamente desaparece después de cobrar. Sin ese formulario, no podés hacer la transferencia y el auto queda a nombre del titular anterior.
+
+Acá te explico qué podés hacer, cómo prevenirlo y quién paga qué en una transferencia.
+
+---
+
+## ¿Quién paga los costos de la transferencia?
+
+Antes de hablar del problema, aclaremos los costos:
+
+### Lo que paga el comprador (en general)
+
+- **Formularios** (08, CETA si aplica)
+- **Aranceles del registro** (transferencia)
+- **Sellados provinciales**
+- **Gestoría** (si usás una)
+
+Estos costos son elevados y, salvo que se negocie otra cosa, los asume el comprador.
+
+### Lo que paga el vendedor
+
+- **Verificación policial**: es requisito para vender y debe estar al día. El vendedor tiene que presentar la verificación vigente.
+- **Deudas de patentes, multas o infracciones**: si el auto tiene deuda, el vendedor debería saldarla antes de la venta (o descontarla del precio).
+
+> **Tip:** siempre conviene dejar claro quién paga qué **antes** de cerrar el trato.
+
+---
+
+## ¿Qué pasa si el vendedor no quiere firmar el 08?
+
+### La realidad (sin vueltas)
+
+Si ya pagaste la totalidad del auto y el vendedor no aparece o se niega a firmar el formulario 08, **legalmente no hay forma de obligarlo**.
+
+No existe un mecanismo judicial rápido para forzar la firma. Podés iniciar acciones legales, pero son lentas, costosas y muchas veces no llegan a nada.
+
+### ¿Por qué pasa esto?
+
+Algunas razones comunes:
+
+- El vendedor no es el titular real (te vendió un auto que no era suyo)
+- Hay deudas o embargos que el vendedor no quiere afrontar
+- El vendedor simplemente no quiere "complicarse" con el trámite
+- Mala fe o estafa directa
+
+---
+
+## Cómo prevenir este problema
+
+La única forma de evitarlo es **no pagar la totalidad hasta tener el 08 firmado**.
+
+### Procedimiento recomendado
+
+1. **Verificá la documentación antes de señar**
+   - Título del automotor
+   - Cédula verde/azul
+   - DNI del titular (que coincida)
+   - Verificación policial vigente
+
+2. **Pedí un informe de dominio**
+   - Así sabés si hay prendas, embargos o inhibiciones
+   - Si hay problemas, no avances
+
+3. **Firmá el 08 antes de pagar el total**
+   - Podés pagar una seña y acordar que el saldo se paga **después** de firmar el 08 en el registro o ante escribano
+   - Nunca entregues el 100% sin tener el 08 firmado
+
+4. **Hacé la transferencia lo antes posible**
+   - No dejes pasar semanas con el 08 firmado sin presentarlo
+   - Cuanto antes esté a tu nombre, mejor
+
+---
+
+## ¿Qué opciones tenés si el vendedor no quiere ir al registro?
+
+Si el vendedor tiene buena voluntad pero no puede (o no quiere) ir al registro, hay alternativas:
+
+### Opción 1: Llevalo vos
+
+Si el problema es el traslado, ofrecele buscarlo y llevarlo al registro. A veces es solo un tema de comodidad.
+
+### Opción 2: Firma ante escribano
+
+El formulario 08 puede certificarse ante **escribano público**. Esto permite que el vendedor firme en una escribanía (más flexible en horarios y ubicación) y vos después presentás el 08 certificado en el registro.
+
+### Opción 3: Poder especial
+
+En algunos casos, el vendedor puede otorgar un **poder especial** para que otra persona (vos o un gestor) firme en su nombre. Esto requiere escritura pública.
+
+---
+
+## ¿Qué hacer si ya pagaste y el vendedor no firma?
+
+Si ya estás en esta situación:
+
+1. **Intentá contactar al vendedor** de todas las formas posibles (teléfono, WhatsApp, mail, domicilio)
+2. **Enviá una carta documento** solicitando que cumpla con la firma del 08. Esto deja constancia legal.
+3. **Consultá con un abogado**: dependiendo del monto, puede tener sentido iniciar acciones legales (aunque sean lentas)
+4. **Denuncia penal**: si hay indicios de estafa, podés hacer una denuncia. No resuelve el problema de la transferencia, pero puede servir.
+
+> **Importante:** sin el 08 firmado, el auto sigue a nombre del vendedor. Si él acumula multas o tiene un accidente, puede complicarte.
+
+---
+
+## ¿El gestor puede ayudar?
+
+Sí. Un gestor del automotor experimentado puede:
+
+- Asesorarte sobre la documentación antes de comprar
+- Verificar que todo esté en orden
+- Coordinar la firma del 08 (en registro o ante escribano)
+- Hacer el seguimiento del trámite completo
+
+En carChecking ofrecemos un **servicio de gestoría** donde te acompañamos en todo el proceso para que no tengas sorpresas.
+
+- **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
+
+---
+
+## Resumen: cómo evitar el problema del 08
+
+| Paso | Qué hacer |
+|------|-----------|
+| 1 | Verificá documentación y que el vendedor sea el titular |
+| 2 | Pedí informe de dominio |
+| 3 | No pagues el 100% sin el 08 firmado |
+| 4 | Si el vendedor no puede ir al registro, usá escribano |
+| 5 | Transferí lo antes posible |
+
+---
+
+## Preguntas frecuentes
+
+**¿Puedo circular con el auto sin transferir?**
+Podés circular con la cédula y el 08 firmado, pero el auto sigue a nombre del vendedor. No es recomendable dejarlo así.
+
+**¿Cuánto tiempo tengo para hacer la transferencia?**
+Legalmente, la transferencia debe hacerse dentro de los 10 días de la operación. Si no, puede haber multas.
+
+**¿El vendedor puede anular el 08 después de firmarlo?**
+No. Una vez firmado y certificado, el 08 es válido para la transferencia.
+
+**¿Qué pasa si el vendedor falleció?**
+En ese caso, los herederos tienen que hacer la sucesión del vehículo primero. Es un trámite más largo y necesitás asesoramiento legal.
+
+---
+
+## ¿Querés evitar problemas con la documentación?
+
+Nuestro servicio de gestoría te asesora y se encarga de todo el trámite.
+
+- **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
+    `,
+  },
 ];
 
 // Helper functions

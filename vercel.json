@@ -4,6 +4,21 @@
   ],
   "redirects": [
     {
+      "source": "/precio-de-vehiculos-usados",
+      "destination": "/guias/como-calcular-precio-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/quien-paga-la-transferencia",
+      "destination": "/guias/que-hacer-si-vendedor-no-firma-formulario-08",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/quien-paga-la-transferencia/",
+      "destination": "/guias/que-hacer-si-vendedor-no-firma-formulario-08",
+      "permanent": true
+    },
+    {
       "source": "/consejos/para-que-sirve-escanear-un-vehiculo",
       "destination": "/guias/para-que-sirve-escanear-un-vehiculo",
       "permanent": true
