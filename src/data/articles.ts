@@ -3170,6 +3170,107 @@ Tren delantero, embrague/caja (según modelo), y problemas de climatización por
 Si tu idea es revender rápido, el “uso comercial” suele impactar en precio y facilidad de venta.
 ` ,
   },
+  {
+    id: 'revision-vehiculos-hibridos-autos-chinos',
+    slug: 'revision-vehiculos-hibridos-argentina',
+    title: 'Revisión de vehículos híbridos en Argentina: qué mirar y por qué el escaneo es clave (BYD y otras marcas)',
+    excerpt:
+      'Guía para comprar un híbrido usado (incluyendo marcas nuevas como BYD): qué revisar en batería, sistema eléctrico y tren motriz, y por qué se necesitan escáneres específicos.',
+    author: 'carChecking',
+    date: '2026-02-11',
+    category: 'Revisión del Vehículo',
+    tags: ['híbridos', 'vehículos híbridos', 'BYD', 'autos chinos', 'escaneo', 'OBD', 'batería', 'inspección precompra', 'Argentina'],
+    image: `${base}images/byd-dolphin-hero.jpg`,
+    metaTitle: 'Revisión de vehículos híbridos en Argentina (BYD y otras marcas): guía + escaneo | carChecking',
+    metaDescription:
+      'Qué revisar al comprar un auto híbrido usado en Argentina: batería, electrónica, frenos regenerativos, tren motriz y diagnóstico con escáneres específicos. Guía práctica.',
+    content: `
+## Revisión de vehículos híbridos en Argentina: por qué no alcanza con “mirarlo por arriba”
+
+En Argentina están llegando marcas nuevas (por ejemplo **BYD**) y cada vez se ven más **vehículos híbridos** (mild hybrid, híbridos convencionales y enchufables). El problema es que muchos usados “parecen impecables”, pero en híbridos hay fallas que **no se ven** sin diagnóstico.
+
+Por eso, en una inspección precompra de híbridos, el punto clave es el **escaneo y el análisis del sistema electrónico**.
+
+---
+
+## ¿Qué cambia en un híbrido vs un auto naftero común?
+
+Además de lo clásico (chapa, chasis, mecánica), en un híbrido hay que revisar:
+
+- **Batería de alta tensión (HV)**: estado, balance de celdas, temperaturas, historial de eventos.
+- **Sistema de gestión de energía**: inversor, convertidor DC-DC, cableado y conectores.
+- **Motor eléctrico y controladores**.
+- **Frenado regenerativo**: funcionamiento y sensaciones anormales.
+- **Sistema de refrigeración** (muchos híbridos tienen circuitos dedicados para batería/inversor).
+
+---
+
+## Qué revisamos en carChecking (enfoque precompra)
+
+En carChecking revisamos el auto **completo**:
+
+### 1) Estructura y carrocería
+- señales de choque/reparaciones,
+- alineación de puertas/capó/baúl,
+- puntos de chasis visibles.
+
+### 2) Mecánica y tren rodante
+- pérdidas, ruidos, vibraciones,
+- frenos, suspensión, dirección,
+- neumáticos (desgaste coherente con kilómetros).
+
+### 3) Electrónica + escaneo (lo más importante en híbridos)
+En híbridos no alcanza con un lector genérico. Se usan **escáneres compatibles** que permiten:
+- leer fallas de módulos híbridos,
+- ver datos en vivo (temperaturas, voltajes, estados),
+- detectar inconsistencias (por ejemplo, fallas borradas recientemente).
+
+> En autos con tecnología nueva (incluyendo varios modelos chinos), este paso es clave para comprar con tranquilidad.
+
+---
+
+## Señales de alerta al ver un híbrido usado
+
+- testigos encendidos (o tapados),
+- consumo anormal o falta de potencia,
+- vibraciones/ruidos raros al pasar de eléctrico a combustión,
+- frenado “extraño” o pedal inconsistente,
+- historial de mantenimiento incompleto.
+
+---
+
+## ¿Los híbridos chinos son más difíciles de revisar?
+
+No necesariamente, pero requieren:
+- experiencia en diagnóstico,
+- herramientas de escaneo correctas,
+- y un enfoque más metódico en electrónica.
+
+Marcas nuevas como BYD traen plataformas modernas y muchos módulos de control. Eso hace que una revisión “a ojo” sea insuficiente.
+
+---
+
+## Preguntas frecuentes
+
+### ¿Conviene comprar un híbrido usado en Argentina?
+Puede convenir por consumo y tecnología, pero **hay que revisar bien** antes de cerrar.
+
+### ¿Un escaneo simple OBD alcanza?
+Para un híbrido, normalmente no. Se necesita un escaneo que pueda leer módulos específicos.
+
+### ¿Qué pasa si la batería está degradada?
+Depende del modelo: puede afectar autonomía/consumo y puede ser costoso. Por eso el escaneo y los datos en vivo ayudan a detectar señales tempranas.
+
+---
+
+## ¿Querés que revisemos un híbrido antes de comprar?
+
+Coordinamos una inspección precompra con revisión completa + escaneo.
+
+- Solicitar turno: [/solicitar-turno](/solicitar-turno)
+`,
+  },
+
 ];
 
 // Helper functions
