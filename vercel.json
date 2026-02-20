@@ -416,6 +416,1111 @@
       "permanent": true
     },
     {
+      "source": "/guias/documentacion-vehiculo/como-realizar-la-transferencia-del-vehiculo-sin-el-vendedor/costo-de-la-transferencia-de-un-vehiculo-usado/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/como-realizar-la-transferencia-del-vehiculo-sin-el-vendedor/costo-de-la-transferencia-de-un-vehiculo-usado",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guía-para-verificar-que-el-cuentakilómetros-no-ha-sido-alterado/12-consejos-para-la-revision-del-automovil/www.carchecking.com.ar/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guía-para-verificar-que-el-cuentakilómetros-no-ha-sido-alterado/12-consejos-para-la-revision-del-automovil/www.carchecking.com.ar",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/como-evitar-ser-estafado-cuando-compra-un-vehículo/12-consejos-para-la-revision-del-automovil/www.carchecking.com.ar/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/como-evitar-ser-estafado-cuando-compra-un-vehículo/12-consejos-para-la-revision-del-automovil/www.carchecking.com.ar",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/consejosrevision-vehiculoguia-para-verificar-que-el-cuentakilometros-no-ha-sido-alterado/",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/consejosrevision-vehiculoguia-para-verificar-que-el-cuentakilometros-no-ha-sido-alterado",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculoscompra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculoscompra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/12-consejos-para-la-revision-del-automovil/16-consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones/",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/12-consejos-para-la-revision-del-automovil/16-consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculosrevisar-corroborar-numero-chasis-motor-del-auto-comprar/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculosrevisar-corroborar-numero-chasis-motor-del-auto-comprar",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/16-consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones/",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/transferencia-del-automotor/7-consejos-para-la-compra-de-automovil/revision-vehiculos/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/16-consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculosguia-evite-robos-al-comprar-vender-un-vehiculo-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/transferencia-del-automotor/7-consejos-para-la-compra-de-automovil/revision-vehiculos",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejoscompra-vehiculosguia-evite-robos-al-comprar-vender-un-vehiculo-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/consejoscompra-vehiculosguia-evitar-ser-estafado-cuando-compra-un-vehiculo/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejosrevision-vehiculoguia-detectar-si-el-auto-fue-utilizado-como-remis/",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/consejosdocumentacion-vehiculocalculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/consejoscompra-vehiculosguia-evitar-ser-estafado-cuando-compra-un-vehiculo",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/consejosrevision-vehiculoguia-detectar-si-el-auto-fue-utilizado-como-remis",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/consejosdocumentacion-vehiculocalculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/consejoscompra-vehiculosguia-evitar-ser-estafado-cuando-compra-un-vehiculo/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/consejosdocumentacion-vehiculocalculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/consejoscompra-vehiculosguia-evitar-ser-estafado-cuando-compra-un-vehiculo",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-detectar-si-el-auto-que-esta-por-comprar-fue-golpeado-por-el-granizo/",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/consejosdocumentacion-vehiculocalculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/47-los-riesgos-ocultos-de-comprar-un-0km-versus-un-usado/",
+      "destination": "/guias/comprar-auto-usado-en-concesionaria-es-seguro",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-detectar-si-el-auto-que-esta-por-comprar-fue-golpeado-por-el-granizo",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/47-los-riesgos-ocultos-de-comprar-un-0km-versus-un-usado",
+      "destination": "/guias/comprar-auto-usado-en-concesionaria-es-seguro",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/consejosdocumentacion-vehiculorecibo-de-sena-de-venta-de-vehiculo/",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/consejosdocumentacion-vehiculorecibo-de-sena-de-venta-de-vehiculo",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/requisitos-para-la-transferencia-de-un-vehiculo-en-buenos-aires/",
+      "destination": "/guias/requisitos-transferencia-auto-buenos-aires",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/17-como-verificar-que-un-auto-que-compras-no-es-robado/",
+      "destination": "/guias/como-saber-si-un-auto-es-robado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/10-cosas-a-tener-en-cuenta-al-comprar-un-vehiculo-usado-en-argentina/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/requisitos-para-la-transferencia-de-un-vehiculo-en-buenos-aires",
+      "destination": "/guias/requisitos-transferencia-auto-buenos-aires",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/informe-de-dominio/7-consejos-para-la-compra-de-automovil/solicitar-turno/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/17-como-verificar-que-un-auto-que-compras-no-es-robado",
+      "destination": "/guias/como-saber-si-un-auto-es-robado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/documentacion-requerida-para-salir-a-la-ruta-en-vacaciones/",
+      "destination": "/guias/documentacion-para-salir-a-la-ruta-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/10-cosas-a-tener-en-cuenta-al-comprar-un-vehiculo-usado-en-argentina",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/informe-de-dominio/7-consejos-para-la-compra-de-automovil/solicitar-turno",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/documentacion-requerida-para-salir-a-la-ruta-en-vacaciones",
+      "destination": "/guias/documentacion-para-salir-a-la-ruta-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/gestoria/7-consejos-para-la-compra-de-automovil/19-calculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/que-cantidad-de-kilometros-debe-tener-el-vehiculo-usado-que-compro/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/gestoria/7-consejos-para-la-compra-de-automovil/19-calculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/que-cantidad-de-kilometros-debe-tener-el-vehiculo-usado-que-compro",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/como-realizar-la-transferencia-del-vehiculo-sin-el-vendedor/",
+      "destination": "/guias/transferencia-auto-sin-vendedor",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/compra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-revisar-si-el-vehiculo-a-comprar-es-un-vehiculo-inundado/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/es-necesario-realizar-la-transferencia-de-un-vehiculo-que-compro/",
+      "destination": "/guias/es-necesario-hacer-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/vale-la-pena-comprar-un-vehiculo-que-funciono-como-uber-o-cabify/",
+      "destination": "/guias/comprar-auto-ex-uber-cabify-conviene",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/como-realizar-la-transferencia-del-vehiculo-sin-el-vendedor",
+      "destination": "/guias/transferencia-auto-sin-vendedor",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones/",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/guia-para-verificar-que-el-cuentakilometros-no-ha-sido-alterado/",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/25-como-negociar-la-compra-de-un-vehiculo-usado/",
+      "destination": "/guias/como-negociar-precio-auto-usado-descuento",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/compra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-revisar-si-el-vehiculo-a-comprar-es-un-vehiculo-inundado",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/es-necesario-realizar-la-transferencia-de-un-vehiculo-que-compro",
+      "destination": "/guias/es-necesario-hacer-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/vale-la-pena-comprar-un-vehiculo-que-funciono-como-uber-o-cabify",
+      "destination": "/guias/comprar-auto-ex-uber-cabify-conviene",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/guía-chequear-si-el-automovil-tiene-infracciones-o-multas/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/quien-paga-la-transferencia-de-un-vehiculo-vehiculo-usado/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/consejos-para-revisar-su-automovil-antes-de-salir-de-vacaciones",
+      "destination": "/guias/checklist-auto-antes-viaje-vacaciones",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/guia-para-verificar-que-el-cuentakilometros-no-ha-sido-alterado",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/25-como-negociar-la-compra-de-un-vehiculo-usado",
+      "destination": "/guias/como-negociar-precio-auto-usado-descuento",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/guía-chequear-si-el-automovil-tiene-infracciones-o-multas",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/quien-paga-la-transferencia-de-un-vehiculo-vehiculo-usado",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/compra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-revisar-si-el-vehiculo-a-comprar-es-un-vehiculo-inundado/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/compra-de-vehiculo-en-concesionaria-vs-compra-a-un-particular",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-revisar-si-el-vehiculo-a-comprar-es-un-vehiculo-inundado",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/19-calculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/verificar-en-su-totalidad-el-estado-del-vehiculo-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/19-calculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/verificar-en-su-totalidad-el-estado-del-vehiculo-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/consejos-para-comprar-un-vehiculo-usado-en-concesionaria/",
+      "destination": "/guias/comprar-auto-usado-en-concesionaria-es-seguro",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/19-calculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/consejos-para-comprar-un-vehiculo-usado-en-concesionaria",
+      "destination": "/guias/comprar-auto-usado-en-concesionaria-es-seguro",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/19-calculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/cuando-es-el-mejor-momento-para-cambiar-el-vehiculo/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-verificar-que-un-auto-que-compras-no-es-robado/",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/error-que-todos-cometemos-al-comprar-un-vehiculo-usado/",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/verificar-en-su-totalidad-el-estado-del-vehiculo-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/cuando-es-el-mejor-momento-para-cambiar-el-vehiculo",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-verificar-que-un-auto-que-compras-no-es-robado",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/guía-detectar-si-el-auto-fue-utilizado-como-remis/",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/como-contratar-el-seguro-al-comprar-un-vehiculo-usado/",
+      "destination": "/guias/seguro-al-comprar-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/error-que-todos-cometemos-al-comprar-un-vehiculo-usado",
+      "destination": "/guias/10-cosas-a-tener-en-cuenta-comprar-vehiculo-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/verificar-en-su-totalidad-el-estado-del-vehiculo-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/riesgos-ocultos-de-comprar-un-0km-versus-un-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/revision-vehiculo/guía-detectar-si-el-auto-fue-utilizado-como-remis",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/como-contratar-el-seguro-al-comprar-un-vehiculo-usado",
+      "destination": "/guias/seguro-al-comprar-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/riesgos-ocultos-de-comprar-un-0km-versus-un-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/transferencia-de-vehiculos-usados-en-linea/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/cuando-es-el-mejor-momento-para-cambiar-el-vehiculo/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-verificar-que-un-auto-que-compras-no-es-robado/",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/corroborar-numero-chasis-motor-del-auto-comprar/",
+      "destination": "/guias/como-comprar-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/documentacion-vehiculo/transferencia-de-vehiculos-usados-en-linea",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/cuando-es-el-mejor-momento-para-cambiar-el-vehiculo",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-verificar-que-un-auto-que-compras-no-es-robado",
+      "destination": "/guias/guia-verificar-cuentakilometros-no-alterado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/guía-detectar-si-el-auto-fue-utilizado-como-remis/",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/solicitar-turno/7-consejos-para-la-compra-de-automovil/revision-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/corroborar-numero-chasis-motor-del-auto-comprar",
+      "destination": "/guias/como-comprar-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/riesgos-ocultos-de-comprar-un-0km-versus-un-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/revision-vehiculo/guía-detectar-si-el-auto-fue-utilizado-como-remis",
+      "destination": "/guias/como-detectar-si-auto-fue-remis",
+      "permanent": true
+    },
+    {
+      "source": "/solicitar-turno/7-consejos-para-la-compra-de-automovil/revision-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/riesgos-ocultos-de-comprar-un-0km-versus-un-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/transferencia-de-vehiculos-usados-en-linea/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/nuestra-garantia/17-como-verificar-que-un-auto-que-compras-no-es-robado/",
+      "destination": "/guias/como-saber-si-un-auto-es-robado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-negociar-la-compra-de-un-vehiculo-usado/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/corroborar-numero-chasis-motor-del-auto-comprar/",
+      "destination": "/guias/como-comprar-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/transferencia-de-vehiculos-usados-en-linea",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/nuestra-garantia/17-como-verificar-que-un-auto-que-compras-no-es-robado",
+      "destination": "/guias/como-saber-si-un-auto-es-robado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/guía-negociar-la-compra-de-un-vehiculo-usado",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/corroborar-numero-chasis-motor-del-auto-comprar",
+      "destination": "/guias/como-comprar-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/10-comprando-un-automovil-usado/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/10-comprando-un-automovil-usado",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/consecuencia-legal-de-bajar-el-cuentakilometros-de-un-auto/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/calculadora-de-costos-de-transferencia/",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/consecuencia-legal-de-bajar-el-cuentakilometros-de-un-auto",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/calculadora-de-costos-de-transferencia",
+      "destination": "/guias/calculadora-costos-transferencia-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/consecuencia-legal-de-bajar-el-cuentakilometros-de-un-auto/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber/",
+      "destination": "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/transferencia-del-automotor/revision-vehiculos/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/guias/consecuencia-legal-de-bajar-el-cuentakilometros-de-un-auto",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/transferencia-del-automotor/revision-vehiculos",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/nunca-compres-auto-cero-kilometro/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guia-para-la-compra-de-un-auto-usado/",
+      "destination": "/guias/como-calcular-precio-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/nunca-compres-auto-cero-kilometro",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guia-para-la-compra-de-un-auto-usado",
+      "destination": "/guias/como-calcular-precio-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/revision-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/08-online-para-comprar-autos/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/revision-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/nunca-compres-auto-cero-kilometro/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/08-online-para-comprar-autos",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/quien-paga-la-transferencia/",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/nunca-compres-auto-cero-kilometro",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/quien-paga-la-transferencia",
+      "destination": "/guias/quien-paga-la-transferencia-de-un-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/solicitar-turno/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Parque_Chacabuco/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Villa_del_Parque/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/7-consejos-para-la-compra-de-automovil/solicitar-turno",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Parque_Chacabuco",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Villa_del_Parque",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/verificacion-de-patente/",
+      "destination": "/guias/verificacion-patente-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/documentacion-vehiculo/verificacion-de-patente",
+      "destination": "/guias/verificacion-patente-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Villa_Devoto/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-compra-autos-alquiler/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/José_C._Paz/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/San_Vicente/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Villa_Devoto",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/tag/0km-usado-comprar-vehiculo/revision-vehiculos/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/comprar-un-vehiculo-usado/",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/guía-compra-autos-alquiler",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Avellaneda/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/José_C._Paz",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/San_Miguel/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/San_Vicente",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/tag/0km-usado-comprar-vehiculo/revision-vehiculos",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/comprar-un-vehiculo-usado",
+      "destination": "/guias/ventajas-desventajas-comprar-vehiculo-usado",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Avellaneda",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Caballito/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Ituzaingó/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/San_Miguel",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/venta-vehiculos/guia-para-vender-su-auto/",
+      "destination": "/guias/como-vender-auto-rapido-una-semana",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Caballito",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Ituzaingó",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/La_Plata/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Saavedra/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/venta-vehiculos/guia-para-vender-su-auto",
+      "destination": "/guias/como-vender-auto-rapido-una-semana",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/certificacion-de-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/certificación-de-vehículos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Almagro/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/La_Plata",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Saavedra",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/revision-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/comprar-un-auto-usado/",
+      "destination": "/guias/seguro-al-comprar-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/certificacion-de-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/certificación-de-vehículos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Almagro",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculoscertificacion-de-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/revision-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/comprar-un-auto-usado",
+      "destination": "/guias/seguro-al-comprar-auto-usado",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Tigre/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculoscertificacion-de-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/Tigre",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/solicitar-turno/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/guias/para-que-sirve-escanear-un-vehiculo/",
+      "destination": "/guias/para-que-sirve-escanear-un-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-vehiculos/solicitar-turno",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/30-recibo-de-sena-de-venta-de-vehiculo/",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/solicitar-turno/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil./",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/30-recibo-de-sena-de-venta-de-vehiculo",
+      "destination": "/guias/recibo-de-sena-de-venta-de-vehiculo",
+      "permanent": true
+    },
+    {
+      "source": "/guias/compra-vehiculos/solicitar-turno",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil.",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revisión-vehicular/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revision-automóvil",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/revisión-vehicular",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/informe-de-dominio/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos-para-la-compra-de-vehiculos",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/solicitar-turno/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/solicitar-turno",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/category/revision-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/category/revision-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/precio-de-vehiculos-usados/",
+      "destination": "/guias/como-calcular-precio-auto-usado-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/articulos-con-consejos/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/artículos-con-consejos/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/artículos-con-consejos",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos/",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/revision-vehiculos",
+      "destination": "/guias/revision-vehiculos-hibridos-argentina",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestoria/",
+      "destination": "/servicio-gestoria",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-/",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/consejos/compra-",
+      "destination": "/guias",
+      "permanent": true
+    },
+    {
+      "source": "/solicitar-turno/",
+      "destination": "/solicitar-turno",
+      "permanent": true
+    },
+    {
+      "source": "/pedi-turno/",
+      "destination": "/solicitar-turno",
+      "permanent": true
+    },
+    {
+      "source": "/pedi-turno",
+      "destination": "/solicitar-turno",
+      "permanent": true
+    },
+    {
       "source": "/consejos/(.*)",
       "destination": "/guias/$1",
       "permanent": true
