@@ -134,6 +134,44 @@ export default function ArticlePage() {
         return;
       }
 
+      // YouTube embed marker: [[youtube:https://www.youtube.com/watch?v=VIDEOID]]
+      // or [[youtube:VIDEOID]]
+      if (trimmed.startsWith('[[youtube:') && trimmed.endsWith(']]')) {
+        flushList();
+        const inside = trimmed.slice('[[youtube:'.length, -2).trim();
+        let videoId = inside;
+        try {
+          if (inside.startsWith('http')) {
+            const u = new URL(inside);
+            videoId = u.searchParams.get('v') || inside;
+          }
+        } catch {
+          // ignore
+        }
+
+        // Basic safety: only allow typical YouTube video id chars.
+        videoId = (videoId || '').replace(/[^a-zA-Z0-9_-]/g, '');
+
+        if (videoId) {
+          elements.push(
+            <div key={`yt-${key++}`} className="my-10">
+              <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">Video</h2>
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-[#2a2a2c]">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          );
+        }
+        return;
+      }
+
       if (trimmed.startsWith('## ')) {
         flushList();
         elements.push(

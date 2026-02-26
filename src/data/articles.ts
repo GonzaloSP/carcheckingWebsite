@@ -777,7 +777,12 @@ Para complementar, te puede servir:
 
 - [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
 - [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
-    `
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=No40lNXYgCA]]
+[[youtube:https://www.youtube.com/watch?v=G4HFFAVkBvU]]
+`
   },
   {
     id: '2',
@@ -937,7 +942,11 @@ Si querés ver cómo se aplica esto en una compra real, te puede servir:
 
 - [Inspección pre compra auto a domicilio: qué incluye y por qué conviene](/guias/inspeccion-pre-compra-auto-a-domicilio)
 - [Qué revisar antes de comprar un auto usado (checklist)](/guias/que-revisar-antes-de-comprar-auto-usado-checklist)
-    `
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=LMTtf5Vb0rk]]
+`
   },
   {
     id: '4',
@@ -1175,7 +1184,11 @@ La única forma de estar 100% seguro del estado real del vehículo es contratand
 ---
 
 **¿Va a comprar un vehículo usado?** No se arriesgue. En carChecking verificamos el kilometraje real y más de 350 puntos del vehículo.
-    `
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=6vmVeevZEoE]]
+`
   },
   {
     id: 'quien-paga-transferencia-auto-usado',
@@ -1271,7 +1284,11 @@ Antes de pagar una seña:
 Además de la documentación, lo crítico es el estado real del vehículo. En carChecking realizamos una **revisión precompra** (mecánica + electrónica + carrocería) y entregamos **informe escrito con fotos**.
 
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
-    `,
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=A9xAGi2W36o]]
+`,
   },
   {
     id: 'garantias-auto-usado',
@@ -1364,7 +1381,11 @@ Si la compra fue a un particular, la lógica es similar: reclamo por escrito →
 Si querés reducir el riesgo, podés sumar una **revisión precompra** (mecánica + electrónica + carrocería) con informe:
 
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
-    `,
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=BldBc8qwqfg]]
+`,
   },
   {
     id: 'recibo-de-sena-pdf',
@@ -1571,7 +1592,11 @@ No al 100%. Si te interesa verificarlo, mirá esta guía: [cómo verificar que e
 Eso baja el valor (o directamente hace que no convenga comprarlo). Pedí un **informe de dominio** antes de señar.
 
 - **Servicio de gestoría:** [/servicio-gestoria](/servicio-gestoria)
-    `,
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=a2iZLzLHSfw]]
+`,
   },
   {
     id: 'vendedor-no-firma-08',
@@ -2148,6 +2173,10 @@ La verificación física es un filtro importante para detectar autos adulterados
 Antes de pagar, combiná **revisión técnica** + **papeles**.
 
 - [/solicitar-turno](/solicitar-turno)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=wHdFwi_pw0g]]
 ` ,
   },
   {
@@ -2354,6 +2383,10 @@ No necesariamente. Hay concesionarias muy serias y otras que trabajan mal. La di
 3) Hacé una revisión precompra (sí, también en agencia).
 
 - [/solicitar-turno](/solicitar-turno)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=XrM4sVW35CE]]
 ` ,
   },
   {
@@ -2396,6 +2429,10 @@ Si querés acortar tiempos:
 
 Y si necesitás asistencia:
 - [/servicio-gestoria](/servicio-gestoria)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=AdtFHovNL60]]
 ` ,
   },
   {
@@ -2445,6 +2482,10 @@ Si el auto se roba y la póliza está a nombre del vendedor, **quien cobra es el
 
 Para el resto del proceso de compra:
 - [Cómo comprar un auto usado en Argentina](/guias/como-comprar-auto-usado-argentina)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=BBO4YA7Jxis]]
 ` ,
   },
   {
@@ -2494,6 +2535,11 @@ Guía complementaria:
 
 En estos casos, la inspección precompra es clave.
 - [/solicitar-turno](/solicitar-turno)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=KdO1v8Dll9w]]
+[[youtube:https://www.youtube.com/watch?v=RVBU_8sTQSk]]
 ` ,
   },
   {
@@ -2540,6 +2586,10 @@ En general:
 
 - [Cómo saber el kilometraje real sin revisarlo](/guias/como-saber-kilometraje-real-sin-revisar)
 - [Guía para verificar que el cuentakilómetros no ha sido alterado](/guias/guia-verificar-cuentakilometros-no-alterado)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=rZJg3ZWRjNg]]
 ` ,
   },
   {
@@ -2765,6 +2815,10 @@ Si estás comprando, combiná:
 - firma correcta.
 
 Guía: [Qué papeles revisar al comprar un auto usado](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=o6014tzCVbE]]
 ` ,
   },
   {
@@ -2853,6 +2907,10 @@ Podés usar nuestra calculadora para estimar:
 Antes de pagar una seña grande, pedí:
 - informe de dominio,
 - chequeo de multas/deudas.
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=zxBm57E6z6Q]]
 ` ,
   },
   {
@@ -2926,6 +2984,10 @@ La excepción práctica: si ya contás con el **Formulario 08 firmado y certific
 
 Guía relacionada:
 - [Qué hacer si el vendedor no quiere firmar el 08](/guias/que-hacer-si-vendedor-no-firma-formulario-08)
+
+---
+
+[[youtube:https://www.youtube.com/watch?v=Bbmr4Xs4Ov0]]
 ` ,
   },
   {
