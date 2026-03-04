@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/multas.js": {
-      "maxDuration": 60
+      "maxDuration": 10
     }
   },
   "redirects": [
