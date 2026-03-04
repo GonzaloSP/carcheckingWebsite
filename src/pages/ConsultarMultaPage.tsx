@@ -179,7 +179,9 @@ export default function ConsultarMultaPage() {
     setVtvCordobaState({ status: 'loading', historial: [] });
     setVtvSantaFeState({ status: 'loading', historial: [] });
     setVtvCatamarcaState({ status: 'loading', historial: [] });
-    setGncState({ status: 'loading', records: [] });
+    // GNC/ENARGAS: show manual link immediately — captcha score too high for automated solving.
+    // The background fetch below may still succeed if ENARGAS changes their threshold.
+    setGncState({ status: 'manual', records: [], manualUrl: 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php' });
     setArbaState({ status: 'loading' });
     setAgipState({ status: 'loading' });
     setAcorState({ status: 'loading' });
@@ -209,19 +211,8 @@ export default function ConsultarMultaPage() {
       })
       .catch(() => setVtvState({ status: 'error', historial: [], error: 'No se pudo conectar con el portal VTV' }));
 
-    // GNC lookup (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=gnc`, { signal: AbortSignal.timeout(60_000) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.manualUrl) {
-          setGncState({ status: 'manual', records: [], manualUrl: data.manualUrl });
-        } else if (data.gnc !== undefined) {
-          setGncState({ status: data.gnc.length > 0 ? 'ok' : 'empty', records: data.gnc });
-        } else {
-          setGncState({ status: 'error', records: [], error: data.error || 'Error al consultar GNC' });
-        }
-      })
-      .catch(() => setGncState({ status: 'error', records: [], error: 'No se pudo conectar con ENARGAS' }));
+    // GNC/ENARGAS: CAPTCHA v3 score requirements exceed what automated solving can achieve.
+    // Manual link is shown immediately (set above). No API call needed until this changes.
 
     // ITV Córdoba (runs in parallel)
     fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba`, { signal: AbortSignal.timeout(60_000) })
@@ -915,31 +906,21 @@ export default function ConsultarMultaPage() {
                   {/* GNC tab */}
                   {activeTab === 'gnc' && (
                     <div className="mb-16">
-                      {!gncState || gncState.status === 'loading' ? (
-                        <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8 flex items-center gap-3">
-                          <Loader2 className="w-5 h-5 text-[#555] animate-spin" />
-                          <span className="text-[#B8B2AA]">Consultando GNC…</span>
-                        </div>
-                      ) : gncState.status === 'manual' ? (
+                      {!gncState || gncState.status === 'loading' || gncState.status === 'manual' || gncState.status === 'error' ? (
                         <div className="bg-[#141416] border border-[#3a3a2c] rounded-xl p-8 text-center">
                           <ExternalLink className="w-8 h-8 text-[#C8A161] mx-auto mb-3" />
-                          <p className="text-[#F4F1EC] font-semibold mb-2">Verificación manual requerida</p>
+                          <p className="text-[#F4F1EC] font-semibold mb-2">Consultar GNC en ENARGAS</p>
                           <p className="text-sm text-[#B8B2AA] mb-4 max-w-sm mx-auto">
-                            La consulta de GNC requiere completarla directamente en el portal de ENARGAS.
+                            El sistema de ENARGAS protege su acceso con captcha de alta seguridad. Ingresá directamente al portal oficial.
                           </p>
                           <a
-                            href={gncState.manualUrl}
+                            href={gncState?.manualUrl || 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary text-sm px-6 py-2.5 inline-flex items-center gap-2"
                           >
                             Consultar en ENARGAS <ExternalLink className="w-3.5 h-3.5" />
                           </a>
-                        </div>
-                      ) : gncState.status === 'error' ? (
-                        <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8 flex items-center gap-3">
-                          <XCircle className="w-5 h-5 text-[#555]" />
-                          <span className="text-sm text-[#555]">{gncState.error}</span>
                         </div>
                       ) : gncState.status === 'empty' ? (
                         <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8 text-center">
