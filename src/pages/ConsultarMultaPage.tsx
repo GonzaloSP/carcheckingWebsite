@@ -273,44 +273,53 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       })
       .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
 
-    fuentes.forEach(async ({ value }) => {
-      try {
-        const res = await fetch(
-          `/api/multas?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
-          { signal: AbortSignal.timeout(70_000) }
-        );
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          setResults(prev => prev && ({
-            ...prev,
-            [value]: { status: 'error', infracciones: [], error: data.error || 'Error desconocido' },
-          }));
-        } else if (data.manualUrl) {
-          setResults(prev => prev && ({
-            ...prev,
-            [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
-          }));
-        } else {
+    // Run jurisdiction queries with a concurrency limit so we don't fire 15+ requests at once.
+    // All are already set to 'loading' above, so the UI shows everything in progress immediately.
+    const CONCURRENCY = 4;
+    const queue = [...fuentes];
+    const worker = async () => {
+      while (queue.length > 0) {
+        const { value } = queue.shift()!;
+        try {
+          const res = await fetch(
+            `/api/multas?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
+            { signal: AbortSignal.timeout(70_000) }
+          );
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            setResults(prev => prev && ({
+              ...prev,
+              [value]: { status: 'error', infracciones: [], error: data.error || 'Error desconocido' },
+            }));
+          } else if (data.manualUrl) {
+            setResults(prev => prev && ({
+              ...prev,
+              [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
+            }));
+          } else {
+            setResults(prev => prev && ({
+              ...prev,
+              [value]: {
+                status: data.infracciones.length > 0 ? 'ok' : 'empty',
+                infracciones: data.infracciones,
+              },
+            }));
+          }
+        } catch (err: unknown) {
+          const isTimeout = err instanceof Error && err.name === 'TimeoutError';
           setResults(prev => prev && ({
             ...prev,
             [value]: {
-              status: data.infracciones.length > 0 ? 'ok' : 'empty',
-              infracciones: data.infracciones,
+              status: 'error',
+              infracciones: [],
+              error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
             },
           }));
         }
-      } catch (err: unknown) {
-        const isTimeout = err instanceof Error && err.name === 'TimeoutError';
-        setResults(prev => prev && ({
-          ...prev,
-          [value]: {
-            status: 'error',
-            infracciones: [],
-            error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
-          },
-        }));
       }
-    });
+    };
+    // Launch CONCURRENCY workers — each picks the next jurisdiction from the queue
+    Promise.all(Array.from({ length: CONCURRENCY }, worker));
   }
 
   const totalInfracciones = results
