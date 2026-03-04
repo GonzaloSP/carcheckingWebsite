@@ -106,7 +106,8 @@ export type AnalyticsEventName =
   | 'lead_submit'
   | 'article_view'
   | 'booking_view'
-  | 'blog_view';
+  | 'blog_view'
+  | 'multa_search';
 
 export function trackEvent(name: AnalyticsEventName, params: Record<string, any> = {}) {
   if (!isEnabled()) return;
