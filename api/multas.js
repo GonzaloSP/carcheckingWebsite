@@ -98,6 +98,44 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
   return result.data;
 }
 
+// ─── Capsolver v2 solver (faster than 2captcha for reCAPTCHA v2) ──────────────
+async function solveRecaptchaV2(siteKey, pageUrl) {
+  const capsolverKey = process.env.CAPSOLVER_API_KEY;
+
+  if (capsolverKey) {
+    const createRes = await axios.post(
+      'https://api.capsolver.com/createTask',
+      {
+        clientKey: capsolverKey,
+        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
+      },
+      { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+    );
+    if (createRes.data.errorId !== 0) throw new Error(`Capsolver v2 error: ${createRes.data.errorDescription}`);
+
+    // May already be ready in createTask response
+    if (createRes.data.solution?.gRecaptchaResponse) return createRes.data.solution.gRecaptchaResponse;
+
+    const taskId = createRes.data.taskId;
+    for (let i = 0; i < 24; i++) {
+      await new Promise(r => setTimeout(r, 3000));
+      const pollRes = await axios.post(
+        'https://api.capsolver.com/getTaskResult',
+        { clientKey: capsolverKey, taskId },
+        { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+      );
+      if (pollRes.data.errorId !== 0) throw new Error(`Capsolver v2 poll error: ${pollRes.data.errorDescription}`);
+      if (pollRes.data.status === 'ready') return pollRes.data.solution.gRecaptchaResponse;
+    }
+    throw new Error('Capsolver v2 timeout después de 2 minutos.');
+  }
+
+  // Fallback: 2captcha
+  const solver = getSolver();
+  const result = await solver.recaptcha(siteKey, pageUrl);
+  return result.data;
+}
+
 // ─── ANSV / SINAI (Nacional) ──────────────────────────────────────────────────
 async function fetchANSV(dominio) {
   if (!/^[A-Z]{3}\d{3}$/.test(dominio)) {
@@ -1508,10 +1546,8 @@ async function fetchAGIP(dominio) {
   const jar = new CookieJar();
   await http.get(PAGE_URL, { jar, withCredentials: true });
 
-  // 2. Solve reCAPTCHA v2
-  const solver  = getSolver();
-  const result  = await solver.recaptcha(SITE_KEY, PAGE_URL);
-  const captchaToken = result.data;
+  // 2. Solve reCAPTCHA v2 — Capsolver first (fast), 2captcha fallback
+  const captchaToken = await solveRecaptchaV2(SITE_KEY, PAGE_URL);
 
   // 3. POST GetDatos (plate lookup with captcha)
   const cookies = jar.getCookiesSync('https://lb.agip.gob.ar').map(c => `${c.key}=${c.value}`).join('; ');
