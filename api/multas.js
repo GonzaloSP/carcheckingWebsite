@@ -7,7 +7,7 @@
  *
  * Env vars required:
  *   TWOCAPTCHA_API_KEY  — 2captcha.com key (ansv, pba, caba; also rosario if no CAPSOLVER_API_KEY)
- *   CAPSOLVER_API_KEY   — capsolver.com key (optional; enables auto GNC/ENARGAS + Rosario — better v3 scores)
+ *   CAPSOLVER_API_KEY   — capsolver.com key (optional; enables auto Rosario — better v3 scores)
  */
 
 const axios = require('axios');
@@ -77,10 +77,13 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
     if (createRes.data.errorId !== 0) {
       throw new Error(`Capsolver error: ${createRes.data.errorDescription}`);
     }
+    // May already be ready in createTask response
+    if (createRes.data.solution?.gRecaptchaResponse) return createRes.data.solution.gRecaptchaResponse;
+
     const taskId = createRes.data.taskId;
 
-    for (let i = 0; i < 24; i++) {
-      await new Promise(r => setTimeout(r, 5000));
+    for (let i = 0; i < 30; i++) {
+      await new Promise(r => setTimeout(r, 2000));
       const pollRes = await axios.post(
         'https://api.capsolver.com/getTaskResult',
         { clientKey: capsolverKey, taskId },
@@ -257,7 +260,7 @@ async function fetchPBA(dominio) {
 
     return {
       acta:        i.nroActa   || i.nroCausa    || null,
-      fecha:       parseDate(i.fechaInfraccion  || i.fechaEmision || null),
+      fecha:       parseDate(i.fechaEmision || i.fechaInfraccion  || null),
       vencimiento: parseDate(i.fechaVencimiento || null),
       descripcion: infDesc || i.descripcionFalta || i.descripcion || null,
       lugar:       i.autoridadAplicacion || i.lugar || null,
@@ -272,25 +275,23 @@ async function fetchPBA(dominio) {
 }
 
 // ─── CABA ─────────────────────────────────────────────────────────────────────
+// Results are in input[name="actas[]"][data-json] checkboxes.
+// data-json: {numeroActa, fechaActa, tipoActa, montoActa, estadoReducidoActa, infracciones[{desc, lugar}]}
 async function fetchCABA(dominio) {
   const PAGE_URL = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/?actas=transito';
   const ENDPOINT = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/index.php';
   const SITE_KEY = '6LfcRGAlAAAAAJI0S2ABpxX_Wj56oioSE6y393OG';
+  const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
   const jar  = new CookieJar();
   const home = await http.get(PAGE_URL, {
     jar,
     withCredentials: true,
-    headers: {
-      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language': 'es-AR,es;q=0.9',
-    },
+    headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language': 'es-AR,es;q=0.9' },
   });
   const cookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
 
-  const solver = getSolver();
-  const captchaResult = await solver.recaptcha(SITE_KEY, PAGE_URL);
-  const captchaToken  = captchaResult.data;
+  const captchaToken = await solveRecaptchaV2(SITE_KEY, PAGE_URL);
 
   const formData = new URLSearchParams({
     tipo_consulta:          'Dominio',
@@ -302,6 +303,7 @@ async function fetchCABA(dominio) {
   const res = await http.post(ENDPOINT, formData.toString(), {
     headers: {
       'Content-Type':    'application/x-www-form-urlencoded',
+      'User-Agent':      UA,
       Referer:           PAGE_URL,
       Origin:            'https://buenosaires.gob.ar',
       Accept:            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -315,22 +317,27 @@ async function fetchCABA(dominio) {
   }
 
   const $ = cheerio.load(res.data);
-  if ($('h6').text().includes('No registrás infracciones')) return [];
+
+  // No infracciones
+  if ($('.libreDeuda-view').length > 0 || $('input[name="actas[]"]').length === 0) {
+    return [];
+  }
 
   const infracciones = [];
-  $('.card-access').each((_, card) => {
-    const $card  = $(card);
-    const getText = sel => $card.find(sel).first().text().trim() || null;
+  $('input[name="actas[]"]').each((_, el) => {
+    const raw = $(el).attr('data-json');
+    if (!raw) return;
+    let data;
+    try { data = JSON.parse(raw); } catch { return; }
+
+    const primera = (data.infracciones || [])[0] || {};
     infracciones.push({
-      acta:        getText('.acta-number, [data-acta], h6.mb-1') || getText('h6'),
-      fecha:       getText('.fecha, [data-fecha], small'),
-      descripcion: getText('.descripcion, p.card-text, .infraccion-desc'),
-      lugar:       getText('.lugar, .address'),
-      importe:
-        parseFloat(
-          (getText('.importe, .monto, .total') || '').replace(/[^0-9.,]/g, '').replace(',', '.')
-        ) || null,
-      estado:      $card.text().toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      acta:         data.numeroActa  || null,
+      fecha:        data.fechaActa   || null,
+      descripcion:  primera.desc     || data.tipoActa || null,
+      lugar:        primera.lugar    || null,
+      importe:      parseFloat(String(data.montoActa || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:       (data.estadoReducidoActa || 'pendiente').toLowerCase(),
       jurisdiccion: 'CABA',
     });
   });
@@ -1400,141 +1407,152 @@ async function fetchACORPatente(dominio) {
 async function fetchARBA(dominio) {
   const BASE     = 'https://app.arba.gov.ar/AvisoDeudas';
   const PAGE_URL = `${BASE}/?imp=1`;
-
-  // 1. Get captcha token
-  const tokenRes = await http.get(`${BASE}/captcha/token`, {
-    headers: { Referer: PAGE_URL, Accept: 'text/plain, */*' },
-  });
-  const captchaToken = String(tokenRes.data).trim();
-  if (!captchaToken) throw new Error('No se pudo obtener el token de captcha de ARBA.');
-
-  // 2. Get captcha image
-  const imgRes = await http.get(`${BASE}/captcha/imagen?token=${captchaToken}`, {
-    responseType: 'arraybuffer',
-    headers: { Referer: PAGE_URL },
-  });
-  const base64Image = Buffer.from(imgRes.data).toString('base64');
-
-  // 3. Solve image captcha — try Capsolver first (ImageToTextTask), then 2captcha normal
-  let captchaRespuesta;
+  const UA       = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
   const capsolverKey = process.env.CAPSOLVER_API_KEY;
 
-  if (capsolverKey) {
-    try {
-      const createRes = await axios.post('https://api.capsolver.com/createTask', {
-        clientKey: capsolverKey,
-        task: { type: 'ImageToTextTask', body: base64Image },
-      }, { headers: { 'Content-Type': 'application/json' }, timeout: 10000 });
+  // Helper: solve an image captcha (base64) — Capsolver first, then 2captcha
+  async function solveCaptchaImage(base64Image) {
+    if (capsolverKey) {
+      try {
+        const createRes = await axios.post('https://api.capsolver.com/createTask', {
+          clientKey: capsolverKey,
+          task: { type: 'ImageToTextTask', body: base64Image },
+        }, { headers: { 'Content-Type': 'application/json' }, timeout: 10000 });
 
-      if (createRes.data.errorId === 0) {
-        // Capsolver may resolve immediately in createTask response
-        captchaRespuesta = createRes.data.solution?.text;
-        if (!captchaRespuesta) {
-          const taskId = createRes.data.taskId;
-          for (let i = 0; i < 12; i++) {
-            await new Promise(r => setTimeout(r, 3000));
-            const pollRes = await axios.post('https://api.capsolver.com/getTaskResult',
-              { clientKey: capsolverKey, taskId },
-              { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
-            );
-            if (pollRes.data.errorId !== 0) break;
-            if (pollRes.data.status === 'ready') {
-              captchaRespuesta = pollRes.data.solution?.text;
-              break;
+        if (createRes.data.errorId === 0) {
+          let text = createRes.data.solution?.text;
+          if (!text) {
+            const taskId = createRes.data.taskId;
+            for (let i = 0; i < 8; i++) {
+              await new Promise(r => setTimeout(r, 2000));
+              const pollRes = await axios.post('https://api.capsolver.com/getTaskResult',
+                { clientKey: capsolverKey, taskId },
+                { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+              );
+              if (pollRes.data.errorId !== 0) break;
+              if (pollRes.data.status === 'ready') { text = pollRes.data.solution?.text; break; }
             }
           }
+          if (text) return text;
         }
-      }
-    } catch (_) { /* fall through to 2captcha */ }
-  }
-
-  if (!captchaRespuesta) {
-    // 2captcha fallback — single attempt (ERROR_NO_SLOT_AVAILABLE → manual)
+      } catch (_) { /* fall through */ }
+    }
+    // 2captcha fallback
     try {
-      const solver = getSolver();
-      const result = await solver.normal(base64Image);
-      captchaRespuesta = result.data;
-    } catch (_) { /* fall through to MANUAL_REQUIRED */ }
+      const result = await getSolver().normal(base64Image);
+      return result.data;
+    } catch (_) { return null; }
   }
 
-  if (!captchaRespuesta) {
-    const err = new Error('MANUAL_REQUIRED');
-    err.manualUrl = PAGE_URL;
-    throw err;
-  }
+  // 0. Establish session cookie once
+  const jar = new CookieJar();
+  await http.get(PAGE_URL, { jar, withCredentials: true, headers: { 'User-Agent': UA } });
 
-  // 4. POST to ARBA
-  const body = new URLSearchParams({
-    imp:               '1',
-    patente:           dominio,
-    'captcha-token':   captchaToken,
-    'captcha-action':  'objetoavisodeudas',
-    'captcha-respuesta': captchaRespuesta,
-  });
+  // Retry loop: get fresh token+image+solve on each attempt (in case captcha answer is wrong)
+  const MAX_ATTEMPTS = 2;
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    // 1. Get captcha token
+    const tokenRes = await http.get(`${BASE}/captcha/token`, {
+      jar, withCredentials: true,
+      headers: { Referer: PAGE_URL, Accept: 'text/plain, */*', 'User-Agent': UA },
+    });
+    const captchaToken = String(tokenRes.data).trim();
+    if (!captchaToken) throw new Error('No se pudo obtener el token de captcha de ARBA.');
 
-  const res = await http.post(`${BASE}/generarAviso.do`, body.toString(), {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Referer:        PAGE_URL,
-      Origin:         'https://app.arba.gov.ar',
-    },
-    validateStatus: () => true,
-    maxRedirects: 5,
-  });
+    // 2. Get captcha image
+    const imgRes = await http.get(`${BASE}/captcha/imagen?token=${captchaToken}`, {
+      jar, withCredentials: true, responseType: 'arraybuffer',
+      headers: { Referer: PAGE_URL, 'User-Agent': UA },
+    });
+    const base64Image = Buffer.from(imgRes.data).toString('base64');
 
-  // If we got redirected to a PDF — that means there IS debt
-  const finalUrl    = res.request?.res?.responseUrl || res.request?.responseURL || '';
-  const contentType = String(res.headers?.['content-type'] || '');
-  if (contentType.includes('pdf') || finalUrl.includes('.pdf')) {
-    return { tieneDeuda: true, periodos: [], pdfUrl: finalUrl };
-  }
+    // 3. Solve captcha
+    const captchaRespuesta = await solveCaptchaImage(base64Image);
+    if (!captchaRespuesta) {
+      const err = new Error('MANUAL_REQUIRED');
+      err.manualUrl = PAGE_URL;
+      throw err;
+    }
 
-  const html = String(res.data);
-  const $    = cheerio.load(html);
+    // 4. POST to ARBA
+    const body = new URLSearchParams({
+      imp:                 '1',
+      patente:             dominio,
+      'captcha-token':     captchaToken,
+      'captcha-action':    'objetoavisodeudas',
+      'captcha-respuesta': captchaRespuesta,
+    });
+    const res = await http.post(`${BASE}/generarAviso.do`, body.toString(), {
+      jar, withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Referer:        PAGE_URL,
+        Origin:         'https://app.arba.gov.ar',
+        'User-Agent':   UA,
+      },
+      validateStatus: () => true,
+      maxRedirects: 5,
+    });
 
-  // Captcha wrong → fall back to manual
-  if (/código de seguridad|captcha.*(incorrecto|inválido|error)/i.test(html)) {
-    const err = new Error('MANUAL_REQUIRED');
-    err.manualUrl = PAGE_URL;
-    throw err;
-  }
+    // Redirected to a PDF → has debt
+    const finalUrl    = res.request?.res?.responseUrl || res.request?.responseURL || '';
+    const contentType = String(res.headers?.['content-type'] || '');
+    if (contentType.includes('pdf') || finalUrl.includes('.pdf')) {
+      return { tieneDeuda: true, periodos: [], pdfUrl: finalUrl };
+    }
 
-  // "Sin deuda" message
-  if (/sin deuda|no registra deuda|no posee deuda|no tiene deuda/i.test(html)) {
+    const html = String(res.data);
+
+    // Captcha wrong → retry with fresh token+image (or give up on last attempt)
+    if (/captcha.*(incorrecto|inv[áa]lido|error)|c[oó]digo.*incorrecto/i.test(html)) {
+      if (attempt < MAX_ATTEMPTS - 1) continue;
+      const err = new Error('MANUAL_REQUIRED');
+      err.manualUrl = PAGE_URL;
+      throw err;
+    }
+
+    const $ = cheerio.load(html);
+    const alertDangerText  = ($('.alert-danger p').text()  || $('.alert-danger').text()).trim();
+    const alertSuccessText = ($('.alert-success p').text() || $('.alert-success').text()).trim();
+    const alertWarningText = ($('.alert-warning p').text() || $('.alert-warning').text()).trim();
+
+    // Not found
+    if (/inexistente|no se encontr|no existe|no.*v[aá]lid/i.test(alertDangerText) ||
+        /inexistente|no se encontr|no existe/i.test(html)) {
+      return { tieneDeuda: null, periodos: [], error: 'Patente no encontrada en ARBA' };
+    }
+
+    // Sin deuda
+    if (/sin deuda|no registra deuda|no posee deuda|no tiene deuda|libre de deuda/i.test(alertSuccessText) ||
+        /sin deuda|no registra deuda|no posee deuda|no tiene deuda|libre de deuda/i.test(html)) {
+      return { tieneDeuda: false, periodos: [] };
+    }
+
+    // Parse debt table
+    const fixEncoding = s => s ? s.replace(/A[\u00b1\u00f1\ufffd]o/g, 'Año') : s;
+    const periodos = [];
+    $('table tr').each((i, row) => {
+      if (i === 0) return;
+      const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
+      if (cols.length >= 2 && cols[0]) {
+        const importeStr = (cols[cols.length - 1] || '').replace(/[^0-9.,]/g, '').replace(',', '.');
+        const importeVal = parseFloat(importeStr) || null;
+        const importe = (importeVal && !(Number.isInteger(importeVal) && importeVal >= 1900 && importeVal <= 2100))
+          ? importeVal : null;
+        periodos.push({ periodo: fixEncoding(cols[0]) || null, concepto: fixEncoding(cols[1]) || null, importe });
+      }
+    });
+    if (periodos.length > 0) {
+      return { tieneDeuda: true, periodos, total: periodos.reduce((s, p) => s + (p.importe || 0), 0) };
+    }
+
+    // Warning alert without table = has debt but no detail
+    if (alertWarningText || /importe.*\$|cuota|vencimiento|deuda.*\$/i.test(html)) {
+      return { tieneDeuda: true, periodos: [] };
+    }
+
     return { tieneDeuda: false, periodos: [] };
   }
-
-  // Not found
-  if (/no se encontr|dominio no.{0,10}válido|patente no.{0,10}válida|no existe/i.test(html)) {
-    return { tieneDeuda: null, periodos: [], error: 'Patente no encontrada en ARBA' };
-  }
-
-  // Parse debt table
-  const periodos = [];
-  $('table tr').each((i, row) => {
-    if (i === 0) return;
-    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
-    if (cols.length >= 2 && cols[0]) {
-      const importeStr = (cols[cols.length - 1] || '').replace(/[^0-9.,]/g, '').replace(',', '.');
-      periodos.push({
-        periodo:  cols[0] || null,
-        concepto: cols[1] || null,
-        importe:  parseFloat(importeStr) || null,
-      });
-    }
-  });
-
-  if (periodos.length > 0) {
-    const total = periodos.reduce((s, p) => s + (p.importe || 0), 0);
-    return { tieneDeuda: true, periodos, total };
-  }
-
-  // Generic debt mention
-  if (/deuda|debe\b|importe/i.test(html)) {
-    return { tieneDeuda: true, periodos: [] };
-  }
-
-  return { tieneDeuda: false, periodos: [] };
 }
 
 // ─── AGIP — Deuda de Patentes (CABA) ──────────────────────────────────────────
@@ -1681,55 +1699,6 @@ async function fetchVTVCatamarca(dominio) {
       planta:             item.certificado       || null,
     };
   });
-}
-
-// ─── GNC — ENARGAS ────────────────────────────────────────────────────────────
-// reCAPTCHA v3 — 2captcha tokens rejected (same as Rosario).
-// Requires CAPSOLVER_API_KEY for automated solving.
-async function fetchGNC(dominio) {
-  const PAGE_URL = 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php';
-  const POST_URL = 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/cargar-detalle-previo.php';
-  const SITE_KEY = '6LdT2SwfAAAAAF_SNfsqNG_JFlYSe4BlC7-vtA2e';
-  const ACTION   = 'sicgnc_consulta_dominio';
-
-  // Always attempt automatic solve (capsolver if key set, else 2captcha fallback)
-  const captchaToken = await solveRecaptchaV3(SITE_KEY, PAGE_URL, ACTION, 0.3);
-
-  // POST exactly what the ENARGAS JS sends: tipo_consulta, dominio, token, action
-  const body = `tipo_consulta=Dominio&dominio=${encodeURIComponent(dominio)}&token=${encodeURIComponent(captchaToken)}&action=${ACTION}`;
-
-  const res = await http.post(POST_URL, body, {
-    headers: {
-      'Content-Type':    'application/x-www-form-urlencoded',
-      'Referer':         PAGE_URL,
-      'Origin':          'https://www.enargas.gob.ar',
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-  });
-
-  const html = String(res.data);
-  if (html.includes('alert-warning') || html.includes('no pudo ser procesada')) {
-    // Token was rejected (low score) — fall back to manual
-    const err = new Error('MANUAL_REQUIRED');
-    err.manualUrl = PAGE_URL;
-    throw err;
-  }
-  if (/no registra|no se encontr|sin resultado/i.test(html)) return [];
-
-  const $ = cheerio.load(html);
-  const records = [];
-  $('table tr').each((i, row) => {
-    if (i === 0) return;
-    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
-    if (cols.length < 2) return;
-    records.push({
-      operador:          cols[1] || null,
-      fecha_operacion:   parseDate(cols[2] || null),
-      tipo_habilitacion: cols[3] || null,
-      vencimiento:       parseDate(cols[4] || null),
-    });
-  });
-  return records;
 }
 
 // ─── Infratrack REST API — Berisso, Ezeiza, Lanús ─────────────────────────────
@@ -2011,6 +1980,29 @@ async function fetchAvellaneda(dominio) {
   }));
 }
 
+// ─── reCAPTCHA v3 verification ────────────────────────────────────────────────
+async function verifyCaptcha(token) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secretKey) return true; // not configured → skip (local dev)
+  if (!token)     return false;
+  try {
+    const r = await axios.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      new URLSearchParams({ secret: secretKey, response: token }),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 5000 }
+    );
+    const d = r.data;
+    // Accept genuine first-use tokens (score ≥ 0.5) OR tokens already consumed by a
+    // parallel call from the same form submit (timeout-or-duplicate means the first call
+    // already proved the user is legit).
+    if (d.success && d.score >= 0.5) return true;
+    if ((d['error-codes'] || []).includes('timeout-or-duplicate')) return true;
+    return false;
+  } catch (_) {
+    return true; // don't block users if Google's API is unreachable
+  }
+}
+
 // ─── Vercel Handler ───────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
   // CORS
@@ -2021,7 +2013,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Método no permitido.' });
 
-  const { dominio, fuente = 'ansv' } = req.query;
+  const { dominio, fuente = 'ansv', rcToken } = req.query;
 
   if (!dominio) return res.status(400).json({ error: 'Falta el parámetro dominio.' });
 
@@ -2031,6 +2023,9 @@ module.exports = async function handler(req, res) {
       .status(400)
       .json({ error: 'Dominio inválido. Usar formato antiguo (ABC123) o Mercosur (AB123CD).' });
   }
+
+  const captchaOk = await verifyCaptcha(rcToken);
+  if (!captchaOk) return res.status(403).json({ error: 'Verificación de seguridad fallida. Recargá la página e intentá de nuevo.' });
 
   try {
     // ── DNRPA vehicle lookup ─────────────────────────────────────────────────
@@ -2043,12 +2038,6 @@ module.exports = async function handler(req, res) {
     if (fuente === 'vtv') {
       const historial = await fetchVTV(clean);
       return res.status(200).json({ dominio: clean, fuente, historial });
-    }
-
-    // ── GNC ──────────────────────────────────────────────────────────────────
-    if (fuente === 'gnc') {
-      const gnc = await fetchGNC(clean);
-      return res.status(200).json({ dominio: clean, fuente, gnc });
     }
 
     // ── ITV Córdoba ──────────────────────────────────────────────────────────
@@ -2112,7 +2101,6 @@ module.exports = async function handler(req, res) {
       case 'roquesaenzpena':  infracciones = await fetchSIGEINMunicipio('rsp.sigein.net', 'Roque Sáenz Peña', clean);       break;
       case 'villaangostura':  infracciones = await fetchSIGEINMunicipio('vla.sigein.net', 'Villa La Angostura', clean);     break;
       case 'riotercero':      infracciones = await fetchSIGEINMunicipio('riotercero.sigein.net', 'Río Tercero', clean);     break;
-      case 'rionegro':        infracciones = await fetchSIGEINMunicipio('rn.sigein.net', 'Río Negro', clean);               break;
       case 'hurlingham':      infracciones = await fetchHurlingham(clean);                        break;
       case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
       case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;
@@ -2125,7 +2113,7 @@ module.exports = async function handler(req, res) {
     // MANUAL_REQUIRED: portal needs captcha that can't be automated — send a 200 with manualUrl
     if (err.message === 'MANUAL_REQUIRED') {
       const manualUrl = err.manualUrl || null;
-      if (fuente === 'gnc')        return res.status(200).json({ dominio: clean, fuente, gnc: [], manualUrl });
+
       if (fuente === 'arba')       return res.status(200).json({ dominio: clean, fuente, arba: { tieneDeuda: null, periodos: [], manualUrl } });
       if (fuente === 'vtv-santafe') return res.status(200).json({ dominio: clean, fuente, historial: [], manualUrl });
       return res.status(200).json({ dominio: clean, fuente, infracciones: [], manualUrl });

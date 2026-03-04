@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/multas.js": {
+      "maxDuration": 60
+    }
+  },
   "redirects": [
     {
       "source": "/precio-de-vehiculos-usados",

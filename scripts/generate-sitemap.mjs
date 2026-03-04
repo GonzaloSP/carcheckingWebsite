@@ -29,6 +29,12 @@ const locationsSrc = fs.readFileSync(locationsPath, 'utf8');
 const locationSlugRe = /\{\s*slug:\s*'([^']+)'\s*,\s*name:\s*'[^']+'\s*\}/g;
 const locationSlugs = [...locationsSrc.matchAll(locationSlugRe)].map((m) => m[1]);
 
+// Multa jurisdiction pages
+const multaJurisdiccionesPath = path.resolve('src/data/multa-jurisdictions.ts');
+const multaJurisdiccionesSrc = fs.readFileSync(multaJurisdiccionesPath, 'utf8');
+const multaSlugRe = /slug:\s*'([^']+)'/g;
+const multaSlugs = [...multaJurisdiccionesSrc.matchAll(multaSlugRe)].map((m) => m[1]);
+
 const now = new Date();
 const fmt = (d) => d.toISOString().slice(0, 10);
 
@@ -36,7 +42,14 @@ const urls = [
   { loc: '/', changefreq: 'weekly', priority: '1.0', lastmod: fmt(now) },
   { loc: '/guias', changefreq: 'weekly', priority: '0.8', lastmod: fmt(now) },
   { loc: '/solicitar-turno', changefreq: 'monthly', priority: '0.9', lastmod: fmt(now) },
+  { loc: '/consultar-multa', changefreq: 'weekly', priority: '0.85', lastmod: fmt(now) },
   { loc: '/consejos/documentacion-vehiculo/recibo-de-sena-de-venta-de-vehiculo', changefreq: 'yearly', priority: '0.5', lastmod: fmt(now) },
+  ...multaSlugs.map((slug) => ({
+    loc: `/consultar-multa/${slug}`,
+    changefreq: 'weekly',
+    priority: '0.75',
+    lastmod: fmt(now),
+  })),
   ...locationSlugs.map((slug) => ({
     loc: `/revision-vehiculo-en/${slug}`,
     changefreq: 'monthly',

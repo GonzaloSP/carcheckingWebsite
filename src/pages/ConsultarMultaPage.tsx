@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Search, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronUp, Loader2, ExternalLink } from 'lucide-react';
@@ -6,38 +7,9 @@ import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
 import FooterSection from '../sections/FooterSection';
 import { trackEvent } from '../lib/analytics';
+import { JURISDICCIONES_MULTA } from '../data/multa-jurisdictions';
 
-const FUENTES = [
-  { value: 'ansv',            label: 'ANSV / SINAI',               sub: 'Nacional',             manualUrl: null },
-  { value: 'pba',             label: 'Provincia de Buenos Aires',  sub: 'Buenos Aires',         manualUrl: null },
-  { value: 'caba',            label: 'CABA',                       sub: 'Ciudad Autónoma',      manualUrl: null },
-  { value: 'cordoba',         label: 'Córdoba Caminera',           sub: 'Córdoba',              manualUrl: null },
-  { value: 'santafe',         label: 'Santa Fe',                   sub: 'Juzgado Virtual',      manualUrl: null },
-  { value: 'rosario',         label: 'Rosario',                    sub: 'Municipalidad',        manualUrl: null },
-  { value: 'mendoza',         label: 'Mendoza Ciudad',             sub: 'Juzgados de Tránsito', manualUrl: null },
-  { value: 'mendozacaminera', label: 'Mendoza Caminera',           sub: 'Policía Caminera',     manualUrl: null },
-  { value: 'salta',           label: 'Salta Capital',              sub: 'DGR Salta',            manualUrl: null },
-  { value: 'neuquen',         label: 'Neuquén Capital',            sub: 'Fotomultas',           manualUrl: null },
-  { value: 'santarosa',       label: 'Santa Rosa',                 sub: 'La Pampa',             manualUrl: null },
-  { value: 'corrientes',      label: 'Corrientes',                 sub: 'SIGEIN',               manualUrl: null },
-  { value: 'entrerios',       label: 'Entre Ríos',                 sub: 'Monitoreo Vial',       manualUrl: null },
-  { value: 'misiones',        label: 'Misiones',                   sub: 'Provincia',            manualUrl: null },
-  { value: 'posadas',         label: 'Posadas',                    sub: 'Municipio Misiones',   manualUrl: null },
-  { value: 'chaco',           label: 'Chaco',                      sub: 'Policía Caminera',     manualUrl: null },
-  { value: 'avellaneda',      label: 'Avellaneda',                 sub: 'SIAC',                 manualUrl: null },
-  { value: 'lanus',           label: 'Lanús',                      sub: 'Infratrack',           manualUrl: null },
-  { value: 'berisso',         label: 'Berisso',                    sub: 'Infratrack',           manualUrl: null },
-  { value: 'ezeiza',          label: 'Ezeiza',                     sub: 'Infratrack',           manualUrl: null },
-  { value: 'lomasdezamora',   label: 'Lomas de Zamora',            sub: 'Municipalidad',        manualUrl: null },
-  { value: 'tresdefebrero',   label: 'Tres de Febrero',            sub: 'Municipalidad',        manualUrl: null },
-  { value: 'hurlingham',      label: 'Hurlingham',                 sub: 'GobDigital',           manualUrl: null },
-  { value: 'canuelas',        label: 'Cañuelas',                   sub: 'SIGEIN',               manualUrl: null },
-  { value: 'sanvicente',      label: 'San Vicente',                sub: 'SIGEIN',               manualUrl: null },
-  { value: 'roquesaenzpena',  label: 'Roque Sáenz Peña',           sub: 'SIGEIN',               manualUrl: null },
-  { value: 'villaangostura',  label: 'Villa La Angostura',         sub: 'SIGEIN',               manualUrl: null },
-  { value: 'riotercero',      label: 'Río Tercero',                sub: 'SIGEIN',               manualUrl: null },
-  { value: 'rionegro',        label: 'Río Negro',                  sub: 'SIGEIN',               manualUrl: null },
-];
+const FUENTES = JURISDICCIONES_MULTA;
 
 interface Infraccion {
   acta:         string | null;
@@ -91,19 +63,6 @@ interface VTVState {
   error?:   string;
 }
 
-interface GNCRecord {
-  operador:          string | null;
-  fecha_operacion:   string | null;
-  tipo_habilitacion: string | null;
-  vencimiento:       string | null;
-}
-
-interface GNCState {
-  status:    'loading' | 'ok' | 'empty' | 'error' | 'manual';
-  records:   GNCRecord[];
-  manualUrl?: string;
-  error?:    string;
-}
 
 interface VTVSimpleEntry {
   fecha_verificacion: string | null;
@@ -152,24 +111,27 @@ interface AGIPState {
   error?:    string;
 }
 
-export default function ConsultarMultaPage() {
+export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: string } = {}) {
+  const jurisdiccion = defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined;
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
   const [vehiculo, setVehiculo]           = useState<VehiculoInfo | null>(null);
   const [vtvState, setVtvState]           = useState<VTVState | null>(null);
-  const [gncState, setGncState]           = useState<GNCState | null>(null);
+
   const [vtvCordobaState, setVtvCordobaState]   = useState<VTVSimpleState | null>(null);
   const [vtvSantaFeState, setVtvSantaFeState]   = useState<VTVSimpleState | null>(null);
   const [vtvCatamarcaState, setVtvCatamarcaState] = useState<VTVSimpleState | null>(null);
   const [acorState, setAcorState]             = useState<ACORState | null>(null);
   const [arbaState, setArbaState]             = useState<ARBAState | null>(null);
   const [agipState, setAgipState]             = useState<AGIPState | null>(null);
-  const [activeTab, setActiveTab]         = useState<'multas' | 'vtv' | 'gnc' | 'patentes'>('multas');
-  const [activeFuentes, setActiveFuentes] = useState(FUENTES);
+  const [activeTab, setActiveTab]         = useState<'multas' | 'vtv' | 'patentes'>('multas');
+  const [activeFuentes, setActiveFuentes] = useState(jurisdiccion ? [jurisdiccion] : FUENTES);
   const [expanded, setExpanded]           = useState<string | null>(null);
   const [searched, setSearched]           = useState('');
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const clean = dominio.replace(/\s/g, '').toUpperCase();
     if (clean.length < 6 || clean.length > 7) return;
@@ -182,7 +144,8 @@ export default function ConsultarMultaPage() {
 
     // ANSV only accepts old-format plates (ABC123 = 6 chars); hide for Mercosur (AB123CD = 7 chars)
     const isOldFormat = /^[A-Z]{3}\d{3}$/.test(clean);
-    const fuentes = isOldFormat ? FUENTES : FUENTES.filter(f => f.value !== 'ansv');
+    const baseFuentes = jurisdiccion ? [jurisdiccion] : FUENTES;
+    const fuentes = isOldFormat ? baseFuentes : baseFuentes.filter(f => f.value !== 'ansv');
     setActiveFuentes(fuentes);
 
     const initial: Record<string, JurisdiccionState> = {};
@@ -192,16 +155,18 @@ export default function ConsultarMultaPage() {
     setVtvCordobaState({ status: 'loading', historial: [] });
     setVtvSantaFeState({ status: 'loading', historial: [] });
     setVtvCatamarcaState({ status: 'loading', historial: [] });
-    // GNC/ENARGAS: show manual link immediately — captcha score too high for automated solving.
-    // The background fetch below may still succeed if ENARGAS changes their threshold.
-    setGncState({ status: 'manual', records: [], manualUrl: 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php' });
     setArbaState({ status: 'loading' });
     setAgipState({ status: 'loading' });
     setAcorState({ status: 'loading' });
     setActiveTab('multas');
 
+    // Get reCAPTCHA v3 token (invisible — no user interaction)
+    let rcToken = '';
+    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
+
     // DNRPA vehicle lookup (runs in parallel with multa queries)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=dnrpa`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         if (data.vehiculo) {
@@ -213,7 +178,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
 
     // VTV lookup (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -224,11 +189,9 @@ export default function ConsultarMultaPage() {
       })
       .catch(() => setVtvState({ status: 'error', historial: [], error: 'No se pudo conectar con el portal VTV' }));
 
-    // GNC/ENARGAS: CAPTCHA v3 score requirements exceed what automated solving can achieve.
-    // Manual link is shown immediately (set above). No API call needed until this changes.
 
     // ITV Córdoba (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba`, { signal: AbortSignal.timeout(60_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, { signal: AbortSignal.timeout(60_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -240,7 +203,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
 
     // RTO Santa Fe (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe`, { signal: AbortSignal.timeout(90_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, { signal: AbortSignal.timeout(90_000) })
       .then(r => r.json())
       .then(data => {
         if (data.manualUrl) {
@@ -254,7 +217,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
 
     // RTO Catamarca (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca`, { signal: AbortSignal.timeout(30_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, { signal: AbortSignal.timeout(30_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -266,7 +229,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
 
     // ACOR Corrientes patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes`, { signal: AbortSignal.timeout(60_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, { signal: AbortSignal.timeout(60_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.acor;
@@ -277,7 +240,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
 
     // ARBA patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=arba`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.arba;
@@ -294,7 +257,7 @@ export default function ConsultarMultaPage() {
       .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
 
     // AGIP patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=agip`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.agip;
@@ -313,7 +276,7 @@ export default function ConsultarMultaPage() {
     fuentes.forEach(async ({ value }) => {
       try {
         const res = await fetch(
-          `/api/multas?dominio=${encodeURIComponent(clean)}&fuente=${value}`,
+          `/api/multas?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
           { signal: AbortSignal.timeout(70_000) }
         );
         const data = await res.json();
@@ -363,10 +326,16 @@ export default function ConsultarMultaPage() {
   return (
     <HelmetProvider>
       <SEO
-        title="Consultar Multas por Patente en Argentina | carChecking"
-        description="Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones, Avellaneda, Lanús, Berisso, Ezeiza, Lomas de Zamora, Tres de Febrero, Hurlingham, Cañuelas y más."
-        keywords="consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires, multas Avellaneda, multas Lanus, multas GBA"
-        canonicalUrl="/consultar-multa"
+        title={jurisdiccion
+          ? `Consultar Multas en ${jurisdiccion.label} | carChecking`
+          : 'Consultar Multas por Patente en Argentina | carChecking'}
+        description={jurisdiccion
+          ? `Consultá multas e infracciones de tránsito en ${jurisdiccion.label} por número de patente. Verificación gratuita e instantánea en los registros oficiales.`
+          : 'Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones, Avellaneda, Lanús, Berisso, Ezeiza, Lomas de Zamora, Tres de Febrero, Hurlingham, Cañuelas y más.'}
+        keywords={jurisdiccion
+          ? `multas ${jurisdiccion.label}, consultar multas ${jurisdiccion.label}, infracciones ${jurisdiccion.label}, multas patente ${jurisdiccion.label}`
+          : 'consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires, multas Avellaneda, multas Lanus, multas GBA'}
+        canonicalUrl={jurisdiccion ? `/consultar-multa/${jurisdiccion.slug}` : '/consultar-multa'}
       />
 
       <div className="relative bg-[#0B0B0D] min-h-screen">
@@ -381,17 +350,28 @@ export default function ConsultarMultaPage() {
               <div className="flex items-center gap-2 text-sm text-[#B8B2AA] mb-6">
                 <Link to="/" className="hover:text-[#C8A161] transition-colors">Inicio</Link>
                 <span>/</span>
-                <span className="text-[#C8A161]">Consultar Multa</span>
+                {jurisdiccion ? (
+                  <>
+                    <Link to="/consultar-multa" className="hover:text-[#C8A161] transition-colors">Consultar Multa</Link>
+                    <span>/</span>
+                    <span className="text-[#C8A161]">{jurisdiccion.label}</span>
+                  </>
+                ) : (
+                  <span className="text-[#C8A161]">Consultar Multa</span>
+                )}
               </div>
 
               {/* Header */}
               <div className="mb-10">
                 <h1 className="text-4xl md:text-5xl font-bold text-[#F4F1EC] mb-4 leading-tight">
-                  Consultar Multas por Patente en Argentina
+                  {jurisdiccion
+                    ? `Consultar Multas en ${jurisdiccion.label}`
+                    : 'Consultar Multas por Patente en Argentina'}
                 </h1>
                 <p className="text-lg text-[#B8B2AA] leading-relaxed max-w-2xl">
-                  Ingresá la patente y consultamos simultáneamente los registros oficiales de
-                  las {FUENTES.length} principales jurisdicciones del país.
+                  {jurisdiccion
+                    ? `Ingresá la patente y consultamos los registros oficiales de infracciones de ${jurisdiccion.label}.`
+                    : `Ingresá la patente y consultamos simultáneamente los registros oficiales de las ${FUENTES.length} principales jurisdicciones del país.`}
                 </p>
               </div>
 
@@ -428,7 +408,9 @@ export default function ConsultarMultaPage() {
                   </div>
                 </div>
                 <p className="text-xs text-[#555] mt-3">
-                  Formato antiguo (ABC123) o Mercosur (AB123CD) · Se consultan {FUENTES.length} jurisdicciones en simultáneo
+                  {jurisdiccion
+                    ? `Formato antiguo (ABC123) o Mercosur (AB123CD) · Consulta en ${jurisdiccion.label}`
+                    : `Formato antiguo (ABC123) o Mercosur (AB123CD) · Se consultan ${FUENTES.length} jurisdicciones en simultáneo`}
                 </p>
               </form>
 
@@ -512,8 +494,8 @@ export default function ConsultarMultaPage() {
 
                   {/* Tab navigation */}
                   <div className="flex flex-wrap gap-2 mb-5">
-                    {(['multas', 'vtv', 'gnc', 'patentes'] as const).map(tab => {
-                      const labels = { multas: 'Multas', vtv: 'VTV', gnc: 'GNC', patentes: 'Patentes' };
+                    {(['multas', 'vtv', 'patentes'] as const).map(tab => {
+                      const labels = { multas: 'Multas', vtv: 'VTV', patentes: 'Patentes' };
                       const arbaDebt = arbaState?.tieneDeuda === true;
                       const agipDebt = agipState?.tieneDeuda === true;
                       const acorDebt = acorState?.tieneDeuda === true;
@@ -523,7 +505,6 @@ export default function ConsultarMultaPage() {
                       const badge =
                         tab === 'multas' && totalInfracciones > 0 ? String(totalInfracciones)
                         : tab === 'vtv' && anyVtvOk ? (anyVtvVencida ? '!' : '✓')
-                        : tab === 'gnc' && gncState?.status === 'ok' ? String(gncState.records.length)
                         : tab === 'patentes' && (arbaDebt || agipDebt || acorDebt) ? '!'
                         : null;
                       return (
@@ -759,7 +740,7 @@ export default function ConsultarMultaPage() {
                                   {latest.fecha_verificacion && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Fecha verificación</p><p className="text-sm text-[#F4F1EC]">{latest.fecha_verificacion}</p></div>}
                                   {latest.fecha_vencimiento && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Vencimiento</p><p className={`text-sm font-semibold ${latest.vigente ? 'text-green-400' : 'text-amber-400'}`}>{latest.fecha_vencimiento}</p></div>}
                                   {latest.planta && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Planta</p><p className="text-sm text-[#F4F1EC]">{latest.planta}</p></div>}
-                                  {latest.importe && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Importe</p><p className="text-sm font-bold text-[#C8A161]">${Number(latest.importe).toLocaleString('es-AR')}</p></div>}
+                                  {latest.importe && !isNaN(Number(latest.importe)) && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Importe</p><p className="text-sm font-bold text-[#C8A161]">${Number(latest.importe).toLocaleString('es-AR')}</p></div>}
                                 </div>
                                 {latest.defectos.length > 0 && (
                                   <div className="mt-3 pt-3 border-t border-[#2a2a2c]">
@@ -913,74 +894,6 @@ export default function ConsultarMultaPage() {
                           </div>
                         );
                       })()}
-                    </div>
-                  )}
-
-                  {/* GNC tab */}
-                  {activeTab === 'gnc' && (
-                    <div className="mb-16">
-                      {!gncState || gncState.status === 'loading' || gncState.status === 'manual' || gncState.status === 'error' ? (
-                        <div className="bg-[#141416] border border-[#3a3a2c] rounded-xl p-8 text-center">
-                          <ExternalLink className="w-8 h-8 text-[#C8A161] mx-auto mb-3" />
-                          <p className="text-[#F4F1EC] font-semibold mb-2">Consultar GNC en ENARGAS</p>
-                          <p className="text-sm text-[#B8B2AA] mb-4 max-w-sm mx-auto">
-                            El sistema de ENARGAS protege su acceso con captcha de alta seguridad. Ingresá directamente al portal oficial.
-                          </p>
-                          <a
-                            href={gncState?.manualUrl || 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-primary text-sm px-6 py-2.5 inline-flex items-center gap-2"
-                          >
-                            Consultar en ENARGAS <ExternalLink className="w-3.5 h-3.5" />
-                          </a>
-                        </div>
-                      ) : gncState.status === 'empty' ? (
-                        <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8 text-center">
-                          <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
-                          <p className="text-[#F4F1EC] font-semibold mb-1">Sin habilitación GNC</p>
-                          <p className="text-sm text-[#555]">No se registra instalación de GNC para esta patente en ENARGAS.</p>
-                        </div>
-                      ) : (
-                        <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
-                          <div className="px-4 py-3 border-b border-[#2a2a2c] flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-green-500" />
-                            <p className="text-sm font-semibold text-[#F4F1EC]">
-                              GNC registrado — {gncState.records.length} habilitación{gncState.records.length !== 1 ? 'es' : ''}
-                            </p>
-                          </div>
-                          <div className="divide-y divide-[#1e1e20]">
-                            {gncState.records.map((rec, i) => (
-                              <div key={i} className="px-4 py-4 grid grid-cols-2 gap-x-6 gap-y-2">
-                                {rec.operador && (
-                                  <div className="col-span-2">
-                                    <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Operador</p>
-                                    <p className="text-sm text-[#F4F1EC]">{rec.operador}</p>
-                                  </div>
-                                )}
-                                {rec.tipo_habilitacion && (
-                                  <div>
-                                    <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Tipo</p>
-                                    <p className="text-sm text-[#F4F1EC]">{rec.tipo_habilitacion}</p>
-                                  </div>
-                                )}
-                                {rec.fecha_operacion && (
-                                  <div>
-                                    <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Fecha operación</p>
-                                    <p className="text-sm text-[#F4F1EC]">{rec.fecha_operacion}</p>
-                                  </div>
-                                )}
-                                {rec.vencimiento && (
-                                  <div>
-                                    <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Vencimiento</p>
-                                    <p className="text-sm font-semibold text-amber-400">{rec.vencimiento}</p>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
                   )}
 
