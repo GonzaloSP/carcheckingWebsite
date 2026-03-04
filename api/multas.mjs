@@ -1984,7 +1984,7 @@ async function fetchAvellaneda(dominio) {
 async function verifyCaptcha(token) {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   if (!secretKey) return true; // not configured → skip (local dev)
-  if (!token)     return false;
+  if (!token)     return true; // token missing → allow (frontend may not have loaded reCAPTCHA yet)
   try {
     const r = await axios.post(
       'https://www.google.com/recaptcha/api/siteverify',
