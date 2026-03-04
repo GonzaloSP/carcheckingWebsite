@@ -1732,6 +1732,285 @@ async function fetchGNC(dominio) {
   return records;
 }
 
+// ─── Infratrack REST API — Berisso, Ezeiza, Lanús ─────────────────────────────
+// Shared REST platform used by multiple Buenos Aires municipalities.
+// No captcha on the server side (reCAPTCHA v2 is frontend-only).
+async function fetchInfratrack(municipio, dominio) {
+  const res = await http.get(
+    `https://consulta-${municipio}.infratrack.com.ar/infracciones/a-pagar`,
+    {
+      params:  { tipo: 'DOMINIO', consulta: dominio, page: 1 },
+      headers: { Accept: 'application/json', Referer: `https://consulta-${municipio}.infratrack.com.ar/` },
+      validateStatus: () => true,
+    }
+  );
+
+  const data = res.data || {};
+  if (data.error) throw new Error(`Infratrack (${municipio}): ${data.message || 'Error del servidor.'}`);
+
+  const list = data.infracciones || [];
+  if (!Array.isArray(list)) return [];
+
+  const nombre = municipio.charAt(0).toUpperCase() + municipio.slice(1);
+  return list.map(i => ({
+    acta:        i.nroActa || i.numero_acta || i.id || null,
+    fecha:       parseDate(i.fecha || i.fecha_infraccion || null),
+    descripcion: i.descripcion || i.motivo || i.articulo || null,
+    lugar:       i.lugar || i.calle || i.direccion || null,
+    importe:     parseFloat((String(i.importe || i.monto || '0')).replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+    estado:      (i.estado || 'pendiente').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+    jurisdiccion: nombre,
+  }));
+}
+
+// ─── SIGEIN — Cañuelas / San Vicente ─────────────────────────────────────────
+// Shared ASP.NET WebForms platform.  Same form fields as Corrientes SIGEIN.
+async function fetchSIGEINMunicipio(host, nombre, dominio) {
+  const PAGE_URL = `https://${host}/home.aspx`;
+  const jar      = new CookieJar();
+  const home     = await http.get(PAGE_URL, { jar, withCredentials: true });
+  const $h       = cheerio.load(String(home.data));
+
+  const viewState          = $h('input[name="__VIEWSTATE"]').val()          || '';
+  const viewStateGenerator = $h('input[name="__VIEWSTATEGENERATOR"]').val() || '';
+  const eventValidation    = $h('input[name="__EVENTVALIDATION"]').val()    || '';
+
+  const formData = new URLSearchParams({
+    __EVENTTARGET:        '',
+    __EVENTARGUMENT:      '',
+    __VIEWSTATE:          viewState,
+    __VIEWSTATEGENERATOR: viewStateGenerator,
+    __EVENTVALIDATION:    eventValidation,
+    tbPatente:            dominio,
+    btnConsultaDominio:   'REALIZAR CONSULTA',
+  });
+
+  const cookies = jar.getCookiesSync(PAGE_URL).map(c => `${c.key}=${c.value}`).join('; ');
+  const res = await http.post(PAGE_URL, formData.toString(), {
+    jar, withCredentials: true,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer:        PAGE_URL,
+      Cookie:         cookies,
+    },
+  });
+
+  const $        = cheerio.load(String(res.data));
+  const bodyText = $('body').text();
+  if (/no posee infracciones|sin infracciones|no registra/i.test(bodyText)) return [];
+
+  const infracciones = [];
+  $('table tbody tr, table tr').each((i, row) => {
+    if (i === 0) return;
+    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
+    if (cols.length < 2) return;
+    infracciones.push({
+      acta:        cols[0] || null,
+      fecha:       cols[1] || null,
+      descripcion: cols[2] || null,
+      lugar:       cols[3] || null,
+      importe:     parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:      (cols[5] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: nombre,
+    });
+  });
+
+  return infracciones;
+}
+
+// ─── Hurlingham (GDI gobdigital) ─────────────────────────────────────────────
+async function fetchHurlingham(dominio) {
+  const PAGE_URL = 'https://hurlingham.gobdigital.com.ar/web/antecedentes-patente';
+  const jar      = new CookieJar();
+  const home     = await http.get(PAGE_URL, { jar, withCredentials: true });
+  const $h       = cheerio.load(String(home.data));
+
+  const viewState          = $h('input[name="__VIEWSTATE"]').val()          || '';
+  const viewStateGenerator = $h('input[name="__VIEWSTATEGENERATOR"]').val() || '';
+  const eventValidation    = $h('input[name="__EVENTVALIDATION"]').val()    || '';
+
+  const formData = new URLSearchParams({
+    __EVENTTARGET:                 '',
+    __EVENTARGUMENT:               '',
+    __VIEWSTATE:                   viewState,
+    __VIEWSTATEGENERATOR:          viewStateGenerator,
+    __EVENTVALIDATION:             eventValidation,
+    'ctl00$content$hfIdPersona':   '',
+    'ctl00$content$txtPatente':    dominio,
+    'ctl00$content$btnBuscar':     'Buscar',
+  });
+
+  const cookies = jar.getCookiesSync(PAGE_URL).map(c => `${c.key}=${c.value}`).join('; ');
+  const res = await http.post(PAGE_URL, formData.toString(), {
+    jar, withCredentials: true,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer:        PAGE_URL,
+      Cookie:         cookies,
+    },
+  });
+
+  const $        = cheerio.load(String(res.data));
+  const bodyText = $('body').text();
+  if (/no posee infracciones|sin infracciones|no registra|no se encontr/i.test(bodyText)) return [];
+
+  const infracciones = [];
+  $('table tbody tr, table tr').each((i, row) => {
+    if (i === 0) return;
+    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
+    if (cols.length < 2) return;
+    infracciones.push({
+      acta:        cols[0] || null,
+      fecha:       cols[1] || null,
+      descripcion: cols[2] || null,
+      lugar:       cols[3] || null,
+      importe:     parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:      (cols[5] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: 'Hurlingham',
+    });
+  });
+
+  return infracciones;
+}
+
+// ─── Lomas de Zamora ──────────────────────────────────────────────────────────
+async function fetchLomasDeZamora(dominio) {
+  const PAGE_URL = 'https://webextra.lomasdezamora.gov.ar/infracciones/ConsultaFaltasNuevoMP.aspx';
+  const jar      = new CookieJar();
+  const home     = await http.get(PAGE_URL, { jar, withCredentials: true });
+  const $h       = cheerio.load(String(home.data));
+
+  const viewState          = $h('input[name="__VIEWSTATE"]').val()          || '';
+  const viewStateGenerator = $h('input[name="__VIEWSTATEGENERATOR"]').val() || '';
+  const eventValidation    = $h('input[name="__EVENTVALIDATION"]').val()    || '';
+
+  const formData = new URLSearchParams({
+    __EVENTTARGET:        '',
+    __EVENTARGUMENT:      '',
+    __VIEWSTATE:          viewState,
+    __VIEWSTATEGENERATOR: viewStateGenerator,
+    __EVENTVALIDATION:    eventValidation,
+    LD:                   '',
+    txtDominio:           dominio,
+    txtDocumento:         '',
+    txtCuit:              '',
+    cmdConfirmaTurno:     'Buscar',
+  });
+
+  const cookies = jar.getCookiesSync(PAGE_URL).map(c => `${c.key}=${c.value}`).join('; ');
+  const res = await http.post(PAGE_URL, formData.toString(), {
+    jar, withCredentials: true,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer:        PAGE_URL,
+      Cookie:         cookies,
+    },
+    validateStatus: () => true,
+  });
+
+  const $        = cheerio.load(String(res.data));
+  const bodyText = $('body').text();
+  if (/no registra|no se encontr|sin infraccion|no tiene infracc/i.test(bodyText)) return [];
+
+  const infracciones = [];
+  $('table tbody tr, table tr').each((i, row) => {
+    if (i === 0) return;
+    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
+    if (cols.length < 2) return;
+    infracciones.push({
+      acta:        cols[0] || null,
+      fecha:       cols[1] || null,
+      descripcion: cols[2] || null,
+      lugar:       cols[3] || null,
+      importe:     parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:      (cols[5] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: 'Lomas de Zamora',
+    });
+  });
+
+  return infracciones;
+}
+
+// ─── Tres de Febrero ─────────────────────────────────────────────────────────
+async function fetchTresDeFebbrero(dominio) {
+  const PAGE_URL = 'https://mistramites.tresdefebrero.gob.ar/multas';
+  const POST_URL = 'https://mistramites.tresdefebrero.gob.ar/multas/resultado';
+  const SITE_KEY = '6Ld5D-wpAAAAAID0qXdhmQoC3Lwjz0y3d6O7t6ge';
+
+  const captchaToken = await solveRecaptchaV2(SITE_KEY, PAGE_URL);
+
+  const formData = new URLSearchParams({
+    dominio,
+    'g-recaptcha-response': captchaToken,
+  });
+
+  const res = await http.post(POST_URL, formData.toString(), {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer:        PAGE_URL,
+      Origin:         'https://mistramites.tresdefebrero.gob.ar',
+    },
+    validateStatus: () => true,
+  });
+
+  const $        = cheerio.load(String(res.data));
+  const bodyText = $('body').text();
+  if (/no registra|no se encontr|sin infraccion|no tiene/i.test(bodyText)) return [];
+
+  const infracciones = [];
+  $('table tbody tr, table tr').each((i, row) => {
+    if (i === 0) return;
+    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
+    if (cols.length < 2) return;
+    infracciones.push({
+      acta:        cols[0] || null,
+      fecha:       cols[1] || null,
+      descripcion: cols[2] || null,
+      lugar:       cols[3] || null,
+      importe:     parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:      (cols[5] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: 'Tres de Febrero',
+    });
+  });
+
+  return infracciones;
+}
+
+// ─── Avellaneda (SIAC) ────────────────────────────────────────────────────────
+// No captcha on the backend — Turnstile is frontend-only on multas.mda.gob.ar.
+async function fetchAvellaneda(dominio) {
+  const res = await http.post(
+    'https://siac.mda.gob.ar/api/externo/consultar',
+    { buscarPor: 'PATENTE', parametroBusqueda: dominio },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept:         'application/json',
+        Origin:         'https://multas.mda.gob.ar',
+        Referer:        'https://multas.mda.gob.ar/',
+      },
+      validateStatus: () => true,
+    }
+  );
+
+  const data = res.data || {};
+  if (data.error) throw new Error(`Avellaneda: ${data.msg || 'Error del servidor.'}`);
+  if (/no se encontraron/i.test(data.msg || '')) return [];
+
+  const list = data.multas || (data.data && data.data.multas) || [];
+  if (!Array.isArray(list)) return [];
+
+  return list.map(i => ({
+    acta:        i.nroActa || i.acta || i.numero || null,
+    fecha:       parseDate(i.fecha || i.fechaInfraccion || null),
+    descripcion: i.descripcion || i.motivo || null,
+    lugar:       i.lugar || i.calle || null,
+    importe:     parseFloat(i.importe || i.monto || 0) || null,
+    estado:      (i.estado || 'pendiente').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+    jurisdiccion: 'Avellaneda',
+  }));
+}
+
 // ─── Vercel Handler ───────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
   // CORS
@@ -1824,9 +2103,18 @@ module.exports = async function handler(req, res) {
       case 'mendoza':         infracciones = await fetchMendoza(clean);         break;
       case 'mendozacaminera': infracciones = await fetchMendozaCaminera(clean); break;
       case 'salta':           infracciones = await fetchSalta(clean);           break;
-      case 'cordoba':         infracciones = await fetchCordoba(clean);         break;
+      case 'cordoba':         infracciones = await fetchCordoba(clean);                              break;
+      case 'berisso':         infracciones = await fetchInfratrack('berisso', clean);             break;
+      case 'ezeiza':          infracciones = await fetchInfratrack('ezeiza', clean);              break;
+      case 'lanus':           infracciones = await fetchInfratrack('lanus', clean);               break;
+      case 'canuelas':        infracciones = await fetchSIGEINMunicipio('canuelas.sigein.net', 'Cañuelas', clean); break;
+      case 'sanvicente':      infracciones = await fetchSIGEINMunicipio('sv.sigein.net', 'San Vicente', clean);    break;
+      case 'hurlingham':      infracciones = await fetchHurlingham(clean);                        break;
+      case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
+      case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;
+      case 'avellaneda':      infracciones = await fetchAvellaneda(clean);                        break;
       case 'ansv':
-      default:                infracciones = await fetchANSV(clean);            break;
+      default:                infracciones = await fetchANSV(clean);                              break;
     }
     return res.status(200).json({ dominio: clean, fuente, infracciones });
   } catch (err) {

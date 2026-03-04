@@ -24,6 +24,15 @@ const FUENTES = [
   { value: 'misiones',        label: 'Misiones',                   sub: 'Provincia',            manualUrl: null },
   { value: 'posadas',         label: 'Posadas',                    sub: 'Municipio Misiones',   manualUrl: null },
   { value: 'chaco',           label: 'Chaco',                      sub: 'Policía Caminera',     manualUrl: null },
+  { value: 'avellaneda',      label: 'Avellaneda',                 sub: 'SIAC',                 manualUrl: null },
+  { value: 'lanus',           label: 'Lanús',                      sub: 'Infratrack',           manualUrl: null },
+  { value: 'berisso',         label: 'Berisso',                    sub: 'Infratrack',           manualUrl: null },
+  { value: 'ezeiza',          label: 'Ezeiza',                     sub: 'Infratrack',           manualUrl: null },
+  { value: 'lomasdezamora',   label: 'Lomas de Zamora',            sub: 'Municipalidad',        manualUrl: null },
+  { value: 'tresdefebrero',   label: 'Tres de Febrero',            sub: 'Municipalidad',        manualUrl: null },
+  { value: 'hurlingham',      label: 'Hurlingham',                 sub: 'GobDigital',           manualUrl: null },
+  { value: 'canuelas',        label: 'Cañuelas',                   sub: 'SIGEIN',               manualUrl: null },
+  { value: 'sanvicente',      label: 'San Vicente',                sub: 'SIGEIN',               manualUrl: null },
 ];
 
 interface Infraccion {
@@ -351,8 +360,8 @@ export default function ConsultarMultaPage() {
     <HelmetProvider>
       <SEO
         title="Consultar Multas por Patente en Argentina | carChecking"
-        description="Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones y más."
-        keywords="consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires"
+        description="Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones, Avellaneda, Lanús, Berisso, Ezeiza, Lomas de Zamora, Tres de Febrero, Hurlingham, Cañuelas y más."
+        keywords="consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires, multas Avellaneda, multas Lanus, multas GBA"
         canonicalUrl="/consultar-multa"
       />
 
