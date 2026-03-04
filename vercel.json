@@ -1,8 +1,7 @@
 {
   "functions": {
-    "api/multas.js": {
-      "maxDuration": 10,
-      "runtime": "nodejs22.x"
+    "api/multas.mjs": {
+      "maxDuration": 10
     }
   },
   "redirects": [

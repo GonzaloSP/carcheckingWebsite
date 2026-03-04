@@ -10,11 +10,11 @@
  *   CAPSOLVER_API_KEY   — capsolver.com key (optional; enables auto Rosario — better v3 scores)
  */
 
-const axios = require('axios');
-const { wrapper } = require('axios-cookiejar-support');
-const { CookieJar } = require('tough-cookie');
-const cheerio = require('cheerio');
-const Captcha = require('2captcha');
+import axios from 'axios';
+import { wrapper } from 'axios-cookiejar-support';
+import { CookieJar } from 'tough-cookie';
+import * as cheerio from 'cheerio';
+import Captcha from '2captcha';
 
 // ─── Shared axios instance ────────────────────────────────────────────────────
 const http = wrapper(
@@ -2004,7 +2004,7 @@ async function verifyCaptcha(token) {
 }
 
 // ─── Vercel Handler ───────────────────────────────────────────────────────────
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
