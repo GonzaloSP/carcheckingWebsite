@@ -33,6 +33,10 @@ const FUENTES = [
   { value: 'hurlingham',      label: 'Hurlingham',                 sub: 'GobDigital',           manualUrl: null },
   { value: 'canuelas',        label: 'Cañuelas',                   sub: 'SIGEIN',               manualUrl: null },
   { value: 'sanvicente',      label: 'San Vicente',                sub: 'SIGEIN',               manualUrl: null },
+  { value: 'roquesaenzpena',  label: 'Roque Sáenz Peña',           sub: 'SIGEIN',               manualUrl: null },
+  { value: 'villaangostura',  label: 'Villa La Angostura',         sub: 'SIGEIN',               manualUrl: null },
+  { value: 'riotercero',      label: 'Río Tercero',                sub: 'SIGEIN',               manualUrl: null },
+  { value: 'rionegro',        label: 'Río Negro',                  sub: 'SIGEIN',               manualUrl: null },
 ];
 
 interface Infraccion {
