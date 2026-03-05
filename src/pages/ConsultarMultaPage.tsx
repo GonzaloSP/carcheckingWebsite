@@ -11,6 +11,8 @@ import { JURISDICCIONES_MULTA } from '../data/multa-jurisdictions';
 
 const FUENTES = JURISDICCIONES_MULTA;
 
+const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
+
 interface Infraccion {
   acta:         string | null;
   fecha:        string | null;
@@ -166,7 +168,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
     const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
 
     // DNRPA vehicle lookup (runs in parallel with multa queries)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         if (data.vehiculo) {
@@ -178,7 +180,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
 
     // VTV lookup (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -191,7 +193,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
 
 
     // ITV Córdoba (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, { signal: AbortSignal.timeout(60_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, { signal: AbortSignal.timeout(60_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -203,7 +205,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
 
     // RTO Santa Fe (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, { signal: AbortSignal.timeout(90_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, { signal: AbortSignal.timeout(90_000) })
       .then(r => r.json())
       .then(data => {
         if (data.manualUrl) {
@@ -217,7 +219,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
 
     // RTO Catamarca (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, { signal: AbortSignal.timeout(30_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, { signal: AbortSignal.timeout(30_000) })
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -229,7 +231,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
 
     // ACOR Corrientes patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, { signal: AbortSignal.timeout(60_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, { signal: AbortSignal.timeout(60_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.acor;
@@ -240,7 +242,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
 
     // ARBA patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.arba;
@@ -257,7 +259,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
 
     // AGIP patente debt (runs in parallel)
-    fetch(`/api/multas?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, { signal: AbortSignal.timeout(120_000) })
+    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, { signal: AbortSignal.timeout(120_000) })
       .then(r => r.json())
       .then(data => {
         const a = data.agip;
@@ -273,53 +275,44 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       })
       .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
 
-    // Run jurisdiction queries with a concurrency limit so we don't fire 15+ requests at once.
-    // All are already set to 'loading' above, so the UI shows everything in progress immediately.
-    const CONCURRENCY = 4;
-    const queue = [...fuentes];
-    const worker = async () => {
-      while (queue.length > 0) {
-        const { value } = queue.shift()!;
-        try {
-          const res = await fetch(
-            `/api/multas?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
-            { signal: AbortSignal.timeout(70_000) }
-          );
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            setResults(prev => prev && ({
-              ...prev,
-              [value]: { status: 'error', infracciones: [], error: data.error || 'Error desconocido' },
-            }));
-          } else if (data.manualUrl) {
-            setResults(prev => prev && ({
-              ...prev,
-              [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
-            }));
-          } else {
-            setResults(prev => prev && ({
-              ...prev,
-              [value]: {
-                status: data.infracciones.length > 0 ? 'ok' : 'empty',
-                infracciones: data.infracciones,
-              },
-            }));
-          }
-        } catch (err: unknown) {
-          const isTimeout = err instanceof Error && err.name === 'TimeoutError';
+    fuentes.forEach(async ({ value }) => {
+      try {
+        const res = await fetch(
+          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
+          { signal: AbortSignal.timeout(70_000) }
+        );
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          setResults(prev => prev && ({
+            ...prev,
+            [value]: { status: 'error', infracciones: [], error: data.error || 'Error desconocido' },
+          }));
+        } else if (data.manualUrl) {
+          setResults(prev => prev && ({
+            ...prev,
+            [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
+          }));
+        } else {
           setResults(prev => prev && ({
             ...prev,
             [value]: {
-              status: 'error',
-              infracciones: [],
-              error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
+              status: data.infracciones.length > 0 ? 'ok' : 'empty',
+              infracciones: data.infracciones,
             },
           }));
         }
+      } catch (err: unknown) {
+        const isTimeout = err instanceof Error && err.name === 'TimeoutError';
+        setResults(prev => prev && ({
+          ...prev,
+          [value]: {
+            status: 'error',
+            infracciones: [],
+            error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
+          },
+        }));
       }
-    };
-    // Launch CONCURRENCY workers — each picks the next jurisdiction from the queue
-    Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    });
   }
 
   const totalInfracciones = results
