@@ -1,0 +1,13 @@
+{
+  "name": "multas",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "dependencies": {
+    "2captcha": "^3.0.0",
+    "axios": "1.6.8",
+    "axios-cookiejar-support": "4.0.7",
+    "cheerio": "1.0.0-rc.12",
+    "tough-cookie": "4.1.4"
+  }
+}

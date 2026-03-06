@@ -11,7 +11,29 @@ import { JURISDICCIONES_MULTA } from '../data/multa-jurisdictions';
 
 const FUENTES = JURISDICCIONES_MULTA;
 
-const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
+const MULTA_API_URL       = import.meta.env.VITE_MULTA_API_URL       ?? '/api/multas';
+const APPWRITE_PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID ?? '';
+const IS_APPWRITE         = MULTA_API_URL.includes('/executions');
+
+/** Unified fetch wrapper — handles both standard GET and Appwrite POST execution format. */
+async function callMultasApi(url: string, signal?: AbortSignal): Promise<Response> {
+  if (IS_APPWRITE) {
+    const qStart = url.indexOf('?');
+    const queryString = qStart >= 0 ? url.slice(qStart) : '';
+    const appRes = await fetch(MULTA_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-appwrite-project': APPWRITE_PROJECT_ID },
+      body: JSON.stringify({ async: false, path: `/${queryString}`, method: 'GET' }),
+      signal,
+    });
+    const execution = await appRes.json();
+    return new Response(execution.responseBody ?? '{}', {
+      status: execution.responseStatusCode ?? 502,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+  return fetch(url, { signal });
+}
 
 interface Infraccion {
   acta:         string | null;
@@ -168,7 +190,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
     const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
 
     // DNRPA vehicle lookup (runs in parallel with multa queries)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, { signal: AbortSignal.timeout(120_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         if (data.vehiculo) {
@@ -180,7 +202,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
 
     // VTV lookup (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, { signal: AbortSignal.timeout(120_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -193,7 +215,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
 
 
     // ITV Córdoba (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, { signal: AbortSignal.timeout(60_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, AbortSignal.timeout(60_000))
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -205,7 +227,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
 
     // RTO Santa Fe (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, { signal: AbortSignal.timeout(90_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, AbortSignal.timeout(90_000))
       .then(r => r.json())
       .then(data => {
         if (data.manualUrl) {
@@ -219,7 +241,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
 
     // RTO Catamarca (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, { signal: AbortSignal.timeout(30_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, AbortSignal.timeout(30_000))
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -231,7 +253,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
 
     // ACOR Corrientes patente debt (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, { signal: AbortSignal.timeout(60_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, AbortSignal.timeout(60_000))
       .then(r => r.json())
       .then(data => {
         const a = data.acor;
@@ -242,7 +264,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
 
     // ARBA patente debt (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, { signal: AbortSignal.timeout(120_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.arba;
@@ -259,7 +281,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
 
     // AGIP patente debt (runs in parallel)
-    fetch(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, { signal: AbortSignal.timeout(120_000) })
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.agip;
@@ -277,9 +299,9 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
 
     fuentes.forEach(async ({ value }) => {
       try {
-        const res = await fetch(
+        const res = await callMultasApi(
           `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
-          { signal: AbortSignal.timeout(70_000) }
+          AbortSignal.timeout(70_000)
         );
         const data = await res.json();
         if (!res.ok || data.error) {

@@ -1,0 +1,20 @@
+{
+  "projectId": "69ab260c001de147f5d5",
+  "projectName": "Multas",
+  "functions": [
+    {
+      "$id": "multas",
+      "name": "Multas",
+      "runtime": "node-16.0",
+      "path": "appwrite/functions/multas",
+      "entrypoint": "src/index.js",
+      "ignore": ["node_modules", ".git"],
+      "execute": ["any"],
+      "events": [],
+      "schedule": "",
+      "timeout": 300,
+      "enabled": true,
+      "logging": true
+    }
+  ]
+}
