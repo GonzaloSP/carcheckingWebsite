@@ -12,7 +12,7 @@ export const JURISDICCIONES_MULTA: JurisdiccionMulta[] = [
   { value: 'caba',           label: 'CABA',                      sub: 'Ciudad Autónoma',       slug: 'multas-caba',                    manualUrl: null },
   { value: 'cordoba',        label: 'Córdoba Caminera',          sub: 'Córdoba',               slug: 'multas-cordoba',                 manualUrl: null },
   { value: 'santafe',        label: 'Santa Fe',                  sub: 'Juzgado Virtual',       slug: 'multas-santa-fe',                manualUrl: null },
-  { value: 'rosario',        label: 'Rosario',                   sub: 'Municipalidad',         slug: 'multas-rosario',                 manualUrl: null },
+  { value: 'rosario',        label: 'Rosario',                   sub: 'Municipalidad',         slug: 'multas-rosario',                 manualUrl: 'https://www.rosario.gob.ar/gdm/patente.do?accion=ir' },
   { value: 'mendoza',        label: 'Mendoza Ciudad',            sub: 'Juzgados de Tránsito',  slug: 'multas-mendoza',                 manualUrl: null },
   { value: 'mendozacaminera',label: 'Mendoza Caminera',          sub: 'Policía Caminera',      slug: 'multas-mendoza-caminera',        manualUrl: null },
   { value: 'salta',          label: 'Salta Capital',             sub: 'DGR Salta',             slug: 'multas-salta',                   manualUrl: null },
@@ -35,4 +35,7 @@ export const JURISDICCIONES_MULTA: JurisdiccionMulta[] = [
   { value: 'roquesaenzpena', label: 'Roque Sáenz Peña',          sub: 'SIGEIN',                slug: 'multas-roque-saenz-pena',        manualUrl: null },
   { value: 'villaangostura', label: 'Villa La Angostura',        sub: 'SIGEIN',                slug: 'multas-villa-la-angostura',      manualUrl: null },
   { value: 'riotercero',     label: 'Río Tercero',               sub: 'SIGEIN',                slug: 'multas-rio-tercero',             manualUrl: null },
+  { value: 'venadotuerto',   label: 'Venado Tuerto',             sub: 'Boldt',                 slug: 'multas-venado-tuerto',           manualUrl: 'https://venadotuerto-infracciones.boldt.com.ar/secretariavirtual/' },
+  { value: 'almirantebrown', label: 'Almirante Brown',           sub: 'Boldt',                 slug: 'multas-almirante-brown',         manualUrl: 'https://almirantebrown-infracciones.boldt.com.ar/secretariavirtual/' },
+  { value: 'escobar',        label: 'Escobar',                   sub: 'Boldt',                 slug: 'multas-escobar',                 manualUrl: 'https://escobar.gob.ar/tramites/' },
 ];

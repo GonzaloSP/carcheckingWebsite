@@ -102,7 +102,7 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
 }
 
 // ─── Capsolver v2 solver (faster than 2captcha for reCAPTCHA v2) ──────────────
-async function solveRecaptchaV2(siteKey, pageUrl) {
+async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
   const capsolverKey = process.env.CAPSOLVER_API_KEY;
 
   if (capsolverKey) {
@@ -110,7 +110,7 @@ async function solveRecaptchaV2(siteKey, pageUrl) {
       'https://api.capsolver.com/createTask',
       {
         clientKey: capsolverKey,
-        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
+        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey, isInvisible },
       },
       { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
     );
@@ -1701,6 +1701,95 @@ async function fetchVTVCatamarca(dominio) {
   });
 }
 
+// ─── Boldt Juzgado Virtual — Venado Tuerto, Almirante Brown, Escobar ──────────
+// Shared JWT + reCAPTCHA v2 REST platform.
+// Credentials are injected per-municipality in the frontend page HTML.
+async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio) {
+  // 1. Fetch page to extract credentials from inline <script>
+  const pageRes = await axios.get(frontendUrl, {
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+    timeout: 12000,
+    validateStatus: () => true,
+  });
+  const html = String(pageRes.data);
+  const userMatch = html.match(/var\s+user\s*=\s*"([^"]+)"/);
+  const passMatch = html.match(/var\s+password\s*=\s*"([^"]+)"/);
+  if (!userMatch || !passMatch) throw new Error(`Boldt (${nombre}): no se pudieron obtener credenciales.`);
+
+  // 2. Authenticate — JWT is returned in the Authorization response header
+  const authRes = await axios.post(
+    `${apiBaseUrl}auth/getToken`,
+    { username: userMatch[1], password: passMatch[1] },
+    { headers: { 'Content-Type': 'application/json' }, timeout: 12000, validateStatus: () => true }
+  );
+  const jwt = authRes.headers['authorization'];
+  if (!jwt) throw new Error(`Boldt (${nombre}): no se obtuvo token JWT.`);
+
+  // 3. Get reCAPTCHA v2 site key from parameters
+  const paramsRes = await axios.get(`${apiBaseUrl}api/consulta/parametros`, {
+    headers: { Authorization: `Bearer ${jwt}` },
+    timeout: 10000,
+  });
+  const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
+  if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
+
+  // 4. Solve reCAPTCHA v3 (Boldt uses grecaptcha.execute with action — not v2)
+  const captchaToken = await solveRecaptchaV3(siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.3);
+
+  // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
+  const vehiculoRes = await axios.post(
+    `${apiBaseUrl}api/consultaInfraccion/vehiculo`,
+    { dominio },
+    {
+      headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', Captcha: captchaToken },
+      timeout: 30000,
+      validateStatus: () => true,
+    }
+  );
+
+  if (vehiculoRes.status === 400) {
+    const errMsg = vehiculoRes.data?.errores?.error?.[0]?.descripcionError || 'Error desconocido';
+    throw new Error(`Boldt (${nombre}): ${errMsg}`);
+  }
+
+  const list = vehiculoRes.data?.listInfracciones || [];
+  return list
+    .filter(i => i.idTipoActa == null || i.idTipoActa !== 2)
+    .map(i => ({
+      acta:        String(i.numeroCausa || ''),
+      fecha:       i.fechaObligacion || null,
+      descripcion: i.articulo || i.descripcionFalta || null,
+      lugar:       i.lugar || null,
+      importe:     parseFloat(String(i.importeSaldo || i.importeNotificacion || '0').replace(',', '.')) || null,
+      estado:      (i.estadoPago || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: nombre,
+    }));
+}
+
+async function fetchVenadoTuerto(dominio) {
+  return fetchBoldt(
+    'https://venadotuerto-infracciones.boldt.com.ar/secretariavirtual/',
+    'https://venadotuerto-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
+    'Venado Tuerto', dominio
+  );
+}
+
+async function fetchAlmirante_Brown(dominio) {
+  return fetchBoldt(
+    'https://almirantebrown-infracciones.boldt.com.ar/secretariavirtual/',
+    'https://almirantebrown-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
+    'Almirante Brown', dominio
+  );
+}
+
+async function fetchEscobar(dominio) {
+  return fetchBoldt(
+    'https://infracciones.escobar.gob.ar/secretariavirtual/',
+    'https://infracciones.escobar.gob.ar/ws-juzgado-virtual-rest/',
+    'Escobar', dominio
+  );
+}
+
 // ─── Infratrack REST API — Berisso, Ezeiza, Lanús ─────────────────────────────
 // Shared REST platform used by multiple Buenos Aires municipalities.
 // No captcha on the server side (reCAPTCHA v2 is frontend-only).
@@ -2105,6 +2194,9 @@ export default async function handler(req, res) {
       case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
       case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;
       case 'avellaneda':      infracciones = await fetchAvellaneda(clean);                        break;
+      case 'venadotuerto':    infracciones = await fetchVenadoTuerto(clean);                    break;
+      case 'almirantebrown':  infracciones = await fetchAlmirante_Brown(clean);                 break;
+      case 'escobar':         infracciones = await fetchEscobar(clean);                         break;
       case 'ansv':
       default:                infracciones = await fetchANSV(clean);                              break;
     }

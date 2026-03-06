@@ -11,6 +11,7 @@
  */
 
 import crypto from 'crypto';
+import https from 'https';
 import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
@@ -103,7 +104,7 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
 }
 
 // ─── Capsolver v2 solver (faster than 2captcha for reCAPTCHA v2) ──────────────
-async function solveRecaptchaV2(siteKey, pageUrl) {
+async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
   const capsolverKey = process.env.CAPSOLVER_API_KEY;
 
   if (capsolverKey) {
@@ -111,7 +112,7 @@ async function solveRecaptchaV2(siteKey, pageUrl) {
       'https://api.capsolver.com/createTask',
       {
         clientKey: capsolverKey,
-        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
+        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey, isInvisible },
       },
       { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
     );
@@ -140,8 +141,77 @@ async function solveRecaptchaV2(siteKey, pageUrl) {
   return result.data;
 }
 
-// ─── ANSV / SINAI (Nacional) ──────────────────────────────────────────────────
-async function fetchANSV(dominio) {
+// ─── Submit captcha task without waiting (returns taskMeta for step 2) ────────
+async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore = 0.3) {
+  const capsolverKey  = process.env.CAPSOLVER_API_KEY;
+  const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
+
+  if (capsolverKey) {
+    const taskType = type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : 'ReCaptchaV2TaskProxyLess';
+    const task = { type: taskType, websiteURL: pageUrl, websiteKey: siteKey };
+    if (type === 'v3') { task.pageAction = action; task.minScore = minScore; }
+    const res = await axios.post('https://api.capsolver.com/createTask',
+      { clientKey: capsolverKey, task },
+      { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+    );
+    if (res.data.errorId !== 0) throw new Error(`Capsolver error: ${res.data.errorDescription}`);
+    if (res.data.solution?.gRecaptchaResponse) {
+      return { service: 'capsolver', taskId: null, token: res.data.solution.gRecaptchaResponse };
+    }
+    return { service: 'capsolver', taskId: res.data.taskId };
+  }
+
+  if (twocaptchaKey) {
+    const params = new URLSearchParams({ key: twocaptchaKey, method: 'userrecaptcha', googlekey: siteKey, pageurl: pageUrl, json: '1' });
+    if (type === 'v3') { params.set('version', 'v3'); if (action) params.set('action', action); params.set('min_score', String(minScore)); }
+    const res = await axios.post('https://2captcha.com/in.php', params.toString(),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000 }
+    );
+    if (res.data.status !== 1) throw new Error(`2captcha submit error: ${res.data.request}`);
+    return { service: '2captcha', taskId: String(res.data.request) };
+  }
+
+  throw new Error('No captcha service configured');
+}
+
+// ─── Retrieve captcha token from a previously submitted task ──────────────────
+async function retrieveCaptchaToken(taskMeta, maxAttempts = 12) {
+  const { service, taskId, token } = taskMeta;
+  if (token) return token; // already solved at submit time
+
+  if (service === 'capsolver') {
+    const capsolverKey = process.env.CAPSOLVER_API_KEY;
+    for (let i = 0; i < maxAttempts; i++) {
+      if (i > 0) await new Promise(r => setTimeout(r, 3000));
+      const res = await axios.post('https://api.capsolver.com/getTaskResult',
+        { clientKey: capsolverKey, taskId },
+        { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+      );
+      if (res.data.errorId !== 0) throw new Error(`Capsolver poll error: ${res.data.errorDescription}`);
+      if (res.data.status === 'ready') return res.data.solution.gRecaptchaResponse;
+    }
+    throw new Error('Capsolver timeout en step 2');
+  }
+
+  if (service === '2captcha') {
+    const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
+    for (let i = 0; i < maxAttempts; i++) {
+      if (i > 0) await new Promise(r => setTimeout(r, 3000));
+      const res = await axios.get(
+        `https://2captcha.com/res.php?key=${twocaptchaKey}&action=get&id=${taskId}&json=1`,
+        { timeout: 10000 }
+      );
+      if (res.data.status === 1) return res.data.request;
+      if (res.data.request !== 'CAPCHA_NOT_READY') throw new Error(`2captcha error: ${res.data.request}`);
+    }
+    throw new Error('2captcha timeout en step 2');
+  }
+
+  throw new Error(`Unknown captcha service: ${service}`);
+}
+
+// ─── ANSV / SINAI — Step 1: fetch page + submit captcha task ─────────────────
+async function fetchANSVStep1(dominio) {
   if (!/^[A-Z]{3}\d{3}$/.test(dominio)) {
     throw new Error('El portal ANSV/SINAI solo admite patentes en formato antiguo (ABC123).');
   }
@@ -161,9 +231,16 @@ async function fetchANSV(dominio) {
   if (!siteKeyMatch) throw new Error('No se encontró el site key de reCAPTCHA en ANSV/SINAI.');
   const siteKey = siteKeyMatch[1];
 
-  const solver = getSolver();
-  const captchaResult = await solver.recaptcha(siteKey, PAGE_URL);
-  const captchaToken  = captchaResult.data;
+  const cookies  = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
+  const taskMeta = await submitCaptchaTask('v2', siteKey, PAGE_URL);
+
+  return { taskMeta, session: { cookies, viewState, viewStateGenerator, eventValidation, pageUrl: PAGE_URL } };
+}
+
+// ─── ANSV / SINAI — Step 2: retrieve captcha token + query portal ─────────────
+async function fetchANSVStep2(dominio, taskMeta, session) {
+  const captchaToken = await retrieveCaptchaToken(taskMeta);
+  const { cookies, viewState, viewStateGenerator, eventValidation, pageUrl: PAGE_URL } = session;
 
   const formData = new URLSearchParams({
     'ctl00$ScriptManager':
@@ -183,10 +260,7 @@ async function fetchANSV(dominio) {
     'g-recaptcha-response':                       captchaToken,
   });
 
-  const cookies = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
   const res = await http.post(PAGE_URL, formData.toString(), {
-    jar,
-    withCredentials: true,
     headers: {
       'Content-Type':     'application/x-www-form-urlencoded',
       Referer:            PAGE_URL,
@@ -331,6 +405,75 @@ async function fetchCABA(dominio) {
     let data;
     try { data = JSON.parse(raw); } catch { return; }
 
+    const primera = (data.infracciones || [])[0] || {};
+    infracciones.push({
+      acta:         data.numeroActa  || null,
+      fecha:        data.fechaActa   || null,
+      descripcion:  primera.desc     || data.tipoActa || null,
+      lugar:        primera.lugar    || null,
+      importe:      parseFloat(String(data.montoActa || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
+      estado:       (data.estadoReducidoActa || 'pendiente').toLowerCase(),
+      jurisdiccion: 'CABA',
+    });
+  });
+
+  return infracciones;
+}
+
+// ─── CABA — Step 1: fetch page + submit captcha task ─────────────────────────
+async function fetchCABAStep1(_dominio) {
+  const PAGE_URL = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/?actas=transito';
+  const SITE_KEY = '6LfcRGAlAAAAAJI0S2ABpxX_Wj56oioSE6y393OG';
+  const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+
+  const home = await http.get(PAGE_URL, {
+    withCredentials: true,
+    headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language': 'es-AR,es;q=0.9' },
+  });
+  const cookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
+  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL);
+
+  return { taskMeta, session: { cookies } };
+}
+
+// ─── CABA — Step 2: retrieve captcha token + query portal ─────────────────────
+async function fetchCABAStep2(dominio, taskMeta, session) {
+  const captchaToken = await retrieveCaptchaToken(taskMeta);
+  const { cookies } = session;
+  const PAGE_URL = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/?actas=transito';
+  const ENDPOINT = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/index.php';
+  const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+
+  const formData = new URLSearchParams({
+    tipo_consulta:          'Dominio',
+    filtro_acta:            'transito',
+    dominio,
+    'g-recaptcha-response': captchaToken,
+  });
+
+  const res = await http.post(ENDPOINT, formData.toString(), {
+    headers: {
+      'Content-Type':    'application/x-www-form-urlencoded',
+      'User-Agent':      UA,
+      Referer:           PAGE_URL,
+      Origin:            'https://buenosaires.gob.ar',
+      Accept:            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'Accept-Language': 'es-AR,es;q=0.9',
+      Cookie:            cookies,
+    },
+  });
+
+  if (!res.data || String(res.data).trim() === '') throw new Error('CABA devolvió una respuesta vacía.');
+
+  const $ = cheerio.load(res.data);
+  if ($('.libreDeuda-view').length > 0 || $('input[name="actas[]"]').length === 0) return [];
+
+  const infracciones = [];
+  $('input[name="actas[]"]').each((_, el) => {
+    const raw = $(el).attr('data-json');
+    if (!raw) return;
+    let data;
+    try { data = JSON.parse(raw); } catch { return; }
     const primera = (data.infracciones || [])[0] || {};
     infracciones.push({
       acta:         data.numeroActa  || null,
@@ -602,7 +745,13 @@ async function fetchRosario(dominio) {
 
   const $ = cheerio.load(String(res.data));
   if ($('.govuk-error-summary').length) {
-    throw new Error(`Rosario: ${$('.govuk-error-summary').text().trim()}`);
+    const errText = $('.govuk-error-summary').text().trim();
+    if (/captcha|recaptcha/i.test(errText)) {
+      const err = new Error('MANUAL_REQUIRED');
+      err.manualUrl = `${FORM_URL}?accion=ir`;
+      throw err;
+    }
+    throw new Error(`Rosario: ${errText}`);
   }
 
   const infracciones = [];
@@ -1702,6 +1851,106 @@ async function fetchVTVCatamarca(dominio) {
   });
 }
 
+// ─── Boldt Juzgado Virtual — Venado Tuerto, Almirante Brown, Escobar ──────────
+// Shared JWT + reCAPTCHA v3 REST platform.
+// Credentials are injected per-municipality in the frontend page HTML.
+async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio, extraHttpsAgent = null) {
+  const tlsOpts = extraHttpsAgent ? { httpsAgent: extraHttpsAgent } : {};
+
+  // 1. Fetch page to extract credentials from inline <script>
+  const pageRes = await axios.get(frontendUrl, {
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+    timeout: 12000,
+    validateStatus: () => true,
+    ...tlsOpts,
+  });
+  const html = String(pageRes.data);
+  const userMatch = html.match(/var\s+user\s*=\s*"([^"]+)"/);
+  const passMatch = html.match(/var\s+password\s*=\s*"([^"]+)"/);
+  if (!userMatch || !passMatch) throw new Error(`Boldt (${nombre}): no se pudieron obtener credenciales.`);
+
+  // 2. Authenticate — JWT is returned in the Authorization response header
+  const authRes = await axios.post(
+    `${apiBaseUrl}auth/getToken`,
+    { username: userMatch[1], password: passMatch[1] },
+    { headers: { 'Content-Type': 'application/json' }, timeout: 12000, validateStatus: () => true, ...tlsOpts }
+  );
+  const jwt = authRes.headers['authorization'];
+  if (!jwt) throw new Error(`Boldt (${nombre}): no se obtuvo token JWT.`);
+
+  // 3. Get reCAPTCHA v3 site key from parameters
+  const paramsRes = await axios.get(`${apiBaseUrl}api/consulta/parametros`, {
+    headers: { Authorization: `Bearer ${jwt}` },
+    timeout: 10000,
+    ...tlsOpts,
+  });
+  const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
+  if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
+
+  // 4. Solve reCAPTCHA v3 (Boldt uses grecaptcha.execute with action — not v2)
+  const captchaToken = await solveRecaptchaV3(siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.7);
+
+  // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
+  const vehiculoRes = await axios.post(
+    `${apiBaseUrl}api/consultaInfraccion/vehiculo`,
+    { dominio },
+    {
+      headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', Captcha: captchaToken },
+      timeout: 30000,
+      validateStatus: () => true,
+      ...tlsOpts,
+    }
+  );
+
+  if (vehiculoRes.status === 400) {
+    const errMsg = vehiculoRes.data?.errores?.error?.[0]?.descripcionError || 'Error desconocido';
+    // Captcha rejection — return as manual so the user can check directly on the portal
+    if (errMsg.toLowerCase().includes('captcha')) {
+      const err = new Error('MANUAL_REQUIRED');
+      err.manualUrl = frontendUrl;
+      throw err;
+    }
+    throw new Error(`Boldt (${nombre}): ${errMsg}`);
+  }
+
+  const list = vehiculoRes.data?.listInfracciones || [];
+  return list
+    .filter(i => i.idTipoActa == null || i.idTipoActa !== 2)
+    .map(i => ({
+      acta:        String(i.numeroCausa || ''),
+      fecha:       i.fechaObligacion || null,
+      descripcion: i.articulo || i.descripcionFalta || null,
+      lugar:       i.lugar || null,
+      importe:     parseFloat(String(i.importeSaldo || i.importeNotificacion || '0').replace(',', '.')) || null,
+      estado:      (i.estadoPago || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      jurisdiccion: nombre,
+    }));
+}
+
+async function fetchVenadoTuerto(dominio) {
+  return fetchBoldt(
+    'https://venadotuerto-infracciones.boldt.com.ar/secretariavirtual/',
+    'https://venadotuerto-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
+    'Venado Tuerto', dominio
+  );
+}
+
+async function fetchAlmirante_Brown(dominio) {
+  return fetchBoldt(
+    'https://almirantebrown-infracciones.boldt.com.ar/secretariavirtual/',
+    'https://almirantebrown-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
+    'Almirante Brown', dominio
+  );
+}
+
+async function fetchEscobar(dominio) {
+  // Escobar's Boldt portal (infracciones.escobar.gob.ar) has been decommissioned.
+  // Redirect user to the municipality's general trámites page.
+  const err = new Error('MANUAL_REQUIRED');
+  err.manualUrl = 'https://escobar.gob.ar/tramites/';
+  throw err;
+}
+
 // ─── Infratrack REST API — Berisso, Ezeiza, Lanús ─────────────────────────────
 // Shared REST platform used by multiple Buenos Aires municipalities.
 // No captcha on the server side (reCAPTCHA v2 is frontend-only).
@@ -2004,77 +2253,85 @@ async function verifyCaptcha(token) {
   }
 }
 
-// ─── Vercel Handler ───────────────────────────────────────────────────────────
-export default async function handler(req, res) {
-  // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+// ─── Appwrite Handler ─────────────────────────────────────────────────────────
+export default async ({ req, res, log, error: logError }) => {
+  if (req.method === 'OPTIONS') return res.empty();
+  if (req.method !== 'GET' && req.method !== 'POST') return res.json({ error: 'Método no permitido.' }, 405);
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Método no permitido.' });
+  const { dominio, fuente = 'ansv', step } = req.query;
 
-  const { dominio, fuente = 'ansv', rcToken } = req.query;
-
-  if (!dominio) return res.status(400).json({ error: 'Falta el parámetro dominio.' });
+  if (!dominio) return res.json({ error: 'Falta el parámetro dominio.' }, 400);
 
   const clean = dominio.replace(/\s/g, '').toUpperCase();
   if (!/^[A-Z]{3}\d{3}$/.test(clean) && !/^[A-Z]{2}\d{3}[A-Z]{2}$/.test(clean)) {
-    return res
-      .status(400)
-      .json({ error: 'Dominio inválido. Usar formato antiguo (ABC123) o Mercosur (AB123CD).' });
+    return res.json({ error: 'Dominio inválido. Usar formato antiguo (ABC123) o Mercosur (AB123CD).' }, 400);
   }
 
-  const captchaOk = await verifyCaptcha(rcToken);
-  if (!captchaOk) return res.status(403).json({ error: 'Verificación de seguridad fallida. Recargá la página e intentá de nuevo.' });
-
   try {
+    // ── Two-step captcha flow (ANSV, CABA — captcha takes >30s so must be split) ──
+    if ((fuente === 'ansv' || fuente === 'caba') && step === '1') {
+      const result = fuente === 'ansv'
+        ? await fetchANSVStep1(clean)
+        : await fetchCABAStep1(clean);
+      return res.json({ dominio: clean, fuente, step: 1, ...result });
+    }
+
+    if ((fuente === 'ansv' || fuente === 'caba') && step === '2') {
+      const bodyData = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
+      const { taskMeta, session } = bodyData;
+      if (!taskMeta || !session) return res.json({ error: 'Faltan taskMeta o session en el body.' }, 400);
+      const infracciones = fuente === 'ansv'
+        ? await fetchANSVStep2(clean, taskMeta, session)
+        : await fetchCABAStep2(clean, taskMeta, session);
+      return res.json({ dominio: clean, fuente, infracciones });
+    }
+
     // ── DNRPA vehicle lookup ─────────────────────────────────────────────────
     if (fuente === 'dnrpa') {
       const vehiculo = await fetchDNRPA(clean);
-      return res.status(200).json({ dominio: clean, fuente, vehiculo });
+      return res.json({ dominio: clean, fuente, vehiculo });
     }
 
     // ── VTV ──────────────────────────────────────────────────────────────────
     if (fuente === 'vtv') {
       const historial = await fetchVTV(clean);
-      return res.status(200).json({ dominio: clean, fuente, historial });
+      return res.json({ dominio: clean, fuente, historial });
     }
 
     // ── ITV Córdoba ──────────────────────────────────────────────────────────
     if (fuente === 'vtv-cordoba') {
       const historial = await fetchVTVCordoba(clean);
-      return res.status(200).json({ dominio: clean, fuente, historial });
+      return res.json({ dominio: clean, fuente, historial });
     }
 
     // ── RTO Santa Fe ─────────────────────────────────────────────────────────
     if (fuente === 'vtv-santafe') {
       const historial = await fetchVTVSantaFe(clean);
-      return res.status(200).json({ dominio: clean, fuente, historial });
+      return res.json({ dominio: clean, fuente, historial });
     }
 
     // ── RTO Catamarca ─────────────────────────────────────────────────────────
     if (fuente === 'vtv-catamarca') {
       const historial = await fetchVTVCatamarca(clean);
-      return res.status(200).json({ dominio: clean, fuente, historial });
+      return res.json({ dominio: clean, fuente, historial });
     }
 
     // ── ACOR Corrientes patente ───────────────────────────────────────────────
     if (fuente === 'patentes-corrientes') {
       const acor = await fetchACORPatente(clean);
-      return res.status(200).json({ dominio: clean, fuente, acor });
+      return res.json({ dominio: clean, fuente, acor });
     }
 
     // ── ARBA — deuda de patentes PBA ─────────────────────────────────────────
     if (fuente === 'arba') {
       const arba = await fetchARBA(clean);
-      return res.status(200).json({ dominio: clean, fuente, arba });
+      return res.json({ dominio: clean, fuente, arba });
     }
 
     // ── AGIP — deuda de patentes CABA ────────────────────────────────────────
     if (fuente === 'agip') {
       const agip = await fetchAGIP(clean);
-      return res.status(200).json({ dominio: clean, fuente, agip });
+      return res.json({ dominio: clean, fuente, agip });
     }
 
     let infracciones;
@@ -2106,20 +2363,22 @@ export default async function handler(req, res) {
       case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
       case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;
       case 'avellaneda':      infracciones = await fetchAvellaneda(clean);                        break;
+      case 'venadotuerto':    infracciones = await fetchVenadoTuerto(clean);                      break;
+      case 'almirantebrown':  infracciones = await fetchAlmirante_Brown(clean);                   break;
+      case 'escobar':         infracciones = await fetchEscobar(clean);                           break;
       case 'ansv':
       default:                infracciones = await fetchANSV(clean);                              break;
     }
-    return res.status(200).json({ dominio: clean, fuente, infracciones });
+    return res.json({ dominio: clean, fuente, infracciones });
   } catch (err) {
     // MANUAL_REQUIRED: portal needs captcha that can't be automated — send a 200 with manualUrl
     if (err.message === 'MANUAL_REQUIRED') {
       const manualUrl = err.manualUrl || null;
-
-      if (fuente === 'arba')       return res.status(200).json({ dominio: clean, fuente, arba: { tieneDeuda: null, periodos: [], manualUrl } });
-      if (fuente === 'vtv-santafe') return res.status(200).json({ dominio: clean, fuente, historial: [], manualUrl });
-      return res.status(200).json({ dominio: clean, fuente, infracciones: [], manualUrl });
+      if (fuente === 'arba')        return res.json({ dominio: clean, fuente, arba: { tieneDeuda: null, periodos: [], manualUrl } });
+      if (fuente === 'vtv-santafe') return res.json({ dominio: clean, fuente, historial: [], manualUrl });
+      return res.json({ dominio: clean, fuente, infracciones: [], manualUrl });
     }
-    console.error(`[${fuente}] Error para ${clean}:`, err.message);
-    return res.status(502).json({ error: `Error al consultar ${fuente}: ${err.message}` });
+    logError(`[${fuente}] Error para ${clean}: ${err.message}`);
+    return res.json({ error: `Error al consultar ${fuente}: ${err.message}` }, 502);
   }
 };
