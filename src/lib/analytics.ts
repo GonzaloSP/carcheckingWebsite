@@ -107,7 +107,9 @@ export type AnalyticsEventName =
   | 'article_view'
   | 'booking_view'
   | 'blog_view'
-  | 'multa_search';
+  | 'multa_search'
+  | 'vtv_location_view'
+  | 'verificacion_policial_location_view';
 
 export function trackEvent(name: AnalyticsEventName, params: Record<string, any> = {}) {
   if (!isEnabled()) return;
