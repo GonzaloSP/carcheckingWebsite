@@ -228,7 +228,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
   const [agipState, setAgipState]             = useState<AGIPState | null>(null);
   const [activeTab, setActiveTab]         = useState<'multas' | 'vtv' | 'patentes'>('multas');
   const [activeFuentes, setActiveFuentes] = useState(jurisdiccion ? [jurisdiccion] : FUENTES);
-  const [expanded, setExpanded]           = useState<string | null>(null);
+  const [expanded, setExpanded]           = useState<Set<string>>(new Set());
   const [searched, setSearched]           = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
@@ -239,7 +239,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
     trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
 
     setSearched(clean);
-    setExpanded(null);
+    setExpanded(new Set());
     setVehiculo({ status: 'loading' });
 
     // ANSV only accepts old-format plates (ABC123 = 6 chars); hide for Mercosur (AB123CD = 7 chars)
@@ -633,7 +633,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
                     {activeFuentes.map(({ value, label, sub }) => {
                       const r = results[value];
-                      const isExpanded = expanded === value;
+                      const isExpanded = expanded.has(value);
 
                       return (
                         <div
@@ -647,7 +647,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
                           {/* Card header — clickable only when has results */}
                           <div
                             className={`flex items-center gap-3 px-4 py-3 bg-[#141416] ${r.status === 'ok' ? 'cursor-pointer hover:bg-[#1a1a1c] transition-colors' : ''}`}
-                            onClick={() => r.status === 'ok' && setExpanded(isExpanded ? null : value)}
+                            onClick={() => r.status === 'ok' && setExpanded(prev => { const s = new Set(prev); isExpanded ? s.delete(value) : s.add(value); return s; })}
                           >
                             {/* Status icon */}
                             <div className="flex-shrink-0 w-5 flex justify-center">
