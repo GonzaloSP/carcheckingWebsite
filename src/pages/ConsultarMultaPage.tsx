@@ -18,6 +18,7 @@ const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.inc
 const ASYNC_FUENTES    = new Set(['venadotuerto', 'almirantebrown', 'escobar']);
 // Fuentes that use two-step sync flow: step 1 submits captcha task, client waits, step 2 retrieves result
 const TWO_STEP_FUENTES = new Set(['ansv', 'caba']);
+const TWO_STEP_WAIT_MS: Record<string, number> = { ansv: 35000, caba: 35000 };
 
 /** Helper: POST a sync Appwrite execution and return the Response. */
 async function appwriteExec(path: string, method: string, body: string | null, signal?: AbortSignal): Promise<Response> {
@@ -53,8 +54,8 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
 
       const { taskMeta, session } = s1;
 
-      // Wait for captcha service to solve (~35s)
-      await new Promise(r => setTimeout(r, 35000));
+      // Wait for captcha service to solve (35s for ANSV/CABA, 80s for GNC)
+      await new Promise(r => setTimeout(r, TWO_STEP_WAIT_MS[fuente] ?? 35000));
 
       // Step 2: retrieve solved token + query portal (~5s)
       return appwriteExec(
@@ -388,8 +389,8 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
       })
       .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
 
-    // GNC ENARGAS (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=gnc${rc}`, AbortSignal.timeout(60_000))
+    // GNC ENARGAS — returns MANUAL_REQUIRED (portal blocks automated captcha solving)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=gnc${rc}`, AbortSignal.timeout(15_000))
       .then(r => r.json())
       .then(data => {
         if (data.manualUrl) { setGncState({ status: 'manual', manualUrl: data.manualUrl }); return; }
@@ -1033,10 +1034,11 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
                           ) : gncState.status === 'error' ? (
                             <div className="flex items-center gap-2"><XCircle className="w-4 h-4 text-[#555]" /><span className="text-sm text-[#555]">{gncState.error}</span></div>
                           ) : gncState.status === 'manual' ? (
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                              <span className="text-sm text-[#B8B2AA]">Consultar directamente en ENARGAS:</span>
-                              <a href={gncState.manualUrl!} target="_blank" rel="noopener noreferrer" className="text-sm text-[#C8A161] hover:underline flex items-center gap-1">Ir al portal <ExternalLink className="w-3 h-3" /></a>
+                            <div className="space-y-2">
+                              <p className="text-xs text-[#B8B2AA]">El portal de ENARGAS requiere verificación manual. Si el vehículo tiene GNC instalado, verificá la habilitación directamente:</p>
+                              <a href={gncState.manualUrl!} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-[#C8A161] hover:underline">
+                                Consultar en ENARGAS <ExternalLink className="w-3 h-3" />
+                              </a>
                             </div>
                           ) : gncState.status === 'empty' ? (
                             <div className="flex items-center gap-2"><XCircle className="w-4 h-4 text-[#444]" /><span className="text-sm text-[#555]">Sin habilitación GNC registrada en ENARGAS</span></div>
