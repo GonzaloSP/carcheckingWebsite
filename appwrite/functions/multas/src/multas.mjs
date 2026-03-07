@@ -1851,24 +1851,6 @@ async function fetchVTVCatamarca(dominio) {
   });
 }
 
-// ─── ENARGAS GNC — Habilitación Gas Natural Comprimido ───────────────────────
-// ENARGAS uses reCAPTCHA v3 with strict server-side score validation.
-// All automated solving services (Capsolver, 2captcha) produce tokens that
-// ENARGAS rejects — returns MANUAL_REQUIRED so frontend shows the portal link.
-async function fetchGNCStep1() {
-  const PAGE_URL = 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php';
-  const err = new Error('MANUAL_REQUIRED');
-  err.manualUrl = PAGE_URL;
-  throw err;
-}
-
-async function fetchGNCStep2() {
-  const PAGE_URL = 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido/consulta-dominio.php';
-  const err = new Error('MANUAL_REQUIRED');
-  err.manualUrl = PAGE_URL;
-  throw err;
-}
-
 // ─── Boldt Juzgado Virtual — Venado Tuerto, Almirante Brown, Escobar ──────────
 // Shared JWT + reCAPTCHA v3 REST platform.
 // Credentials are injected per-municipality in the frontend page HTML.
@@ -2346,23 +2328,6 @@ export default async ({ req, res, log, error: logError }) => {
       return res.json({ dominio: clean, fuente, arba });
     }
 
-    // ── ENARGAS GNC — habilitación GNC (two-step: captcha takes ~80s) ────────
-    if (fuente === 'gnc' && step === '1') {
-      const result = await fetchGNCStep1();
-      return res.json({ dominio: clean, fuente, step: 1, ...result });
-    }
-    if (fuente === 'gnc' && step === '2') {
-      const bodyData = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
-      const { taskMeta } = bodyData;
-      const gnc = await fetchGNCStep2(clean, taskMeta);
-      return res.json({ dominio: clean, fuente, gnc });
-    }
-    if (fuente === 'gnc') {
-      // No step param — default to full two-step via step=1 (client should use step flow)
-      const result = await fetchGNCStep1();
-      return res.json({ dominio: clean, fuente, step: 1, ...result });
-    }
-
     // ── AGIP — deuda de patentes CABA ────────────────────────────────────────
     if (fuente === 'agip') {
       const agip = await fetchAGIP(clean);
@@ -2411,7 +2376,6 @@ export default async ({ req, res, log, error: logError }) => {
       const manualUrl = err.manualUrl || null;
       if (fuente === 'arba')        return res.json({ dominio: clean, fuente, arba: { tieneDeuda: null, periodos: [], manualUrl } });
       if (fuente === 'vtv-santafe') return res.json({ dominio: clean, fuente, historial: [], manualUrl });
-      if (fuente === 'gnc')         return res.json({ dominio: clean, fuente, gnc: { habilitado: null }, manualUrl });
       return res.json({ dominio: clean, fuente, infracciones: [], manualUrl });
     }
     logError(`[${fuente}] Error para ${clean}: ${err.message}`);
