@@ -181,6 +181,28 @@ export const locations: Location[] = [
   { slug: 'gonnet', name: 'Gonnet' },
   { slug: 'ringuelet', name: 'Ringuelet' },
   { slug: 'tolosa', name: 'Tolosa' },
+
+  // Partidos (AMBA / GBA) — added for Local SEO coverage
+  // Note: some partidos already exist above (e.g., Quilmes, Lanús, etc.).
+  { slug: 'almirante-brown', name: 'Almirante Brown' },
+  { slug: 'berisso', name: 'Berisso' },
+  { slug: 'brandsen', name: 'Brandsen' },
+  { slug: 'campana', name: 'Campana' },
+  { slug: 'canuelas', name: 'Cañuelas' },
+  { slug: 'ensenada', name: 'Ensenada' },
+  { slug: 'escobar', name: 'Escobar' },
+  { slug: 'exaltacion-de-la-cruz', name: 'Exaltación de la Cruz' },
+  { slug: 'ezeiza', name: 'Ezeiza' },
+  { slug: 'general-las-heras', name: 'General Las Heras' },
+  { slug: 'general-rodriguez', name: 'General Rodríguez' },
+  { slug: 'general-san-martin', name: 'General San Martín' },
+  { slug: 'lujan', name: 'Luján' },
+  { slug: 'marcos-paz', name: 'Marcos Paz' },
+  { slug: 'pilar', name: 'Pilar' },
+  { slug: 'presidente-peron', name: 'Presidente Perón' },
+  { slug: 'san-vicente', name: 'San Vicente' },
+  { slug: 'tres-de-febrero', name: 'Tres de Febrero' },
+  { slug: 'zarate', name: 'Zárate' },
 ];
 
 export const getLocationBySlug = (slug: string): Location | undefined =>
