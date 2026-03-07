@@ -22,7 +22,7 @@ export const articles: Article[] = [
   {
     id: 'transfer-costs-calculator',
     slug: 'calculadora-costos-transferencia-auto-usado',
-    title: 'Calculadora de costos de transferencia: estimación rápida (Argentina)',
+    title: 'Calculadora de "Costos de Transferencia 2026 – Calculá en 30 Segundos"',
     excerpt: 'Ingresá el precio del vehículo y obtené un estimado de costos de transferencia en Argentina con un desglose simple (aranceles + sellos).',
     author: 'carChecking',
     date: '2026-02-05',
