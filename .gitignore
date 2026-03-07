@@ -21,3 +21,8 @@ yarn-error.log*
 .idea
 .vercel
 .env*.local
+
+# generated content / tooling outputs
+blog_articles.csv
+youtube_videos.json
+youtube_blog_mapping.csv
