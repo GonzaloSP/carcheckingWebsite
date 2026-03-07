@@ -1193,7 +1193,7 @@ La única forma de estar 100% seguro del estado real del vehículo es contratand
   {
     id: 'quien-paga-transferencia-auto-usado',
     slug: 'quien-paga-la-transferencia-de-un-vehiculo-usado',
-    title: '¿Quién paga la transferencia de un vehículo usado? (Argentina)',
+    title: 'Quién paga la transferencia: el punto que conviene acordar antes de señar',
     excerpt:
       'Guía clara sobre quién suele pagar la transferencia de un auto usado en Argentina: qué gastos existen, qué se negocia y ejemplos de acuerdos entre comprador y vendedor.',
     author: 'carChecking',
@@ -1211,11 +1211,11 @@ La única forma de estar 100% seguro del estado real del vehículo es contratand
     ],
     image: `${base}images/hero_car.jpg`,
     metaTitle:
-      '¿Quién paga la transferencia de un auto usado en Argentina? (comprador vs vendedor) | carChecking',
+      'Quién paga la transferencia: el error que te puede costar caro | carChecking',
     metaDescription:
-      'Quién paga la transferencia de un vehículo usado en Argentina: costos típicos (aranceles, sellos, verificación, gestoría), qué se negocia y acuerdos comunes.',
+      'Lo que suele pasar entre particulares, qué gastos aparecen “de golpe” y cómo evitar discusiones por transferencia, sellos, verificación y gestoría.',
     content: `
-## ¿Quién paga la transferencia de un vehículo usado?
+## Quién paga la transferencia: el punto que conviene acordar antes de señar
 
 En Argentina no existe una única respuesta “de manual”, porque **se negocia**. Pero sí hay una práctica común: 
 
@@ -1223,6 +1223,29 @@ En Argentina no existe una única respuesta “de manual”, porque **se negocia
 - El vendedor suele encargarse de **entregar la documentación en regla** y firmar lo necesario para que la transferencia se pueda hacer.
 
 Lo importante es que **lo hablen antes de señar** y lo dejen claro (aunque sea por WhatsApp) para evitar discusiones.
+
+---
+
+## Preguntas frecuentes
+
+### ¿El comprador siempre paga la transferencia?
+No siempre. **Se negocia**. Pero en operaciones entre particulares, lo más habitual es que el **comprador** pague los **aranceles del registro** y los **sellos**. Si se acuerda “50/50” o si hay agencia/gestoría incluida, puede cambiar.
+
+### ¿Qué paga el vendedor sí o sí?
+El vendedor debería **entregar el vehículo y la documentación en regla** (y firmar lo necesario). Si tiene **multas, patentes u otras deudas a su nombre** que impiden transferir o encarecen el cierre, lo razonable es que las **regularice** o que se **descuenten del precio**.
+
+### ¿Quién paga sellos, verificación y gestoría?
+- **Sellos/impuestos provinciales:** suelen ir a cargo del **comprador**, salvo acuerdo distinto.
+- **Verificación policial:** depende del caso y de la jurisdicción; muchas veces la paga el **comprador** si la exige el trámite, pero también puede pactarse.
+- **Gestoría:** la paga quien la contrata; si la propone una parte (o una agencia la “impone”), pidan **detalle** y acuerden si se comparte.
+
+### ¿Qué poner por escrito al señar?
+Aunque sea por WhatsApp, dejá asentado:
+- **Precio** y **monto de seña**
+- **Plazo** para transferir
+- **Quién paga**: aranceles, sellos, verificación, certificación de firmas e informe de dominio
+- Si hay **gestoría**, **quién la elige** y **cuánto cuesta**
+- Qué pasa si aparece una **deuda/multa** antes de transferir (se paga / se descuenta / se cancela la operación)
 
 ---
 
