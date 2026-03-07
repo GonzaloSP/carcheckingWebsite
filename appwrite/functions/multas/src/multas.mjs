@@ -1851,6 +1851,92 @@ async function fetchVTVCatamarca(dominio) {
   });
 }
 
+// ─── ENARGAS GNC — Habilitación Gas Natural Comprimido ───────────────────────
+async function fetchGNC(dominio) {
+  const BASE_URL = 'https://www.enargas.gob.ar/secciones/gas-natural-comprimido';
+  const PAGE_URL = `${BASE_URL}/consulta-dominio.php`;
+  const POST_URL = `${BASE_URL}/cargar-detalle-previo.php`;
+  const SITE_KEY = '6LdT2SwfAAAAAF_SNfsqNG_JFlYSe4BlC7-vtA2e';
+  const ACTION   = 'sicgnc_consulta_dominio';
+
+  const token = await solveRecaptchaV3(SITE_KEY, PAGE_URL, ACTION, 0.3);
+
+  const formData = new URLSearchParams({
+    tipo_consulta: 'Dominio',
+    dominio,
+    token,
+    action: ACTION,
+    source: 'web',
+  });
+
+  const res = await http.post(POST_URL, formData.toString(), {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer: PAGE_URL,
+    },
+    validateStatus: () => true,
+  });
+
+  const $ = cheerio.load(String(res.data));
+
+  // Token rejected or processing error → MANUAL_REQUIRED
+  if ($('.alert-warning').length) {
+    const err = new Error('MANUAL_REQUIRED');
+    err.manualUrl = PAGE_URL;
+    throw err;
+  }
+
+  // Explicit "no results" table or similar → no GNC registered
+  if ($('#tablaerror').length || !$('#tabla').length) {
+    return { habilitado: false, certificado: null, fechaHabilitacion: null, fechaVencimiento: null, estado: null, taller: null, rows: [] };
+  }
+
+  // Parse table generically — extract headers and first data row
+  const headers = [];
+  $('#tabla thead th').each((_, th) => headers.push($(th).text().trim()));
+
+  const rows = [];
+  $('#tabla tbody tr').each((_, tr) => {
+    const row = {};
+    $(tr).find('td').each((i, td) => {
+      if (headers[i]) row[headers[i]] = $(td).text().trim();
+    });
+    if (Object.keys(row).length > 0) rows.push(row);
+  });
+
+  if (rows.length === 0) {
+    return { habilitado: false, certificado: null, fechaHabilitacion: null, fechaVencimiento: null, estado: null, taller: null, rows: [] };
+  }
+
+  // Flexible field extraction by partial header name match
+  const find = (r, ...patterns) => {
+    for (const pat of patterns) {
+      const key = Object.keys(r).find(k => k.toLowerCase().includes(pat));
+      if (key && r[key]) return r[key];
+    }
+    return null;
+  };
+
+  const r = rows[0];
+  const estado           = find(r, 'estado', 'vigencia');
+  const fechaVencimiento = find(r, 'vencimiento', 'vencim', 'expir');
+  const fechaHabilitacion = find(r, 'habilitacion', 'habilitación', 'emision', 'emisión', 'alta', 'inicio', 'otorg');
+  const certificado      = find(r, 'certificado', 'cert', 'numero', 'número', 'nro');
+  const taller           = find(r, 'taller', 'instalador', 'empresa', 'razón', 'razon');
+
+  let habilitado = false;
+  if (estado) {
+    habilitado = /vigente|activ|habilitad|valid/i.test(estado);
+  } else if (fechaVencimiento) {
+    const parts = fechaVencimiento.split('/');
+    if (parts.length === 3) {
+      habilitado = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`) > new Date();
+    }
+  }
+
+  return { habilitado, certificado, fechaHabilitacion, fechaVencimiento, estado, taller, rows };
+}
+
 // ─── Boldt Juzgado Virtual — Venado Tuerto, Almirante Brown, Escobar ──────────
 // Shared JWT + reCAPTCHA v3 REST platform.
 // Credentials are injected per-municipality in the frontend page HTML.
@@ -2326,6 +2412,12 @@ export default async ({ req, res, log, error: logError }) => {
     if (fuente === 'arba') {
       const arba = await fetchARBA(clean);
       return res.json({ dominio: clean, fuente, arba });
+    }
+
+    // ── ENARGAS GNC — habilitación GNC ───────────────────────────────────────
+    if (fuente === 'gnc') {
+      const gnc = await fetchGNC(clean);
+      return res.json({ dominio: clean, fuente, gnc });
     }
 
     // ── AGIP — deuda de patentes CABA ────────────────────────────────────────

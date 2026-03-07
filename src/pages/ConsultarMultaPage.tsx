@@ -211,6 +211,19 @@ interface AGIPState {
   error?:    string;
 }
 
+interface GNCState {
+  status:             'loading' | 'ok' | 'empty' | 'error' | 'manual';
+  habilitado?:        boolean | null;
+  certificado?:       string | null;
+  fechaHabilitacion?: string | null;
+  fechaVencimiento?:  string | null;
+  estado?:            string | null;
+  taller?:            string | null;
+  rows?:              Array<Record<string, string>>;
+  manualUrl?:         string | null;
+  error?:             string;
+}
+
 export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: string } = {}) {
   const jurisdiccion = defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -226,6 +239,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
   const [acorState, setAcorState]             = useState<ACORState | null>(null);
   const [arbaState, setArbaState]             = useState<ARBAState | null>(null);
   const [agipState, setAgipState]             = useState<AGIPState | null>(null);
+  const [gncState, setGncState]               = useState<GNCState | null>(null);
   const [activeTab, setActiveTab]         = useState<'multas' | 'vtv' | 'patentes'>('multas');
   const [activeFuentes, setActiveFuentes] = useState(jurisdiccion ? [jurisdiccion] : FUENTES);
   const [expanded, setExpanded]           = useState<Set<string>>(new Set());
@@ -258,6 +272,7 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
     setArbaState({ status: 'loading' });
     setAgipState({ status: 'loading' });
     setAcorState({ status: 'loading' });
+    setGncState({ status: 'loading' });
     setActiveTab('multas');
 
     // Get reCAPTCHA v3 token (invisible — no user interaction)
@@ -372,6 +387,17 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
         });
       })
       .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
+
+    // GNC ENARGAS (runs in parallel)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=gnc${rc}`, AbortSignal.timeout(60_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.manualUrl) { setGncState({ status: 'manual', manualUrl: data.manualUrl }); return; }
+        const g = data.gnc;
+        if (!g) { setGncState({ status: 'error', error: data.error || 'Error al consultar GNC' }); return; }
+        setGncState({ status: g.habilitado ? 'ok' : 'empty', ...g });
+      })
+      .catch(() => setGncState({ status: 'error', error: 'No se pudo conectar con ENARGAS' }));
 
     fuentes.forEach(async ({ value }) => {
       try {
@@ -994,6 +1020,56 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
                           </div>
                         );
                       })()}
+
+                      {/* ── GNC ENARGAS ──────────────────────────────────── */}
+                      <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
+                        <div className="px-4 py-3 border-b border-[#2a2a2c] flex items-center justify-between">
+                          <div><p className="text-sm font-semibold text-[#F4F1EC]">GNC</p><p className="text-xs text-[#555]">Habilitación ENARGAS</p></div>
+                          <span className="text-xs text-[#555] bg-[#0f0f11] border border-[#2a2a2c] px-2 py-1 rounded">ENARGAS</span>
+                        </div>
+                        <div className="p-5">
+                          {!gncState || gncState.status === 'loading' ? (
+                            <div className="flex items-center gap-3"><Loader2 className="w-4 h-4 text-[#555] animate-spin" /><span className="text-sm text-[#B8B2AA]">Consultando GNC…</span></div>
+                          ) : gncState.status === 'error' ? (
+                            <div className="flex items-center gap-2"><XCircle className="w-4 h-4 text-[#555]" /><span className="text-sm text-[#555]">{gncState.error}</span></div>
+                          ) : gncState.status === 'manual' ? (
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                              <span className="text-sm text-[#B8B2AA]">Consultar directamente en ENARGAS:</span>
+                              <a href={gncState.manualUrl!} target="_blank" rel="noopener noreferrer" className="text-sm text-[#C8A161] hover:underline flex items-center gap-1">Ir al portal <ExternalLink className="w-3 h-3" /></a>
+                            </div>
+                          ) : gncState.status === 'empty' ? (
+                            <div className="flex items-center gap-2"><XCircle className="w-4 h-4 text-[#444]" /><span className="text-sm text-[#555]">Sin habilitación GNC registrada en ENARGAS</span></div>
+                          ) : (
+                            <div>
+                              <div className="flex items-start justify-between gap-4 mb-4">
+                                <div>
+                                  <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-1">Estado</p>
+                                  <span className={`inline-flex items-center gap-1.5 text-sm font-bold px-3 py-1 rounded-full ${gncState.habilitado ? 'bg-green-900/30 text-green-400' : 'bg-amber-900/30 text-amber-400'}`}>
+                                    {gncState.habilitado ? <CheckCircle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
+                                    {gncState.estado || (gncState.habilitado ? 'HABILITADO' : 'VENCIDO')}
+                                  </span>
+                                </div>
+                                {gncState.certificado && (
+                                  <div className="text-right"><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">N° Certificado</p><p className="text-sm font-mono text-[#F4F1EC]">{gncState.certificado}</p></div>
+                                )}
+                              </div>
+                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3">
+                                {gncState.fechaHabilitacion && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Fecha habilitación</p><p className="text-sm text-[#F4F1EC]">{gncState.fechaHabilitacion}</p></div>}
+                                {gncState.fechaVencimiento && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Vencimiento</p><p className={`text-sm font-semibold ${gncState.habilitado ? 'text-green-400' : 'text-amber-400'}`}>{gncState.fechaVencimiento}</p></div>}
+                                {gncState.taller && <div><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Taller</p><p className="text-sm text-[#F4F1EC]">{gncState.taller}</p></div>}
+                              </div>
+                              {gncState.rows && gncState.rows.length > 0 && (
+                                <div className="mt-3 pt-3 border-t border-[#2a2a2c] grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-2">
+                                  {Object.entries(gncState.rows[0]).map(([k, v]) => v ? (
+                                    <div key={k}><p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">{k}</p><p className="text-sm text-[#F4F1EC]">{v}</p></div>
+                                  ) : null)}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
 
