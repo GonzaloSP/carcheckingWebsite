@@ -1879,6 +1879,100 @@ La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más 
 ` ,
   },
   {
+    id: 'vtv-caba-2026',
+    slug: 'vtv-caba-turno-requisitos-costos-2026',
+    title: 'VTV CABA – Turno, Requisitos y Costos 2026',
+    excerpt:
+      'Guía 2026 para hacer la VTV en CABA: cómo sacar turno, qué documentación llevar, qué se revisa, costos orientativos y consejos para aprobar sin vueltas.',
+    author: 'carChecking',
+    date: '2026-03-07',
+    category: 'Revisión del Vehículo',
+    tags: ['VTV CABA', 'turno VTV', 'requisitos VTV', 'costo VTV', 'Verificación Técnica Vehicular', '2026'],
+    image: `${base}images/mechanic_working.jpg`,
+    metaTitle: 'VTV CABA – Turno, Requisitos y Costos 2026 | carChecking',
+    metaDescription:
+      'VTV CABA 2026: turno, requisitos, documentación, qué se controla y costos orientativos. Checklist para ir a la planta y evitar rechazo/condicional.',
+    content: `
+## VTV CABA – Turno, Requisitos y Costos 2026
+
+Si estás buscando **“VTV CABA”**, normalmente querés tres cosas: **sacar turno**, saber **qué llevar** y entender **cuánto cuesta** (y qué puede hacerte fallar).
+
+Esta guía está pensada para eso, sin vueltas.
+
+---
+
+## Cómo sacar turno para la VTV en CABA
+
+En CABA, el turno se gestiona desde el **portal oficial de VTV** (puede cambiar con el tiempo). Recomendación práctica:
+
+- Sacá turno con anticipación (en ciertos meses se satura).
+- Elegí planta, día y horario.
+- Guardá el comprobante (mail/captura) por si te lo piden.
+
+---
+
+## Requisitos típicos (qué llevar)
+
+Para hacer la **VTV en CABA**, normalmente te van a pedir:
+
+- **DNI** del titular (o quien lleve el vehículo, según corresponda).
+- **Cédula** del vehículo.
+- **Seguro vigente**.
+- **Comprobante de turno**.
+
+Si el auto tiene **GNC**, suele haber requisitos/controles extra.
+
+---
+
+## Qué te revisan en la VTV (checklist)
+
+La VTV es una inspección técnica. En general se controla:
+
+- **Luces** (baja/alta/posición/giro/freno) y señalización.
+- **Frenos** y estado general de tren delantero.
+- **Neumáticos** (estado y medidas) y suspensión.
+- **Dirección** y juego.
+- **Emisiones/ruidos**.
+- Elementos de seguridad visibles.
+
+Consejo: antes del turno, revisá lo básico (luces, limpiaparabrisas, presión/estado de cubiertas, pérdidas, testigos en tablero).
+
+---
+
+## Costos de VTV CABA 2026 (orientativo)
+
+El **costo de la VTV en CABA** cambia con el tiempo y depende del tipo de vehículo. Para ver el valor actualizado, lo más confiable es el portal oficial al momento de sacar turno.
+
+Tomalo como un gasto distinto de:
+- costos de transferencia,
+- sellos,
+- y verificación policial.
+
+---
+
+## Resultado: Apto / Condicional / Rechazado
+
+- **Apto:** podés circular.
+- **Condicional:** hay observaciones; suele requerir corrección y re-verificación en plazo.
+- **Rechazado:** hay fallas que impiden aprobar; hay que reparar y volver.
+
+---
+
+## Si vas a comprar un usado (dato clave)
+
+La VTV no reemplaza una revisión precompra. Si querés reducir riesgo real (choques, fallas ocultas, electrónica, kilometraje), lo ideal es sumar una inspección completa.
+
+- Revisión precompra: [/solicitar-turno](/solicitar-turno)
+
+---
+
+## VTV en tu zona
+
+Si no estás en CABA, mirá la guía por localidad:
+- VTV por ubicación: /vtv-en/tu-localidad (ej: /vtv-en/quilmes)
+    `,
+  },
+  {
     id: 'evitar-estafas-comprar-auto',
     slug: 'como-evitar-estafas-al-comprar-auto-usado',
     title: 'Cómo evitar estafas al comprar un auto usado en Argentina (guía simple)',

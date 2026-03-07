@@ -62,6 +62,12 @@ const urls = [
     priority: '0.5',
     lastmod: fmt(now),
   })),
+  ...locationSlugs.map((slug) => ({
+    loc: `/vtv-en/${slug}`,
+    changefreq: 'monthly',
+    priority: '0.5',
+    lastmod: fmt(now),
+  })),
   ...articles.map((a) => ({
     loc: `/guias/${a.slug}`,
     changefreq: 'monthly',

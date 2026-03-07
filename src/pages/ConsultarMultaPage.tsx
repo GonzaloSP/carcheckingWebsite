@@ -260,7 +260,6 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
     setArbaState({ status: 'loading' });
     setAgipState({ status: 'loading' });
     setAcorState({ status: 'loading' });
-    setGncState({ status: 'loading' });
     setActiveTab('multas');
 
     // Get reCAPTCHA v3 token (invisible — no user interaction)
