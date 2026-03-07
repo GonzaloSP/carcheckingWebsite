@@ -7,6 +7,7 @@ import BookingPage from './pages/BookingPage';
 import GestoriaPage from './pages/GestoriaPage';
 import ReciboDeSenaPage from './pages/ReciboDeSenaPage';
 import LocationLandingPage from './pages/LocationLandingPage';
+import VerificacionPolicialLocationPage from './pages/VerificacionPolicialLocationPage';
 import ConsultarMultaPage from './pages/ConsultarMultaPage';
 import ConsultarMultaJurisdiccionPage from './pages/ConsultarMultaJurisdiccionPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/consultar-multa/:slug" element={<ConsultarMultaJurisdiccionPage />} />
 
         <Route path="/revision-vehiculo-en/:slug" element={<LocationLandingPage />} />
+        <Route path="/verificacion-policial-en/:slug" element={<VerificacionPolicialLocationPage />} />
 
         <Route
           path="/guias/recibo-de-sena-de-venta-de-vehiculo"

@@ -56,6 +56,12 @@ const urls = [
     priority: '0.55',
     lastmod: fmt(now),
   })),
+  ...locationSlugs.map((slug) => ({
+    loc: `/verificacion-policial-en/${slug}`,
+    changefreq: 'monthly',
+    priority: '0.5',
+    lastmod: fmt(now),
+  })),
   ...articles.map((a) => ({
     loc: `/guias/${a.slug}`,
     changefreq: 'monthly',
