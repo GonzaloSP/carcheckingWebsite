@@ -11,10 +11,8 @@ import { JURISDICCIONES_MULTA } from '../data/multa-jurisdictions';
 
 const FUENTES = JURISDICCIONES_MULTA;
 
-const MULTA_API_URL       = import.meta.env.VITE_MULTA_API_URL          ?? '/api/multas';
-const APPWRITE_PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID    ?? '';
-const APPWRITE_EXEC_KEY   = import.meta.env.VITE_APPWRITE_EXEC_READ_KEY ?? '';
-const IS_APPWRITE         = MULTA_API_URL.includes('/executions');
+const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
+const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
 
 // Fuentes that need async Appwrite execution (captcha solving takes > 30s sync limit)
 const ASYNC_FUENTES    = new Set(['venadotuerto', 'almirantebrown', 'escobar']);
@@ -25,7 +23,7 @@ const TWO_STEP_FUENTES = new Set(['ansv', 'caba']);
 async function appwriteExec(path: string, method: string, body: string | null, signal?: AbortSignal): Promise<Response> {
   const appRes = await fetch(MULTA_API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-appwrite-project': APPWRITE_PROJECT_ID },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ async: false, path, method, ...(body != null ? { body } : {}) }),
     signal,
   });
@@ -71,7 +69,7 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
 
     const appRes = await fetch(MULTA_API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-appwrite-project': APPWRITE_PROJECT_ID },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ async: useAsync, path: `/${queryString}`, method: 'GET' }),
       signal,
     });
@@ -80,12 +78,10 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
     if (useAsync) {
       // Poll until the async execution completes (captcha solving can take 30-90s)
       const execId: string = execution.$id;
-      const pollBase = MULTA_API_URL.replace('/executions', '/executions/') + execId;
+      const pollBase = `${MULTA_API_URL}?id=${execId}`;
       for (let i = 0; i < 40; i++) {
         await new Promise(r => setTimeout(r, 3000));
-        const pollRes = await fetch(pollBase, {
-          headers: { 'x-appwrite-project': APPWRITE_PROJECT_ID, 'x-appwrite-key': APPWRITE_EXEC_KEY },
-        });
+        const pollRes = await fetch(pollBase);
         const pollData = await pollRes.json();
         if (pollData.status === 'completed' || pollData.status === 'failed') {
           const statusCode = pollData.responseStatusCode ?? 502;
