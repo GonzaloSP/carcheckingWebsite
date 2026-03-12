@@ -9,7 +9,6 @@ export interface JurisdiccionMulta {
 export const JURISDICCIONES_MULTA: JurisdiccionMulta[] = [
   { value: 'ansv',           label: 'ANSV / SINAI',              sub: 'Nacional',             slug: 'multas-ansv-sinai',             manualUrl: null },
   { value: 'pba',            label: 'Provincia de Buenos Aires', sub: 'Buenos Aires',          slug: 'multas-provincia-buenos-aires',  manualUrl: null },
-  { value: 'pba',            label: 'La Plata',                  sub: 'Buenos Aires',          slug: 'multas-la-plata',                manualUrl: null },
   { value: 'caba',           label: 'CABA',                      sub: 'Ciudad Autónoma',       slug: 'multas-caba',                    manualUrl: null },
   { value: 'cordoba',        label: 'Córdoba Caminera',          sub: 'Córdoba',               slug: 'multas-cordoba',                 manualUrl: null },
   { value: 'santafe',        label: 'Santa Fe',                  sub: 'Juzgado Virtual',       slug: 'multas-santa-fe',                manualUrl: null },

@@ -31,7 +31,8 @@ async function appwriteExec(path: string, method: string, body: string | null, s
     signal,
   });
   const exec = await appRes.json();
-  return new Response(exec.responseBody ?? '{}', {
+  const body = exec.responseBody || JSON.stringify({ error: 'Portal no disponible' });
+  return new Response(body, {
     status: exec.responseStatusCode ?? 502,
     headers: { 'Content-Type': 'application/json' },
   });
@@ -106,7 +107,8 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
       throw new Error('Tiempo de espera agotado para la consulta.');
     }
 
-    return new Response(execution.responseBody ?? '{}', {
+    const syncBody = execution.responseBody || JSON.stringify({ error: 'Portal no disponible' });
+    return new Response(syncBody, {
       status: execution.responseStatusCode ?? 502,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -391,7 +393,7 @@ export default function ConsultarMultaPage({
         if (!res.ok || data.error) {
           setResults(prev => prev && ({
             ...prev,
-            [value]: { status: 'error', infracciones: [], error: data.error || 'Error desconocido' },
+            [value]: { status: 'error', infracciones: [], error: data.error || 'Portal no disponible' },
           }));
         } else if (data.manualUrl) {
           setResults(prev => prev && ({
