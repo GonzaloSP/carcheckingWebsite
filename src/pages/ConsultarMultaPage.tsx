@@ -7,7 +7,9 @@ import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
 import FooterSection from '../sections/FooterSection';
 import { trackEvent } from '../lib/analytics';
-import { JURISDICCIONES_MULTA } from '../data/multa-jurisdictions';
+import { JURISDICCIONES_MULTA, type JurisdiccionMulta } from '../data/multa-jurisdictions';
+import { MULTA_CONTENT } from '../data/multa-content';
+import { Helmet } from 'react-helmet-async';
 
 const FUENTES = JURISDICCIONES_MULTA;
 
@@ -213,8 +215,12 @@ interface AGIPState {
 }
 
 
-export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: string } = {}) {
-  const jurisdiccion = defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined;
+export default function ConsultarMultaPage({
+  defaultFuente,
+  jurisdiccionOverride,
+}: { defaultFuente?: string; jurisdiccionOverride?: JurisdiccionMulta } = {}) {
+  const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
+  const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const [dominio, setDominio]             = useState('');
@@ -428,17 +434,30 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
   return (
     <HelmetProvider>
       <SEO
-        title={jurisdiccion
+        title={content?.seoTitle ?? (jurisdiccion
           ? `Consultar Multas en ${jurisdiccion.label} | carChecking`
-          : 'Consultar Multas por Patente en Argentina | carChecking'}
-        description={jurisdiccion
+          : 'Consultar Multas por Patente en Argentina | carChecking')}
+        description={content?.seoDescription ?? (jurisdiccion
           ? `Consultá multas e infracciones de tránsito en ${jurisdiccion.label} por número de patente. Verificación gratuita e instantánea en los registros oficiales.`
-          : 'Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones, Avellaneda, Lanús, Berisso, Ezeiza, Lomas de Zamora, Tres de Febrero, Hurlingham, Cañuelas y más.'}
-        keywords={jurisdiccion
+          : 'Consultá multas de tránsito por patente en Argentina. Verificá infracciones en ANSV, CABA, Buenos Aires, Córdoba, Santa Fe, Mendoza, Salta, Neuquén, Corrientes, Entre Ríos, Chaco, Misiones, Avellaneda, Lanús, Berisso, Ezeiza, Lomas de Zamora, Tres de Febrero, Hurlingham, Cañuelas y más.')}
+        keywords={content?.seoKeywords ?? (jurisdiccion
           ? `multas ${jurisdiccion.label}, consultar multas ${jurisdiccion.label}, infracciones ${jurisdiccion.label}, multas patente ${jurisdiccion.label}`
-          : 'consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires, multas Avellaneda, multas Lanus, multas GBA'}
+          : 'consultar multas patente argentina, multas de transito argentina, consultar infracciones vehiculo, multas por patente, ANSV multas, multas CABA, multas provincia buenos aires, multas Avellaneda, multas Lanus, multas GBA')}
         canonicalUrl={jurisdiccion ? `/consultar-multa/${jurisdiccion.slug}` : '/consultar-multa'}
       />
+      {content?.faq && (
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: content.faq.map(({ q, a }) => ({
+              '@type': 'Question',
+              name: q,
+              acceptedAnswer: { '@type': 'Answer', text: a },
+            })),
+          })}</script>
+        </Helmet>
+      )}
 
       <div className="relative bg-[#0B0B0D] min-h-screen">
         <div className="grain-overlay" />
@@ -471,9 +490,9 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
                     : 'Consultar Multas por Patente en Argentina'}
                 </h1>
                 <p className="text-lg text-[#B8B2AA] leading-relaxed max-w-2xl">
-                  {jurisdiccion
+                  {content?.intro ?? (jurisdiccion
                     ? `Ingresá la patente y consultamos los registros oficiales de infracciones de ${jurisdiccion.label}.`
-                    : `Ingresá la patente y consultamos simultáneamente los registros oficiales de las ${FUENTES.length} principales jurisdicciones del país.`}
+                    : `Ingresá la patente y consultamos simultáneamente los registros oficiales de las ${FUENTES.length} principales jurisdicciones del país.`)}
                 </p>
               </div>
 
@@ -1190,98 +1209,119 @@ export default function ConsultarMultaPage({ defaultFuente }: { defaultFuente?: 
               {/* ── SEO Content ──────────────────────────────────────────── */}
               <section className="space-y-6">
 
-                <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
-                  <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">
-                    ¿Qué son las multas de tránsito en Argentina?
-                  </h2>
-                  <p className="text-[#B8B2AA] leading-relaxed mb-4">
-                    Las multas de tránsito son sanciones económicas que se aplican a los conductores
-                    o titulares de vehículos por incumplir las normas de tránsito vigentes. En Argentina,
-                    el sistema está regulado por la <strong className="text-[#F4F1EC]">Ley Nacional de Tránsito N° 24.449</strong>,
-                    pero cada provincia y municipio tiene sus propios organismos y registros de infracciones.
-                  </p>
-                  <p className="text-[#B8B2AA] leading-relaxed">
-                    Una infracción queda registrada a nombre del titular del vehículo, incluso si la
-                    comete otra persona al volante. Por eso es fundamental verificar el estado de multas
-                    antes de comprar un auto usado: las deudas pueden transferirse junto con el dominio
-                    y generar complicaciones legales al nuevo titular.
-                  </p>
-                </div>
+                {content ? (
+                  <>
+                    {/* Jurisdiction-specific sections */}
+                    {content.sections.map(({ title, body }) => (
+                      <div key={title} className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                        <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">{title}</h2>
+                        <p className="text-[#B8B2AA] leading-relaxed">{body}</p>
+                      </div>
+                    ))}
 
-                <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
-                  <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">
-                    Jurisdicciones consultadas
-                  </h2>
-                  <div className="space-y-5">
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">ANSV / SINAI — Nacional</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        El <strong className="text-[#F4F1EC]">Sistema Nacional de Infracciones (SINAI)</strong> centraliza las
-                        infracciones labradas por Gendarmería, Prefectura y Policía Federal en rutas y autopistas
-                        federales. Solo admite formato antiguo (ABC123).
+                    {/* FAQ */}
+                    <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                      <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">
+                        Preguntas frecuentes sobre multas en {jurisdiccion!.label}
+                      </h2>
+                      <div className="space-y-5">
+                        {content.faq.map(({ q, a }) => (
+                          <div key={q}>
+                            <h3 className="text-base font-semibold text-[#C8A161] mb-1">{q}</h3>
+                            <p className="text-sm text-[#B8B2AA] leading-relaxed">{a}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                      <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">
+                        ¿Qué son las multas de tránsito en Argentina?
+                      </h2>
+                      <p className="text-[#B8B2AA] leading-relaxed mb-4">
+                        Las multas de tránsito son sanciones económicas que se aplican a los conductores
+                        o titulares de vehículos por incumplir las normas de tránsito vigentes. En Argentina,
+                        el sistema está regulado por la <strong className="text-[#F4F1EC]">Ley Nacional de Tránsito N° 24.449</strong>,
+                        pero cada provincia y municipio tiene sus propios organismos y registros de infracciones.
+                      </p>
+                      <p className="text-[#B8B2AA] leading-relaxed">
+                        Una infracción queda registrada a nombre del titular del vehículo, incluso si la
+                        comete otra persona al volante. Por eso es fundamental verificar el estado de multas
+                        antes de comprar un auto usado: las deudas pueden transferirse junto con el dominio
+                        y generar complicaciones legales al nuevo titular.
                       </p>
                     </div>
 
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Provincia de Buenos Aires</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        El portal <strong className="text-[#F4F1EC]">infraccionesba.gba.gob.ar</strong> cubre infracciones de la
-                        Policía Bonaerense y los organismos de tránsito de los 135 municipios provinciales.
-                      </p>
+                    <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                      <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">
+                        Jurisdicciones consultadas
+                      </h2>
+                      <div className="space-y-5">
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">ANSV / SINAI — Nacional</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            El <strong className="text-[#F4F1EC]">Sistema Nacional de Infracciones (SINAI)</strong> centraliza las
+                            infracciones labradas por Gendarmería, Prefectura y Policía Federal en rutas y autopistas
+                            federales. Solo admite formato antiguo (ABC123).
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Provincia de Buenos Aires</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            El portal <strong className="text-[#F4F1EC]">infraccionesba.gba.gob.ar</strong> cubre infracciones de la
+                            Policía Bonaerense y los organismos de tránsito de los 135 municipios provinciales.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Ciudad Autónoma de Buenos Aires</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            Las infracciones en CABA son labradas por la Policía de la Ciudad e inspectores de
+                            tránsito del GCBA. Incluye fotomultas, estacionamiento, semáforo en rojo y uso de celular.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Córdoba — Policía Caminera</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            API pública de Rentas Córdoba con infracciones de la Policía Caminera en rutas y caminos
+                            provinciales. Acepta ambos formatos de patente.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Santa Fe y Rosario</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            El <strong className="text-[#F4F1EC]">Juzgado Virtual de Santa Fe</strong> registra infracciones
+                            provinciales, mientras que la Municipalidad de Rosario tiene su propio sistema con
+                            fotomultas y multas de la Guardia Urbana Municipal.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Mendoza Ciudad y Caminera</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            Dos registros independientes: el portal APEX de la Ciudad para juzgados municipales,
+                            y la Policía Caminera provincial para infracciones en rutas y autopistas mendocinas.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Salta, Neuquén y Santa Rosa</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            La DGR Salta, la Municipalidad de Neuquén y el sistema de fotomultas de Santa Rosa
+                            (La Pampa) cuentan con APIs REST públicas sin CAPTCHA para consulta por dominio.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-base font-semibold text-[#C8A161] mb-1">Corrientes, Entre Ríos, Misiones, Chaco y Posadas</h3>
+                          <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                            El NEA cuenta con sistemas provinciales y municipales propios: SIGEIN en Corrientes,
+                            Monitoreo Vial en Entre Ríos y Misiones, Policía Caminera del Chaco y autogestión
+                            municipal en Posadas.
+                          </p>
+                        </div>
+                      </div>
                     </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Ciudad Autónoma de Buenos Aires</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        Las infracciones en CABA son labradas por la Policía de la Ciudad e inspectores de
-                        tránsito del GCBA. Incluye fotomultas, estacionamiento, semáforo en rojo y uso de celular.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Córdoba — Policía Caminera</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        API pública de Rentas Córdoba con infracciones de la Policía Caminera en rutas y caminos
-                        provinciales. Acepta ambos formatos de patente.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Santa Fe y Rosario</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        El <strong className="text-[#F4F1EC]">Juzgado Virtual de Santa Fe</strong> registra infracciones
-                        provinciales, mientras que la Municipalidad de Rosario tiene su propio sistema con
-                        fotomultas y multas de la Guardia Urbana Municipal.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Mendoza Ciudad y Caminera</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        Dos registros independientes: el portal APEX de la Ciudad para juzgados municipales,
-                        y la Policía Caminera provincial para infracciones en rutas y autopistas mendocinas.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Salta, Neuquén y Santa Rosa</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        La DGR Salta, la Municipalidad de Neuquén y el sistema de fotomultas de Santa Rosa
-                        (La Pampa) cuentan con APIs REST públicas sin CAPTCHA para consulta por dominio.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-semibold text-[#C8A161] mb-1">Corrientes, Entre Ríos, Misiones, Chaco y Posadas</h3>
-                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
-                        El NEA cuenta con sistemas provinciales y municipales propios: SIGEIN en Corrientes,
-                        Monitoreo Vial en Entre Ríos y Misiones, Policía Caminera del Chaco y autogestión
-                        municipal en Posadas.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
 
                 <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
                   <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">

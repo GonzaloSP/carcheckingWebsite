@@ -8,5 +8,5 @@ export default function ConsultarMultaJurisdiccionPage() {
 
   if (!fuente) return <Navigate to="/consultar-multa" replace />;
 
-  return <ConsultarMultaPage defaultFuente={fuente.value} />;
+  return <ConsultarMultaPage jurisdiccionOverride={fuente} />;
 }
