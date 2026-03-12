@@ -29,30 +29,44 @@ export const articles: Article[] = [
     category: 'Documentación',
     tags: ['transferencia', 'costos', 'autos usados', 'DNRPA', 'sellos', '08'],
     image: `${base}images/hero_car.jpg`,
-    metaTitle: 'Calculadora de costos de transferencia de autos usados (Argentina) | carChecking',
-    metaDescription: 'Calculadora simple para estimar costos de transferencia de un auto usado en Argentina. Incluye desglose de aranceles y sellos. Valores aproximados.',
+    metaTitle: 'Calculadora transferencia de auto 2026: costo en 30 segundos | carChecking',
+    metaDescription: 'Calculá el costo de transferencia de auto en Argentina 2026. Ingresá el precio del vehículo y obtené el desglose de aranceles DNRPA y sellos provinciales.',
     content: `
-## Calculadora de costos de transferencia de autos usados (Argentina)
+## Calculadora de transferencia de auto 2026
 
-Si estás por comprar o vender un auto usado, una de las preguntas típicas es cuánto sale la transferencia. En la práctica el costo final depende de múltiples variables (jurisdicción, registro, valuación, situación del vehículo), pero podés tener un **estimado rápido** para planificar.
+Si estás por comprar o vender un auto usado, una de las preguntas más frecuentes es **cuánto cuesta la transferencia de auto**. El costo final depende de múltiples variables (jurisdicción, registro, valuación, situación del vehículo), pero podés tener un estimado rápido para planificar.
 
-A continuación tenés una calculadora que toma el **precio del vehículo** y muestra un **desglose** de los conceptos más comunes (aranceles y sellos) para obtener un total aproximado.
+Ingresá el precio del vehículo y la calculadora te muestra el desglose de los conceptos principales:
 
 [[transfer_cost_calculator]]
+
+---
+
+## Transferencia de auto: qué incluye el cálculo
+
+| Concepto | Descripción |
+|---|---|
+| Arancel de transferencia | Porcentaje del valor de tasación DNRPA |
+| Sellos provinciales | Porcentaje del precio de compraventa |
+| Formularios / aranceles fijos | Costo base del registro |
 
 ### Importante
 
 - Es una **estimación**: pueden existir costos adicionales (gestoría, verificaciones, certificaciones, etc.).
-- Para contrastar el valor, podés consultar la **tabla de valuación** del DNRPA (referencia usada por registros):
-  - http://www.dnrpa.gov.ar/valuacion/informacion/05-04-2018.pdf
+- El DNRPA usa su propia **tabla de valuación** como base mínima de cálculo, independientemente del precio declarado si es menor.
+- Los valores se actualizan periódicamente.
 
-### Qué incluye este cálculo (resumen)
+---
 
-- Arancel de transferencia (porcentaje sobre el precio)
-- Sellos provinciales (porcentaje sobre el precio)
-- Otros conceptos fijos (formularios/aranceles)
+## Transferencia de vehículos: cuánto tiempo tenés para hacerla
 
-Si querés, decime la provincia o el caso (particular / compra en agencia / con prenda) y lo adaptamos.
+El plazo legal para hacer la transferencia en Argentina es de **30 días hábiles** desde la firma del 08. Pasado ese plazo, el trámite puede generar recargos o complicaciones. Mientras no se complete, el vendedor sigue siendo el titular registral.
+
+---
+
+## ¿Necesitás que un gestor haga el trámite por vos?
+
+Si preferís evitar filas y asegurarte de no cometer errores en la documentación, podés contratar nuestro [servicio de gestoría](/servicio-gestoria). Nos encargamos de todo el trámite de transferencia de auto de punta a punta.
     `,
   },
   {
@@ -2988,42 +3002,111 @@ La app **Mi Argentina** permite llevar licencia y cédulas digitales (cuando est
     category: 'Documentación',
     tags: ['costo transferencia', 'arancel', 'DNRPA', 'sellos', 'valuación', '08'],
     image: `${base}images/mechanic_working.jpg`,
-    metaTitle: 'Costo de transferencia de auto usado en Argentina: guía completa | carChecking',
+    metaTitle: 'Costo de transferencia de auto: cuánto sale en 2026 | carChecking',
     metaDescription:
-      'Conocé qué se paga en una transferencia: aranceles DNRPA, valuación, sellos y tasas. Incluye consejos y una calculadora para estimar el total.',
+      'Cuánto cuesta una transferencia de auto en Argentina en 2026: aranceles DNRPA, sellos provinciales, tablas de precios actualizadas y calculadora online.',
     content: `
-## ¿Cuánto cuesta transferir un auto usado en Argentina?
+## ¿Cuánto cuesta una transferencia de auto en 2026?
 
-El costo final depende de:
-- valuación/valor declarado,
-- jurisdicción (sellos),
-- si hay prenda, cambios de radicación,
-- trámites extra (verificación, certificaciones).
+La **transferencia de auto** es el trámite por el cual el Registro Nacional de la Propiedad Automotor (DNRPA) inscribe el cambio de titular. No hacerla deja el vehículo "en el aire": el vendedor sigue siendo el responsable legal aunque ya no lo tenga.
 
----
-
-## Componentes típicos del costo
-
-- Arancel de transferencia (porcentaje)
-- Formularios/aranceles del registro
-- Certificación de firmas (si aplica)
-- Cédula y título
-- Sellos e impuestos provinciales/municipales
+El costo total de la **transferencia de vehículos** en Argentina en 2026 depende de cuatro variables principales:
+- Valuación oficial del vehículo (tabla DNRPA)
+- Jurisdicción donde está radicado el auto (afecta los sellos)
+- Si hay prenda, gravamen o cambio de radicación
+- Si usás gestoría o hacés el trámite por tu cuenta
 
 ---
 
-## Calculadora rápida
+## Costo de transferencia automotor: tabla de conceptos 2026
 
-Podés usar nuestra calculadora para estimar:
-- [Calculadora de costos de transferencia](/guias/calculadora-costos-transferencia-auto-usado)
+| Concepto | Referencia | Quién lo paga |
+|---|---|---|
+| Arancel DNRPA (transferencia) | ~2% del valor de tasación | Comprador / ambos |
+| Sellos Provincia de Buenos Aires | 3% del precio de compraventa | Comprador |
+| Sellos CABA | 2.5% del precio | Comprador |
+| Formulario 08 (precarga online) | Incluido en el arancel | Vendedor firma |
+| Certificación de firma del vendedor | $30.000 – $80.000 | Vendedor |
+| Cédula verde nueva | Incluida en el arancel | Comprador |
+| Verificación policial (si aplica) | $15.000 – $50.000 | Comprador |
+| Gestoría (opcional) | $80.000 – $200.000 | Quien contrata |
+
+*Valores orientativos a marzo 2026. Los aranceles DNRPA se actualizan periódicamente.*
 
 ---
 
-## Recomendación
+## Cuánto cuesta una transferencia de auto: ejemplos por valor de vehículo
 
-Antes de pagar una seña grande, pedí:
-- informe de dominio,
-- chequeo de multas/deudas.
+### Vehículo de valuación baja (hasta $5.000.000)
+
+| Concepto | Estimado |
+|---|---|
+| Arancel DNRPA | $75.000 – $100.000 |
+| Sellos (PBA) | $150.000 |
+| Certificación + formularios | $30.000 – $80.000 |
+| **Total estimado** | **$255.000 – $330.000** |
+
+### Vehículo de valuación media ($5M – $15M)
+
+| Concepto | Estimado |
+|---|---|
+| Arancel DNRPA | $100.000 – $300.000 |
+| Sellos (PBA) | $150.000 – $450.000 |
+| Certificación + formularios | $30.000 – $80.000 |
+| **Total estimado** | **$280.000 – $830.000** |
+
+### Vehículo de valuación alta (más de $15M)
+
+| Concepto | Estimado |
+|---|---|
+| Arancel DNRPA | $300.000 – $600.000+ |
+| Sellos (PBA) | $450.000+ |
+| Certificación + formularios | $50.000 – $100.000 |
+| **Total estimado** | **$800.000 – $1.300.000+** |
+
+*Para calcular tu caso exacto usá nuestra [calculadora de transferencia](/guias/calculadora-costos-transferencia-auto-usado).*
+
+---
+
+## Valor de transferencia de auto: cómo calcula la base el DNRPA
+
+El DNRPA publica tablas de **valuación oficial** que los registros usan como base de cálculo del arancel. Esto significa:
+
+- Si el **precio de venta es mayor** a la valuación oficial → se calcula sobre el precio real.
+- Si el **precio de venta es menor** → el registro toma la valuación oficial igualmente.
+
+Esto impide declarar precios bajos para reducir aranceles y sellos. La valuación también varía según el año de fabricación y la marca/modelo del vehículo.
+
+---
+
+## Costo de transferencia: diferencias entre jurisdicciones
+
+El mayor diferencial entre provincias está en los **sellos**. No todas las provincias cobran la misma tasa sobre el precio de compraventa:
+
+| Jurisdicción | Alícuota sellos (referencia) |
+|---|---|
+| Provincia de Buenos Aires | 3% |
+| CABA | 2.5% |
+| Córdoba | 2% – 2.5% |
+| Santa Fe | 2% |
+| Otras provincias | Varía (consultar registro local) |
+
+---
+
+## Transferencia de vehículos: particular vs. agencia
+
+- **Entre particulares**: ambos deben estar presentes o contar con Formulario 08 firmado y certificado ante escribano.
+- **Compra en agencia/concesionaria**: la agencia gestiona el trámite. Verificá que el precio incluya aranceles y sellos, o que los discriminen claramente.
+- **Con prenda vigente**: hay que cancelar la prenda antes de iniciar la transferencia, lo que suma un trámite y costo adicional.
+
+---
+
+## Recomendaciones antes de pagar
+
+Antes de abonar la seña, asegurate de tener:
+- [Informe de dominio](/guias/informe-de-dominio-auto-argentina-caba-gba): muestra si hay prenda, embargo o inhibición.
+- [Verificación de multas](/consultar-multa): deudas de multas pueden trabar la transferencia.
+- Revisión mecánica precompra: evitá sorpresas costosas después de firmar.
 
 ---
 
@@ -3041,34 +3124,71 @@ Antes de pagar una seña grande, pedí:
     category: 'Documentación',
     tags: ['transferencia', 'Buenos Aires', 'DNRPA', '08', '13', 'CeTA', 'verificación'],
     image: `${base}images/scanner_hands.jpg`,
-    metaTitle: 'Requisitos para transferencia de auto en Buenos Aires (Provincia) | carChecking',
+    metaTitle: 'Requisitos para transferencia de auto en Buenos Aires 2026 | carChecking',
     metaDescription:
-      'Guía práctica con requisitos para transferir un auto en Provincia de Buenos Aires: DNI, CUIT/CUIL, título, cédula, 08, 13, verificación y plazos.',
+      'Qué papeles necesitás para la transferencia de auto en Provincia de Buenos Aires: DNI, CUIT, título, formularios 08/13, verificación y plazos en 2026.',
     content: `
-## Transferencia en Provincia de Buenos Aires: requisitos principales
+## Transferencia de auto en Provincia de Buenos Aires: qué necesitás en 2026
 
-La transferencia es el acto que te convierte en titular. Si no la hacés, el vehículo puede quedar “en el aire”.
+La **transferencia de auto** es el acto formal que te convierte en titular registral. Hasta que no esté hecha, el vendedor sigue siendo el responsable legal del vehículo: multas, accidentes y deudas siguen llegando a su nombre.
 
----
-
-## Documentación usual
-
-- DNI comprador/vendedor (y cónyuges si corresponde)
-- CUIT/CUIL/CDI
-- Título y cédula
-- Formulario 08 (precarga online o presencial)
-- Formulario 13
-- Verificación (según año/caso)
-- CeTA (si corresponde por valuación)
+En Provincia de Buenos Aires el trámite se hace en el Registro Seccional correspondiente a la radicación del vehículo. A continuación, la documentación completa.
 
 ---
 
-## Consejos
+## Requisitos para transferencia de vehículos en Buenos Aires 2026
 
-- Revisá situación legal con un informe de dominio.
-- No pagues todo sin tener firma/certificación resuelta.
+| Documento | Quién lo presenta | Observación |
+|---|---|---|
+| DNI comprador y vendedor | Ambas partes | Cónyuge si aplica |
+| CUIT / CUIL / CDI | Ambas partes | Puede ser el del DNI |
+| Título del automotor | Vendedor | Original |
+| Cédula verde | Vendedor | Original |
+| Formulario 08 firmado y certificado | Vendedor | Precarga en dnrpa.gov.ar |
+| Formulario 13 | Comprador | Se completa en el registro |
+| Verificación policial (según año) | Comprador | Obligatoria para muchos modelos |
+| CeTA (si corresponde) | Comprador | Para valores altos de valuación |
 
-Guía: [Informe de dominio: qué muestra](/guias/informe-de-dominio-auto-argentina-caba-gba)
+---
+
+## Formulario 08: el documento clave de la transferencia de auto
+
+El **Formulario 08** es la declaración jurada de transferencia de dominio. El vendedor debe:
+1. Precargarlo en [dnrpa.gov.ar](https://www.dnrpa.gov.ar) o completarlo en el registro.
+2. Firmarlo ante el registrador o certificar la firma ante escribano.
+3. Entregarlo al comprador para completar el trámite.
+
+Sin el 08 firmado y certificado, la transferencia no puede iniciarse.
+
+---
+
+## Plazos de la transferencia de vehículos
+
+- **30 días hábiles** desde la firma del 08 para completar el trámite en el registro.
+- Pasado ese plazo puede haber recargos o complicaciones adicionales.
+- El vendedor sigue expuesto legalmente hasta que la transferencia esté inscripta.
+
+---
+
+## Costo de la transferencia de auto en Buenos Aires
+
+| Concepto | Referencia 2026 |
+|---|---|
+| Arancel DNRPA | ~2% del valor de tasación |
+| Sellos PBA | 3% del precio de compraventa |
+| Certificación de firma | $30.000 – $80.000 |
+| Verificación (si aplica) | $15.000 – $50.000 |
+
+Para un cálculo exacto usá nuestra [calculadora de costos de transferencia](/guias/calculadora-costos-transferencia-auto-usado).
+
+---
+
+## Antes de firmar: checklist de la transferencia de auto
+
+- Pedí el [informe de dominio](/guias/informe-de-dominio-auto-argentina-caba-gba): muestra si tiene prenda, embargo o inhibición.
+- Verificá multas y patentes adeudadas: una deuda puede trabar el trámite.
+- Si el precio supera el umbral de CeTA, tené el certificado listo antes de ir al registro.
+- No pagues el total sin tener el 08 firmado y certificado en mano.
 ` ,
   },
   {

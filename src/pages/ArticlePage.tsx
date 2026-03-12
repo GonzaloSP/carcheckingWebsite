@@ -90,6 +90,8 @@ export default function ArticlePage() {
     const lines = content.split('\n');
     let inList = false;
     let listItems: string[] = [];
+    let inTable = false;
+    let tableRows: string[][] = [];
     const elements: React.ReactElement[] = [];
     let key = 0;
 
@@ -120,12 +122,55 @@ export default function ArticlePage() {
       }
     };
 
+    const flushTable = () => {
+      if (!inTable || tableRows.length === 0) return;
+      const [header, ...body] = tableRows;
+      elements.push(
+        <div key={`table-${key++}`} className="overflow-x-auto mb-6">
+          <table className="w-full text-sm border-collapse border border-[#2a2a2c] rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-[#1a1a1c]">
+                {header.map((cell, i) => (
+                  <th key={i} className="text-left py-2 px-4 text-[#F4F1EC] font-semibold border-b border-[#2a2a2c]"
+                    dangerouslySetInnerHTML={{ __html: formatInline(cell) }} />
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {body.map((row, ri) => (
+                <tr key={ri} className={ri % 2 === 0 ? 'bg-[#111113]' : 'bg-[#141416]'}>
+                  {row.map((cell, ci) => (
+                    <td key={ci} className="py-2 px-4 text-[#B8B2AA] border-b border-[#1a1a1c]"
+                      dangerouslySetInnerHTML={{ __html: formatInline(cell) }} />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      tableRows = [];
+      inTable = false;
+    };
+
+    const flushAll = () => { flushList(); flushTable(); };
+
     lines.forEach((line) => {
       const trimmed = line.trim();
 
+      // Markdown table rows
+      if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+        flushList();
+        const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+        if (cells.every(c => /^[-: ]+$/.test(c))) return; // separator row
+        inTable = true;
+        tableRows.push(cells);
+        return;
+      }
+
       // Component injection markers
       if (trimmed === '[[transfer_cost_calculator]]') {
-        flushList();
+        flushAll();
         elements.push(
           <div key={`calc-${key++}`} className="my-8">
             <TransferCostCalculator />
@@ -137,7 +182,7 @@ export default function ArticlePage() {
       // YouTube embed marker: [[youtube:https://www.youtube.com/watch?v=VIDEOID]]
       // or [[youtube:VIDEOID]]
       if (trimmed.startsWith('[[youtube:') && trimmed.endsWith(']]')) {
-        flushList();
+        flushAll();
         const inside = trimmed.slice('[[youtube:'.length, -2).trim();
         let videoId = inside;
         try {
@@ -173,37 +218,39 @@ export default function ArticlePage() {
       }
 
       if (trimmed.startsWith('## ')) {
-        flushList();
+        flushAll();
         elements.push(
           <h2 key={`h2-${key++}`} className="text-2xl font-bold text-[#F4F1EC] mt-10 mb-4">
             {trimmed.replace('## ', '')}
           </h2>
         );
       } else if (trimmed.startsWith('### ')) {
-        flushList();
+        flushAll();
         elements.push(
           <h3 key={`h3-${key++}`} className="text-xl font-semibold text-[#F4F1EC] mt-8 mb-3">
             {trimmed.replace('### ', '')}
           </h3>
         );
       } else if (trimmed.startsWith('- ')) {
+        flushTable();
         inList = true;
         listItems.push(trimmed.replace('- ', ''));
       } else if (trimmed.startsWith('1. ') || trimmed.startsWith('2. ') || trimmed.startsWith('3. ') || trimmed.startsWith('4. ') || trimmed.startsWith('5. ')) {
+        flushTable();
         inList = true;
         listItems.push(trimmed.replace(/^\d\. /, ''));
       } else if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-        flushList();
+        flushAll();
         elements.push(
           <p key={`p-bold-${key++}`} className="text-[#F4F1EC] font-semibold mb-4">
             {trimmed.replace(/\*\*/g, '')}
           </p>
         );
       } else if (trimmed === '---') {
-        flushList();
+        flushAll();
         elements.push(<hr key={`hr-${key++}`} className="border-[#2a2a2c] my-8" />);
       } else if (trimmed) {
-        flushList();
+        flushAll();
         elements.push(
           <p
             key={`p-${key++}`}
@@ -216,7 +263,7 @@ export default function ArticlePage() {
       }
     });
 
-    flushList();
+    flushAll();
     return elements;
   };
 
