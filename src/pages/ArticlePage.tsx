@@ -8,7 +8,7 @@ import { Link, useParams, Navigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
 import { getArticleBySlug, getRecentArticles } from '../data/articles';
-import { Calendar, User, Tag, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Calendar, User, Tag, ArrowLeft, MessageCircle, FileCheck, Wrench } from 'lucide-react';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
 import TransferCostCalculator from '../components/TransferCostCalculator';
@@ -317,6 +317,65 @@ export default function ArticlePage() {
                       ))}
                     </div>
                   </div>
+
+                  {/* Bottom CTA */}
+                  {(() => {
+                    const gestoriaTags = ['transferencia', 'formulario 08', '08', 'DNRPA', 'registro automotor', 'costo transferencia'];
+                    const isGestoria = article.tags.some(t => gestoriaTags.includes(t));
+                    if (isGestoria) {
+                      return (
+                        <div className="mt-10 p-6 bg-[#141416] border border-[#C8A161]/30 rounded-lg">
+                          <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-full bg-[#C8A161]/10 flex items-center justify-center flex-shrink-0">
+                              <FileCheck className="w-5 h-5 text-[#C8A161]" />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-lg font-bold text-[#F4F1EC] mb-1">
+                                ¿Necesitás ayuda con la transferencia?
+                              </h3>
+                              <p className="text-sm text-[#B8B2AA] mb-4">
+                                Nuestros gestores se encargan de todo el trámite: formularios, registro automotor, verificación. Sin filas, sin errores.
+                              </p>
+                              <Link
+                                to="/servicio-gestoria"
+                                className="btn-primary inline-flex items-center gap-2"
+                                onClick={() => trackEvent('cta_click', { source: 'article_bottom', type: 'gestoria', slug: rawSlug })}
+                              >
+                                Ver servicio de gestoría
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div className="mt-10 p-6 bg-[#141416] border border-[#C8A161]/30 rounded-lg">
+                        <div className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-full bg-[#C8A161]/10 flex items-center justify-center flex-shrink-0">
+                            <Wrench className="w-5 h-5 text-[#C8A161]" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-lg font-bold text-[#F4F1EC] mb-1">
+                              ¿Comprás un auto usado?
+                            </h3>
+                            <p className="text-sm text-[#B8B2AA] mb-4">
+                              Revisamos el vehículo en el lugar que elijas: +350 puntos de inspección, escaneo OBD y un informe escrito con fotos.
+                            </p>
+                            <button
+                              onClick={() => {
+                                trackEvent('cta_click', { source: 'article_bottom', type: 'inspeccion', slug: rawSlug });
+                                openWhatsApp();
+                              }}
+                              className="btn-primary inline-flex items-center gap-2"
+                            >
+                              <MessageCircle className="w-4 h-4" />
+                              Solicitar inspección
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   {/* Back to Blog */}
                   <div className="mt-10">
