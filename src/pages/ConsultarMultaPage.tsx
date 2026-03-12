@@ -11,7 +11,7 @@ import { JURISDICCIONES_MULTA, type JurisdiccionMulta } from '../data/multa-juri
 import { MULTA_CONTENT } from '../data/multa-content';
 import { Helmet } from 'react-helmet-async';
 
-const FUENTES = JURISDICCIONES_MULTA;
+const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
 const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
 const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');

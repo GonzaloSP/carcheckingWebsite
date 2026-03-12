@@ -244,6 +244,45 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     ],
   },
 
+  'multas-la-plata': {
+    seoTitle: 'Multas en La Plata: Consultar Infracciones por Patente | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en La Plata por patente. Accedemos a InfraccionesBA, el sistema oficial que cubre La Plata y toda la Provincia de Buenos Aires.',
+    seoKeywords: 'multas la plata, consultar multas la plata, infracciones la plata, multas patente la plata, infraccionesba la plata, policía bonaerense la plata, multas tránsito la plata',
+    intro: 'La Plata, capital de la Provincia de Buenos Aires, está cubierta por InfraccionesBA, el sistema provincial que centraliza infracciones de organismos municipales y provinciales.',
+    sections: [
+      {
+        title: 'Multas en La Plata: qué sistema las registra',
+        body: 'La Plata es la capital de la Provincia de Buenos Aires y sus infracciones de tránsito se registran en el sistema provincial InfraccionesBA (infraccionesba.gba.gob.ar). Esto incluye multas de la Policía Bonaerense, la Dirección de Tránsito municipal y controles en los accesos y rutas de la región metropolitana.',
+      },
+      {
+        title: 'Principales ejes viales controlados en La Plata',
+        body: 'Los controles de tránsito en La Plata se concentran en las diagonales principales (73, 74 y 80), el Acceso a La Plata (Autopista Buenos Aires-La Plata), el centro histórico y la zona universitaria. El exceso de velocidad y el estacionamiento en lugares prohibidos son las infracciones más frecuentes.',
+      },
+      {
+        title: 'Cómo pagar multas en La Plata',
+        body: 'Las multas municipales se abonan en el Juzgado de Faltas de La Plata o a través del portal online del municipio. Las infracciones provinciales se gestionan vía InfraccionesBA. Los canales de Pago Fácil y Rapipago también están habilitados para muchas categorías de infracciones.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Las multas en La Plata se registran en el sistema provincial o en uno municipal propio?',
+        a: 'Ambos. Las infracciones en rutas y autopistas van al sistema provincial (InfraccionesBA), mientras que las multas urbanas municipales pueden estar en el registro de la Municipalidad de La Plata.',
+      },
+      {
+        q: '¿El resultado de esta consulta muestra todas las multas de La Plata?',
+        a: 'Mostramos las infracciones registradas en InfraccionesBA, el sistema oficial de la Provincia de Buenos Aires, que cubre la mayoría de las multas labradas en La Plata y alrededores.',
+      },
+      {
+        q: '¿La autopista Buenos Aires-La Plata tiene fotomultas?',
+        a: 'Sí. La Autopista Presidente Perón (Buenos Aires-La Plata) cuenta con cámaras de velocidad. Las infracciones pueden aparecer en los registros provinciales o de ANSV, según el organismo que la labró.',
+      },
+      {
+        q: '¿La Plata tiene sistema propio de fotomultas municipal?',
+        a: 'La Plata ha implementado controles de velocidad en las avenidas principales. Las fotomultas municipales se registran en el sistema de la Municipalidad de La Plata.',
+      },
+    ],
+  },
+
   'multas-neuquen': {
     seoTitle: 'Multas en Neuquén: Consultar Fotomultas por Patente | carChecking',
     seoDescription: 'Consultá fotomultas e infracciones de tránsito en Neuquén Capital por número de patente. Accedemos al portal oficial de la Municipalidad de Neuquén. Gratis.',
