@@ -304,9 +304,7 @@ async function fetchPBA(dominio) {
   if (!csrfMatch) throw new Error('No se encontró el CSRF token en el portal PBA.');
   const csrfToken = csrfMatch[1];
 
-  const solver = getSolver();
-  const captchaResult = await solver.recaptcha(SITE_KEY, PAGE_URL);
-  const captchaToken  = captchaResult.data;
+  const captchaToken = await solveRecaptchaV2(SITE_KEY, PAGE_URL);
 
   const cookies = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
   const res = await http.get(`${BASE}/rest/consultar-infraccion`, {
