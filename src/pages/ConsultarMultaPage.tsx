@@ -31,8 +31,8 @@ async function appwriteExec(path: string, method: string, body: string | null, s
     signal,
   });
   const exec = await appRes.json();
-  const body = exec.responseBody || JSON.stringify({ error: 'Portal no disponible' });
-  return new Response(body, {
+  const responseBody = exec.responseBody || JSON.stringify({ error: 'Portal no disponible' });
+  return new Response(responseBody, {
     status: exec.responseStatusCode ?? 502,
     headers: { 'Content-Type': 'application/json' },
   });
