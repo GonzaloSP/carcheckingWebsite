@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet-async';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
-const MERCADOPAGO_LINK = 'https://mpago.la/XXXXXXXX'; // ← reemplazá con tu link de cobro de $2.000
+type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
 const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
 const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
@@ -246,6 +246,19 @@ export default function ConsultarMultaPage({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [pendingDominio, setPendingDominio]     = useState('');
   const [pendingFuentes, setPendingFuentes]     = useState<typeof FUENTES>([]);
+  const [paymentStatus, setPaymentStatus]       = useState<PaymentStatus>('idle');
+  const [mpInitPoint, setMpInitPoint]           = useState('');
+  const [mpPreferenceId, setMpPreferenceId]     = useState('');
+  const [paymentError, setPaymentError]         = useState('');
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Stop polling when modal is closed or payment confirmed
+  useEffect(() => {
+    if (!showPaymentModal) {
+      if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+      if (paymentStatus !== 'paid') setPaymentStatus('idle');
+    }
+  }, [showPaymentModal]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -258,7 +271,42 @@ export default function ConsultarMultaPage({
 
     setPendingDominio(clean);
     setPendingFuentes(fuentes);
+    setMpInitPoint('');
+    setMpPreferenceId('');
+    setPaymentError('');
+    setPaymentStatus('creating');
     setShowPaymentModal(true);
+
+    fetch('/api/mp-create-preference', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dominio: clean }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (!data.preference_id) throw new Error(data.error ?? 'Error al crear preferencia');
+        setMpInitPoint(data.init_point);
+        setMpPreferenceId(data.preference_id);
+        setPaymentStatus('waiting');
+
+        // Poll every 3s for payment approval
+        pollRef.current = setInterval(async () => {
+          try {
+            const pr = await fetch(`/api/mp-verify-preference?preference_id=${encodeURIComponent(data.preference_id)}`);
+            const pd = await pr.json();
+            if (pd.paid) {
+              if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+              setPaymentStatus('paid');
+              setShowPaymentModal(false);
+              executeQueries(clean, fuentes);
+            }
+          } catch { /* keep polling */ }
+        }, 3000);
+      })
+      .catch(err => {
+        setPaymentError(err.message ?? 'No se pudo iniciar el pago');
+        setPaymentStatus('error');
+      });
   }
 
   async function executeQueries(clean: string, fuentes: typeof FUENTES) {
@@ -514,40 +562,74 @@ export default function ConsultarMultaPage({
                 </div>
 
                 {/* QR + payment */}
-                <div className="flex flex-col items-center gap-4 md:border-l md:border-[#2a2a2c] md:pl-6">
-                  <div className="bg-white p-3 rounded-xl">
-                    <QRCodeSVG value={MERCADOPAGO_LINK} size={160} />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs text-[#B8B2AA] mb-1">Escaneá con la app de MercadoPago</p>
-                    <a
-                      href={MERCADOPAGO_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-[#C8A161] hover:underline"
-                    >
-                      O hacé clic aquí →
-                    </a>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-[#F4F1EC]">$2.000</p>
-                    <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
-                  </div>
+                <div className="flex flex-col items-center gap-4 md:border-l md:border-[#2a2a2c] md:pl-6 min-w-[200px]">
+                  {paymentStatus === 'creating' && (
+                    <div className="flex flex-col items-center gap-3 py-8">
+                      <Loader2 className="w-8 h-8 text-[#C8A161] animate-spin" />
+                      <p className="text-sm text-[#B8B2AA]">Generando QR de pago…</p>
+                    </div>
+                  )}
+
+                  {paymentStatus === 'error' && (
+                    <div className="flex flex-col items-center gap-3 py-8 text-center">
+                      <XCircle className="w-8 h-8 text-red-500" />
+                      <p className="text-sm text-[#B8B2AA]">{paymentError}</p>
+                      <button
+                        onClick={() => setShowPaymentModal(false)}
+                        className="text-xs text-[#C8A161] hover:underline"
+                      >
+                        Intentar de nuevo
+                      </button>
+                    </div>
+                  )}
+
+                  {paymentStatus === 'waiting' && mpInitPoint && (
+                    <>
+                      <div className="bg-white p-3 rounded-xl">
+                        <QRCodeSVG value={mpInitPoint} size={160} />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-xs text-[#B8B2AA] mb-1">Escaneá con la app de MercadoPago</p>
+                        <a
+                          href={mpInitPoint}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-[#C8A161] hover:underline"
+                        >
+                          O hacé clic aquí →
+                        </a>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-3xl font-bold text-[#F4F1EC]">$2.000</p>
+                        <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
-              {/* CTA */}
+              {/* Status footer */}
               <div className="mt-6 pt-6 border-t border-[#2a2a2c]">
-                <button
-                  onClick={() => executeQueries(pendingDominio, pendingFuentes)}
-                  className="btn-primary w-full flex items-center justify-center gap-2 py-3 text-base"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  Ya pagué — ver resultados
-                </button>
-                <p className="text-xs text-[#555] text-center mt-3">
-                  Al continuar confirmás que realizaste el pago de $2.000 a través de MercadoPago.
-                </p>
+                {paymentStatus === 'waiting' && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-[#B8B2AA]">
+                    <Loader2 className="w-4 h-4 animate-spin text-[#C8A161]" />
+                    Esperando confirmación de pago… los resultados se cargan automáticamente.
+                  </div>
+                )}
+                {paymentStatus === 'creating' && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-[#555]">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Preparando pago…
+                  </div>
+                )}
+                {paymentStatus === 'error' && (
+                  <button
+                    onClick={() => setShowPaymentModal(false)}
+                    className="w-full text-center text-sm text-[#555] hover:text-[#B8B2AA] transition-colors"
+                  >
+                    Cerrar
+                  </button>
+                )}
               </div>
             </div>
           </div>
