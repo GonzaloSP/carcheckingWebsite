@@ -35,12 +35,6 @@ export default async function handler(req, res) {
             currency_id: 'ARS',
           },
         ],
-        back_urls: {
-          success: `${siteUrl}/consultar-multa`,
-          failure: `${siteUrl}/consultar-multa`,
-          pending: `${siteUrl}/consultar-multa`,
-        },
-        auto_return: 'approved',
         statement_descriptor: 'carChecking',
         external_reference: dominio,
       }),

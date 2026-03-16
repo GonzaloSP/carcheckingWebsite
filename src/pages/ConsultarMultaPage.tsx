@@ -251,6 +251,8 @@ export default function ConsultarMultaPage({
   const [mpPreferenceId, setMpPreferenceId]     = useState('');
   const [paymentError, setPaymentError]         = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [verifyingPayment, setVerifyingPayment] = useState(false);
+  const [verifyMessage, setVerifyMessage]       = useState('');
 
   // Stop polling when modal is closed or payment confirmed
   useEffect(() => {
@@ -307,6 +309,172 @@ export default function ConsultarMultaPage({
         setPaymentError(err.message ?? 'No se pudo iniciar el pago');
         setPaymentStatus('error');
       });
+  }
+
+  async function handleManualVerify() {
+    if (!mpPreferenceId) return;
+    setVerifyingPayment(true);
+    setVerifyMessage('');
+    try {
+      const pr = await fetch(`/api/mp-verify-preference?preference_id=${encodeURIComponent(mpPreferenceId)}`);
+      const pd = await pr.json();
+      if (pd.paid) {
+        if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+        setPaymentStatus('paid');
+        setShowPaymentModal(false);
+        executeQueries(pendingDominio, pendingFuentes);
+      } else {
+        setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
+      }
+    } catch {
+      setVerifyMessage('Error al verificar. Intentá nuevamente.');
+    } finally {
+      setVerifyingPayment(false);
+    }
+  }
+
+  function handleDownloadPDF() {
+    const date = new Date().toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const fmtCurrency = (n: number) => '$' + n.toLocaleString('es-AR');
+
+    // Vehicle row
+    const vehicleRow = vehiculo?.status === 'ok'
+      ? `<p style="margin:0 0 4px;font-size:18px;font-weight:700;color:#111;">${vehiculo.marca ?? ''} ${vehiculo.modelo ?? ''}</p>
+         ${vehiculo.anio ? `<p style="margin:0;font-size:13px;color:#555;">Año: ${vehiculo.anio}${vehiculo.registro ? ` · Registro: ${vehiculo.registro}${vehiculo.localidad ? `, ${vehiculo.localidad}` : ''}` : ''}</p>` : ''}`
+      : '<p style="margin:0;font-size:13px;color:#999;">Vehículo no identificado</p>';
+
+    // Multa rows
+    let multaRows = '';
+    if (results) {
+      activeFuentes.forEach(({ value, label }) => {
+        const r = results[value];
+        if (!r || r.status === 'loading') return;
+        const dot = r.status === 'ok' ? '#d97706' : r.status === 'empty' ? '#16a34a' : '#9ca3af';
+        const statusText = r.status === 'ok' ? `${r.infracciones.length} infracción(es)` : r.status === 'empty' ? 'Sin multas' : r.status === 'error' ? (r.error ?? 'Error') : 'Manual';
+        const total = r.infracciones.reduce((s, inf) => s + (inf.importe || 0), 0);
+        multaRows += `<tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:8px 12px;font-size:13px;">${label}</td>
+          <td style="padding:8px 12px;font-size:13px;font-weight:600;color:${dot};">${statusText}</td>
+          <td style="padding:8px 12px;font-size:13px;font-weight:700;color:#b45309;text-align:right;">${total > 0 ? fmtCurrency(total) : '—'}</td>
+        </tr>`;
+        r.infracciones.forEach(inf => {
+          multaRows += `<tr style="background:#fffbf0;border-bottom:1px solid #f5f5f5;">
+            <td colspan="3" style="padding:5px 12px 5px 28px;font-size:11px;color:#6b6b6b;">
+              ${[inf.descripcion, inf.fecha ? `Fecha: ${inf.fecha}` : '', inf.vencimiento ? `Vto: ${inf.vencimiento}` : '', `Estado: ${inf.estado}`, inf.importe ? fmtCurrency(inf.importe) : ''].filter(Boolean).join(' · ')}
+            </td>
+          </tr>`;
+        });
+      });
+    }
+
+    // VTV section
+    let vtvHtml = '';
+    const vtvSections: Array<{ label: string; sub: string; s: VTVState | VTVSimpleState | null }> = [
+      { label: 'Buenos Aires Provincia (VTV PBA)', sub: 'Verificación Técnica Vehicular', s: vtvState },
+      { label: 'Córdoba (ITV)', sub: 'Inspección Técnica Vehicular', s: vtvCordobaState },
+      { label: 'Santa Fe (RTO)', sub: 'Revisión Técnica Obligatoria', s: vtvSantaFeState },
+      { label: 'Catamarca (RTO)', sub: 'Revisión Técnica Obligatoria', s: vtvCatamarcaState },
+    ];
+    vtvSections.forEach(({ label, s }) => {
+      if (!s || s.status === 'loading') return;
+      const h = s.historial[0];
+      vtvHtml += `<tr style="border-bottom:1px solid #f0f0f0;">
+        <td style="padding:8px 12px;font-size:13px;">${label}</td>
+        <td style="padding:8px 12px;font-size:13px;font-weight:600;color:${!h ? '#9ca3af' : h.vigente ? '#16a34a' : '#d97706'};">${!h ? 'Sin registros' : h.vigente ? 'VIGENTE' : 'VENCIDA'}</td>
+        <td style="padding:8px 12px;font-size:12px;color:#555;text-align:right;">${h?.fecha_vencimiento ? `Vto: ${h.fecha_vencimiento}` : '—'}</td>
+      </tr>`;
+    });
+
+    // Patentes section
+    const arbaRow = !arbaState || arbaState.status === 'loading' ? '' : `<tr style="border-bottom:1px solid #f0f0f0;">
+      <td style="padding:8px 12px;font-size:13px;">ARBA — Provincia de Buenos Aires</td>
+      <td style="padding:8px 12px;font-size:13px;font-weight:600;color:${arbaState.tieneDeuda ? '#d97706' : '#16a34a'};">${arbaState.tieneDeuda ? 'Registra deuda' : arbaState.status === 'error' ? 'Error' : arbaState.status === 'manual' ? 'Manual' : 'Sin deuda'}</td>
+      <td style="padding:8px 12px;font-size:13px;font-weight:700;color:#b45309;text-align:right;">${arbaState.total && arbaState.total > 0 ? fmtCurrency(arbaState.total) : '—'}</td>
+    </tr>`;
+    const agipRow = !agipState || agipState.status === 'loading' ? '' : `<tr style="border-bottom:1px solid #f0f0f0;">
+      <td style="padding:8px 12px;font-size:13px;">AGIP — Ciudad de Buenos Aires</td>
+      <td style="padding:8px 12px;font-size:13px;font-weight:600;color:${agipState.tieneDeuda ? '#d97706' : '#16a34a'};">${agipState.tieneDeuda ? 'Registra deuda' : agipState.status === 'error' ? 'Error' : 'Sin deuda'}</td>
+      <td style="padding:8px 12px;font-size:13px;font-weight:700;color:#b45309;text-align:right;">${agipState.total && agipState.total > 0 ? fmtCurrency(agipState.total) : '—'}</td>
+    </tr>`;
+
+    const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<title>carChecking — Informe ${searched}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111; padding: 40px; max-width: 800px; margin: 0 auto; }
+  @media print { body { padding: 20px; } }
+</style></head><body>
+  <!-- Header -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid #C8A161;">
+    <div>
+      <div style="font-size:26px;font-weight:800;letter-spacing:-0.5px;color:#111;">car<span style="color:#C8A161;">Checking</span></div>
+      <div style="font-size:11px;color:#999;margin-top:2px;">carchecking.com.ar · Informe de multas e infracciones</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:28px;font-weight:800;letter-spacing:4px;color:#111;background:#f5f0e8;border:2px solid #C8A161;border-radius:8px;padding:8px 18px;">${searched}</div>
+      <div style="font-size:11px;color:#999;margin-top:4px;">${date}</div>
+    </div>
+  </div>
+
+  <!-- Vehicle -->
+  <div style="background:#f9f9f9;border-radius:8px;padding:14px 18px;margin-bottom:24px;">
+    ${vehicleRow}
+  </div>
+
+  <!-- Multas -->
+  <div style="margin-bottom:24px;">
+    <h2 style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:10px;">Multas de tránsito</h2>
+    <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <thead><tr style="background:#f3f4f6;">
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Jurisdicción</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Estado</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:right;color:#374151;">Importe</th>
+      </tr></thead>
+      <tbody>${multaRows || '<tr><td colspan="3" style="padding:12px;text-align:center;color:#999;font-size:13px;">Sin datos de multas</td></tr>'}</tbody>
+    </table>
+    ${totalInfracciones > 0 ? `<div style="text-align:right;margin-top:8px;font-size:13px;color:#b45309;font-weight:700;">Total: ${fmtCurrency(totalImporte)}</div>` : ''}
+  </div>
+
+  <!-- VTV -->
+  <div style="margin-bottom:24px;">
+    <h2 style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:10px;">Verificación Técnica (VTV / ITV / RTO)</h2>
+    <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <thead><tr style="background:#f3f4f6;">
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Organismo</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Estado</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:right;color:#374151;">Vencimiento</th>
+      </tr></thead>
+      <tbody>${vtvHtml || '<tr><td colspan="3" style="padding:12px;text-align:center;color:#999;font-size:13px;">Sin datos de VTV</td></tr>'}</tbody>
+    </table>
+  </div>
+
+  <!-- Patentes -->
+  <div style="margin-bottom:32px;">
+    <h2 style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:10px;">Deuda de Patentes</h2>
+    <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <thead><tr style="background:#f3f4f6;">
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Organismo</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:left;color:#374151;">Estado</th>
+        <th style="padding:9px 12px;font-size:12px;font-weight:700;text-align:right;color:#374151;">Importe</th>
+      </tr></thead>
+      <tbody>${arbaRow}${agipRow || '<tr><td colspan="3" style="padding:12px;text-align:center;color:#999;font-size:13px;">Sin datos de patentes</td></tr>'}</tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top:1px solid #e5e7eb;padding-top:14px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-size:11px;color:#bbb;">Informe generado por carChecking · carchecking.com.ar</div>
+    <div style="font-size:11px;color:#bbb;">Los datos son informativos. Verificar en los organismos oficiales.</div>
+  </div>
+</body></html>`;
+
+    const win = window.open('', '_blank');
+    if (!win) { alert('Permitir ventanas emergentes para descargar el PDF.'); return; }
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); }, 600);
   }
 
   async function executeQueries(clean: string, fuentes: typeof FUENTES) {
@@ -603,6 +771,19 @@ export default function ConsultarMultaPage({
                         <p className="text-3xl font-bold text-[#F4F1EC]">$2.000</p>
                         <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
                       </div>
+                      <button
+                        onClick={handleManualVerify}
+                        disabled={verifyingPayment}
+                        className="w-full text-sm font-semibold text-[#C8A161] border border-[#C8A161]/40 hover:bg-[#C8A161]/10 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                      >
+                        {verifyingPayment
+                          ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Verificando…</>
+                          : 'Ya pagué →'
+                        }
+                      </button>
+                      {verifyMessage && (
+                        <p className="text-xs text-[#B8B2AA] text-center leading-snug">{verifyMessage}</p>
+                      )}
                     </>
                   )}
                 </div>
@@ -789,6 +970,19 @@ export default function ConsultarMultaPage({
                       </div>
                     </div>
                   </div>
+
+                  {/* PDF download */}
+                  {loaded === activeFuentes.length && (
+                    <div className="flex justify-end mb-4">
+                      <button
+                        onClick={handleDownloadPDF}
+                        className="flex items-center gap-2 text-sm font-semibold text-[#C8A161] border border-[#C8A161]/40 hover:bg-[#C8A161]/10 px-4 py-2 rounded-lg transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Descargar PDF
+                      </button>
+                    </div>
+                  )}
 
                   {/* Tab navigation */}
                   <div className="flex flex-wrap gap-2 mb-5">
