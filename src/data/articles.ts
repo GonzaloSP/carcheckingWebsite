@@ -14,6 +14,8 @@ export interface Article {
   image: string;
   metaTitle: string;
   metaDescription: string;
+  /** Optional JSON-LD structured data injected into <head> via Helmet. */
+  structuredData?: object;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -1903,87 +1905,201 @@ La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más 
     category: 'Revisión del Vehículo',
     tags: ['VTV CABA', 'turno VTV', 'requisitos VTV', 'costo VTV', 'Verificación Técnica Vehicular', '2026'],
     image: `${base}images/mechanic_working.jpg`,
-    metaTitle: 'VTV CABA – Turno, Requisitos y Costos 2026 | carChecking',
+    metaTitle: 'VTV CABA 2026: Turno, Plantas, Precio y Requisitos | carChecking',
     metaDescription:
-      'VTV CABA 2026: turno, requisitos, documentación, qué se controla y costos orientativos. Checklist para ir a la planta y evitar rechazo/condicional.',
+      'VTV CABA 2026: dónde sacar turno, plantas por barrio, precio exacto, qué documentos llevar y qué pasa si te rechazan. Guía completa actualizada.',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Plantas VTV CABA 2026',
+      description: 'Listado de plantas de Verificación Técnica Vehicular en la Ciudad Autónoma de Buenos Aires',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV San Telmo',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. San Juan 450', addressLocality: 'San Telmo, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Palermo',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. Luis María Campos 1320', addressLocality: 'Palermo, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Villa del Parque',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. Nazca 206', addressLocality: 'Villa del Parque, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Villa Devoto',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. Francisco Beiró 4510', addressLocality: 'Villa Devoto, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 5,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Parque Chacabuco',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. Asamblea 970', addressLocality: 'Parque Chacabuco, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 6,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Villa Lugano',
+            address: { '@type': 'PostalAddress', streetAddress: 'Escalada 3750', addressLocality: 'Villa Lugano, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 7,
+          item: {
+            '@type': 'LocalBusiness',
+            name: 'Planta VTV Saavedra',
+            address: { '@type': 'PostalAddress', streetAddress: 'Av. Balbín 3500', addressLocality: 'Saavedra, Buenos Aires', addressCountry: 'AR' },
+          },
+        },
+      ],
+    },
     content: `
-## VTV CABA – Turno, Requisitos y Costos 2026
+## VTV CABA 2026: turno, plantas, precio y qué llevás
 
-Si estás buscando **“VTV CABA”**, normalmente querés tres cosas: **sacar turno**, saber **qué llevar** y entender **cuánto cuesta** (y qué puede hacerte fallar).
+Si buscás **”VTV CABA”**, normalmente necesitás tres cosas: saber dónde está **la planta más cercana**, cómo **sacar turno** y **cuánto cuesta**. Esta guía tiene todo eso.
 
-Esta guía está pensada para eso, sin vueltas.
+---
+
+## Plantas VTV en CABA por barrio 2026
+
+CABA tiene varias plantas oficiales distribuidas en distintas zonas. El turno es obligatorio y se gestiona desde el portal oficial seleccionando la planta de preferencia.
+
+| Planta | Barrio / Zona | Dirección orientativa |
+|---|---|---|
+| San Telmo | Sur | Av. San Juan 450 |
+| Palermo | Norte | Av. Luis María Campos 1320 |
+| Villa del Parque | Centro-Oeste | Av. Nazca 206 |
+| Villa Devoto | Oeste | Av. Francisco Beiró 4510 |
+| Parque Chacabuco | Sur | Av. Asamblea 970 |
+| Villa Lugano | Sur | Escalada 3750 |
+| Saavedra | Norte | Av. Balbín 3500 |
+
+*Verificá dirección y disponibilidad en el portal oficial al sacar turno — las plantas pueden variar.*
+
+---
+
+## Precio exacto VTV CABA 2026
+
+El costo de la VTV en CABA se actualiza periódicamente por resolución del GCBA. A marzo de 2026, los valores de referencia por categoría son:
+
+| Categoría de vehículo | Precio orientativo 2026 |
+|---|---|
+| Automóvil / camioneta particular | $25.000 – $35.000 |
+| Motocicleta | $12.000 – $18.000 |
+| Taxi / remis / transporte de pasajeros | $35.000 – $50.000 |
+| Vehículo con GNC (incluye control GNC) | $30.000 – $45.000 |
+| Vehículo de carga liviana | $30.000 – $45.000 |
+
+*Valores en pesos argentinos. Para el precio exacto al momento de sacar turno, consultá el portal oficial del GCBA — los aranceles se actualizan con frecuencia.*
 
 ---
 
 ## Cómo sacar turno para la VTV en CABA
 
-En CABA, el turno se gestiona desde el **portal oficial de VTV** (puede cambiar con el tiempo). Recomendación práctica:
+El turno es **obligatorio** y se gestiona online desde el portal oficial:
 
-- Sacá turno con anticipación (en ciertos meses se satura).
-- Elegí planta, día y horario.
-- Guardá el comprobante (mail/captura) por si te lo piden.
+- Seleccionás la planta más conveniente por zona.
+- Elegís fecha y horario disponibles.
+- Guardás el comprobante (mail o captura de pantalla).
 
----
-
-## Requisitos típicos (qué llevar)
-
-Para hacer la **VTV en CABA**, normalmente te van a pedir:
-
-- **DNI** del titular (o quien lleve el vehículo, según corresponda).
-- **Cédula** del vehículo.
-- **Seguro vigente**.
-- **Comprobante de turno**.
-
-Si el auto tiene **GNC**, suele haber requisitos/controles extra.
+**Consejo:** en los meses de mayor vencimiento (enero, junio) los turnos se saturan. Sacá el turno con al menos dos semanas de anticipación.
 
 ---
 
-## Qué te revisan en la VTV (checklist)
+## Requisitos y documentación para la VTV en CABA
 
-La VTV es una inspección técnica. En general se controla:
-
-- **Luces** (baja/alta/posición/giro/freno) y señalización.
-- **Frenos** y estado general de tren delantero.
-- **Neumáticos** (estado y medidas) y suspensión.
-- **Dirección** y juego.
-- **Emisiones/ruidos**.
-- Elementos de seguridad visibles.
-
-Consejo: antes del turno, revisá lo básico (luces, limpiaparabrisas, presión/estado de cubiertas, pérdidas, testigos en tablero).
+| Documento | Obligatorio |
+|---|---|
+| DNI del titular (o autorización si va otra persona) | Sí |
+| Cédula verde del vehículo | Sí |
+| Seguro del automotor vigente | Sí |
+| Comprobante de turno | Sí |
+| Revisión de GNC vigente (si tiene equipo) | Sí |
+| VTV anterior (si la tiene) | No, pero útil |
 
 ---
 
-## Costos de VTV CABA 2026 (orientativo)
+## Qué revisan en la VTV (checklist completo)
 
-El **costo de la VTV en CABA** cambia con el tiempo y depende del tipo de vehículo. Para ver el valor actualizado, lo más confiable es el portal oficial al momento de sacar turno.
+La VTV controla que el vehículo esté en condiciones seguras para circular. Los ítems principales son:
 
-Tomalo como un gasto distinto de:
-- costos de transferencia,
-- sellos,
-- y verificación policial.
+- **Luces:** baja, alta, posición, giro, marcha atrás y freno.
+- **Frenos:** frenada simétrica, freno de mano, estado de pastillas y discos.
+- **Neumáticos:** profundidad de dibujo, estado de la banda de rodamiento, presión.
+- **Dirección:** juego en volante, alineación.
+- **Suspensión:** amortiguadores, rótulas, bieletas.
+- **Emisiones:** gases de escape dentro de los límites legales.
+- **Carrocería y vidrios:** parabrisas sin fisuras que limiten visibilidad.
+- **Equipamiento de seguridad:** cinturones, bocina, limpiaparabrisas.
+- **GNC (si aplica):** habilitación vigente del equipo.
 
----
-
-## Resultado: Apto / Condicional / Rechazado
-
-- **Apto:** podés circular.
-- **Condicional:** hay observaciones; suele requerir corrección y re-verificación en plazo.
-- **Rechazado:** hay fallas que impiden aprobar; hay que reparar y volver.
-
----
-
-## Si vas a comprar un usado (dato clave)
-
-La VTV no reemplaza una revisión precompra. Si querés reducir riesgo real (choques, fallas ocultas, electrónica, kilometraje), lo ideal es sumar una inspección completa.
-
-- Revisión precompra: [/solicitar-turno](/solicitar-turno)
+**Antes del turno:** revisá luces, presión de cubiertas, limpiaparabrisas, nivel de líquidos y que no haya testigos prendidos en el tablero.
 
 ---
 
-## VTV en tu zona
+## Resultado: Apto, Condicional o Rechazado
 
-Si no estás en CABA, mirá la guía por localidad:
-- VTV por ubicación: /vtv-en/tu-localidad (ej: /vtv-en/quilmes)
+| Resultado | Qué significa | Qué hacés |
+|---|---|---|
+| **Apto** | El vehículo está en condiciones | Podés circular normalmente |
+| **Condicional** | Fallas menores subsanables | Tenés 30–45 días para corregirlas y volver a verificar |
+| **Rechazado** | Fallas graves | Hay que reparar y sacar nuevo turno |
+
+---
+
+## Preguntas frecuentes sobre la VTV en CABA
+
+**¿Cuánto dura la VTV en CABA?**
+Para automóviles y camionetas particulares: **1 año**. Para taxis, remises y transporte de pasajeros: **6 meses**. Motocicletas: 1 año en general.
+
+**¿Qué pasa si me dan Condicional?**
+Podés seguir circulando durante el plazo otorgado (generalmente 30 a 45 días). En ese tiempo debés reparar los ítems observados y volver a la planta para la re-verificación, que suele tener costo reducido si volvés dentro del plazo.
+
+**¿Qué pasa si no hago la VTV a tiempo?**
+Circular sin VTV vigente es una infracción de tránsito. La multa puede llegar a 5 UMA o más, y en controles de tránsito te pueden retener el vehículo.
+
+**¿Puedo hacer la VTV en cualquier planta de CABA aunque no sea la de mi barrio?**
+Sí. El turno puede sacarse en cualquier planta del GCBA independientemente de tu domicilio.
+
+**¿Qué pasa si llevo el auto con una luz fundida o un neumático en mal estado?**
+Ese ítem falla y el resultado puede ser Condicional o Rechazado según la gravedad. Mejor solucionarlo antes de ir.
+
+**¿La VTV reemplaza una revisión mecánica?**
+No. La VTV verifica ítems de seguridad vial específicos según una lista reglamentada. Una [inspección precompra](/solicitar-turno) es más exhaustiva: revisa más de 350 puntos, incluye escaneo OBD, carrocería y estructura.
+
+---
+
+## Si comprás un auto usado: dato clave
+
+La VTV aprobada no garantiza que el vehículo esté en buen estado mecánico. Si comprás un usado, sumá una revisión precompra para detectar choques reparados, fallas ocultas, adulteración de kilometraje y problemas de electrónica.
+
+- [Solicitar inspección precompra](/solicitar-turno)
     `,
   },
   {

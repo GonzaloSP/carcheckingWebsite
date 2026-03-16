@@ -3,7 +3,7 @@ import { useRef, useLayoutEffect } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
@@ -283,6 +283,13 @@ export default function ArticlePage() {
           tags: article.tags,
         }}
       />
+      {article.structuredData && (
+        <Helmet>
+          <script type="application/ld+json">
+            {JSON.stringify(article.structuredData)}
+          </script>
+        </Helmet>
+      )}
       <div className="relative bg-[#0B0B0D] min-h-screen">
         <div className="grain-overlay" />
         <Navigation />
