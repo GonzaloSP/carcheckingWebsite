@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { Search, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronUp, Loader2, ExternalLink } from 'lucide-react';
+import { Search, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronUp, Loader2, ExternalLink, X, ShieldCheck } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import SEO from '../components/SEO';
 import Navigation from '../sections/Navigation';
 import FooterSection from '../sections/FooterSection';
@@ -12,6 +13,8 @@ import { MULTA_CONTENT } from '../data/multa-content';
 import { Helmet } from 'react-helmet-async';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
+
+const MERCADOPAGO_LINK = 'https://mpago.la/XXXXXXXX'; // ← reemplazá con tu link de cobro de $2.000
 
 const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
 const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
@@ -240,22 +243,32 @@ export default function ConsultarMultaPage({
   const [activeFuentes, setActiveFuentes] = useState(jurisdiccion ? [jurisdiccion] : FUENTES);
   const [expanded, setExpanded]           = useState<Set<string>>(new Set());
   const [searched, setSearched]           = useState('');
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [pendingDominio, setPendingDominio]     = useState('');
+  const [pendingFuentes, setPendingFuentes]     = useState<typeof FUENTES>([]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const clean = dominio.replace(/\s/g, '').toUpperCase();
     if (clean.length < 6 || clean.length > 7) return;
+
+    const isOldFormat = /^[A-Z]{3}\d{3}$/.test(clean);
+    const baseFuentes = jurisdiccion ? [jurisdiccion] : FUENTES;
+    const fuentes = isOldFormat ? baseFuentes : baseFuentes.filter(f => f.value !== 'ansv');
+
+    setPendingDominio(clean);
+    setPendingFuentes(fuentes);
+    setShowPaymentModal(true);
+  }
+
+  async function executeQueries(clean: string, fuentes: typeof FUENTES) {
+    setShowPaymentModal(false);
 
     trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
 
     setSearched(clean);
     setExpanded(new Set());
     setVehiculo({ status: 'loading' });
-
-    // ANSV only accepts old-format plates (ABC123 = 6 chars); hide for Mercosur (AB123CD = 7 chars)
-    const isOldFormat = /^[A-Z]{3}\d{3}$/.test(clean);
-    const baseFuentes = jurisdiccion ? [jurisdiccion] : FUENTES;
-    const fuentes = isOldFormat ? baseFuentes : baseFuentes.filter(f => f.value !== 'ansv');
     setActiveFuentes(fuentes);
 
     const initial: Record<string, JurisdiccionState> = {};
@@ -459,6 +472,86 @@ export default function ConsultarMultaPage({
             })),
           })}</script>
         </Helmet>
+      )}
+
+      {/* Payment modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="relative bg-[#111113] border border-[#2a2a2c] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+            {/* Close */}
+            <button
+              onClick={() => setShowPaymentModal(false)}
+              className="absolute top-4 right-4 text-[#555] hover:text-[#F4F1EC] transition-colors"
+              aria-label="Cerrar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-2">
+                <ShieldCheck className="w-6 h-6 text-[#C8A161] flex-shrink-0" />
+                <h2 className="text-xl md:text-2xl font-bold text-[#F4F1EC] leading-tight">
+                  Consulta todos estos registros en 2 minutos
+                </h2>
+              </div>
+              <p className="text-sm text-[#B8B2AA] mb-6">
+                Patente <span className="font-bold text-[#F4F1EC] tracking-widest">{pendingDominio}</span> · {pendingFuentes.length} registros oficiales · $2.000
+              </p>
+
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Locations list */}
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-[#B8B2AA] uppercase tracking-wider mb-3">Registros que consultamos</p>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {pendingFuentes.map(f => (
+                      <div key={f.slug} className="flex items-center gap-2 text-xs text-[#B8B2AA]">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#C8A161] flex-shrink-0" />
+                        <span className="truncate">{f.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* QR + payment */}
+                <div className="flex flex-col items-center gap-4 md:border-l md:border-[#2a2a2c] md:pl-6">
+                  <div className="bg-white p-3 rounded-xl">
+                    <QRCodeSVG value={MERCADOPAGO_LINK} size={160} />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs text-[#B8B2AA] mb-1">Escaneá con la app de MercadoPago</p>
+                    <a
+                      href={MERCADOPAGO_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[#C8A161] hover:underline"
+                    >
+                      O hacé clic aquí →
+                    </a>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-[#F4F1EC]">$2.000</p>
+                    <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="mt-6 pt-6 border-t border-[#2a2a2c]">
+                <button
+                  onClick={() => executeQueries(pendingDominio, pendingFuentes)}
+                  className="btn-primary w-full flex items-center justify-center gap-2 py-3 text-base"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Ya pagué — ver resultados
+                </button>
+                <p className="text-xs text-[#555] text-center mt-3">
+                  Al continuar confirmás que realizaste el pago de $2.000 a través de MercadoPago.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="relative bg-[#0B0B0D] min-h-screen">
