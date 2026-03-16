@@ -318,4 +318,121 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     ],
   },
 
+  'multas-avellaneda': {
+    seoTitle: 'Multas en Avellaneda: Consultar Infracciones por Patente | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en Avellaneda por patente. Accedemos al sistema SIAC de la Municipalidad de Avellaneda. Consulta gratuita e instantánea.',
+    seoKeywords: 'multas avellaneda, consultar multas avellaneda, infracciones avellaneda, multas patente avellaneda, SIAC avellaneda, municipalidad avellaneda multas, tránsito avellaneda',
+    intro: 'Consultamos el sistema SIAC de la Municipalidad de Avellaneda para verificar infracciones de tránsito registradas a nombre de tu patente.',
+    sections: [
+      {
+        title: 'El sistema SIAC de Avellaneda',
+        body: 'Avellaneda utiliza el sistema SIAC (Sistema Integral de Administración de Contravenciones) para gestionar las infracciones de tránsito municipales. Las multas son labradas por agentes de la Dirección de Tránsito y por el sistema de fotomultas instalado en los principales corredores del partido: Av. Mitre, Av. Rosales, Autopista Buenos Aires-La Plata y los accesos al Puente Pueyrredón.',
+      },
+      {
+        title: 'Infracciones más frecuentes en Avellaneda',
+        body: 'Los controles de tránsito en Avellaneda son intensivos en los accesos al Riachuelo y en las arterias que conectan con CABA. Las infracciones más comunes son exceso de velocidad, cruce en rojo de semáforo, estacionamiento indebido en zona comercial y conducción sin documentación en regla. Las fotomultas quedan registradas al dominio del vehículo y pueden aparecer al consultar la patente.',
+      },
+      {
+        title: 'Cómo pagar multas en Avellaneda',
+        body: 'Las infracciones en Avellaneda se abonan en la Dirección de Tránsito municipal, en el Juzgado de Faltas o a través de los canales de pago habilitados (Rapipago, Pago Fácil). Se aplican descuentos por pronto pago dentro de los primeros 30 días desde la notificación. Pasado ese plazo, se generan recargos e intereses sobre el importe original.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Qué es el SIAC de Avellaneda?',
+        a: 'El SIAC es el Sistema Integral de Administración de Contravenciones que usa la Municipalidad de Avellaneda para registrar y gestionar infracciones de tránsito. Permite consultar multas por patente de forma online.',
+      },
+      {
+        q: '¿Las multas de Avellaneda afectan la transferencia del vehículo?',
+        a: 'Sí. Las deudas de infracciones municipales pueden trabar la transferencia del dominio. Es recomendable verificar y regularizar multas antes de comprar o vender un auto.',
+      },
+      {
+        q: '¿Puedo impugnar una multa de Avellaneda?',
+        a: 'Sí. Podés presentar un descargo ante el Juzgado de Faltas de Avellaneda dentro del plazo indicado en la notificación. Es recomendable hacerlo con asesoramiento legal si el monto es significativo.',
+      },
+      {
+        q: '¿Las multas de Avellaneda aparecen en el registro provincial de PBA?',
+        a: 'Depende del organismo que labró la infracción. Las multas municipales de Avellaneda van al sistema SIAC del municipio; las de la Policía Bonaerense o rutas provinciales van a InfraccionesBA.',
+      },
+    ],
+  },
+
+  'multas-lanus': {
+    seoTitle: 'Infracciones en Lanús: Consultar Multas por Patente | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en Lanús por patente. Accedemos al sistema Infratrack de la Municipalidad de Lanús. Verificación gratuita e instantánea.',
+    seoKeywords: 'multas lanus, infracciones lanus, consultar multas lanús, multas patente lanus, infratrack lanus, municipalidad lanus multas, tránsito lanús',
+    intro: 'Consultamos el sistema Infratrack de la Municipalidad de Lanús para verificar infracciones de tránsito registradas a tu patente.',
+    sections: [
+      {
+        title: 'Infratrack: el sistema de infracciones de Lanús',
+        body: 'Lanús gestiona sus infracciones de tránsito a través de Infratrack, una plataforma utilizada por varios municipios del GBA que permite registrar, consultar y pagar multas online. Las infracciones son labradas por agentes de la Dirección de Tránsito y por el sistema de fotomultas en los ejes viales principales: Av. Hipólito Yrigoyen, Av. H. Bouchard, Av. 25 de Mayo y los accesos a la Autopista Buenos Aires-La Plata.',
+      },
+      {
+        title: 'Fotomultas y controles de tránsito en Lanús',
+        body: 'El sistema de Lanús incluye cámaras de velocidad y control de semáforos en los corredores de mayor tránsito del partido. Las infracciones detectadas por fotomulta se notifican al titular del vehículo por carta certificada y quedan disponibles para consulta online. Los controles se intensifican en la zona de Lanús Este y Lanús Oeste, donde el tránsito pesado es frecuente.',
+      },
+      {
+        title: 'Cómo regularizar multas en Lanús',
+        body: 'Las multas de Lanús pueden abonarse en la Municipalidad, en el Juzgado de Faltas o a través de Pago Fácil y Rapipago. Infratrack también habilita el pago online desde su plataforma. El descuento por pago voluntario aplica dentro de los 30 días desde la notificación; pasado ese plazo se aplican intereses y recargos.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Qué es Infratrack y por qué lo usa Lanús?',
+        a: 'Infratrack es un sistema de gestión de infracciones de tránsito utilizado por varios municipios del GBA, incluyendo Lanús, Berisso y Ezeiza. Permite registrar, consultar y pagar multas online de forma centralizada.',
+      },
+      {
+        q: '¿Las infracciones de Lanús afectan la transferencia del auto?',
+        a: 'Sí. Las deudas de multas municipales pueden impedir la transferencia del dominio. Verificá y regularizá cualquier infracción antes de comprar o vender un vehículo.',
+      },
+      {
+        q: '¿Puedo pagar una multa de Lanús sin ir a la municipalidad?',
+        a: 'Sí. Podés abonar online a través de la plataforma Infratrack o presencialmente en bocas de Rapipago y Pago Fácil. El portal también permite gestionar planes de pago en cuotas.',
+      },
+      {
+        q: '¿Lanús tiene fotomultas propias o usa el sistema provincial?',
+        a: 'Lanús tiene su propio sistema municipal de fotomultas gestionado por Infratrack. Las infracciones en rutas nacionales o provinciales que cruzan el partido pueden estar en registros distintos (ANSV o PBA).',
+      },
+    ],
+  },
+
+  'multas-entre-rios': {
+    seoTitle: 'Multas en Entre Ríos: Consultar Infracciones por Patente | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en la Provincia de Entre Ríos por patente. Accedemos al sistema Monitoreo Vial provincial. Verificación gratuita e instantánea.',
+    seoKeywords: 'multas entre rios, consultar multas entre ríos, infracciones entre ríos, monitoreo vial entre ríos, multas patente entre ríos, policía caminera entre ríos, multas provincia entre ríos',
+    intro: 'Consultamos el sistema Monitoreo Vial de la Provincia de Entre Ríos para verificar infracciones de tránsito en rutas y caminos provinciales.',
+    sections: [
+      {
+        title: 'Monitoreo Vial Entre Ríos: qué registra',
+        body: 'La Provincia de Entre Ríos centraliza sus infracciones de tránsito en el sistema Monitoreo Vial, accesible por patente online. El organismo principal que labra infracciones en rutas provinciales es la Policía Caminera de Entre Ríos. Los tramos de mayor control incluyen la Ruta Nacional 14 (corredor del Mercosur), la Ruta Provincial 11, los accesos a Paraná, Concordia y Gualeguaychú, y los puentes internacionales.',
+      },
+      {
+        title: 'Principales ejes viales controlados en Entre Ríos',
+        body: 'Entre Ríos cuenta con una extensa red vial que conecta el litoral con el Mercosur. Los controles de velocidad y documentación son intensivos en la RN14 (entre Paso de los Libres y Buenos Aires), en los accesos a la capital Paraná y en las rutas que unen las ciudades de Concordia, Gualeguaychú y Colón. El tránsito de camiones y transporte de carga es especialmente controlado en estas arterias.',
+      },
+      {
+        title: 'Cómo pagar multas en Entre Ríos',
+        body: 'Las infracciones registradas en Monitoreo Vial pueden consultarse y gestionarse en las dependencias de la Policía Caminera o a través del portal online provincial. Los pagos se realizan en el Nuevo Banco de Entre Ríos, en bocas de Rapipago y Pago Fácil, o de forma online. Se aplican descuentos por pronto pago y la posibilidad de planes de cuotas para montos elevados.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Qué es el sistema Monitoreo Vial de Entre Ríos?',
+        a: 'Monitoreo Vial es la plataforma oficial de la Provincia de Entre Ríos para registrar y consultar infracciones de tránsito en rutas y caminos provinciales. Permite verificar si un dominio tiene multas pendientes online.',
+      },
+      {
+        q: '¿Las multas de Entre Ríos afectan la transferencia del vehículo?',
+        a: 'Sí. Las infracciones provinciales pueden trabar trámites en el DNRPA. Es importante verificar y regularizar las multas antes de transferir un vehículo registrado o con circulación frecuente en Entre Ríos.',
+      },
+      {
+        q: '¿Esta consulta muestra multas de la Policía Caminera y también de municipios como Paraná o Concordia?',
+        a: 'Consultamos el sistema provincial Monitoreo Vial, que centraliza las infracciones de la Policía Caminera y organismos provinciales. Las multas municipales (de la ciudad de Paraná, Concordia, etc.) pueden estar en registros separados de cada municipio.',
+      },
+      {
+        q: '¿Puedo impugnar una infracción registrada en Monitoreo Vial Entre Ríos?',
+        a: 'Sí. Podés presentar un descargo ante la dependencia de la Policía Caminera que labró la infracción o en los juzgados de faltas de la jurisdicción correspondiente, dentro del plazo indicado en el acta.',
+      },
+    ],
+  },
+
 };
