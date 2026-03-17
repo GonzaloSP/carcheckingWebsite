@@ -703,12 +703,6 @@ async function fetchRosario(dominio) {
   const FORM_URL = `${BASE}/gdm/patente.do`;
   const SITE_KEY = '6LcUUMUUAAAAAHd5V8Y7RYJ4L91xP9uhD8uAspSL';
 
-  if (!process.env.CAPSOLVER_API_KEY) {
-    const err = new Error('MANUAL_REQUIRED');
-    err.manualUrl = `${FORM_URL}?accion=ir`;
-    throw err;
-  }
-
   const jar  = new CookieJar();
   const home = await http.get(`${FORM_URL}?accion=ir`, { jar, withCredentials: true });
 
