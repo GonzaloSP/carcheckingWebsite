@@ -99,7 +99,7 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
 
   // Fallback: use 2captcha
   const solver = getSolver();
-  const result = await solver.recaptcha(siteKey, pageUrl, { version: 'v3', action, score: minScore });
+  const result = await solver.recaptcha(siteKey, pageUrl, { version: 'v3', action, min_score: minScore });
   return result.data;
 }
 
@@ -1879,8 +1879,9 @@ async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio, extraHttpsAg
   const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
   if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
 
-  // 4. Solve reCAPTCHA v3 (Boldt uses grecaptcha.execute with action — not v2)
-  const captchaToken = await solveRecaptchaV3(siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.7);
+  // 4. Solve reCAPTCHA v3 via direct 2captcha HTTP API (better than SDK for some sites)
+  const taskMeta = await submitCaptchaTask('v3', siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.3);
+  const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
 
   // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
   const vehiculoRes = await axios.post(
