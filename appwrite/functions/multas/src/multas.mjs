@@ -2376,6 +2376,18 @@ export default async ({ req, res, log, error: logError }) => {
       if (fuente === 'vtv-santafe') return res.json({ dominio: clean, fuente, historial: [], manualUrl });
       return res.json({ dominio: clean, fuente, infracciones: [], manualUrl });
     }
+    // Portal returned 400/403 — portal unavailable or blocking, return manualUrl fallback
+    const isPortalBlock = err.response?.status === 400 || err.response?.status === 403 || err.code === 'ECONNREFUSED';
+    if (isPortalBlock) {
+      const MANUAL_URLS = {
+        pba:             'https://infraccionesba.gba.gob.ar/consulta-infraccion',
+        caba:            'https://www.buenosaires.gob.ar/tramites/consulta-de-infracciones-de-transito',
+        rosario:         'https://www.rosario.gob.ar/gdm/patente.do?accion=ir',
+        mendozacaminera: 'https://www.mendoza.gov.ar/policia-caminera/consulta-de-infracciones/',
+      };
+      const manualUrl = MANUAL_URLS[fuente] || null;
+      if (manualUrl) return res.json({ dominio: clean, fuente, infracciones: [], manualUrl });
+    }
     logError(`[${fuente}] Error para ${clean}: ${err.message}`);
     return res.json({ error: `Error al consultar ${fuente}: ${err.message}` }, 502);
   }

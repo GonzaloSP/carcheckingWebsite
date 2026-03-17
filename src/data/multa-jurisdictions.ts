@@ -17,7 +17,7 @@ export const JURISDICCIONES_MULTA: JurisdiccionMulta[] = [
   { value: 'santafe',        label: 'Santa Fe',                  sub: 'Juzgado Virtual',       slug: 'multas-santa-fe',                manualUrl: null },
   { value: 'rosario',        label: 'Rosario',                   sub: 'Municipalidad',         slug: 'multas-rosario',                 manualUrl: 'https://www.rosario.gob.ar/gdm/patente.do?accion=ir' },
   { value: 'mendoza',        label: 'Mendoza Ciudad',            sub: 'Juzgados de Tránsito',  slug: 'multas-mendoza',                 manualUrl: null },
-  { value: 'mendozacaminera',label: 'Mendoza Caminera',          sub: 'Policía Caminera',      slug: 'multas-mendoza-caminera',        manualUrl: null },
+  { value: 'mendozacaminera',label: 'Mendoza Caminera',          sub: 'Policía Caminera',      slug: 'multas-mendoza-caminera',        manualUrl: 'https://www.mendoza.gov.ar/policia-caminera/consulta-de-infracciones/' },
   { value: 'salta',          label: 'Salta Capital',             sub: 'DGR Salta',             slug: 'multas-salta',                   manualUrl: null },
   { value: 'neuquen',        label: 'Neuquén Capital',           sub: 'Fotomultas',            slug: 'multas-neuquen',                 manualUrl: null },
   { value: 'santarosa',      label: 'Santa Rosa',                sub: 'La Pampa',              slug: 'multas-santa-rosa',              manualUrl: null },
