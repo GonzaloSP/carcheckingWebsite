@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -227,6 +227,7 @@ export default function ConsultarMultaPage({
   const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
   const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const freeMode = useMemo(() => new URLSearchParams(window.location.search).get('dev') === 'nocobrar', []);
 
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
@@ -248,7 +249,7 @@ export default function ConsultarMultaPage({
   const [pendingFuentes, setPendingFuentes]     = useState<typeof FUENTES>([]);
   const [paymentStatus, setPaymentStatus]       = useState<PaymentStatus>('idle');
   const [mpInitPoint, setMpInitPoint]           = useState('');
-  const [mpPreferenceId, setMpPreferenceId]     = useState('');
+  const [mpExternalRef, setMpExternalRef]       = useState('');
   const [paymentError, setPaymentError]         = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [verifyingPayment, setVerifyingPayment] = useState(false);
@@ -271,10 +272,15 @@ export default function ConsultarMultaPage({
     const baseFuentes = jurisdiccion ? [jurisdiccion] : FUENTES;
     const fuentes = isOldFormat ? baseFuentes : baseFuentes.filter(f => f.value !== 'ansv');
 
+    if (freeMode) {
+      executeQueries(clean, fuentes);
+      return;
+    }
+
     setPendingDominio(clean);
     setPendingFuentes(fuentes);
     setMpInitPoint('');
-    setMpPreferenceId('');
+    setMpExternalRef('');
     setPaymentError('');
     setPaymentStatus('creating');
     setShowPaymentModal(true);
@@ -286,15 +292,15 @@ export default function ConsultarMultaPage({
     })
       .then(r => r.json())
       .then(data => {
-        if (!data.preference_id) throw new Error(data.error ?? 'Error al crear preferencia');
+        if (!data.init_point) throw new Error(data.error ?? 'Error al crear preferencia');
         setMpInitPoint(data.init_point);
-        setMpPreferenceId(data.preference_id);
+        setMpExternalRef(data.external_reference);
         setPaymentStatus('waiting');
 
         // Poll every 3s for payment approval
         pollRef.current = setInterval(async () => {
           try {
-            const pr = await fetch(`/api/mp-verify-preference?preference_id=${encodeURIComponent(data.preference_id)}`);
+            const pr = await fetch(`/api/mp-verify-preference?external_reference=${encodeURIComponent(data.external_reference)}`);
             const pd = await pr.json();
             if (pd.paid) {
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
@@ -312,11 +318,11 @@ export default function ConsultarMultaPage({
   }
 
   async function handleManualVerify() {
-    if (!mpPreferenceId) return;
+    if (!mpExternalRef) return;
     setVerifyingPayment(true);
     setVerifyMessage('');
     try {
-      const pr = await fetch(`/api/mp-verify-preference?preference_id=${encodeURIComponent(mpPreferenceId)}`);
+      const pr = await fetch(`/api/mp-verify-preference?external_reference=${encodeURIComponent(mpExternalRef)}`);
       const pd = await pr.json();
       if (pd.paid) {
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
@@ -409,7 +415,8 @@ export default function ConsultarMultaPage({
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid #C8A161;">
     <div>
       <div style="font-size:26px;font-weight:800;letter-spacing:-0.5px;color:#111;">car<span style="color:#C8A161;">Checking</span></div>
-      <div style="font-size:11px;color:#999;margin-top:2px;">carchecking.com.ar · Informe de multas e infracciones</div>
+      <div style="font-size:13px;color:#C8A161;font-weight:600;margin-top:2px;">www.carchecking.com.ar</div>
+      <div style="font-size:11px;color:#999;margin-top:1px;">Informe de multas e infracciones</div>
     </div>
     <div style="text-align:right;">
       <div style="font-size:28px;font-weight:800;letter-spacing:4px;color:#111;background:#f5f0e8;border:2px solid #C8A161;border-radius:8px;padding:8px 18px;">${searched}</div>
@@ -972,17 +979,15 @@ export default function ConsultarMultaPage({
                   </div>
 
                   {/* PDF download */}
-                  {loaded === activeFuentes.length && (
-                    <div className="flex justify-end mb-4">
-                      <button
-                        onClick={handleDownloadPDF}
-                        className="flex items-center gap-2 text-sm font-semibold text-[#C8A161] border border-[#C8A161]/40 hover:bg-[#C8A161]/10 px-4 py-2 rounded-lg transition-colors"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Descargar PDF
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex justify-end mb-4">
+                    <button
+                      onClick={handleDownloadPDF}
+                      className="flex items-center gap-2 text-sm font-semibold text-[#C8A161] border border-[#C8A161]/40 hover:bg-[#C8A161]/10 px-4 py-2 rounded-lg transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      Descargar PDF
+                    </button>
+                  </div>
 
                   {/* Tab navigation */}
                   <div className="flex flex-wrap gap-2 mb-5">

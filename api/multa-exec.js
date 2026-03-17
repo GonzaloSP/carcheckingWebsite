@@ -7,16 +7,15 @@
  */
 
 const BASE    = 'https://server.innsimulation.com/v1/functions/multas/executions';
-const PROJECT = process.env.VITE_APPWRITE_PROJECT_ID;
+const PROJECT = (process.env.VITE_APPWRITE_PROJECT_ID ?? '').trim() || '69ab260c001de147f5d5';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const r = await fetch(BASE, {
       method: 'POST',
       headers: {
-        'Content-Type':     'application/json',
+        'Content-Type':       'application/json',
         'X-Appwrite-Project': PROJECT,
-        'X-Appwrite-Key':     process.env.APPWRITE_WRITE_KEY,
       },
       body: JSON.stringify(req.body),
     });

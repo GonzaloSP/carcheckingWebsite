@@ -20,6 +20,8 @@ export default async function handler(req, res) {
   const siteUrl = process.env.SITE_URL ?? 'https://www.carchecking.com.ar';
 
   try {
+    const external_reference = `${dominio}-${Date.now()}`;
+
     const mpRes = await fetch(MP_API, {
       method: 'POST',
       headers: {
@@ -36,7 +38,7 @@ export default async function handler(req, res) {
           },
         ],
         statement_descriptor: 'carChecking',
-        external_reference: dominio,
+        external_reference,
       }),
     });
 
@@ -46,7 +48,7 @@ export default async function handler(req, res) {
     }
 
     const { id: preference_id, init_point } = await mpRes.json();
-    return res.status(200).json({ preference_id, init_point });
+    return res.status(200).json({ preference_id, init_point, external_reference });
   } catch (e) {
     return res.status(500).json({ error: 'Error al crear preferencia de pago' });
   }
