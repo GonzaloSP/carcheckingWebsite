@@ -142,12 +142,12 @@ async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
 }
 
 // ─── Submit captcha task without waiting (returns taskMeta for step 2) ────────
-async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore = 0.3) {
+async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore = 0.3, capsolverTaskTypeOverride = null) {
   const capsolverKey  = process.env.CAPSOLVER_API_KEY;
   const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
 
   if (capsolverKey) {
-    const taskType = type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : 'ReCaptchaV2TaskProxyLess';
+    const taskType = capsolverTaskTypeOverride || (type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : 'ReCaptchaV2TaskProxyLess');
     const task = { type: taskType, websiteURL: pageUrl, websiteKey: siteKey };
     if (type === 'v3') { task.pageAction = action; task.minScore = minScore; }
     const res = await axios.post('https://api.capsolver.com/createTask',
@@ -1883,31 +1883,50 @@ async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio, extraHttpsAg
   const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
   if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
 
-  // 4. Solve reCAPTCHA v3 via direct 2captcha HTTP API (better than SDK for some sites)
-  const taskMeta = await submitCaptchaTask('v3', siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.3);
-  const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
+  // 4. Solve reCAPTCHA v3 — try M1 (mobile fingerprint) task type first for higher scores,
+  //    then fall back to standard ProxyLess. Retry up to 3 times total on captcha rejection.
+  const capsolverTypes = ['ReCaptchaV3M1TaskProxyLess', 'ReCaptchaV3TaskProxyLess', 'ReCaptchaV3M1TaskProxyLess'];
+  let vehiculoRes;
+  let lastCaptchaErr = false;
 
-  // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
-  const vehiculoRes = await axios.post(
-    `${apiBaseUrl}api/consultaInfraccion/vehiculo`,
-    { dominio },
-    {
-      headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', Captcha: captchaToken },
-      timeout: 30000,
-      validateStatus: () => true,
-      ...tlsOpts,
-    }
-  );
+  for (let attempt = 0; attempt < capsolverTypes.length; attempt++) {
+    const taskMeta = await submitCaptchaTask(
+      'v3', siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.3,
+      process.env.CAPSOLVER_API_KEY ? capsolverTypes[attempt] : null
+    );
+    const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
 
-  if (vehiculoRes.status === 400) {
-    const errMsg = vehiculoRes.data?.errores?.error?.[0]?.descripcionError || 'Error desconocido';
-    // Captcha rejection — return as manual so the user can check directly on the portal
-    if (errMsg.toLowerCase().includes('captcha')) {
-      const err = new Error('MANUAL_REQUIRED');
-      err.manualUrl = frontendUrl;
-      throw err;
+    // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
+    vehiculoRes = await axios.post(
+      `${apiBaseUrl}api/consultaInfraccion/vehiculo`,
+      { dominio },
+      {
+        headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', Captcha: captchaToken },
+        timeout: 30000,
+        validateStatus: () => true,
+        ...tlsOpts,
+      }
+    );
+
+    if (vehiculoRes.status === 400) {
+      const errMsg = vehiculoRes.data?.errores?.error?.[0]?.descripcionError || 'Error desconocido';
+      if (errMsg.toLowerCase().includes('captcha')) {
+        lastCaptchaErr = true;
+        // Re-auth before retry (JWT may have expired)
+        if (attempt < capsolverTypes.length - 1) continue;
+        // All attempts exhausted — fall through to manual
+        break;
+      }
+      throw new Error(`Boldt (${nombre}): ${errMsg}`);
     }
-    throw new Error(`Boldt (${nombre}): ${errMsg}`);
+    lastCaptchaErr = false;
+    break; // success
+  }
+
+  if (lastCaptchaErr) {
+    const err = new Error('MANUAL_REQUIRED');
+    err.manualUrl = frontendUrl;
+    throw err;
   }
 
   const list = vehiculoRes.data?.listInfracciones || [];
