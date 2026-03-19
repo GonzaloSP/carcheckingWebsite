@@ -423,9 +423,11 @@ async function fetchCABAStep1(_dominio) {
   const PAGE_URL = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/?actas=transito';
   const SITE_KEY = '6LfcRGAlAAAAAJI0S2ABpxX_Wj56oioSE6y393OG';
   const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+  const cabaAgent = new https.Agent({ rejectUnauthorized: false });
 
   const home = await http.get(PAGE_URL, {
     withCredentials: true,
+    httpsAgent: cabaAgent,
     headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language': 'es-AR,es;q=0.9' },
   });
   const cookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
@@ -441,6 +443,7 @@ async function fetchCABAStep2(dominio, taskMeta, session) {
   const PAGE_URL = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/?actas=transito';
   const ENDPOINT = 'https://buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones/index.php';
   const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+  const cabaAgent = new https.Agent({ rejectUnauthorized: false });
 
   const formData = new URLSearchParams({
     tipo_consulta:          'Dominio',
@@ -450,6 +453,7 @@ async function fetchCABAStep2(dominio, taskMeta, session) {
   });
 
   const res = await http.post(ENDPOINT, formData.toString(), {
+    httpsAgent: cabaAgent,
     headers: {
       'Content-Type':    'application/x-www-form-urlencoded',
       'User-Agent':      UA,
