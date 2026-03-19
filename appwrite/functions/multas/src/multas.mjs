@@ -18,6 +18,7 @@ import { CookieJar } from 'tough-cookie';
 import * as cheerio from 'cheerio';
 import Captcha from '2captcha';
 
+
 // ─── Shared axios instance ────────────────────────────────────────────────────
 const http = wrapper(
   axios.create({
@@ -291,32 +292,50 @@ async function fetchANSVStep2(dominio, taskMeta, session) {
 }
 
 // ─── Provincia de Buenos Aires ────────────────────────────────────────────────
-async function fetchPBA(dominio) {
+// ─── Provincia de Buenos Aires — Step 1 ───────────────────────────────────────
+async function fetchPBAStep1(_dominio) {
   const BASE     = 'https://infraccionesba.gba.gob.ar';
   const PAGE_URL = `${BASE}/consulta-infraccion`;
   const SITE_KEY = '6LeGXnkUAAAAAGHv-jMgqrOMx4eqHCh3_fEeP9wR';
 
-  const jar  = new CookieJar();
-  const home = await http.get(PAGE_URL, { jar, withCredentials: true });
+  // Use raw axios (no cookiejar wrapper)
+  const home = await axios.get(PAGE_URL, {
+    validateStatus: () => true,
+    timeout: 20000,
+    maxRedirects: 5,
+  });
+  if (home.status >= 400) throw new Error(`PBA portal returned ${home.status}`);
   const html = String(home.data);
+  const rawCookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
 
   const csrfMatch = html.match(/id="root"[^>]*token="([^"]+)"/);
   if (!csrfMatch) throw new Error('No se encontró el CSRF token en el portal PBA.');
   const csrfToken = csrfMatch[1];
 
-  const captchaToken = await solveRecaptchaV2(SITE_KEY, PAGE_URL);
+  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL);
+  return { taskMeta, session: { rawCookies, csrfToken, pageUrl: PAGE_URL } };
+}
 
-  const cookies = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
-  const res = await http.get(`${BASE}/rest/consultar-infraccion`, {
+// ─── Provincia de Buenos Aires — Step 2 ───────────────────────────────────────
+async function fetchPBAStep2(dominio, taskMeta, session) {
+  const BASE     = 'https://infraccionesba.gba.gob.ar';
+  const { rawCookies, csrfToken, pageUrl: PAGE_URL } = session;
+
+  const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
+
+  const res = await axios.get(`${BASE}/rest/consultar-infraccion`, {
     params: { dominio, reCaptcha: captchaToken, cantPorPagina: 10, paginaActual: 1 },
     headers: {
-      Cookie:         cookies,
+      Cookie:         rawCookies,
       Referer:        PAGE_URL,
       Accept:         'application/json',
       'X-CSRF-TOKEN': csrfToken,
     },
+    validateStatus: () => true,
+    timeout: 20000,
   });
 
+  if (res.status >= 400) throw new Error(`PBA API returned ${res.status}: ${JSON.stringify(res.data).slice(0, 200)}`);
   const data = res.data;
   if (data.error) throw new Error('El portal PBA devolvió un error (posiblemente captcha inválido).');
   const list = data.infracciones || [];
@@ -2284,21 +2303,25 @@ export default async ({ req, res, log, error: logError }) => {
   }
 
   try {
-    // ── Two-step captcha flow (ANSV, CABA — captcha takes >30s so must be split) ──
-    if ((fuente === 'ansv' || fuente === 'caba') && step === '1') {
+    // ── Two-step captcha flow (ANSV, CABA, PBA — captcha takes >15s so must be split) ──
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba') && step === '1') {
       const result = fuente === 'ansv'
         ? await fetchANSVStep1(clean)
-        : await fetchCABAStep1(clean);
+        : fuente === 'caba'
+          ? await fetchCABAStep1(clean)
+          : await fetchPBAStep1(clean);
       return res.json({ dominio: clean, fuente, step: 1, ...result });
     }
 
-    if ((fuente === 'ansv' || fuente === 'caba') && step === '2') {
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba') && step === '2') {
       const bodyData = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
       const { taskMeta, session } = bodyData;
       if (!taskMeta || !session) return res.json({ error: 'Faltan taskMeta o session en el body.' }, 400);
       const infracciones = fuente === 'ansv'
         ? await fetchANSVStep2(clean, taskMeta, session)
-        : await fetchCABAStep2(clean, taskMeta, session);
+        : fuente === 'caba'
+          ? await fetchCABAStep2(clean, taskMeta, session)
+          : await fetchPBAStep2(clean, taskMeta, session);
       return res.json({ dominio: clean, fuente, infracciones });
     }
 
