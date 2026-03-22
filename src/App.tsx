@@ -11,6 +11,8 @@ import VerificacionPolicialLocationPage from './pages/VerificacionPolicialLocati
 import VtvLocationPage from './pages/VtvLocationPage';
 import ConsultarMultaPage from './pages/ConsultarMultaPage';
 import ConsultarMultaJurisdiccionPage from './pages/ConsultarMultaJurisdiccionPage';
+import MultasCABAGuidePage from './pages/MultasCABAGuidePage';
+import CalculadoraTransferenciaPage from './pages/CalculadoraTransferenciaPage';
 import AnalyticsRouter from './components/AnalyticsRouter';
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '';
@@ -28,6 +30,8 @@ function App() {
         <Route path="/solicitar-turno" element={<BookingPage />} />
         <Route path="/consultar-multa" element={<ConsultarMultaPage />} />
         <Route path="/consultar-multa/:slug" element={<ConsultarMultaJurisdiccionPage />} />
+        <Route path="/multas-caba/:guide" element={<MultasCABAGuidePage />} />
+        <Route path="/calculadora-de-costos-de-transferencia" element={<CalculadoraTransferenciaPage />} />
 
         <Route path="/revision-vehiculo-en/:slug" element={<LocationLandingPage />} />
         <Route path="/verificacion-policial-en/:slug" element={<VerificacionPolicialLocationPage />} />

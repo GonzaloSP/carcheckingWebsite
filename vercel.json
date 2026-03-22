@@ -1529,6 +1529,26 @@
       "source": "/consejos/(.*)",
       "destination": "/guias/$1",
       "permanent": true
+    },
+    {
+      "source": "/guias/calculadora-costos-transferencia-auto-usado",
+      "destination": "/calculadora-de-costos-de-transferencia",
+      "permanent": true
+    },
+    {
+      "source": "/guias/calculadora-costos-transferencia-auto-usado/",
+      "destination": "/calculadora-de-costos-de-transferencia",
+      "permanent": true
+    },
+    {
+      "source": "/guias/vtv-caba-turno-requisitos-costos-2026",
+      "destination": "/guias/vtv-caba",
+      "permanent": true
+    },
+    {
+      "source": "/guias/vtv-caba-turno-requisitos-costos-2026/",
+      "destination": "/guias/vtv-caba",
+      "permanent": true
     }
   ],
   "rewrites": [

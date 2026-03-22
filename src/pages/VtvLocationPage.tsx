@@ -64,7 +64,7 @@ El **costo de la VTV** cambia con el tiempo y depende de jurisdicción y tipo de
 
 ### ¿VTV y VTV “CABA” es lo mismo?
 El concepto es el mismo, pero **la gestión y el turno dependen de la jurisdicción**. Si tu caso es CABA, mirá la guía específica:
-- [VTV CABA – Turno, Requisitos y Costos 2026](/guias/vtv-caba-turno-requisitos-costos-2026)
+- [Turno VTV CABA – Requisitos, costos y cómo sacar turno](/guias/vtv-caba)
 
 ### ¿Qué conviene revisar antes de ir?
 Revisá luces, frenos, neumáticos, limpiaparabrisas, pérdidas y cualquier testigo en tablero.

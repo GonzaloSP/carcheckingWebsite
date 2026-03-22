@@ -10,6 +10,11 @@ export default function AnalyticsRouter() {
     initAnalytics();
   }, []);
 
+  // Scroll to top on every navigation
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   // Track SPA page views
   useEffect(() => {
     const path = `${location.pathname}${location.search}`;

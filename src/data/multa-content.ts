@@ -5,6 +5,7 @@ export interface MultaContent {
   intro: string;
   sections: { title: string; body: string }[];
   faq: { q: string; a: string }[];
+  relatedGuides?: { title: string; url: string; description: string }[];
 }
 
 /** Keyed by jurisdiction slug (unique). */
@@ -241,6 +242,23 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         q: '¿Las multas de CABA aparecen en el registro de la Provincia de Buenos Aires?',
         a: 'No. Son registros completamente separados. Una infracción labrada en CABA solo aparece en el sistema del GCBA (buenosaires.gob.ar), no en InfraccionesBA provincial.',
       },
+      {
+        q: '¿Cómo consulto mis multas en CABA?',
+        a: 'Podés consultarlas ingresando la patente de tu vehículo directamente en este buscador, que accede en tiempo real al portal oficial del Gobierno de la Ciudad (buenosaires.gob.ar). También podés hacerlo manualmente en buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones.',
+      },
+      {
+        q: '¿Puedo pagar multas de CABA en cuotas?',
+        a: 'Sí. El GCBA ofrece planes de pago en cuotas para infracciones de mayor importe. Podés solicitarlo a través del portal de Buenos Aires Ciudad o en cualquier sede del Banco Ciudad, presentando el código de la infracción.',
+      },
+      {
+        q: '¿Cuándo prescriben las multas de tránsito en CABA?',
+        a: 'Las multas de tránsito en CABA prescriben a los 2 años desde la fecha de la infracción, según el Código de Tránsito y Transporte de la Ciudad (Ley 2148). Sin embargo, cualquier acto de intimación o notificación interrumpe el plazo de prescripción y lo reinicia desde cero.',
+      },
+    ],
+    relatedGuides: [
+      { title: 'Cómo consultar multas en CABA', url: '/multas-caba/como-consultar', description: 'Guía paso a paso para verificar infracciones por patente en el portal oficial del GCBA.' },
+      { title: 'Cómo pagar multas en CABA', url: '/multas-caba/como-pagar', description: 'Medios de pago disponibles, descuentos por pronto pago y canales oficiales.' },
+      { title: 'Plan de pagos de multas CABA', url: '/multas-caba/plan-de-pagos', description: 'Cómo solicitar cuotas para infracciones de alto importe en el GCBA.' },
     ],
   },
 

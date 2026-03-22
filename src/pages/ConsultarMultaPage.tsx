@@ -1609,6 +1609,25 @@ export default function ConsultarMultaPage({
                         ))}
                       </div>
                     </div>
+
+                    {/* Related guides */}
+                    {content.relatedGuides && content.relatedGuides.length > 0 && (
+                      <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                        <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">Guías relacionadas</h2>
+                        <div className="grid gap-4 sm:grid-cols-3">
+                          {content.relatedGuides.map(({ title, url, description }) => (
+                            <Link
+                              key={url}
+                              to={url}
+                              className="block p-4 bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg hover:border-[#C8A161]/50 transition-colors group"
+                            >
+                              <p className="text-sm font-semibold text-[#C8A161] group-hover:text-[#d4b070] mb-1 leading-snug">{title}</p>
+                              <p className="text-xs text-[#B8B2AA] leading-relaxed">{description}</p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
