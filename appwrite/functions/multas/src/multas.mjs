@@ -170,12 +170,13 @@ async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
 }
 
 // ─── Submit captcha task without waiting (returns taskMeta for step 2) ────────
-async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore = 0.3, capsolverTaskTypeOverride = null) {
+async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore = 0.3, capsolverTaskTypeOverride = null, skipCapsolver = false, isInvisible = false) {
   const capsolverKey  = process.env.CAPSOLVER_API_KEY;
   const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
 
-  if (capsolverKey) {
-    const taskType = capsolverTaskTypeOverride || (type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : 'ReCaptchaV2TaskProxyLess');
+  if (!skipCapsolver && capsolverKey) {
+    const defaultV2Type = isInvisible ? 'ReCaptchaV2InvisibleTaskProxyLess' : 'ReCaptchaV2TaskProxyLess';
+    const taskType = capsolverTaskTypeOverride || (type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : defaultV2Type);
     const task = { type: taskType, websiteURL: pageUrl, websiteKey: siteKey };
     if (type === 'v3') { task.pageAction = action; task.minScore = minScore; }
     const res = await axios.post('https://api.capsolver.com/createTask',
@@ -192,6 +193,7 @@ async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore =
   if (twocaptchaKey) {
     const params = new URLSearchParams({ key: twocaptchaKey, method: 'userrecaptcha', googlekey: siteKey, pageurl: pageUrl, json: '1' });
     if (type === 'v3') { params.set('version', 'v3'); if (action) params.set('action', action); params.set('min_score', String(minScore)); }
+    if (isInvisible) params.set('invisible', '1');
     const res = await axios.post('https://2captcha.com/in.php', params.toString(),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000 }
     );
@@ -348,7 +350,9 @@ async function fetchPBAStep1(_dominio) {
   if (!csrfMatch) throw new Error('No se encontró el CSRF token en el portal PBA.');
   const csrfToken = csrfMatch[1];
 
-  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL);
+  // PBA uses invisible reCAPTCHA v2. Capsolver returns 400 for invisible tasks on this site;
+  // skip it and use 2captcha with invisible=1 which reliably solves this captcha.
+  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL, '', 0.3, null, true, true);
   return { taskMeta, session: { rawCookies, csrfToken, pageUrl: PAGE_URL } };
 }
 
@@ -1205,25 +1209,28 @@ async function fetchSalta(dominio) {
   }));
 }
 
-// ─── Córdoba Provincia (Caminera) ─────────────────────────────────────────────
-async function fetchCordoba(dominio) {
-  // The API requires a reCAPTCHA v2 token as ?captchaToken= query param (error 899 without it)
+// ─── Córdoba Provincia (Caminera) — Step 1 ────────────────────────────────────
+// Submits the reCAPTCHA task (takes <5s); step 2 retrieves the token and calls the API.
+async function fetchCordobaStep1() {
   const CORDOBA_SITE_KEY = '6LepYkkUAAAAAK-FX-2M5BUJXsShVU7-xhHnlR7E';
   const CORDOBA_PAGE_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
-  // Córdoba uses a standard checkbox v2 captcha (not invisible)
-  const captchaToken = await solveRecaptchaV2(CORDOBA_SITE_KEY, CORDOBA_PAGE_URL, false);
+  const taskMeta = await submitCaptchaTask('v2', CORDOBA_SITE_KEY, CORDOBA_PAGE_URL);
+  return { taskMeta, session: {} };
+}
+
+// ─── Córdoba Provincia (Caminera) — Step 2 ────────────────────────────────────
+async function fetchCordobaStep2(dominio, taskMeta) {
+  const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
 
   const url = `https://app.rentascordoba.gob.ar/WSRestDeudaAnt/public/all/caminera/dominio/${dominio}`;
-  // Use plain axios (not cookie-jar http) so validateStatus is respected reliably
   const res = await axios.get(url, {
     headers:        { Accept: 'application/json', captcha: captchaToken },
-    validateStatus: () => true,   // don't throw on 4xx/5xx — we inspect the body
+    validateStatus: () => true,
     timeout:        20000,
   });
 
   const body = res.data;
 
-  // If the response is a string (HTML), Córdoba redirected to the maintenance page.
   if (!body || typeof body !== 'object') {
     const finalUrl = res.request?.res?.responseUrl || res.request?.responseURL || '';
     const bodyStr  = typeof body === 'string' ? body : '';
@@ -1233,20 +1240,16 @@ async function fetchCordoba(dominio) {
     throw new Error('El portal de Córdoba no está disponible en este momento.');
   }
 
-  // captcha rejected or expired (code 899)
   if (body?.code === '899' || body?.code === 899) {
     throw new Error('El captcha de Córdoba expiró o no fue aceptado. Intentá de nuevo.');
   }
 
   if (body.status?.success !== 'TRUE') {
-    // Pull human-readable message from the messages array (field name changed)
     const msgs = body.status?.messages || [];
     const firstMsg = (msgs[0]?.description || body.status?.message || '').trim();
-    // "no se encontró" / "no registra" → valid empty result
     if (/no se encontr|sin datos|no registra/i.test(firstMsg)) return [];
-    // Error de sistema (502/500 upstream) → surface a clean message
     const friendly = firstMsg
-      ? firstMsg.replace(/\s*-\s*Mensaje:.*$/, '').trim()   // strip raw HTTP detail
+      ? firstMsg.replace(/\s*-\s*Mensaje:.*$/, '').trim()
       : 'El portal de Córdoba no está disponible en este momento.';
     throw new Error(friendly);
   }
@@ -1271,6 +1274,14 @@ async function fetchCordoba(dominio) {
   }
 
   return infracciones;
+}
+
+// ─── Córdoba Provincia (Caminera) — legacy single-step (may timeout on Appwrite sync) ─
+async function fetchCordoba(dominio) {
+  const CORDOBA_SITE_KEY = '6LepYkkUAAAAAK-FX-2M5BUJXsShVU7-xhHnlR7E';
+  const CORDOBA_PAGE_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
+  const captchaToken = await solveRecaptchaV2(CORDOBA_SITE_KEY, CORDOBA_PAGE_URL, false);
+  return fetchCordobaStep2(dominio, { service: 'direct', taskId: null, token: captchaToken });
 }
 
 // ─── DNRPA — Identificación de vehículo (Justicia.gov.ar) ────────────────────
@@ -1351,10 +1362,14 @@ async function fetchVTV(dominio) {
       Referer:             'https://vtv.gba.gob.ar/',
       'User-Agent':        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36',
     },
+    validateStatus: () => true,
     timeout: 20000,
   });
 
   const data = res.data;
+  if (res.status === 503 || data?.statusCode === 503 || data?.code === 'SERVICE_UNAVAILABLE') {
+    throw new Error('El portal VTV no está disponible en este momento. Verificá en vtv.gba.gob.ar');
+  }
   if (data?.ok === false) throw new Error(data.message || 'Sin datos de VTV.');
   if (!data || data.status !== 'success') throw new Error('No se encontraron datos de VTV para este dominio.');
   if (!Array.isArray(data.payload) || data.payload.length === 0) return [];
@@ -2353,16 +2368,18 @@ export default async ({ req, res, log, error: logError }) => {
 
   try {
     // ── Two-step captcha flow (ANSV, CABA, PBA — captcha takes >15s so must be split) ──
-    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba') && step === '1') {
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba') && step === '1') {
       const result = fuente === 'ansv'
         ? await fetchANSVStep1(clean)
         : fuente === 'caba'
           ? await fetchCABAStep1(clean)
-          : await fetchPBAStep1(clean);
+          : fuente === 'pba'
+            ? await fetchPBAStep1(clean)
+            : await fetchCordobaStep1();
       return res.json({ dominio: clean, fuente, step: 1, ...result });
     }
 
-    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba') && step === '2') {
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba') && step === '2') {
       const bodyData = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
       const { taskMeta, session } = bodyData;
       if (!taskMeta || !session) return res.json({ error: 'Faltan taskMeta o session en el body.' }, 400);
@@ -2370,7 +2387,9 @@ export default async ({ req, res, log, error: logError }) => {
         ? await fetchANSVStep2(clean, taskMeta, session)
         : fuente === 'caba'
           ? await fetchCABAStep2(clean, taskMeta, session)
-          : await fetchPBAStep2(clean, taskMeta, session);
+          : fuente === 'pba'
+            ? await fetchPBAStep2(clean, taskMeta, session)
+            : await fetchCordobaStep2(clean, taskMeta);
       return res.json({ dominio: clean, fuente, infracciones });
     }
 
