@@ -109,37 +109,64 @@ async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
   const capsolverKey = process.env.CAPSOLVER_API_KEY;
 
   if (capsolverKey) {
-    const createRes = await axios.post(
-      'https://api.capsolver.com/createTask',
-      {
-        clientKey: capsolverKey,
-        task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey, isInvisible },
-      },
-      { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
-    );
-    if (createRes.data.errorId !== 0) throw new Error(`Capsolver v2 error: ${createRes.data.errorDescription}`);
-
-    // May already be ready in createTask response
-    if (createRes.data.solution?.gRecaptchaResponse) return createRes.data.solution.gRecaptchaResponse;
-
-    const taskId = createRes.data.taskId;
-    for (let i = 0; i < 24; i++) {
-      await new Promise(r => setTimeout(r, 3000));
-      const pollRes = await axios.post(
-        'https://api.capsolver.com/getTaskResult',
-        { clientKey: capsolverKey, taskId },
+    try {
+      const createRes = await axios.post(
+        'https://api.capsolver.com/createTask',
+        {
+          clientKey: capsolverKey,
+          task: { type: isInvisible ? 'ReCaptchaV2InvisibleTaskProxyLess' : 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
+        },
         { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
       );
-      if (pollRes.data.errorId !== 0) throw new Error(`Capsolver v2 poll error: ${pollRes.data.errorDescription}`);
-      if (pollRes.data.status === 'ready') return pollRes.data.solution.gRecaptchaResponse;
+      if (createRes.data.errorId !== 0) throw new Error(`Capsolver v2 error: ${createRes.data.errorDescription}`);
+
+      // May already be ready in createTask response
+      if (createRes.data.solution?.gRecaptchaResponse) return createRes.data.solution.gRecaptchaResponse;
+
+      const taskId = createRes.data.taskId;
+      for (let i = 0; i < 24; i++) {
+        await new Promise(r => setTimeout(r, 3000));
+        const pollRes = await axios.post(
+          'https://api.capsolver.com/getTaskResult',
+          { clientKey: capsolverKey, taskId },
+          { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+        );
+        if (pollRes.data.errorId !== 0) throw new Error(`Capsolver v2 poll error: ${pollRes.data.errorDescription}`);
+        if (pollRes.data.status === 'ready') return pollRes.data.solution.gRecaptchaResponse;
+      }
+      throw new Error('Capsolver v2 timeout');
+    } catch (_capErr) {
+      // Capsolver failed — fall through to 2captcha
     }
-    throw new Error('Capsolver v2 timeout después de 2 minutos.');
   }
 
   // Fallback: 2captcha
-  const solver = getSolver();
-  const result = await solver.recaptcha(siteKey, pageUrl);
-  return result.data;
+  const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
+  if (!twocaptchaKey) throw new Error('No captcha service configured');
+  const params = new URLSearchParams({ key: twocaptchaKey, method: 'userrecaptcha', googlekey: siteKey, pageurl: pageUrl, json: '1' });
+  if (isInvisible) params.set('invisible', '1');
+  let submitRes;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt > 0) await new Promise(r => setTimeout(r, 3000));
+    submitRes = await axios.post('https://2captcha.com/in.php', params.toString(),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000, validateStatus: () => true }
+    );
+    if (submitRes.status < 500) break;
+  }
+  if (submitRes.status >= 500) throw new Error(`2captcha v2 server error: ${submitRes.status}`);
+  if (submitRes.data.status !== 1) throw new Error(`2captcha v2 submit error: ${submitRes.data.request}`);
+  const taskId2 = String(submitRes.data.request);
+  for (let i = 0; i < 24; i++) {
+    await new Promise(r => setTimeout(r, 5000));
+    const pollRes = await axios.get(
+      `https://2captcha.com/res.php?key=${twocaptchaKey}&action=get&id=${taskId2}&json=1`,
+      { timeout: 10000, validateStatus: () => true }
+    );
+    if (pollRes.status >= 500) continue; // transient server error, retry
+    if (pollRes.data.status === 1) return pollRes.data.request;
+    if (pollRes.data.request !== 'CAPCHA_NOT_READY') throw new Error(`2captcha v2 error: ${pollRes.data.request}`);
+  }
+  throw new Error('2captcha v2 timeout');
 }
 
 // ─── Submit captcha task without waiting (returns taskMeta for step 2) ────────
@@ -303,12 +330,21 @@ async function fetchPBAStep1(_dominio) {
     validateStatus: () => true,
     timeout: 20000,
     maxRedirects: 5,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'Accept-Language': 'es-AR,es;q=0.9',
+    },
   });
   if (home.status >= 400) throw new Error(`PBA portal returned ${home.status}`);
   const html = String(home.data);
   const rawCookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
 
-  const csrfMatch = html.match(/id="root"[^>]*token="([^"]+)"/);
+  // Try both attribute orderings (portal may put token before or after id="root")
+  const csrfMatch = html.match(/id="root"[^>]*token="([^"]+)"/)
+    || html.match(/token="([^"]+)"[^>]*id="root"/)
+    || html.match(/<meta[^>]+name="csrf-token"[^>]+content="([^"]+)"/)
+    || html.match(/<meta[^>]+content="([^"]+)"[^>]+name="csrf-token"/);
   if (!csrfMatch) throw new Error('No se encontró el CSRF token en el portal PBA.');
   const csrfToken = csrfMatch[1];
 
@@ -1171,10 +1207,18 @@ async function fetchSalta(dominio) {
 
 // ─── Córdoba Provincia (Caminera) ─────────────────────────────────────────────
 async function fetchCordoba(dominio) {
+  // The API requires a reCAPTCHA v2 token as ?captchaToken= query param (error 899 without it)
+  const CORDOBA_SITE_KEY = '6LepYkkUAAAAAK-FX-2M5BUJXsShVU7-xhHnlR7E';
+  const CORDOBA_PAGE_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
+  // Córdoba uses a standard checkbox v2 captcha (not invisible)
+  const captchaToken = await solveRecaptchaV2(CORDOBA_SITE_KEY, CORDOBA_PAGE_URL, false);
+
   const url = `https://app.rentascordoba.gob.ar/WSRestDeudaAnt/public/all/caminera/dominio/${dominio}`;
-  const res = await http.get(url, {
-    headers:        { Accept: 'application/json' },
+  // Use plain axios (not cookie-jar http) so validateStatus is respected reliably
+  const res = await axios.get(url, {
+    headers:        { Accept: 'application/json', captcha: captchaToken },
     validateStatus: () => true,   // don't throw on 4xx/5xx — we inspect the body
+    timeout:        20000,
   });
 
   const body = res.data;
@@ -1187,6 +1231,11 @@ async function fetchCordoba(dominio) {
       throw new Error('El portal de Córdoba está en mantenimiento. Intentá más tarde.');
     }
     throw new Error('El portal de Córdoba no está disponible en este momento.');
+  }
+
+  // captcha rejected or expired (code 899)
+  if (body?.code === '899' || body?.code === 899) {
+    throw new Error('El captcha de Córdoba expiró o no fue aceptado. Intentá de nuevo.');
   }
 
   if (body.status?.success !== 'TRUE') {
@@ -1902,9 +1951,9 @@ async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio, extraHttpsAg
   const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
   if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
 
-  // 4. Solve reCAPTCHA v3 — try M1 (mobile fingerprint) task type first for higher scores,
-  //    then fall back to standard ProxyLess. Retry up to 3 times total on captcha rejection.
-  const capsolverTypes = ['ReCaptchaV3M1TaskProxyLess', 'ReCaptchaV3TaskProxyLess', 'ReCaptchaV3M1TaskProxyLess'];
+  // 4. Solve reCAPTCHA v3 — single attempt with M1 task type.
+  //    If captcha is rejected fall through to MANUAL_REQUIRED immediately (avoids ~2min timeout).
+  const capsolverTypes = ['ReCaptchaV3M1TaskProxyLess'];
   let vehiculoRes;
   let lastCaptchaErr = false;
 
@@ -2405,8 +2454,8 @@ export default async ({ req, res, log, error: logError }) => {
       case 'venadotuerto':    infracciones = await fetchVenadoTuerto(clean);                      break;
       case 'almirantebrown':  infracciones = await fetchAlmirante_Brown(clean);                   break;
       case 'escobar':         infracciones = await fetchEscobar(clean);                           break;
-      case 'ansv':
-      default:                infracciones = await fetchANSV(clean);                              break;
+      case 'ansv':            return res.json({ error: 'ansv requiere flujo de dos pasos. Usar ?step=1 y ?step=2.' }, 400);
+      default:                return res.json({ error: `Fuente desconocida: ${fuente}` }, 400);
     }
     return res.json({ dominio: clean, fuente, infracciones });
   } catch (err) {
