@@ -1930,135 +1930,19 @@ async function fetchVTVCatamarca(dominio) {
   });
 }
 
-// ─── Boldt Juzgado Virtual — Venado Tuerto, Almirante Brown, Escobar ──────────
-// Shared JWT + reCAPTCHA v3 REST platform.
-// Credentials are injected per-municipality in the frontend page HTML.
-async function fetchBoldt(frontendUrl, apiBaseUrl, nombre, dominio, extraHttpsAgent = null) {
-  const tlsOpts = extraHttpsAgent ? { httpsAgent: extraHttpsAgent } : {};
-
-  // 1. Fetch page to extract credentials from inline <script>
-  const pageRes = await axios.get(frontendUrl, {
-    headers: { 'User-Agent': 'Mozilla/5.0' },
-    timeout: 12000,
-    validateStatus: () => true,
-    ...tlsOpts,
-  });
-  const html = String(pageRes.data);
-  const userMatch = html.match(/var\s+user\s*=\s*"([^"]+)"/);
-  const passMatch = html.match(/var\s+password\s*=\s*"([^"]+)"/);
-  if (!userMatch || !passMatch) throw new Error(`Boldt (${nombre}): no se pudieron obtener credenciales.`);
-
-  // 2. Authenticate — JWT is returned in the Authorization response header
-  const authRes = await axios.post(
-    `${apiBaseUrl}auth/getToken`,
-    { username: userMatch[1], password: passMatch[1] },
-    { headers: { 'Content-Type': 'application/json' }, timeout: 12000, validateStatus: () => true, ...tlsOpts }
-  );
-  const jwt = authRes.headers['authorization'];
-  if (!jwt) throw new Error(`Boldt (${nombre}): no se obtuvo token JWT.`);
-
-  // 3. Get reCAPTCHA v3 site key from parameters
-  const paramsRes = await axios.get(`${apiBaseUrl}api/consulta/parametros`, {
-    headers: { Authorization: `Bearer ${jwt}` },
-    timeout: 10000,
-    ...tlsOpts,
-  });
-  const siteKeyParam = (paramsRes.data || []).find(p => p.parametro === 'GOOGLE_CAPTCHA_CLAVE_PUBLICA');
-  if (!siteKeyParam) throw new Error(`Boldt (${nombre}): no se encontró la clave reCAPTCHA.`);
-
-  // 4. Solve reCAPTCHA v3 — single attempt with M1 task type.
-  //    If captcha is rejected fall through to MANUAL_REQUIRED immediately (avoids ~2min timeout).
-  const capsolverTypes = ['ReCaptchaV3M1TaskProxyLess'];
-  let vehiculoRes;
-  let lastCaptchaErr = false;
-
-  for (let attempt = 0; attempt < capsolverTypes.length; attempt++) {
-    const taskMeta = await submitCaptchaTask(
-      'v3', siteKeyParam.valor, frontendUrl, 'api/consultaInfraccion/vehiculo', 0.3,
-      process.env.CAPSOLVER_API_KEY ? capsolverTypes[attempt] : null
-    );
-    const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
-
-    // 5. Query vehicle infractions — captcha token goes in Captcha header (not body)
-    vehiculoRes = await axios.post(
-      `${apiBaseUrl}api/consultaInfraccion/vehiculo`,
-      { dominio },
-      {
-        headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', Captcha: captchaToken },
-        timeout: 30000,
-        validateStatus: () => true,
-        ...tlsOpts,
-      }
-    );
-
-    if (vehiculoRes.status === 400) {
-      const errMsg = vehiculoRes.data?.errores?.error?.[0]?.descripcionError || 'Error desconocido';
-      if (errMsg.toLowerCase().includes('captcha')) {
-        lastCaptchaErr = true;
-        // Re-auth before retry (JWT may have expired)
-        if (attempt < capsolverTypes.length - 1) continue;
-        // All attempts exhausted — fall through to manual
-        break;
-      }
-      throw new Error(`Boldt (${nombre}): ${errMsg}`);
-    }
-    lastCaptchaErr = false;
-    break; // success
-  }
-
-  if (lastCaptchaErr) {
-    const err = new Error('MANUAL_REQUIRED');
-    err.manualUrl = frontendUrl;
-    throw err;
-  }
-
-  const list = vehiculoRes.data?.listInfracciones || [];
-  return list
-    .filter(i => i.idTipoActa == null || i.idTipoActa !== 2)
-    .map(i => ({
-      acta:        String(i.numeroCausa || ''),
-      fecha:       i.fechaObligacion || null,
-      descripcion: i.articulo || i.descripcionFalta || null,
-      lugar:       i.lugar || null,
-      importe:     parseFloat(String(i.importeSaldo || i.importeNotificacion || '0').replace(',', '.')) || null,
-      estado:      (i.estadoPago || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
-      jurisdiccion: nombre,
-    }));
-}
-
-async function fetchVenadoTuerto(dominio) {
-  return fetchBoldt(
-    'https://venadotuerto-infracciones.boldt.com.ar/secretariavirtual/',
-    'https://venadotuerto-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
-    'Venado Tuerto', dominio
-  );
-}
-
-async function fetchAlmirante_Brown(dominio) {
-  return fetchBoldt(
-    'https://almirantebrown-infracciones.boldt.com.ar/secretariavirtual/',
-    'https://almirantebrown-infracciones.boldt.com.ar/ws-juzgado-virtual-rest/',
-    'Almirante Brown', dominio
-  );
-}
-
-async function fetchEscobar(dominio) {
-  // Escobar's Boldt portal (infracciones.escobar.gob.ar) has been decommissioned.
-  // Redirect user to the municipality's general trámites page.
-  const err = new Error('MANUAL_REQUIRED');
-  err.manualUrl = 'https://escobar.gob.ar/tramites/';
-  throw err;
-}
-
 // ─── Infratrack REST API — Berisso, Ezeiza, Lanús ─────────────────────────────
 // Shared REST platform used by multiple Buenos Aires municipalities.
 // No captcha on the server side (reCAPTCHA v2 is frontend-only).
+// rejectUnauthorized:false needed on Node 16 — Amazon RSA 2048 M03 intermediate
+// is not in Node 16's bundled CA store.
 async function fetchInfratrack(municipio, dominio) {
+  const agent = new https.Agent({ rejectUnauthorized: false });
   const res = await http.get(
     `https://consulta-${municipio}.infratrack.com.ar/infracciones/a-pagar`,
     {
-      params:  { tipo: 'DOMINIO', consulta: dominio, page: 1 },
-      headers: { Accept: 'application/json', Referer: `https://consulta-${municipio}.infratrack.com.ar/` },
+      params:      { tipo: 'DOMINIO', consulta: dominio, page: 1 },
+      headers:     { Accept: 'application/json', Referer: `https://consulta-${municipio}.infratrack.com.ar/` },
+      httpsAgent:  agent,
       validateStatus: () => true,
     }
   );
@@ -2470,9 +2354,6 @@ export default async ({ req, res, log, error: logError }) => {
       case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
       case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;
       case 'avellaneda':      infracciones = await fetchAvellaneda(clean);                        break;
-      case 'venadotuerto':    infracciones = await fetchVenadoTuerto(clean);                      break;
-      case 'almirantebrown':  infracciones = await fetchAlmirante_Brown(clean);                   break;
-      case 'escobar':         infracciones = await fetchEscobar(clean);                           break;
       case 'ansv':            return res.json({ error: 'ansv requiere flujo de dos pasos. Usar ?step=1 y ?step=2.' }, 400);
       default:                return res.json({ error: `Fuente desconocida: ${fuente}` }, 400);
     }

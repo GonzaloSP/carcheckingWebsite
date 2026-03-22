@@ -38,7 +38,4 @@ export const JURISDICCIONES_MULTA: JurisdiccionMulta[] = [
   { value: 'roquesaenzpena', label: 'Roque Sáenz Peña',          sub: 'SIGEIN',                slug: 'multas-roque-saenz-pena',        manualUrl: null },
   { value: 'villaangostura', label: 'Villa La Angostura',        sub: 'SIGEIN',                slug: 'multas-villa-la-angostura',      manualUrl: null },
   { value: 'riotercero',     label: 'Río Tercero',               sub: 'SIGEIN',                slug: 'multas-rio-tercero',             manualUrl: null },
-  { value: 'venadotuerto',   label: 'Venado Tuerto',             sub: 'Boldt',                 slug: 'multas-venado-tuerto',           manualUrl: 'https://venadotuerto-infracciones.boldt.com.ar/secretariavirtual/' },
-  { value: 'almirantebrown', label: 'Almirante Brown',           sub: 'Boldt',                 slug: 'multas-almirante-brown',         manualUrl: 'https://almirantebrown-infracciones.boldt.com.ar/secretariavirtual/' },
-  { value: 'escobar',        label: 'Escobar',                   sub: 'Boldt',                 slug: 'multas-escobar',                 manualUrl: 'https://escobar.gob.ar/tramites/' },
 ];
