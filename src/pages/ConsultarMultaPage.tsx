@@ -20,7 +20,7 @@ const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
 const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
 
 // Fuentes that need async Appwrite execution (captcha solving takes > 30s sync limit)
-const ASYNC_FUENTES    = new Set(['venadotuerto', 'almirantebrown', 'escobar']);
+const ASYNC_FUENTES    = new Set<string>([]);
 // Fuentes that use two-step sync flow: step 1 submits captcha task, client waits, step 2 retrieves result
 const TWO_STEP_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba']);
 const TWO_STEP_WAIT_MS: Record<string, number> = { ansv: 35000, caba: 60000, pba: 40000, cordoba: 30000 };
