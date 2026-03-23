@@ -227,8 +227,8 @@ export default function ConsultarMultaPage({
   const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
   const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // Controlled via VITE_MULTA_FREE Vercel env var. Set to 'true' to skip payment, anything else to charge.
-  const freeMode = import.meta.env.VITE_MULTA_FREE === 'true';
+  // Controlled via VITE_MULTA_FREE Vercel env var. Set to 'false' to charge; anything else (including unset) is free.
+  const freeMode = import.meta.env.VITE_MULTA_FREE !== 'false';
 
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
