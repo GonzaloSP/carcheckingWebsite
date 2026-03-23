@@ -31,8 +31,8 @@ export const articles: Article[] = [
     category: 'Documentación',
     tags: ['transferencia', 'costos', 'autos usados', 'DNRPA', 'sellos', '08'],
     image: `${base}images/hero_car.jpg`,
-    metaTitle: 'Simulador de Transferencia Automotor | Estimá el costo gratis 2026',
-    metaDescription: 'Calculá el costo exacto de transferir tu auto. Incluye honorarios, sellado y gastos registrales. Actualizado 2026.',
+    metaTitle: 'Calculadora de costos de transferencia de autos usados (Argentina) | carChecking',
+    metaDescription: 'Calculadora simple para estimar costos de transferencia de un auto usado en Argentina. Incluye desglose de aranceles y sellos. Valores aproximados.',
     content: `
 ## Calculadora de transferencia de auto 2026
 
@@ -3191,9 +3191,9 @@ La app **Mi Argentina** permite llevar licencia y cédulas digitales (cuando est
     category: 'Documentación',
     tags: ['costo transferencia', 'arancel', 'DNRPA', 'sellos', 'valuación', '08'],
     image: `${base}images/mechanic_working.jpg`,
-    metaTitle: 'Costo de transferencia de auto: cuánto sale en 2026 | carChecking',
+    metaTitle: 'Costo de transferencia de auto usado en Argentina: guía completa | carChecking',
     metaDescription:
-      'Cuánto cuesta una transferencia de auto en Argentina en 2026: aranceles DNRPA, sellos provinciales, tablas de precios actualizadas y calculadora online.',
+      'Conocé qué se paga en una transferencia: aranceles DNRPA, valuación, sellos y tasas. Incluye consejos y una calculadora para estimar el total.',
     content: `
 ## ¿Cuánto cuesta una transferencia de auto en 2026?
 
@@ -3313,9 +3313,9 @@ Antes de abonar la seña, asegurate de tener:
     category: 'Documentación',
     tags: ['transferencia', 'Buenos Aires', 'DNRPA', '08', '13', 'CeTA', 'verificación'],
     image: `${base}images/scanner_hands.jpg`,
-    metaTitle: 'Requisitos para transferencia de auto en Buenos Aires 2026 | carChecking',
+    metaTitle: 'Requisitos para transferencia de auto en Buenos Aires (Provincia) | carChecking',
     metaDescription:
-      'Qué papeles necesitás para la transferencia de auto en Provincia de Buenos Aires: DNI, CUIT, título, formularios 08/13, verificación y plazos en 2026.',
+      'Guía práctica con requisitos para transferir un auto en Provincia de Buenos Aires: DNI, CUIT/CUIL, título, cédula, 08, 13, verificación y plazos.',
     content: `
 ## Transferencia de auto en Provincia de Buenos Aires: qué necesitás en 2026
 
