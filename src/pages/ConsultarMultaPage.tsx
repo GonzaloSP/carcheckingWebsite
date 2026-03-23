@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -227,7 +227,8 @@ export default function ConsultarMultaPage({
   const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
   const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const freeMode = useMemo(() => new URLSearchParams(window.location.search).get('dev') === 'nocobrar', []);
+  // Controlled via VITE_MULTA_FREE Vercel env var. Set to 'true' to skip payment, anything else to charge.
+  const freeMode = import.meta.env.VITE_MULTA_FREE === 'true';
 
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
