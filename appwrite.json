@@ -9,7 +9,7 @@
       "adapter": "static",
       "buildRuntime": "node-22",
       "installCommand": "npm install",
-      "buildCommand": "VITE_APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_API_ENDPOINT npm run build",
+      "buildCommand": "npm install -g appwrite-cli && appwrite client --endpoint $APPWRITE_API_ENDPOINT --projectId $APPWRITE_PROJECT_ID --key $APPWRITE_API_KEY && appwrite push functions --all --no-interactive && VITE_APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_API_ENDPOINT npm run build",
       "buildOutput": "dist",
       "enabled": true,
       "logging": false,
