@@ -230,8 +230,10 @@ export default function ConsultarMultaPage({
   const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
   const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // Controlled via VITE_MULTA_FREE Vercel env var. Set to 'false' to charge; anything else (including unset) is free.
-  const freeMode = import.meta.env.VITE_MULTA_FREE !== 'false';
+  // Controlled via VITE_MULTA_FREE Vercel env var.
+  // 'true'  → hybrid mode: Córdoba + Salta free, rest gated behind payment
+  // anything else (including unset) → fully free, no payment
+  const freeMode = import.meta.env.VITE_MULTA_FREE !== 'true';
 
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
