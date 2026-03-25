@@ -14,6 +14,9 @@ import { Helmet } from 'react-helmet-async';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
+// These jurisdictions are always queried for free (no payment required)
+const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
+
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
 const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
@@ -264,7 +267,7 @@ export default function ConsultarMultaPage({
     }
   }, [showPaymentModal]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const clean = dominio.replace(/\s/g, '').toUpperCase();
     if (clean.length < 6 || clean.length > 7) return;
@@ -278,8 +281,39 @@ export default function ConsultarMultaPage({
       return;
     }
 
+    // Hybrid mode: run free fuentes immediately, gate the rest behind payment
+    const freeFuentes = fuentes.filter(f => FREE_MULTA_FUENTES.has(f.value));
+    const paidFuentes = fuentes.filter(f => !FREE_MULTA_FUENTES.has(f.value));
+
+    trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
+    setSearched(clean);
+    setExpanded(new Set());
+    setVehiculo({ status: 'loading' });
+    setActiveFuentes(fuentes);
+
+    const initial: Record<string, JurisdiccionState> = {};
+    fuentes.forEach(f => { initial[f.value] = { status: 'loading', infracciones: [] }; });
+    setResults(initial);
+    setVtvState({ status: 'loading', historial: [] });
+    setVtvCordobaState({ status: 'loading', historial: [] });
+    setVtvSantaFeState({ status: 'loading', historial: [] });
+    setVtvCatamarcaState({ status: 'loading', historial: [] });
+    setArbaState({ status: 'loading' });
+    setAgipState({ status: 'loading' });
+    setAcorState({ status: 'loading' });
+    setActiveTab('multas');
+
+    let rcToken = '';
+    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
+
+    // Start free fuentes + aux immediately (no payment required)
+    runAuxQueries(clean, rc);
+    runFuenteQueries(clean, freeFuentes, rc);
+
+    // Show payment modal right away while free results load in the background
     setPendingDominio(clean);
-    setPendingFuentes(fuentes);
+    setPendingFuentes(paidFuentes);
     setMpInitPoint('');
     setMpExternalRef('');
     setPaymentError('');
@@ -307,7 +341,11 @@ export default function ConsultarMultaPage({
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
               setShowPaymentModal(false);
-              executeQueries(clean, fuentes);
+              // Run only the remaining (paid) fuentes — free ones already loaded
+              let rcToken2 = '';
+              try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+              const rc2 = rcToken2 ? `&rcToken=${encodeURIComponent(rcToken2)}` : '';
+              runFuenteQueries(clean, paidFuentes, rc2);
             }
           } catch { /* keep polling */ }
         }, 3000);
@@ -329,7 +367,10 @@ export default function ConsultarMultaPage({
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');
         setShowPaymentModal(false);
-        executeQueries(pendingDominio, pendingFuentes);
+        let rcToken3 = '';
+        try { rcToken3 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+        const rc3 = rcToken3 ? `&rcToken=${encodeURIComponent(rcToken3)}` : '';
+        runFuenteQueries(pendingDominio, pendingFuentes, rc3);
       } else {
         setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
       }
@@ -485,141 +526,8 @@ export default function ConsultarMultaPage({
     setTimeout(() => { win.print(); }, 600);
   }
 
-  async function executeQueries(clean: string, fuentes: typeof FUENTES) {
-    setShowPaymentModal(false);
-
-    trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
-
-    setSearched(clean);
-    setExpanded(new Set());
-    setVehiculo({ status: 'loading' });
-    setActiveFuentes(fuentes);
-
-    const initial: Record<string, JurisdiccionState> = {};
-    fuentes.forEach(f => { initial[f.value] = { status: 'loading', infracciones: [] }; });
-    setResults(initial);
-    setVtvState({ status: 'loading', historial: [] });
-    setVtvCordobaState({ status: 'loading', historial: [] });
-    setVtvSantaFeState({ status: 'loading', historial: [] });
-    setVtvCatamarcaState({ status: 'loading', historial: [] });
-    setArbaState({ status: 'loading' });
-    setAgipState({ status: 'loading' });
-    setAcorState({ status: 'loading' });
-    setActiveTab('multas');
-
-    // Get reCAPTCHA v3 token (invisible — no user interaction)
-    let rcToken = '';
-    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
-    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
-
-    // DNRPA vehicle lookup (runs in parallel with multa queries)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, AbortSignal.timeout(120_000))
-      .then(r => r.json())
-      .then(data => {
-        if (data.vehiculo) {
-          setVehiculo({ status: 'ok', ...data.vehiculo });
-        } else {
-          setVehiculo({ status: 'error', error: data.error || 'No encontrado' });
-        }
-      })
-      .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
-
-    // VTV lookup (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, AbortSignal.timeout(120_000))
-      .then(r => r.json())
-      .then(data => {
-        if (data.historial !== undefined) {
-          setVtvState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
-        } else {
-          setVtvState({ status: 'error', historial: [], error: data.error || 'Error al consultar VTV' });
-        }
-      })
-      .catch(() => setVtvState({ status: 'error', historial: [], error: 'No se pudo conectar con el portal VTV' }));
-
-
-    // ITV Córdoba (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, AbortSignal.timeout(60_000))
-      .then(r => r.json())
-      .then(data => {
-        if (data.historial !== undefined) {
-          setVtvCordobaState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
-        } else {
-          setVtvCordobaState({ status: 'error', historial: [], error: data.error || 'Error al consultar ITV Córdoba' });
-        }
-      })
-      .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
-
-    // RTO Santa Fe (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, AbortSignal.timeout(90_000))
-      .then(r => r.json())
-      .then(data => {
-        if (data.manualUrl) {
-          setVtvSantaFeState({ status: 'manual', historial: [], manualUrl: data.manualUrl });
-        } else if (data.historial !== undefined) {
-          setVtvSantaFeState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
-        } else {
-          setVtvSantaFeState({ status: 'error', historial: [], error: data.error || 'Error al consultar RTO Santa Fe' });
-        }
-      })
-      .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
-
-    // RTO Catamarca (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, AbortSignal.timeout(30_000))
-      .then(r => r.json())
-      .then(data => {
-        if (data.historial !== undefined) {
-          setVtvCatamarcaState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
-        } else {
-          setVtvCatamarcaState({ status: 'error', historial: [], error: data.error || 'Error al consultar RTO Catamarca' });
-        }
-      })
-      .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
-
-    // ACOR Corrientes patente debt (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, AbortSignal.timeout(60_000))
-      .then(r => r.json())
-      .then(data => {
-        const a = data.acor;
-        if (!a) { setAcorState({ status: 'error', error: data.error || 'Error ACOR' }); return; }
-        if (a.tieneDeuda === null) { setAcorState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
-        setAcorState({ status: a.tieneDeuda ? 'ok' : 'empty', tieneDeuda: a.tieneDeuda, monto: a.monto });
-      })
-      .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
-
-    // ARBA patente debt (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, AbortSignal.timeout(120_000))
-      .then(r => r.json())
-      .then(data => {
-        const a = data.arba;
-        if (!a) { setArbaState({ status: 'error', error: data.error || 'Error al consultar ARBA' }); return; }
-        if (a.manualUrl) { setArbaState({ status: 'manual', manualUrl: a.manualUrl }); return; }
-        if (a.tieneDeuda === null) { setArbaState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
-        setArbaState({
-          status:     a.tieneDeuda ? 'ok' : 'empty',
-          tieneDeuda: a.tieneDeuda,
-          periodos:   a.periodos || [],
-          total:      a.total,
-        });
-      })
-      .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
-
-    // AGIP patente debt (runs in parallel)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, AbortSignal.timeout(120_000))
-      .then(r => r.json())
-      .then(data => {
-        const a = data.agip;
-        if (!a) { setAgipState({ status: 'error', error: data.error || 'Error al consultar AGIP' }); return; }
-        if (a.tieneDeuda === null) { setAgipState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
-        setAgipState({
-          status:     a.tieneDeuda ? 'ok' : 'empty',
-          tieneDeuda: a.tieneDeuda,
-          posiciones: a.posiciones || [],
-          total:      a.total,
-          vehiculo:   a.vehiculo,
-        });
-      })
-      .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
-
+  /** Fire API calls for a subset of fuentes, updating results in place (does not reset state). */
+  async function runFuenteQueries(clean: string, fuentes: typeof FUENTES, rc: string) {
     fuentes.forEach(async ({ value }) => {
       try {
         const res = await callMultasApi(
@@ -658,6 +566,136 @@ export default function ConsultarMultaPage({
         }));
       }
     });
+  }
+
+  /** Fire all auxiliary (VTV, vehicle, patentes) queries in parallel. */
+  function runAuxQueries(clean: string, rc: string) {
+    // DNRPA vehicle lookup
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, AbortSignal.timeout(120_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.vehiculo) {
+          setVehiculo({ status: 'ok', ...data.vehiculo });
+        } else {
+          setVehiculo({ status: 'error', error: data.error || 'No encontrado' });
+        }
+      })
+      .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
+
+    // VTV lookup
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, AbortSignal.timeout(120_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.historial !== undefined) {
+          setVtvState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
+        } else {
+          setVtvState({ status: 'error', historial: [], error: data.error || 'Error al consultar VTV' });
+        }
+      })
+      .catch(() => setVtvState({ status: 'error', historial: [], error: 'No se pudo conectar con el portal VTV' }));
+
+    // ITV Córdoba
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, AbortSignal.timeout(60_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.historial !== undefined) {
+          setVtvCordobaState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
+        } else {
+          setVtvCordobaState({ status: 'error', historial: [], error: data.error || 'Error al consultar ITV Córdoba' });
+        }
+      })
+      .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
+
+    // RTO Santa Fe
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, AbortSignal.timeout(90_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.manualUrl) {
+          setVtvSantaFeState({ status: 'manual', historial: [], manualUrl: data.manualUrl });
+        } else if (data.historial !== undefined) {
+          setVtvSantaFeState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
+        } else {
+          setVtvSantaFeState({ status: 'error', historial: [], error: data.error || 'Error al consultar RTO Santa Fe' });
+        }
+      })
+      .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
+
+    // RTO Catamarca
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, AbortSignal.timeout(30_000))
+      .then(r => r.json())
+      .then(data => {
+        if (data.historial !== undefined) {
+          setVtvCatamarcaState({ status: data.historial.length > 0 ? 'ok' : 'empty', historial: data.historial });
+        } else {
+          setVtvCatamarcaState({ status: 'error', historial: [], error: data.error || 'Error al consultar RTO Catamarca' });
+        }
+      })
+      .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
+
+    // ACOR Corrientes
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, AbortSignal.timeout(60_000))
+      .then(r => r.json())
+      .then(data => {
+        const a = data.acor;
+        if (!a) { setAcorState({ status: 'error', error: data.error || 'Error ACOR' }); return; }
+        if (a.tieneDeuda === null) { setAcorState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
+        setAcorState({ status: a.tieneDeuda ? 'ok' : 'empty', tieneDeuda: a.tieneDeuda, monto: a.monto });
+      })
+      .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
+
+    // ARBA
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, AbortSignal.timeout(120_000))
+      .then(r => r.json())
+      .then(data => {
+        const a = data.arba;
+        if (!a) { setArbaState({ status: 'error', error: data.error || 'Error al consultar ARBA' }); return; }
+        if (a.manualUrl) { setArbaState({ status: 'manual', manualUrl: a.manualUrl }); return; }
+        if (a.tieneDeuda === null) { setArbaState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
+        setArbaState({ status: a.tieneDeuda ? 'ok' : 'empty', tieneDeuda: a.tieneDeuda, periodos: a.periodos || [], total: a.total });
+      })
+      .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
+
+    // AGIP
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, AbortSignal.timeout(120_000))
+      .then(r => r.json())
+      .then(data => {
+        const a = data.agip;
+        if (!a) { setAgipState({ status: 'error', error: data.error || 'Error al consultar AGIP' }); return; }
+        if (a.tieneDeuda === null) { setAgipState({ status: 'empty', tieneDeuda: null, error: a.error }); return; }
+        setAgipState({ status: a.tieneDeuda ? 'ok' : 'empty', tieneDeuda: a.tieneDeuda, posiciones: a.posiciones || [], total: a.total, vehiculo: a.vehiculo });
+      })
+      .catch(() => setAgipState({ status: 'error', error: 'No se pudo conectar con AGIP' }));
+  }
+
+  async function executeQueries(clean: string, fuentes: typeof FUENTES) {
+    setShowPaymentModal(false);
+
+    trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
+
+    setSearched(clean);
+    setExpanded(new Set());
+    setVehiculo({ status: 'loading' });
+    setActiveFuentes(fuentes);
+
+    const initial: Record<string, JurisdiccionState> = {};
+    fuentes.forEach(f => { initial[f.value] = { status: 'loading', infracciones: [] }; });
+    setResults(initial);
+    setVtvState({ status: 'loading', historial: [] });
+    setVtvCordobaState({ status: 'loading', historial: [] });
+    setVtvSantaFeState({ status: 'loading', historial: [] });
+    setVtvCatamarcaState({ status: 'loading', historial: [] });
+    setArbaState({ status: 'loading' });
+    setAgipState({ status: 'loading' });
+    setAcorState({ status: 'loading' });
+    setActiveTab('multas');
+
+    // Get reCAPTCHA v3 token (invisible — no user interaction)
+    let rcToken = '';
+    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
+
+    runAuxQueries(clean, rc);
+    runFuenteQueries(clean, fuentes, rc);
   }
 
   const totalInfracciones = results
