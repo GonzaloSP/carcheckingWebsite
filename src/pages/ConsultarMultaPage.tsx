@@ -19,10 +19,12 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-const MULTA_API_URL    = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
-const IS_APPWRITE      = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
 const APPWRITE_BASE    = 'https://server.innsimulation.com/v1';
-const APPWRITE_PROJECT = (import.meta.env.VITE_APPWRITE_PROJECT_ID ?? '69be0614002c9d6e8bfd').trim();
+const APPWRITE_PROJECT = import.meta.env.VITE_APPWRITE_PROJECT_ID?.trim() ?? '';
+// If no explicit API URL is set, derive it from the project ID (Appwrite deployment)
+const MULTA_API_URL    = import.meta.env.VITE_MULTA_API_URL
+  ?? (APPWRITE_PROJECT ? `${APPWRITE_BASE}/functions/multas/executions` : '/api/multas');
+const IS_APPWRITE      = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
 
 /** Call an Appwrite function execution and return the parsed responseBody. */
 async function callAppwriteFn(
