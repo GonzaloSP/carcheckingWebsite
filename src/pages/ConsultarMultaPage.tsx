@@ -19,8 +19,27 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-const MULTA_API_URL = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
-const IS_APPWRITE   = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
+const MULTA_API_URL    = import.meta.env.VITE_MULTA_API_URL ?? '/api/multas';
+const IS_APPWRITE      = MULTA_API_URL.includes('/multa-exec') || MULTA_API_URL.includes('/executions');
+const APPWRITE_BASE    = 'https://server.innsimulation.com/v1';
+const APPWRITE_PROJECT = (import.meta.env.VITE_APPWRITE_PROJECT_ID ?? '69be0614002c9d6e8bfd').trim();
+
+/** Call an Appwrite function execution and return the parsed responseBody. */
+async function callAppwriteFn(
+  fnId: string,
+  method: string,
+  body?: Record<string, unknown>,
+  query?: Record<string, string>,
+): Promise<Record<string, unknown>> {
+  const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
+  const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, method, path, ...(body ? { body: JSON.stringify(body) } : {}) }),
+  });
+  const exec = await res.json();
+  return JSON.parse(exec.responseBody || '{}');
+}
 
 // Fuentes that need async Appwrite execution (captcha solving takes > 30s sync limit)
 const ASYNC_FUENTES    = new Set<string>([]);
@@ -322,12 +341,7 @@ export default function ConsultarMultaPage({
     setPaymentStatus('creating');
     setShowPaymentModal(true);
 
-    fetch('/api/mp-create-preference', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dominio: clean }),
-    })
-      .then(r => r.json())
+    callAppwriteFn('mp-create-preference', 'POST', { dominio: clean })
       .then(data => {
         if (!data.init_point) throw new Error(data.error ?? 'Error al crear preferencia');
         setMpInitPoint(data.init_point);
@@ -337,8 +351,7 @@ export default function ConsultarMultaPage({
         // Poll every 3s for payment approval
         pollRef.current = setInterval(async () => {
           try {
-            const pr = await fetch(`/api/mp-verify-preference?external_reference=${encodeURIComponent(data.external_reference)}`);
-            const pd = await pr.json();
+            const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: data.external_reference });
             if (pd.paid) {
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
@@ -363,8 +376,7 @@ export default function ConsultarMultaPage({
     setVerifyingPayment(true);
     setVerifyMessage('');
     try {
-      const pr = await fetch(`/api/mp-verify-preference?external_reference=${encodeURIComponent(mpExternalRef)}`);
-      const pd = await pr.json();
+      const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: mpExternalRef });
       if (pd.paid) {
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');

@@ -1,6 +1,21 @@
 {
-  "projectId": "69ab260c001de147f5d5",
-  "projectName": "Multas",
+  "projectId": "69be0614002c9d6e8bfd",
+  "projectName": "carChecking",
+  "sites": [
+    {
+      "$id": "carchecking",
+      "name": "carChecking Website",
+      "framework": "vite",
+      "adapter": "static",
+      "buildRuntime": "node-22",
+      "installCommand": "npm install",
+      "buildCommand": "npm run build",
+      "buildOutput": "dist",
+      "enabled": true,
+      "logging": false,
+      "timeout": 30
+    }
+  ],
   "functions": [
     {
       "$id": "multas",
@@ -13,6 +28,34 @@
       "events": [],
       "schedule": "",
       "timeout": 300,
+      "enabled": true,
+      "logging": true
+    },
+    {
+      "$id": "mp-create-preference",
+      "name": "MP Create Preference",
+      "runtime": "node-18.0",
+      "path": "appwrite/functions/mp-create-preference",
+      "entrypoint": "src/index.js",
+      "ignore": ["node_modules", ".git"],
+      "execute": ["any"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "enabled": true,
+      "logging": true
+    },
+    {
+      "$id": "mp-verify-preference",
+      "name": "MP Verify Preference",
+      "runtime": "node-18.0",
+      "path": "appwrite/functions/mp-verify-preference",
+      "entrypoint": "src/index.js",
+      "ignore": ["node_modules", ".git"],
+      "execute": ["any"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
       "enabled": true,
       "logging": true
     }
