@@ -1,0 +1,29 @@
+name: Deploy Appwrite Functions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'appwrite/functions/**'
+      - 'appwrite.json'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Appwrite CLI
+        run: npm install -g appwrite-cli
+
+      - name: Deploy functions
+        env:
+          APPWRITE_ENDPOINT: https://server.innsimulation.com/v1
+          APPWRITE_PROJECT_ID: 69be0614002c9d6e8bfd
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+        run: |
+          appwrite client \
+            --endpoint $APPWRITE_ENDPOINT \
+            --projectId $APPWRITE_PROJECT_ID \
+            --key $APPWRITE_API_KEY
+          appwrite push functions --all --no-interactive
