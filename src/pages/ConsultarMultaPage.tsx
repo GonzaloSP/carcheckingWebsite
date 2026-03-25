@@ -19,7 +19,7 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-const APPWRITE_BASE    = 'https://server.innsimulation.com/v1';
+const APPWRITE_BASE    = import.meta.env.VITE_APPWRITE_BASE ?? 'https://server.innsimulation.com/v1';
 const APPWRITE_PROJECT = import.meta.env.VITE_APPWRITE_PROJECT_ID?.trim() ?? '';
 // If no explicit API URL is set, derive it from the project ID (Appwrite deployment)
 const MULTA_API_URL    = import.meta.env.VITE_MULTA_API_URL
