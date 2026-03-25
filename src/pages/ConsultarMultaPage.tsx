@@ -32,7 +32,7 @@ async function callAppwriteFn(
   method: string,
   body?: Record<string, unknown>,
   query?: Record<string, string>,
-): Promise<Record<string, unknown>> {
+): Promise<any> {
   const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
   const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
     method: 'POST',
