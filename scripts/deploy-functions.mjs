@@ -14,16 +14,18 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
+const config = JSON.parse(readFileSync(join(ROOT, 'appwrite.json'), 'utf-8'));
+
 const ENDPOINT   = process.env.APPWRITE_API_ENDPOINT || 'https://server.innsimulation.com/v1';
-const PROJECT_ID = process.env.APPWRITE_PROJECT_ID;
+const PROJECT_ID = process.env.APPWRITE_PROJECT_ID || config.projectId;
 const API_KEY    = process.env.APPWRITE_API_KEY;
+
+console.log(`[deploy-functions] endpoint=${ENDPOINT} project=${PROJECT_ID} key=${API_KEY ? 'set' : 'MISSING'}`);
 
 if (!PROJECT_ID || !API_KEY) {
   console.warn('[deploy-functions] APPWRITE_PROJECT_ID or APPWRITE_API_KEY missing — skipping function deploy.');
   process.exit(0);
 }
-
-const config = JSON.parse(readFileSync(join(ROOT, 'appwrite.json'), 'utf-8'));
 const headers = { 'X-Appwrite-Project': PROJECT_ID, 'X-Appwrite-Key': API_KEY };
 
 async function api(method, path, body, extra = {}) {
