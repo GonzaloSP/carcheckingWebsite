@@ -9,7 +9,7 @@
       "adapter": "static",
       "buildRuntime": "node-22",
       "installCommand": "npm install",
-      "buildCommand": "node scripts/deploy-functions.mjs && VITE_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT VITE_MULTA_API_URL=$VITE_MULTA_API_URL VITE_FUNCTIONS_BASE=$VITE_FUNCTIONS_BASE npm run build",
+      "buildCommand": "node scripts/deploy-functions.mjs && FUNC_DOMAIN=https://$(echo $APPWRITE_SITE_NAME | tr 'A-Z' 'a-z').functions.$(echo $APPWRITE_SITE_API_ENDPOINT | sed 's|https://server\\.||;s|/v1||') && VITE_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT VITE_MULTA_API_URL=$FUNC_DOMAIN VITE_FUNCTIONS_BASE=$FUNC_DOMAIN npm run build",
       "buildOutput": "dist",
       "enabled": true,
       "logging": false,
