@@ -82,21 +82,22 @@ async function deployFunction(fn) {
   execSync(`tar --exclude='./node_modules/.cache' -czf ${tarPath} -C ${fnPath} .`);
   console.log('  Tarball created.');
 
-  // 4. Upload deployment via curl (multipart upload)
+  // 4. Upload deployment via native fetch + FormData
   console.log('  Uploading deployment...');
-  const curl = [
-    'curl', '-s', '-X', 'POST',
-    `${ENDPOINT}/functions/${fnId}/deployments`,
-    '-H', `X-Appwrite-Project: ${PROJECT_ID}`,
-    '-H', `X-Appwrite-Key: ${API_KEY}`,
-    '-F', `code=@${tarPath}`,
-    '-F', 'activate=true',
-    '-F', `entrypoint=${fn.entrypoint}`,
-  ].map(a => a.includes(' ') ? `"${a}"` : a).join(' ');
+  const fileBuffer = readFileSync(tarPath);
+  const blob = new Blob([fileBuffer], { type: 'application/gzip' });
+  const form = new FormData();
+  form.append('code', blob, 'code.tar.gz');
+  form.append('activate', 'true');
+  form.append('entrypoint', fn.entrypoint);
 
-  const result = execSync(curl, { encoding: 'utf-8' });
+  const uploadRes = await fetch(`${ENDPOINT}/functions/${fnId}/deployments`, {
+    method: 'POST',
+    headers: { 'X-Appwrite-Project': PROJECT_ID, 'X-Appwrite-Key': API_KEY },
+    body: form,
+  });
   let deployData;
-  try { deployData = JSON.parse(result); } catch { deployData = result; }
+  try { deployData = await uploadRes.json(); } catch { deployData = await uploadRes.text(); }
 
   if (deployData?.$id) {
     console.log(`  Deployment queued: ${deployData.$id} (status: ${deployData.status})`);
