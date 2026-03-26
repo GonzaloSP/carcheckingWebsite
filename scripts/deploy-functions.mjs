@@ -19,7 +19,9 @@ const config = JSON.parse(readFileSync(join(ROOT, 'appwrite.json'), 'utf-8'));
 // Appwrite Sites injects APPWRITE_SITE_* vars automatically during builds
 const ENDPOINT   = process.env.APPWRITE_SITE_API_ENDPOINT || process.env.APPWRITE_API_ENDPOINT || 'https://server.innsimulation.com/v1';
 const PROJECT_ID = process.env.APPWRITE_SITE_PROJECT_ID || process.env.APPWRITE_PROJECT_ID || config.projectId || '';
-const API_KEY    = process.env.APPWRITE_SITE_API_KEY || process.env.APPWRITE_API_KEY;
+// APPWRITE_SITE_API_KEY is auto-injected but lacks functions.write scope.
+// APPWRITE_API_KEY must be set manually with a key that has functions.write.
+const API_KEY    = process.env.APPWRITE_API_KEY || process.env.APPWRITE_SITE_API_KEY;
 
 console.log(`[deploy-functions] endpoint=${ENDPOINT} project=${PROJECT_ID} key=${API_KEY ? 'set' : 'MISSING'}`);
 
