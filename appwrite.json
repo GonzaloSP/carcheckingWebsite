@@ -34,7 +34,7 @@
     {
       "$id": "mp-create-preference",
       "name": "MP Create Preference",
-      "runtime": "node-22.0",
+      "runtime": "node-22",
       "path": "appwrite/functions/mp-create-preference",
       "entrypoint": "src/index.js",
       "ignore": ["node_modules", ".git"],
@@ -48,7 +48,7 @@
     {
       "$id": "mp-verify-preference",
       "name": "MP Verify Preference",
-      "runtime": "node-22.0",
+      "runtime": "node-22",
       "path": "appwrite/functions/mp-verify-preference",
       "entrypoint": "src/index.js",
       "ignore": ["node_modules", ".git"],
