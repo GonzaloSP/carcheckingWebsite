@@ -70,16 +70,11 @@ async function deployFunction(fn) {
     console.log('  Function exists.');
   }
 
-  // 2. Install deps if package.json has dependencies
   const pkg = JSON.parse(readFileSync(join(fnPath, 'package.json'), 'utf-8'));
-  if (pkg.dependencies && Object.keys(pkg.dependencies).length > 0) {
-    console.log('  Installing dependencies...');
-    execSync('npm install --production', { cwd: fnPath, stdio: 'inherit' });
-  }
 
-  // 3. Create tarball
+  // 2. Create tarball (exclude node_modules — Appwrite builds deps via commands param)
   const tarPath = `/tmp/${fnId}.tar.gz`;
-  execSync(`tar --exclude='./node_modules/.cache' -czf ${tarPath} -C ${fnPath} .`);
+  execSync(`tar --exclude='./node_modules' -czf ${tarPath} -C ${fnPath} .`);
   console.log('  Tarball created.');
 
   // 4. Upload deployment via native fetch + FormData
@@ -90,12 +85,23 @@ async function deployFunction(fn) {
   form.append('code', blob, 'code.tar.gz');
   form.append('activate', 'true');
   form.append('entrypoint', fn.entrypoint);
+  // Let Appwrite install deps during function build
+  const hasDeps = pkg.dependencies && Object.keys(pkg.dependencies).length > 0;
+  if (hasDeps) form.append('commands', 'npm install');
 
-  const uploadRes = await fetch(`${ENDPOINT}/functions/${fnId}/deployments`, {
+  const deployUrl = `${ENDPOINT}/functions/${fnId}/deployments`;
+  console.log(`  POST ${deployUrl} (tarball ${fileBuffer.length} bytes)`);
+
+  const uploadRes = await fetch(deployUrl, {
     method: 'POST',
-    headers: { 'X-Appwrite-Project': PROJECT_ID, 'X-Appwrite-Key': API_KEY },
+    headers: {
+      'X-Appwrite-Project': PROJECT_ID,
+      'X-Appwrite-Key': API_KEY,
+    },
     body: form,
   });
+  console.log(`  Response: ${uploadRes.status} ${uploadRes.statusText}`);
+
   let deployData;
   try { deployData = await uploadRes.json(); } catch { deployData = await uploadRes.text(); }
 
@@ -103,7 +109,7 @@ async function deployFunction(fn) {
     console.log(`  Deployment queued: ${deployData.$id} (status: ${deployData.status})`);
     return true;
   } else {
-    console.error(`  Deployment failed: ${typeof deployData === 'string' ? deployData : JSON.stringify(deployData)}`);
+    console.error(`  Deployment failed: ${JSON.stringify(deployData)}`);
     return false;
   }
 }
