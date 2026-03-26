@@ -16,6 +16,12 @@ const ROOT = join(__dirname, '..');
 
 const config = JSON.parse(readFileSync(join(ROOT, 'appwrite.json'), 'utf-8'));
 
+// Debug: show all Appwrite-related env vars available in the build
+const appwriteVars = Object.entries(process.env)
+  .filter(([k]) => /appwrite|project/i.test(k))
+  .map(([k, v]) => `  ${k}=${k.toLowerCase().includes('key') ? '***' : v}`);
+console.log(`[deploy-functions] Available env vars:\n${appwriteVars.join('\n') || '  (none)'}`);
+
 const ENDPOINT = process.env.APPWRITE_API_ENDPOINT || 'https://server.innsimulation.com/v1';
 const API_KEY  = process.env.APPWRITE_API_KEY;
 
