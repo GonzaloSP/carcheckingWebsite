@@ -9,7 +9,7 @@
       "adapter": "static",
       "buildRuntime": "node-22",
       "installCommand": "npm install",
-      "buildCommand": "node scripts/deploy-functions.mjs && VITE_APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_API_ENDPOINT npm run build",
+      "buildCommand": "node scripts/deploy-functions.mjs && VITE_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID VITE_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT npm run build",
       "buildOutput": "dist",
       "enabled": true,
       "logging": false,

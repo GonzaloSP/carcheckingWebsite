@@ -16,44 +16,17 @@ const ROOT = join(__dirname, '..');
 
 const config = JSON.parse(readFileSync(join(ROOT, 'appwrite.json'), 'utf-8'));
 
-// Debug: show all Appwrite-related env vars available in the build
-const appwriteVars = Object.entries(process.env)
-  .filter(([k]) => /appwrite|project/i.test(k))
-  .map(([k, v]) => `  ${k}=${k.toLowerCase().includes('key') ? '***' : v}`);
-console.log(`[deploy-functions] Available env vars:\n${appwriteVars.join('\n') || '  (none)'}`);
+// Appwrite Sites injects APPWRITE_SITE_* vars automatically during builds
+const ENDPOINT   = process.env.APPWRITE_SITE_API_ENDPOINT || process.env.APPWRITE_API_ENDPOINT || 'https://server.innsimulation.com/v1';
+const PROJECT_ID = process.env.APPWRITE_SITE_PROJECT_ID || process.env.APPWRITE_PROJECT_ID || config.projectId || '';
+const API_KEY    = process.env.APPWRITE_SITE_API_KEY || process.env.APPWRITE_API_KEY;
 
-const ENDPOINT = process.env.APPWRITE_API_ENDPOINT || 'https://server.innsimulation.com/v1';
-const API_KEY  = process.env.APPWRITE_API_KEY;
+console.log(`[deploy-functions] endpoint=${ENDPOINT} project=${PROJECT_ID} key=${API_KEY ? 'set' : 'MISSING'}`);
 
-if (!API_KEY) {
-  console.warn('[deploy-functions] APPWRITE_API_KEY missing — skipping function deploy.');
+if (!PROJECT_ID || !API_KEY) {
+  console.warn('[deploy-functions] Project ID or API key missing — skipping function deploy.');
   process.exit(0);
 }
-
-// Resolve project ID: env var > appwrite.json > auto-detect from API key
-let PROJECT_ID = process.env.APPWRITE_PROJECT_ID || config.projectId || '';
-if (!PROJECT_ID) {
-  console.log('[deploy-functions] No project ID set — detecting from API key...');
-  try {
-    const r = await fetch(`${ENDPOINT}/projects`, {
-      headers: { 'X-Appwrite-Key': API_KEY, 'Content-Type': 'application/json' },
-    });
-    if (r.ok) {
-      const data = await r.json();
-      if (data.projects?.length === 1) {
-        PROJECT_ID = data.projects[0].$id;
-      } else if (data.total === 1 && data.projects) {
-        PROJECT_ID = data.projects[0].$id;
-      }
-    }
-  } catch {}
-  if (!PROJECT_ID) {
-    console.error('[deploy-functions] Could not detect project ID. Set APPWRITE_PROJECT_ID env var.');
-    process.exit(1);
-  }
-}
-
-console.log(`[deploy-functions] endpoint=${ENDPOINT} project=${PROJECT_ID} key=set`);
 const headers = { 'X-Appwrite-Project': PROJECT_ID, 'X-Appwrite-Key': API_KEY };
 
 async function api(method, path, body, extra = {}) {
