@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -173,7 +174,7 @@ export default function WhyInspectSection() {
         className="relative md:absolute md:right-0 md:top-0 w-full md:w-[58vw] h-[40svh] md:h-full overflow-hidden"
       >
         <img
-          src={`${import.meta.env.BASE_URL}images/engine_bay.jpg`}
+          src={`${''}images/engine_bay.jpg`}
           alt="Motor de vehículo"
           className="w-full h-full object-cover"
         />

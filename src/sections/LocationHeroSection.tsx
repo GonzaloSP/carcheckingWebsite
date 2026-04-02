@@ -1,8 +1,9 @@
+'use client';
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -102,7 +103,7 @@ export default function LocationHeroSection({ place }: { place: string }) {
       {/* Left Image Panel */}
       <div ref={imageRef} className="relative md:absolute md:left-0 md:top-0 w-full md:w-[62vw] h-[44svh] md:h-full overflow-hidden">
         <img
-          src={`${import.meta.env.BASE_URL}images/hero_mecanico_03.jpg`}
+          src={`${''}images/hero_mecanico_03.jpg`}
           alt={`Mecánico inspeccionando un vehículo en ${place}`}
           className="w-full h-full object-cover"
         />
@@ -143,7 +144,7 @@ export default function LocationHeroSection({ place }: { place: string }) {
         {/* CTAs */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 mb-8">
           <Link
-            to="/solicitar-turno"
+            href="/solicitar-turno"
             className="group inline-flex items-center justify-center gap-2 bg-[#C8A161] text-[#0B0B0D] px-6 py-4 rounded-lg font-semibold hover:bg-[#C8A161]/90 transition-all"
           >
             Solicitar turno

@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -142,7 +143,7 @@ export default function HowItWorksSection() {
         className="relative md:absolute md:left-0 md:top-0 w-full md:w-[55vw] h-[40svh] md:h-full overflow-hidden"
       >
         <img
-          src={`${import.meta.env.BASE_URL}images/scanner_hands.jpg`}
+          src={`${''}images/scanner_hands.jpg`}
           alt="Escaneo de vehículo"
           className="w-full h-full object-cover"
         />

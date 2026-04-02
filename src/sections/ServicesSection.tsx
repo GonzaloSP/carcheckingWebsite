@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ShieldCheck, FileText, ArrowRight, BadgeDollarSign } from 'lucide-react';
 import { PRICING, servicePriceText, gestoriaPriceText } from '../config/pricing';
 
@@ -57,7 +57,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                  <Link to="/solicitar-turno" className="btn-primary flex items-center gap-2 w-fit">
+                  <Link href="/solicitar-turno" className="btn-primary flex items-center gap-2 w-fit">
                     {inspection.ctaText}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -118,11 +118,11 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                  <Link to="/servicio-gestoria" className="btn-primary flex items-center gap-2 w-fit">
+                  <Link href="/servicio-gestoria" className="btn-primary flex items-center gap-2 w-fit">
                     Ver detalles
                     <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link to="/solicitar-turno" className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors w-fit self-center">
+                  <Link href="/solicitar-turno" className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors w-fit self-center">
                     Solicitar por WhatsApp
                   </Link>
                 </div>
