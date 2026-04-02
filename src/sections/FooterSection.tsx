@@ -1,7 +1,8 @@
+'use client';
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent } from '../lib/analytics';
 import { Phone, Clock, MapPin } from 'lucide-react';
@@ -130,7 +131,7 @@ export default function FooterSection() {
         {/* CTA Row */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4 mb-12 sm:mb-16 w-full sm:w-auto">
           <Link
-            to="/solicitar-turno"
+            href="/solicitar-turno"
             className="btn-primary flex items-center justify-center gap-3 w-full sm:w-auto"
           >
             <WhatsAppLogo className="w-5 h-5" />
@@ -205,31 +206,31 @@ export default function FooterSection() {
               WhatsApp
             </button>
             <Link
-              to="/guias"
+              href="/guias"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Blog
             </Link>
             <Link
-              to="/guias/inspeccion-pre-compra-auto-a-domicilio"
+              href="/guias/inspeccion-pre-compra-auto-a-domicilio"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Inspección pre compra (a domicilio)
             </Link>
             <Link
-              to="/guias/que-revisar-antes-de-comprar-auto-usado-checklist"
+              href="/guias/que-revisar-antes-de-comprar-auto-usado-checklist"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Checklist para comprar un usado
             </Link>
             <Link
-              to="/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
+              href="/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Papeles en Argentina (guía)
             </Link>
             <Link
-              to="/solicitar-turno"
+              href="/solicitar-turno"
               className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
             >
               Solicitar turno

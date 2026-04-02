@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-const isDev = import.meta.env.DEV;
+const isDev = process.env.NODE_ENV !== 'production';
 
 function isEnabled() {
   return !isDev || ANALYTICS.enabledInDev;

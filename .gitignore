@@ -26,3 +26,5 @@ yarn-error.log*
 blog_articles.csv
 youtube_videos.json
 youtube_blog_mapping.csv
+.next/
+out/

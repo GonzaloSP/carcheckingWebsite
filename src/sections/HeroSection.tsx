@@ -1,8 +1,9 @@
+'use client';
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { isDesktop } from '../lib/isDesktop';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -182,7 +183,7 @@ export default function HeroSection() {
         className="relative md:absolute md:left-0 md:top-0 w-full md:w-[62vw] h-[44svh] md:h-full overflow-hidden"
       >
         <img
-          src={`${import.meta.env.BASE_URL}images/hero_mecanico_03.jpg`}
+          src={`${''}images/hero_mecanico_03.jpg`}
           alt="Mecánico inspeccionando un vehículo"
           className="w-full h-full object-cover"
         />
@@ -226,7 +227,7 @@ export default function HeroSection() {
         {/* CTAs */}
         <div ref={ctaRef} className="flex flex-col gap-4">
           <Link
-            to="/solicitar-turno"
+            href="/solicitar-turno"
             className="btn-primary flex items-center gap-3 w-full sm:w-fit"
           >
             <WhatsAppLogo className="w-5 h-5" />

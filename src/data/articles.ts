@@ -18,7 +18,7 @@ export interface Article {
   structuredData?: object;
 }
 
-const base = import.meta.env.BASE_URL;
+const base = '';
 
 export const articles: Article[] = [
   {

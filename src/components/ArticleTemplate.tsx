@@ -1,12 +1,11 @@
+'use client';
 import { useRef, useLayoutEffect } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { HelmetProvider } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Calendar, User, Tag, MessageCircle } from 'lucide-react';
 
-import SEO from './SEO';
 import Navigation from '../sections/Navigation';
 import { whatsappUrl } from '../config/whatsapp';
 import { trackEvent, type AnalyticsEventName } from '../lib/analytics';
@@ -243,14 +242,6 @@ export default function ArticleTemplate({
     ];
 
   return (
-    <HelmetProvider>
-      <SEO
-        title={metaTitle}
-        description={metaDescription}
-        keywords={tags.join(', ')}
-        canonicalUrl={canonicalUrl}
-        ogImage={ogImage}
-      />
 
       <div className="relative bg-[#0B0B0D] min-h-screen">
         <div className="grain-overlay" />
@@ -274,7 +265,7 @@ export default function ArticleTemplate({
                       <span key={i} className="flex items-center gap-2">
                         {i > 0 && <span>/</span>}
                         {c.to ? (
-                          <Link to={c.to} className="hover:text-[#C8A161] transition-colors">
+                          <Link href={c.to} className="hover:text-[#C8A161] transition-colors">
                             {c.label}
                           </Link>
                         ) : (
@@ -380,14 +371,14 @@ export default function ArticleTemplate({
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[#5a5a5c]">© carChecking 2011–2026. Todos los derechos reservados.</p>
             <div className="flex items-center gap-6">
-              <Link to="/" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+              <Link href="/" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Inicio
               </Link>
-              <Link to="/guias" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+              <Link href="/guias" className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
                 Blog
               </Link>
               <Link
-                to="/solicitar-turno"
+                href="/solicitar-turno"
                 className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors"
               >
                 Solicitar turno
@@ -396,6 +387,5 @@ export default function ArticleTemplate({
           </div>
         </footer>
       </div>
-    </HelmetProvider>
   );
 }

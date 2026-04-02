@@ -1,5 +1,7 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 
 // WhatsApp SVG Logo Component
@@ -12,7 +14,7 @@ const WhatsAppLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,10 +24,11 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [location]);
+  }, [pathname]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -35,7 +38,7 @@ export default function Navigation() {
     setIsMobileMenuOpen(false);
   };
 
-  const isHomePage = location.pathname === '/';
+  const isHomePage = pathname === '/';
 
   return (
     <>
@@ -49,7 +52,7 @@ export default function Navigation() {
         <div className="w-full px-6 lg:px-12 flex items-center justify-between">
           {/* Logo */}
           <Link
-            to="/"
+            href="/"
             className="text-xl font-bold tracking-tight text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             carChecking
@@ -81,7 +84,7 @@ export default function Navigation() {
             ) : (
               <>
                 <Link
-                  to="/"
+                  href="/"
                   className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
                 >
                   Inicio
@@ -90,27 +93,27 @@ export default function Navigation() {
             )}
             {/* Blog Link with SEO text */}
             <Link
-              to="/guias"
+              href="/guias"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
               title="Consejos para la compra de vehículos usados"
             >
               Consejos para comprar
             </Link>
             <Link
-              to="/consultar-multa"
+              href="/consultar-multa"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
             >
               Consultar multas
             </Link>
             <Link
-              to="/servicio-gestoria"
+              href="/servicio-gestoria"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
               title="Servicio de gestoría del automotor"
             >
               Gestoría
             </Link>
             <Link
-              to="/solicitar-turno"
+              href="/solicitar-turno"
               className="text-sm text-[#B8B2AA] hover:text-[#F4F1EC] transition-colors"
             >
               Contacto
@@ -120,7 +123,7 @@ export default function Navigation() {
           {/* CTA Button with WhatsApp Logo */}
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              to="/solicitar-turno"
+              href="/solicitar-turno"
               className="btn-primary flex items-center gap-2"
             >
               <WhatsAppLogo className="w-4 h-4" />
@@ -169,7 +172,7 @@ export default function Navigation() {
           ) : (
             <>
               <Link
-                to="/"
+                href="/"
                 className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
               >
                 Inicio
@@ -178,31 +181,31 @@ export default function Navigation() {
           )}
           {/* Blog Link Mobile */}
           <Link
-            to="/guias"
+            href="/guias"
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Consejos para comprar
           </Link>
           <Link
-            to="/consultar-multa"
+            href="/consultar-multa"
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Consultar multas
           </Link>
           <Link
-            to="/servicio-gestoria"
+            href="/servicio-gestoria"
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Gestoría
           </Link>
           <Link
-            to="/solicitar-turno"
+            href="/solicitar-turno"
             className="text-2xl text-[#F4F1EC] hover:text-[#C8A161] transition-colors"
           >
             Contacto
           </Link>
           <Link
-            to="/solicitar-turno"
+            href="/solicitar-turno"
             className="btn-primary flex items-center gap-2 mt-4"
           >
             <WhatsAppLogo className="w-5 h-5" />

@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -172,7 +173,7 @@ export default function BookingSection() {
         className="relative md:absolute md:left-0 md:top-0 w-full md:w-[55vw] h-[34svh] md:h-full overflow-hidden"
       >
         <img
-          src={`${import.meta.env.BASE_URL}images/mechanic_working.jpg`}
+          src={`${''}images/mechanic_working.jpg`}
           alt="Mecánico trabajando"
           className="w-full h-full object-cover"
         />
