@@ -17,48 +17,51 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-// Derive the multas function URL:
-// 1. Use explicit env var if set (e.g. for custom domains)
-// 2. Auto-derive from current hostname: *.sites.X → *.functions.X (Appwrite pattern)
-// 3. Fall back to /api/multas (local dev)
-function getMultaApiUrl(): string {
-  const explicit = process.env.NEXT_PUBLIC_MULTA_API_URL;
-  if (explicit) return explicit;
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    // Appwrite Sites: {name}.sites.{domain} → {name}.functions.{domain}
-    if (host.includes('.sites.')) {
-      return 'https://' + host.replace('.sites.', '.functions.');
-    }
-  }
-  return '/api/multas';
-}
-const MULTA_API_URL = getMultaApiUrl();
+// Appwrite execution API — uses server.innsimulation.com which has a valid SSL cert
+// Project ID is baked in at build time from APPWRITE_SITE_PROJECT_ID env var
+const APPWRITE_BASE    = (process.env.NEXT_PUBLIC_APPWRITE_BASE ?? 'https://server.innsimulation.com/v1').replace(/\/$/, '');
+const APPWRITE_PROJECT = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '';
+const MULTA_EXEC_URL   = `${APPWRITE_BASE}/functions/multas/executions`;
+const MULTA_API_URL    = MULTA_EXEC_URL; // alias used in callMultasApi calls (only query string is extracted)
 
-/** Call an Appwrite function directly via its domain. */
+/** Call an Appwrite function via the execution API (mp-create, mp-verify). */
 async function callAppwriteFn(
   fnId: string,
   method: string,
   body?: Record<string, unknown>,
   query?: Record<string, string>,
 ): Promise<any> {
-  const base = MULTA_API_URL;
-  const qs = query ? '?' + new URLSearchParams(query).toString() : '';
-  const res = await fetch(`${base}${qs}`, {
-    method,
-    headers: method === 'POST' ? { 'Content-Type': 'application/json' } : undefined,
-    body: body ? JSON.stringify(body) : undefined,
+  const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
+  const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, method, path, ...(body ? { body: JSON.stringify(body) } : {}) }),
   });
-  return res.json();
+  const exec = await res.json();
+  return JSON.parse(exec.responseBody || '{}');
 }
 
-// Fuentes that need async Appwrite execution (captcha solving takes > 30s sync limit)
-const ASYNC_FUENTES    = new Set<string>([]);
+/** POST a sync Appwrite execution and return a Response object. */
+async function appwriteExec(path: string, method: string, body: string | null, signal?: AbortSignal): Promise<Response> {
+  const appRes = await fetch(MULTA_EXEC_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, path, method, ...(body != null ? { body } : {}) }),
+    signal,
+  });
+  const exec = await appRes.json();
+  const responseBody = exec.responseBody || JSON.stringify({ error: 'Portal no disponible' });
+  return new Response(responseBody, {
+    status: exec.responseStatusCode ?? 502,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
 // Fuentes that use two-step sync flow: step 1 submits captcha task, client waits, step 2 retrieves result
 const TWO_STEP_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba']);
 const TWO_STEP_WAIT_MS: Record<string, number> = { ansv: 35000, caba: 60000, pba: 40000, cordoba: 30000 };
 
-/** Call the multas function directly. Handles two-step captcha flow. */
+/** Unified fetch wrapper — uses Appwrite execution API. */
 async function callMultasApi(url: string, signal?: AbortSignal): Promise<Response> {
   const qStart = url.indexOf('?');
   const queryString = qStart >= 0 ? url.slice(qStart) : '';
@@ -68,28 +71,35 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
 
   // ── Two-step flow for ANSV, CABA, PBA, Córdoba ────────────────────────────
   if (TWO_STEP_FUENTES.has(fuente)) {
-    // Step 1: fetch portal page + submit captcha task
-    const step1 = await fetch(`${MULTA_API_URL}/?fuente=${fuente}&dominio=${dominio}&step=1`, { signal });
+    const step1 = await appwriteExec(`/?fuente=${fuente}&dominio=${dominio}&step=1`, 'GET', null, signal);
     if (!step1.ok) return step1;
     const s1 = await step1.json();
     if (s1.error) return new Response(JSON.stringify(s1), { status: 502, headers: { 'Content-Type': 'application/json' } });
 
     const { taskMeta, session } = s1;
-
-    // Wait for captcha service to solve
     await new Promise(r => setTimeout(r, TWO_STEP_WAIT_MS[fuente] ?? 35000));
 
-    // Step 2: retrieve solved token + query portal
-    return fetch(`${MULTA_API_URL}/?fuente=${fuente}&dominio=${dominio}&step=2`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ taskMeta, session }),
+    return appwriteExec(
+      `/?fuente=${fuente}&dominio=${dominio}&step=2`,
+      'POST',
+      JSON.stringify({ taskMeta, session }),
       signal,
-    });
+    );
   }
 
-  // Regular single-step query
-  return fetch(`${MULTA_API_URL}/${queryString}`, { signal });
+  // Regular single-step query via execution API
+  const appRes = await fetch(MULTA_EXEC_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, path: `/${queryString}`, method: 'GET' }),
+    signal,
+  });
+  const execution = await appRes.json();
+  const syncBody = execution.responseBody || JSON.stringify({ error: 'Portal no disponible' });
+  return new Response(syncBody, {
+    status: execution.responseStatusCode ?? 502,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
 interface Infraccion {
