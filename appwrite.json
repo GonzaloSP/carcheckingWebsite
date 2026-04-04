@@ -6,11 +6,11 @@
       "$id": "carchecking",
       "name": "carChecking Website",
       "framework": "nextjs",
-      "adapter": "static",
+      "adapter": "ssr",
       "buildRuntime": "node-22",
       "installCommand": "npm install --legacy-peer-deps",
       "buildCommand": "node scripts/deploy-functions.mjs && NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT npm run build",
-      "buildOutput": "dist",
+      "buildOutput": ".next",
       "enabled": true,
       "logging": false,
       "timeout": 30
