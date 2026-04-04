@@ -17,9 +17,23 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-// Functions base domain — set via VITE_FUNCTIONS_BASE or derived from VITE_MULTA_API_URL
-const FUNCTIONS_BASE   = process.env.NEXT_PUBLIC_FUNCTIONS_BASE ?? '';
-const MULTA_API_URL    = process.env.NEXT_PUBLIC_MULTA_API_URL ?? (FUNCTIONS_BASE || '/api/multas');
+// Derive the multas function URL:
+// 1. Use explicit env var if set (e.g. for custom domains)
+// 2. Auto-derive from current hostname: *.sites.X → *.functions.X (Appwrite pattern)
+// 3. Fall back to /api/multas (local dev)
+function getMultaApiUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_MULTA_API_URL;
+  if (explicit) return explicit;
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    // Appwrite Sites: {name}.sites.{domain} → {name}.functions.{domain}
+    if (host.includes('.sites.')) {
+      return 'https://' + host.replace('.sites.', '.functions.');
+    }
+  }
+  return '/api/multas';
+}
+const MULTA_API_URL = getMultaApiUrl();
 
 /** Call an Appwrite function directly via its domain. */
 async function callAppwriteFn(
@@ -28,7 +42,7 @@ async function callAppwriteFn(
   body?: Record<string, unknown>,
   query?: Record<string, string>,
 ): Promise<any> {
-  const base = FUNCTIONS_BASE || MULTA_API_URL;
+  const base = MULTA_API_URL;
   const qs = query ? '?' + new URLSearchParams(query).toString() : '';
   const res = await fetch(`${base}${qs}`, {
     method,

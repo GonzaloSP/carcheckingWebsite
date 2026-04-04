@@ -9,7 +9,7 @@
       "adapter": "static",
       "buildRuntime": "node-22",
       "installCommand": "npm install --legacy-peer-deps",
-      "buildCommand": "node scripts/deploy-functions.mjs && FUNC_DOMAIN=https://$(echo $APPWRITE_SITE_NAME | tr 'A-Z' 'a-z').functions.$(echo $APPWRITE_SITE_API_ENDPOINT | sed 's|https://server\\.||;s|/v1||') && NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT NEXT_PUBLIC_MULTA_API_URL=${NEXT_PUBLIC_MULTA_API_URL:-$FUNC_DOMAIN} NEXT_PUBLIC_FUNCTIONS_BASE=${NEXT_PUBLIC_FUNCTIONS_BASE:-$FUNC_DOMAIN} npm run build",
+      "buildCommand": "node scripts/deploy-functions.mjs && NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT npm run build",
       "buildOutput": "out",
       "enabled": true,
       "logging": false,
