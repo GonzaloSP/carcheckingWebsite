@@ -1,5 +1,11 @@
 import https from 'https';
 
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 function httpsRequest(url, options, body) {
   return new Promise((resolve, reject) => {
     const req = https.request(url, options, (res) => {
@@ -17,13 +23,15 @@ function httpsRequest(url, options, body) {
 }
 
 export default async ({ req, res }) => {
-  if (req.method !== 'POST') return res.json({ error: 'Method not allowed' }, 405);
+  if (req.method === 'OPTIONS') return res.text('', 204, CORS);
+  const r = (data, status = 200) => res.json(data, status, CORS);
+  if (req.method !== 'POST') return r({ error: 'Method not allowed' }, 405);
 
   const { dominio } = JSON.parse(req.body || '{}');
-  if (!dominio) return res.json({ error: 'Missing dominio' }, 400);
+  if (!dominio) return r({ error: 'Missing dominio' }, 400);
 
   const accessToken = process.env.MP_ACCESS_TOKEN;
-  if (!accessToken) return res.json({ error: 'MP not configured' }, 500);
+  if (!accessToken) return r({ error: 'MP not configured' }, 500);
 
   const siteUrl = process.env.SITE_URL || 'https://www.carchecking.com.ar';
   const external_reference = `${dominio}-${Date.now()}`;
@@ -56,9 +64,9 @@ export default async ({ req, res }) => {
   }, body);
 
   if (mpRes.status >= 400) {
-    return res.json({ error: mpRes.data?.message || 'MP error' }, 502);
+    return r({ error: mpRes.data?.message || 'MP error' }, 502);
   }
 
   const { id: preference_id, init_point } = mpRes.data;
-  return res.json({ preference_id, init_point, external_reference });
+  return r({ preference_id, init_point, external_reference });
 };
