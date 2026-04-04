@@ -9,8 +9,8 @@
       "adapter": "static",
       "buildRuntime": "node-22",
       "installCommand": "npm install --legacy-peer-deps",
-      "buildCommand": "node scripts/deploy-functions.mjs && NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT npm run build",
-      "buildOutput": "out",
+      "buildCommand": "node scripts/deploy-functions.mjs && NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT npm run build && cp -r out dist",
+      "buildOutput": "dist",
       "enabled": true,
       "logging": false,
       "timeout": 30
