@@ -17,37 +17,35 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
-// All multa API calls go through /api/multas (same origin) which proxies to Appwrite server-side.
-// This avoids any CORS issues regardless of where the site is hosted.
-const MULTA_EXEC_URL = '/api/multas';
-const MULTA_API_URL  = MULTA_EXEC_URL; // alias used in callMultasApi calls (only query string is extracted)
+// Appwrite execution API — calls server.innsimulation.com directly from the browser.
+// CORS requires the site domain registered as a Web Platform in Appwrite Console.
+const APPWRITE_BASE    = (process.env.NEXT_PUBLIC_APPWRITE_BASE ?? 'https://server.innsimulation.com/v1').replace(/\/$/, '');
+const APPWRITE_PROJECT = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '';
+const MULTA_EXEC_URL   = `${APPWRITE_BASE}/functions/multas/executions`;
+const MULTA_API_URL    = MULTA_EXEC_URL;
 
-/** Call MP functions via same-origin proxy routes (no CORS). */
+/** Call an Appwrite function via the execution API. */
 async function callAppwriteFn(
   fnId: string,
   method: string,
   body?: Record<string, unknown>,
   query?: Record<string, string>,
 ): Promise<any> {
-  const routeMap: Record<string, string> = {
-    'mp-create-preference': '/api/mp-create',
-    'mp-verify-preference': '/api/mp-verify',
-  };
-  const route = routeMap[fnId] ?? `/api/multas`;
-  const qs = query ? '?' + new URLSearchParams(query).toString() : '';
-  const res = await fetch(`${route}${qs}`, {
-    method,
-    headers: method === 'POST' ? { 'Content-Type': 'application/json' } : undefined,
-    body: body ? JSON.stringify(body) : undefined,
+  const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
+  const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, method, path, ...(body ? { body: JSON.stringify(body) } : {}) }),
   });
-  return res.json();
+  const exec = await res.json();
+  return JSON.parse(exec.responseBody || '{}');
 }
 
 /** POST a sync Appwrite execution and return a Response object. */
 async function appwriteExec(path: string, method: string, body: string | null, signal?: AbortSignal): Promise<Response> {
   const appRes = await fetch(MULTA_EXEC_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '' },
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
     body: JSON.stringify({ async: false, path, method, ...(body != null ? { body } : {}) }),
     signal,
   });
