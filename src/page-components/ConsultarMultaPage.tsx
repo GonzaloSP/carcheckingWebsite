@@ -17,10 +17,10 @@ const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
+import { APPWRITE_BASE, APPWRITE_PROJECT_ID } from '@/config/appwrite';
 // Appwrite execution API — calls server.innsimulation.com directly from the browser.
 // CORS requires the site domain registered as a Web Platform in Appwrite Console.
-const APPWRITE_BASE    = (process.env.NEXT_PUBLIC_APPWRITE_BASE ?? 'https://server.innsimulation.com/v1').replace(/\/$/, '');
-const APPWRITE_PROJECT = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '';
+const APPWRITE_PROJECT = APPWRITE_PROJECT_ID;
 const MULTA_EXEC_URL   = `${APPWRITE_BASE}/functions/multas/executions`;
 const MULTA_API_URL    = MULTA_EXEC_URL;
 
