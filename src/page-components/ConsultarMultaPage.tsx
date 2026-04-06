@@ -1200,8 +1200,8 @@ export default function ConsultarMultaPage({
                     })}
                   </div>
 
-                  {/* ── Inline paywall section ── */}
-                  {!freeMode && pendingFuentes.length > 0 && paymentStatus !== 'paid' && (
+                  {/* ── Inline paywall section — only after free results finish loading ── */}
+                  {!freeMode && pendingFuentes.length > 0 && paymentStatus !== 'paid' && loaded >= activeFuentes.length && (
                     <div className="relative mt-6 rounded-2xl overflow-hidden border border-[#C8A161]/30 bg-gradient-to-br from-[#141410] via-[#18170f] to-[#0f0f0d]">
                       {/* shimmer top border */}
                       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C8A161]/70 to-transparent" />
