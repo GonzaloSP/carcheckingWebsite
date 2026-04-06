@@ -1285,19 +1285,27 @@ async function fetchCordoba(dominio) {
 }
 
 // ─── DNRPA — Identificación de vehículo (Justicia.gov.ar) ────────────────────
-async function fetchDNRPA(dominio) {
+// ─── DNRPA — Step 1: load page + submit captcha task ─────────────────────────
+async function fetchDNRPAStep1() {
   const BASE     = 'https://www2.jus.gov.ar/dnrpa-site';
   const PAGE_URL = `${BASE}/`;
   const SITE_KEY = '6Ld5ZjUUAAAAAJ7zlNNbYOQ9REJyT9LeFH13N-We';
 
   const jar = new CookieJar();
   await http.get(PAGE_URL, { jar, withCredentials: true });
-
-  const solver = getSolver();
-  const result = await solver.recaptcha(SITE_KEY, PAGE_URL);
-  const token  = result.data;
-
   const cookies = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
+
+  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL);
+  return { taskMeta, session: { cookies } };
+}
+
+// ─── DNRPA — Step 2: retrieve captcha token + call API ───────────────────────
+async function fetchDNRPAStep2(dominio, taskMeta, session) {
+  const BASE     = 'https://www2.jus.gov.ar/dnrpa-site';
+  const PAGE_URL = `${BASE}/`;
+
+  const token = await retrieveCaptchaToken(taskMeta, 20);
+
   const res = await http.post(`${BASE}/api/site/ObtenerVehiculo`, {
     Dominio:                                      dominio,
     CodigoTramite:                                null,
@@ -1306,13 +1314,12 @@ async function fetchDNRPA(dominio) {
     EsMandatario:                                 false,
     RecaptchaResponse:                            token,
   }, {
-    jar, withCredentials: true,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       Accept:         'application/json, text/plain, */*',
       Origin:         BASE,
       Referer:        PAGE_URL,
-      Cookie:         cookies,
+      Cookie:         session.cookies || '',
     },
   });
 
@@ -1404,10 +1411,20 @@ async function fetchVTV(dominio) {
 // Uses a simple arithmetic math captcha — no external captcha service needed.
 async function fetchVTVCordoba(dominio) {
   const PAGE_URL = 'https://itvcordoba.com.ar/Historico.aspx';
-  const jar = new CookieJar();
+  // itvcordoba.com.ar uses an intermediate cert not trusted by Node 16 — use plain axios (not the
+  // cookie-jar wrapper) so we can pass httpsAgent; cookies are managed manually via set-cookie headers.
+  const agent = new https.Agent({ rejectUnauthorized: false });
+  const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
 
-  // 1. Load page → get ViewState + math captcha
-  const home = await http.get(PAGE_URL, { jar, withCredentials: true });
+  // 1. Load page → get ViewState + math captcha + cookies
+  const home = await axios.get(PAGE_URL, {
+    httpsAgent: agent,
+    headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' },
+    maxRedirects: 10,
+    timeout: 20000,
+    validateStatus: () => true,
+  });
+  const rawCookies = (home.headers['set-cookie'] || []).map(c => c.split(';')[0]).join('; ');
   const html = String(home.data);
   const $    = cheerio.load(html);
 
@@ -1424,7 +1441,6 @@ async function fetchVTVCordoba(dominio) {
                : num1 - num2;  // subtraction is the only observed operator
 
   // 3. POST
-  const cookies = jar.getCookiesSync('https://itvcordoba.com.ar').map(c => `${c.key}=${c.value}`).join('; ');
   const form = new URLSearchParams({
     '__EVENTTARGET':                         '',
     '__EVENTARGUMENT':                       '',
@@ -1436,12 +1452,16 @@ async function fetchVTVCordoba(dominio) {
     'ctl00$MainContent$SearchButton':        'Buscar',
   });
 
-  const res = await http.post(PAGE_URL, form.toString(), {
-    jar, withCredentials: true,
+  const res = await axios.post(PAGE_URL, form.toString(), {
+    httpsAgent: agent,
+    maxRedirects: 10,
+    timeout: 20000,
+    validateStatus: () => true,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'User-Agent':   UA,
       Referer:        PAGE_URL,
-      Cookie:         cookies,
+      Cookie:         rawCookies,
     },
   });
 
@@ -2252,21 +2272,27 @@ export default async ({ req, res, log, error: logError }) => {
 
   try {
     // ── Two-step captcha flow (ANSV, CABA, PBA — captcha takes >15s so must be split) ──
-    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba') && step === '1') {
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba' || fuente === 'dnrpa') && step === '1') {
       const result = fuente === 'ansv'
         ? await fetchANSVStep1(clean)
         : fuente === 'caba'
           ? await fetchCABAStep1(clean)
           : fuente === 'pba'
             ? await fetchPBAStep1(clean)
-            : await fetchCordobaStep1();
+            : fuente === 'dnrpa'
+              ? await fetchDNRPAStep1()
+              : await fetchCordobaStep1();
       return res.json({ dominio: clean, fuente, step: 1, ...result });
     }
 
-    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba') && step === '2') {
+    if ((fuente === 'ansv' || fuente === 'caba' || fuente === 'pba' || fuente === 'cordoba' || fuente === 'dnrpa') && step === '2') {
       const bodyData = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
       const { taskMeta, session } = bodyData;
       if (!taskMeta || !session) return res.json({ error: 'Faltan taskMeta o session en el body.' }, 400);
+      if (fuente === 'dnrpa') {
+        const vehiculo = await fetchDNRPAStep2(clean, taskMeta, session);
+        return res.json({ dominio: clean, fuente, vehiculo });
+      }
       const infracciones = fuente === 'ansv'
         ? await fetchANSVStep2(clean, taskMeta, session)
         : fuente === 'caba'
@@ -2275,12 +2301,6 @@ export default async ({ req, res, log, error: logError }) => {
             ? await fetchPBAStep2(clean, taskMeta, session)
             : await fetchCordobaStep2(clean, taskMeta);
       return res.json({ dominio: clean, fuente, infracciones });
-    }
-
-    // ── DNRPA vehicle lookup ─────────────────────────────────────────────────
-    if (fuente === 'dnrpa') {
-      const vehiculo = await fetchDNRPA(clean);
-      return res.json({ dominio: clean, fuente, vehiculo });
     }
 
     // ── VTV ──────────────────────────────────────────────────────────────────

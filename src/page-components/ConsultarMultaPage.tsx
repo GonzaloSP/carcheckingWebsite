@@ -58,8 +58,9 @@ async function multasExec(path: string, method: string, body: string | null, sig
 }
 
 // Fuentes that use two-step sync flow: step 1 submits captcha task, client waits, step 2 retrieves result
-const TWO_STEP_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba']);
-const TWO_STEP_WAIT_MS: Record<string, number> = { ansv: 35000, caba: 60000, pba: 40000, cordoba: 30000 };
+// dnrpa uses recaptcha v2 which can take 30-60s — two-step avoids Appwrite's function timeout
+const TWO_STEP_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba', 'dnrpa']);
+const TWO_STEP_WAIT_MS: Record<string, number> = { ansv: 35000, caba: 60000, pba: 40000, cordoba: 30000, dnrpa: 40000 };
 
 /** Unified fetch wrapper — calls the multas function domain directly. */
 async function callMultasApi(url: string, signal?: AbortSignal): Promise<Response> {
