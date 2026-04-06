@@ -13,7 +13,7 @@ import { MULTA_CONTENT } from '../data/multa-content';
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
 // These jurisdictions are always queried for free (no payment required)
-const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendoza', 'villaangostura']);
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendozacaminera', 'villaangostura']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
