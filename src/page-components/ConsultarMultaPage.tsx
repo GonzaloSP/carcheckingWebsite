@@ -13,7 +13,7 @@ import { MULTA_CONTENT } from '../data/multa-content';
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
 // These jurisdictions are always queried for free (no payment required)
-const FREE_MULTA_FUENTES = new Set(['cordoba', 'salta']);
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendoza', 'villaangostura']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
@@ -99,6 +99,7 @@ interface Infraccion {
   descripcion:  string | null;
   lugar:        string | null;
   importe:      number | null;
+  url?:         string | null;
   estado:       string;
   jurisdiccion: string;
   tipo?:        string | null;
@@ -261,10 +262,11 @@ export default function ConsultarMultaPage({
     setSearched(clean);
     setExpanded(new Set());
     setVehiculo({ status: 'loading' });
-    setActiveFuentes(fuentes);
+    // Only show free fuentes in results initially
+    setActiveFuentes(freeFuentes);
 
     const initial: Record<string, JurisdiccionState> = {};
-    fuentes.forEach(f => { initial[f.value] = { status: 'loading', infracciones: [] }; });
+    freeFuentes.forEach(f => { initial[f.value] = { status: 'loading', infracciones: [] }; });
     setResults(initial);
     setVtvState({ status: 'loading', historial: [] });
     setVtvCordobaState({ status: 'loading', historial: [] });
@@ -279,27 +281,31 @@ export default function ConsultarMultaPage({
     try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
     const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
 
-    // Start free fuentes + aux immediately (no payment required)
+    // Run free fuentes + aux immediately
     runAuxQueries(clean, rc);
     runFuenteQueries(clean, freeFuentes, rc);
 
-    // Show payment modal right away while free results load in the background
+    // Store paid fuentes for inline paywall — do NOT show modal automatically
     setPendingDominio(clean);
     setPendingFuentes(paidFuentes);
     setMpInitPoint('');
     setMpExternalRef('');
     setPaymentError('');
+    setPaymentStatus('idle');
+  }
+
+  async function handleStartPayment() {
+    setPaymentError('');
     setPaymentStatus('creating');
     setShowPaymentModal(true);
 
-    callAppwriteFn('mp-create-preference', 'POST', { dominio: clean })
+    callAppwriteFn('mp-create-preference', 'POST', { dominio: pendingDominio })
       .then(data => {
         if (!data.init_point) throw new Error(data.error ?? 'Error al crear preferencia');
         setMpInitPoint(data.init_point);
         setMpExternalRef(data.external_reference);
         setPaymentStatus('waiting');
 
-        // Poll every 3s for payment approval
         pollRef.current = setInterval(async () => {
           try {
             const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: data.external_reference });
@@ -307,11 +313,7 @@ export default function ConsultarMultaPage({
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
               setShowPaymentModal(false);
-              // Run only the remaining (paid) fuentes — free ones already loaded
-              let rcToken2 = '';
-              try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
-              const rc2 = rcToken2 ? `&rcToken=${encodeURIComponent(rcToken2)}` : '';
-              runFuenteQueries(clean, paidFuentes, rc2);
+              unlockPaidFuentes();
             }
           } catch { /* keep polling */ }
         }, 3000);
@@ -320,6 +322,18 @@ export default function ConsultarMultaPage({
         setPaymentError(err.message ?? 'No se pudo iniciar el pago');
         setPaymentStatus('error');
       });
+  }
+
+  async function unlockPaidFuentes() {
+    let rcToken2 = '';
+    try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+    const rc2 = rcToken2 ? `&rcToken=${encodeURIComponent(rcToken2)}` : '';
+    // Expand results to include paid fuentes
+    setActiveFuentes(prev => [...prev, ...pendingFuentes]);
+    const additionalResults: Record<string, JurisdiccionState> = {};
+    pendingFuentes.forEach(f => { additionalResults[f.value] = { status: 'loading', infracciones: [] }; });
+    setResults(prev => prev ? { ...prev, ...additionalResults } : additionalResults);
+    runFuenteQueries(pendingDominio, pendingFuentes, rc2);
   }
 
   async function handleManualVerify() {
@@ -332,10 +346,7 @@ export default function ConsultarMultaPage({
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');
         setShowPaymentModal(false);
-        let rcToken3 = '';
-        try { rcToken3 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
-        const rc3 = rcToken3 ? `&rcToken=${encodeURIComponent(rcToken3)}` : '';
-        runFuenteQueries(pendingDominio, pendingFuentes, rc3);
+        unlockPaidFuentes();
       } else {
         setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
       }
@@ -1017,7 +1028,8 @@ export default function ConsultarMultaPage({
 
                   {/* Multas tab */}
                   {activeTab === 'multas' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
+                  <div className="mb-16">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {activeFuentes.map(({ value, label, sub }) => {
                       const r = results[value];
                       const isExpanded = expanded.has(value);
@@ -1156,14 +1168,21 @@ export default function ConsultarMultaPage({
                                       <p className="text-sm text-[#F4F1EC]">{inf.lugar}</p>
                                     </div>
                                   )}
-                                  {inf.importe !== null && (
+                                  {inf.importe !== null ? (
                                     <div>
                                       <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Importe</p>
                                       <p className="text-sm font-bold text-[#C8A161]">
                                         ${inf.importe.toLocaleString('es-AR')}
                                       </p>
                                     </div>
-                                  )}
+                                  ) : inf.url ? (
+                                    <div>
+                                      <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Importe</p>
+                                      <a href={inf.url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#C8A161] underline underline-offset-2">
+                                        Ver importe →
+                                      </a>
+                                    </div>
+                                  ) : null}
                                   <div>
                                     <p className="text-xs text-[#B8B2AA] uppercase tracking-wider mb-0.5">Estado</p>
                                     <p className={`text-sm font-semibold capitalize ${inf.estado === 'pagada' ? 'text-green-400' : 'text-amber-400'}`}>
@@ -1183,6 +1202,78 @@ export default function ConsultarMultaPage({
                         </div>
                       );
                     })}
+                  </div>
+
+                  {/* ── Inline paywall section ── */}
+                  {!freeMode && pendingFuentes.length > 0 && paymentStatus !== 'paid' && (
+                    <div className="relative mt-6 rounded-2xl overflow-hidden border border-[#C8A161]/30 bg-gradient-to-br from-[#141410] via-[#18170f] to-[#0f0f0d]">
+                      {/* shimmer top border */}
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C8A161]/70 to-transparent" />
+
+                      <div className="px-6 py-8 md:px-10">
+                        {/* Header */}
+                        <div className="flex items-start gap-4 mb-5">
+                          <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#C8A161]/15 border border-[#C8A161]/30 flex items-center justify-center">
+                            <ShieldCheck className="w-5 h-5 text-[#C8A161]" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-[#F4F1EC] mb-1">
+                              Consultá las {pendingFuentes.length} jurisdicciones restantes
+                            </h3>
+                            <p className="text-sm text-[#B8B2AA] leading-relaxed max-w-lg">
+                              Ya tenés los 4 resultados gratuitos de arriba. Para consultar el resto de Argentina —
+                              ANSV nacional, Buenos Aires, CABA, Córdoba, Salta y más — pagá una vez y los resultados aparecen al instante.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Locked locations grid */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-6">
+                          {pendingFuentes.map(f => (
+                            <div key={f.slug} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0c0c0a] border border-[#252520]">
+                              <svg className="w-3 h-3 text-[#444] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                              </svg>
+                              <span className="text-xs text-[#505040] truncate">{f.label}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Price + CTA */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                          <div className="flex-shrink-0">
+                            <p className="text-4xl font-bold text-[#F4F1EC] leading-none mb-1">$2.000</p>
+                            <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
+                          </div>
+                          <button
+                            onClick={handleStartPayment}
+                            disabled={paymentStatus === 'creating'}
+                            className="sm:ml-auto w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-8 py-3 text-base font-bold whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+                          >
+                            {paymentStatus === 'creating' ? (
+                              <><Loader2 className="w-4 h-4 animate-spin" />Preparando pago…</>
+                            ) : (
+                              <>Consultar todas las jurisdicciones →</>
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Trust signals */}
+                        <div className="flex flex-wrap gap-x-6 gap-y-1.5 mt-5 pt-5 border-t border-[#252520]">
+                          {[
+                            'Fuentes oficiales del estado',
+                            'Resultados en menos de 2 min',
+                            'Pago seguro por MercadoPago',
+                          ].map(t => (
+                            <div key={t} className="flex items-center gap-1.5 text-xs text-[#555]">
+                              <CheckCircle className="w-3 h-3 text-[#C8A161] flex-shrink-0" />
+                              {t}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   </div>
                   )}
 

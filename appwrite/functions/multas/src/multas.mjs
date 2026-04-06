@@ -855,11 +855,12 @@ async function fetchNeuquen(dominio) {
   }
 
   return data.map(i => ({
-    acta:        i.nro_acta || i.acta || i.id || null,
+    acta:        i.numero_acta || i.nro_acta || i.acta || i.id || null,
     fecha:       parseDate(i.fecha || i.fecha_infraccion || null),
     descripcion: i.descripcion || i.motivo || i.tipo || null,
     lugar:       i.lugar || i.direccion || null,
-    importe:     parseFloat(i.importe || i.monto || 0) || null,
+    importe:     parseFloat(i.importe || i.monto || i.ultimo_recibo_monto || 0) || null,
+    url:         i.link || null,  // link to payment portal (shows full amount)
     estado:      (i.estado || 'pendiente').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
     jurisdiccion: 'Neuquén Capital',
   }));
@@ -2260,6 +2261,18 @@ async function verifyCaptcha(token) {
 export default async ({ req, res, log, error: logError }) => {
   if (req.method === 'OPTIONS') return res.empty();
   if (req.method !== 'GET' && req.method !== 'POST') return res.json({ error: 'Método no permitido.' }, 405);
+
+  // ── Origin check — only allow carchecking.com.ar and innsimulation.com (+ any subdomain) ──
+  const originHeader = req.headers['origin'] || req.headers['referer'] || '';
+  if (originHeader) {
+    const ALLOWED_DOMAINS = ['carchecking.com.ar', 'innsimulation.com'];
+    let allowed = false;
+    try {
+      const host = new URL(originHeader).hostname;
+      allowed = ALLOWED_DOMAINS.some(d => host === d || host.endsWith('.' + d));
+    } catch (_) { /* malformed origin — block */ }
+    if (!allowed) return res.json({ error: 'No autorizado.' }, 403);
+  }
 
   const { dominio, fuente = 'ansv', step } = req.query;
 
