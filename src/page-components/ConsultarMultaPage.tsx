@@ -720,7 +720,7 @@ export default function ConsultarMultaPage({
                 </h2>
               </div>
               <p className="text-sm text-[#B8B2AA] mb-6">
-                Patente <span className="font-bold text-[#F4F1EC] tracking-widest">{pendingDominio}</span> · {pendingFuentes.length} registros oficiales · $2.000
+                Patente <span className="font-bold text-[#F4F1EC] tracking-widest">{pendingDominio}</span> · {pendingFuentes.length} registros oficiales
               </p>
 
               <div className="flex flex-col md:flex-row gap-6">
@@ -774,10 +774,6 @@ export default function ConsultarMultaPage({
                         >
                           O hacé clic aquí →
                         </a>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-3xl font-bold text-[#F4F1EC]">$2.000</p>
-                        <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
                       </div>
                       <button
                         onClick={handleManualVerify}
@@ -1239,16 +1235,12 @@ export default function ConsultarMultaPage({
                           ))}
                         </div>
 
-                        {/* Price + CTA */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                          <div className="flex-shrink-0">
-                            <p className="text-4xl font-bold text-[#F4F1EC] leading-none mb-1">$2.000</p>
-                            <p className="text-xs text-[#555]">pago único · resultado inmediato</p>
-                          </div>
+                        {/* CTA */}
+                        <div className="flex">
                           <button
                             onClick={handleStartPayment}
                             disabled={paymentStatus === 'creating'}
-                            className="sm:ml-auto w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-8 py-3 text-base font-bold whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+                            className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-8 py-3 text-base font-bold whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             {paymentStatus === 'creating' ? (
                               <><Loader2 className="w-4 h-4 animate-spin" />Preparando pago…</>
