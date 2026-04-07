@@ -1051,43 +1051,45 @@ export default function ConsultarMultaPage({
                     {activeFuentes.map(({ value, label, sub }) => {
                       const r = results[value];
                       const isExpanded = expanded.has(value);
+                      // Free fuentes: hide errors — treat as empty (sin multas)
+                      const displayStatus = (FREE_MULTA_FUENTES.has(value) && r.status === 'error') ? 'empty' : r.status;
 
                       return (
                         <div
                           key={value}
                           className={`border rounded-xl overflow-hidden transition-colors ${
-                            r.status === 'ok'    ? 'border-amber-700/60'
-                          : r.status === 'manual' ? 'border-[#3a3a2c]'
+                            displayStatus === 'ok'    ? 'border-amber-700/60'
+                          : displayStatus === 'manual' ? 'border-[#3a3a2c]'
                           : 'border-[#2a2a2c]'
                           }`}
                         >
                           {/* Card header — clickable only when has results */}
                           <div
-                            className={`flex items-center gap-3 px-4 py-3 bg-[#141416] ${r.status === 'ok' ? 'cursor-pointer hover:bg-[#1a1a1c] transition-colors' : ''}`}
-                            onClick={() => r.status === 'ok' && setExpanded(prev => { const s = new Set(prev); isExpanded ? s.delete(value) : s.add(value); return s; })}
+                            className={`flex items-center gap-3 px-4 py-3 bg-[#141416] ${displayStatus === 'ok' ? 'cursor-pointer hover:bg-[#1a1a1c] transition-colors' : ''}`}
+                            onClick={() => displayStatus === 'ok' && setExpanded(prev => { const s = new Set(prev); isExpanded ? s.delete(value) : s.add(value); return s; })}
                           >
                             {/* Status icon */}
                             <div className="flex-shrink-0 w-5 flex justify-center">
-                              {r.status === 'loading' && (
+                              {displayStatus === 'loading' && (
                                 <Loader2 className="w-4 h-4 text-[#555] animate-spin" />
                               )}
-                              {r.status === 'ok' && (
+                              {displayStatus === 'ok' && (
                                 <AlertTriangle className="w-4 h-4 text-amber-400" />
                               )}
-                              {r.status === 'empty' && (
+                              {displayStatus === 'empty' && (
                                 <CheckCircle className="w-4 h-4 text-green-500" />
                               )}
-                              {r.status === 'error' && (
+                              {displayStatus === 'error' && (
                                 <XCircle className="w-4 h-4 text-[#555]" />
                               )}
-                              {r.status === 'manual' && (
+                              {displayStatus === 'manual' && (
                                 <ExternalLink className="w-4 h-4 text-[#C8A161]" />
                               )}
                             </div>
 
                             {/* Label */}
                             <div className="flex-1 min-w-0">
-                              <p className={`text-sm font-semibold truncate ${r.status === 'ok' ? 'text-[#F4F1EC]' : 'text-[#B8B2AA]'}`}>
+                              <p className={`text-sm font-semibold truncate ${displayStatus === 'ok' ? 'text-[#F4F1EC]' : 'text-[#B8B2AA]'}`}>
                                 {label}
                               </p>
                               <p className="text-xs text-[#555] truncate">{sub}</p>
@@ -1095,10 +1097,10 @@ export default function ConsultarMultaPage({
 
                             {/* Right side */}
                             <div className="flex-shrink-0 flex items-center gap-2">
-                              {r.status === 'loading' && (
+                              {displayStatus === 'loading' && (
                                 <span className="text-xs text-[#555]">consultando…</span>
                               )}
-                              {r.status === 'ok' && (
+                              {displayStatus === 'ok' && (
                                 <>
                                   {(() => {
                                     const total = r.infracciones.reduce((s, inf) => s + (inf.importe || 0), 0);
@@ -1117,15 +1119,15 @@ export default function ConsultarMultaPage({
                                   }
                                 </>
                               )}
-                              {r.status === 'empty' && (
+                              {displayStatus === 'empty' && (
                                 <span className="text-xs text-green-500">Sin multas</span>
                               )}
-                              {r.status === 'manual' && (
+                              {displayStatus === 'manual' && (
                                 <a href={r.manualUrl || '#'} target="_blank" rel="noopener noreferrer" className="text-xs text-[#C8A161] hover:underline whitespace-nowrap" onClick={e => e.stopPropagation()}>
                                   Verificar manualmente →
                                 </a>
                               )}
-                              {r.status === 'error' && (
+                              {displayStatus === 'error' && (
                                 <span className="text-xs text-[#555] max-w-[120px] truncate" title={r.error}>
                                   {r.error}
                                 </span>
@@ -1134,7 +1136,7 @@ export default function ConsultarMultaPage({
                           </div>
 
                           {/* Expanded infractions */}
-                          {isExpanded && r.status === 'ok' && (
+                          {isExpanded && displayStatus === 'ok' && (
                             <div className="bg-[#0f0f11] border-t border-[#2a2a2c] divide-y divide-[#1e1e20]">
                               {r.infracciones.map((inf, i) => (
                                 <div key={i} className="px-4 py-3 grid grid-cols-2 gap-x-4 gap-y-2">
