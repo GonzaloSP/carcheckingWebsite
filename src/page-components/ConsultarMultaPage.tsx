@@ -238,13 +238,21 @@ export default function ConsultarMultaPage({
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [verifyMessage, setVerifyMessage]       = useState('');
 
-  // Stop polling when modal is closed or payment confirmed
+  // Stop polling when modal is closed
   useEffect(() => {
     if (!showPaymentModal) {
       if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
       if (paymentStatus !== 'paid') setPaymentStatus('idle');
     }
   }, [showPaymentModal]);
+
+  // Close modal automatically 1.8s after payment is confirmed
+  useEffect(() => {
+    if (paymentStatus === 'paid') {
+      const t = setTimeout(() => setShowPaymentModal(false), 1800);
+      return () => clearTimeout(t);
+    }
+  }, [paymentStatus]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -321,7 +329,6 @@ export default function ConsultarMultaPage({
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
               unlockPaidFuentes();
-              setTimeout(() => setShowPaymentModal(false), 1800);
             }
           } catch { /* keep polling */ }
         }, 3000);
@@ -357,7 +364,6 @@ export default function ConsultarMultaPage({
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');
         unlockPaidFuentes();
-        setTimeout(() => setShowPaymentModal(false), 1800);
       } else {
         setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
       }
