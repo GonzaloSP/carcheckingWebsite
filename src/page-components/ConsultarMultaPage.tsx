@@ -232,9 +232,11 @@ export default function ConsultarMultaPage({
   const [mpExternalRef, setMpExternalRef]       = useState('');
   const [paymentError, setPaymentError]         = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  // Refs keep pendingFuentes/pendingDominio current inside stale interval/async closures
+  // Refs keep values current inside stale interval/async closures
   const pendingFuentesRef = useRef<typeof FUENTES>([]);
   const pendingDominioRef = useRef('');
+  const paymentStatusRef  = useRef<PaymentStatus>('idle');
+  const mpExternalRefRef  = useRef('');
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [verifyMessage, setVerifyMessage]       = useState('');
 
@@ -246,6 +248,10 @@ export default function ConsultarMultaPage({
     }
   }, [showPaymentModal]);
 
+  // Keep refs in sync with state so visibility handler always has current values
+  useEffect(() => { paymentStatusRef.current = paymentStatus; }, [paymentStatus]);
+  useEffect(() => { mpExternalRefRef.current = mpExternalRef; }, [mpExternalRef]);
+
   // Close modal automatically 1.8s after payment is confirmed
   useEffect(() => {
     if (paymentStatus === 'paid') {
@@ -253,6 +259,27 @@ export default function ConsultarMultaPage({
       return () => clearTimeout(t);
     }
   }, [paymentStatus]);
+
+  // When user returns from the MP app, immediately re-check payment status
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState !== 'visible') return;
+      if (paymentStatusRef.current !== 'waiting') return;
+      const ref = mpExternalRefRef.current;
+      if (!ref) return;
+      callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: ref })
+        .then(pd => {
+          if (pd.paid && paymentStatusRef.current === 'waiting') {
+            if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+            setPaymentStatus('paid');
+            unlockPaidFuentes();
+          }
+        })
+        .catch(() => {});
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

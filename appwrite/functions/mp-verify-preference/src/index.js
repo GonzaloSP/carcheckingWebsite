@@ -31,7 +31,8 @@ export default async ({ req, res }) => {
   const accessToken = process.env.MP_ACCESS_TOKEN;
   if (!accessToken) return r({ error: 'MP not configured' }, 500);
 
-  const url = `https://api.mercadopago.com/v1/payments/search?sort=date_created&criteria=desc&external_reference=${encodeURIComponent(external_reference)}&status=approved&limit=1`;
+  // Search without status filter to catch approved + in_process payments
+  const url = `https://api.mercadopago.com/v1/payments/search?sort=date_created&criteria=desc&external_reference=${encodeURIComponent(external_reference)}&limit=5`;
 
   const mpRes = await httpsGet(url, { Authorization: `Bearer ${accessToken}` });
 
@@ -39,6 +40,8 @@ export default async ({ req, res }) => {
     return r({ paid: false, error: 'MP error', status: mpRes.status }, 502);
   }
 
+  const PAID_STATUSES = ['approved', 'in_process', 'authorized'];
   const results = Array.isArray(mpRes.data?.results) ? mpRes.data.results : [];
-  return r({ paid: results.length > 0, total: mpRes.data?.paging?.total || results.length });
+  const paid = results.some(p => PAID_STATUSES.includes(p.status));
+  return r({ paid, total: mpRes.data?.paging?.total || results.length });
 };
