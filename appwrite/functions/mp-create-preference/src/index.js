@@ -27,7 +27,7 @@ export default async ({ req, res }) => {
   const r = (data, status = 200) => res.json(data, status, CORS);
   if (req.method !== 'POST') return r({ error: 'Method not allowed' }, 405);
 
-  const { dominio } = JSON.parse(req.body || '{}');
+  const { dominio } = (typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {}));
   if (!dominio) return r({ error: 'Missing dominio' }, 400);
 
   const accessToken = process.env.MP_ACCESS_TOKEN;

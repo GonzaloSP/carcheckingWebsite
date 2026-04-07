@@ -22,21 +22,24 @@ const APPWRITE_PROJECT = APPWRITE_PROJECT_ID;
 // Direct function domain — no execution API wrapper, no X-Appwrite-Project needed.
 const MULTA_API_URL = MULTAS_FUNCTION_URL;
 
-/** Call an Appwrite function via the execution API (used for MP payment functions). */
+const MP_CREATE_URL = 'https://mp-create.functions.innsimulation.com';
+const MP_VERIFY_URL = 'https://mp-verify.functions.innsimulation.com';
+
+/** Call an MP payment function via its direct domain. */
 async function callAppwriteFn(
   fnId: string,
   method: string,
   body?: Record<string, unknown>,
   query?: Record<string, string>,
 ): Promise<any> {
-  const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
-  const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
-    body: JSON.stringify({ async: false, method, path, ...(body ? { body: JSON.stringify(body) } : {}) }),
+  const base = fnId === 'mp-create-preference' ? MP_CREATE_URL : MP_VERIFY_URL;
+  const qs = query ? '?' + new URLSearchParams(query).toString() : '';
+  const res = await fetch(`${base}/${qs}`, {
+    method,
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    ...(body ? { body: JSON.stringify(body) } : {}),
   });
-  const exec = await res.json();
-  return JSON.parse(exec.responseBody || '{}');
+  return res.json();
 }
 
 /** Call the multas function directly via its domain. */
