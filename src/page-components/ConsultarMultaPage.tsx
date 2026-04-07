@@ -252,11 +252,10 @@ export default function ConsultarMultaPage({
   useEffect(() => { paymentStatusRef.current = paymentStatus; }, [paymentStatus]);
   useEffect(() => { mpExternalRefRef.current = mpExternalRef; }, [mpExternalRef]);
 
-  // Close modal automatically 1.8s after payment is confirmed
+  // Close modal when payment is confirmed — modal is no longer needed once paid
   useEffect(() => {
     if (paymentStatus === 'paid') {
-      const t = setTimeout(() => setShowPaymentModal(false), 1800);
-      return () => clearTimeout(t);
+      setShowPaymentModal(false);
     }
   }, [paymentStatus]);
 
@@ -272,6 +271,7 @@ export default function ConsultarMultaPage({
           if (pd.paid && paymentStatusRef.current === 'waiting') {
             if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
             setPaymentStatus('paid');
+            setShowPaymentModal(false);
             unlockPaidFuentes();
           }
         })
@@ -355,6 +355,7 @@ export default function ConsultarMultaPage({
             if (pd.paid) {
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
+              setShowPaymentModal(false);
               unlockPaidFuentes();
             }
           } catch { /* keep polling */ }
@@ -390,6 +391,7 @@ export default function ConsultarMultaPage({
       if (pd.paid) {
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');
+        setShowPaymentModal(false);
         unlockPaidFuentes();
       } else {
         setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
