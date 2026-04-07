@@ -229,6 +229,9 @@ export default function ConsultarMultaPage({
   const [mpExternalRef, setMpExternalRef]       = useState('');
   const [paymentError, setPaymentError]         = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Refs keep pendingFuentes/pendingDominio current inside stale interval/async closures
+  const pendingFuentesRef = useRef<typeof FUENTES>([]);
+  const pendingDominioRef = useRef('');
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [verifyMessage, setVerifyMessage]       = useState('');
 
@@ -287,7 +290,9 @@ export default function ConsultarMultaPage({
 
     // Store paid fuentes for inline paywall — do NOT show modal automatically
     setPendingDominio(clean);
+    pendingDominioRef.current = clean;
     setPendingFuentes(paidFuentes);
+    pendingFuentesRef.current = paidFuentes;
     setMpInitPoint('');
     setMpExternalRef('');
     setPaymentError('');
@@ -312,8 +317,8 @@ export default function ConsultarMultaPage({
             if (pd.paid) {
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
-              setShowPaymentModal(false);
               unlockPaidFuentes();
+              setTimeout(() => setShowPaymentModal(false), 1800);
             }
           } catch { /* keep polling */ }
         }, 3000);
@@ -325,15 +330,18 @@ export default function ConsultarMultaPage({
   }
 
   async function unlockPaidFuentes() {
+    // Use refs — always current regardless of when this is called
+    const fuentes = pendingFuentesRef.current;
+    const dom     = pendingDominioRef.current;
+    if (!fuentes.length) return;
     let rcToken2 = '';
     try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
     const rc2 = rcToken2 ? `&rcToken=${encodeURIComponent(rcToken2)}` : '';
-    // Expand results to include paid fuentes
-    setActiveFuentes(prev => [...prev, ...pendingFuentes]);
+    setActiveFuentes(prev => [...prev, ...fuentes]);
     const additionalResults: Record<string, JurisdiccionState> = {};
-    pendingFuentes.forEach(f => { additionalResults[f.value] = { status: 'loading', infracciones: [] }; });
+    fuentes.forEach(f => { additionalResults[f.value] = { status: 'loading', infracciones: [] }; });
     setResults(prev => prev ? { ...prev, ...additionalResults } : additionalResults);
-    runFuenteQueries(pendingDominio, pendingFuentes, rc2);
+    runFuenteQueries(dom, fuentes, rc2);
   }
 
   async function handleManualVerify() {
@@ -345,8 +353,8 @@ export default function ConsultarMultaPage({
       if (pd.paid) {
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');
-        setShowPaymentModal(false);
         unlockPaidFuentes();
+        setTimeout(() => setShowPaymentModal(false), 1800);
       } else {
         setVerifyMessage('Pago no detectado aún. Esperá unos segundos e intentá de nuevo.');
       }
@@ -756,6 +764,17 @@ export default function ConsultarMultaPage({
                       >
                         Intentar de nuevo
                       </button>
+                    </div>
+                  )}
+
+                  {paymentStatus === 'paid' && (
+                    <div className="flex flex-col items-center gap-3 py-8 text-center">
+                      <CheckCircle className="w-12 h-12 text-green-400" />
+                      <p className="text-base font-semibold text-[#F4F1EC]">¡Pago confirmado!</p>
+                      <div className="flex items-center gap-2 text-sm text-[#B8B2AA]">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#C8A161]" />
+                        Cargando jurisdicciones…
+                      </div>
                     </div>
                   )}
 
