@@ -207,7 +207,9 @@ export default function ConsultarMultaPage({
   // Controlled via NEXT_PUBLIC_MULTA_FREE env var.
   // 'true'  → hybrid mode: Córdoba + Salta free, rest gated behind payment
   // anything else (including unset) → fully free, no payment
-  const freeMode = process.env.NEXT_PUBLIC_MULTA_FREE !== 'true';
+  // ?dev=nocobrar URL param also bypasses payment for testing purposes
+  const devNoCobrar = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === 'nocobrar';
+  const freeMode = process.env.NEXT_PUBLIC_MULTA_FREE !== 'true' || devNoCobrar;
 
   const [dominio, setDominio]             = useState('');
   const [results, setResults]             = useState<Record<string, JurisdiccionState> | null>(null);
