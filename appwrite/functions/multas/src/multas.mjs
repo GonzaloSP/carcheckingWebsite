@@ -361,7 +361,9 @@ async function fetchPBAStep2(dominio, taskMeta, session) {
   const BASE     = 'https://infraccionesba.gba.gob.ar';
   const { rawCookies, csrfToken, pageUrl: PAGE_URL } = session;
 
-  const captchaToken = await retrieveCaptchaToken(taskMeta, 20);
+  // Frontend waits 55s before calling step 2 — captcha should already be solved.
+  // Use only 5 attempts (max ~15s) to avoid Appwrite's 30s synchronous timeout.
+  const captchaToken = await retrieveCaptchaToken(taskMeta, 5);
 
   const res = await axios.get(`${BASE}/rest/consultar-infraccion`, {
     params: { dominio, reCaptcha: captchaToken, cantPorPagina: 10, paginaActual: 1 },
