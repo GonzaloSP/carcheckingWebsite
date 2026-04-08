@@ -4,10 +4,36 @@
  *
  * Each source path becomes ./out/{path}/index.html with meta-refresh + JS redirect.
  * Real Next.js pages already present in ./out/ are never overwritten.
+ *
+ * Wildcard redirects are injected into ./out/404.html so that unmatched URLs
+ * are caught and redirected client-side before React hydrates.
  */
 
 import fs from 'fs';
 import path from 'path';
+
+// ---------------------------------------------------------------------------
+// Wildcard redirect rules — injected into 404.html
+// Order matters: more specific patterns first.
+// ---------------------------------------------------------------------------
+const WILDCARD_SCRIPT = `<script>
+(function(){
+  var p = window.location.pathname;
+  var m;
+  // /blog/* → /guias/*
+  if ((m = p.match(/^\\/blog\\/(.+)/))) { window.location.replace('/guias/' + m[1]); return; }
+  if (p === '/blog' || p === '/blog/') { window.location.replace('/guias'); return; }
+  // /consejos/* → /guias/*
+  if ((m = p.match(/^\\/consejos\\/(.+)/))) { window.location.replace('/guias/' + m[1]); return; }
+  if (p === '/consejos' || p === '/consejos/') { window.location.replace('/guias'); return; }
+  // /revision-vehiculos/* → /solicitar-turno
+  if (p.startsWith('/revision-vehiculos')) { window.location.replace('/solicitar-turno'); return; }
+  // /category/* → /guias
+  if (p.startsWith('/category')) { window.location.replace('/guias'); return; }
+  // /tag/* → /guias
+  if (p.startsWith('/tag')) { window.location.replace('/guias'); return; }
+})();
+</script>`;
 
 const OUT_DIR = './out';
 const REDIRECTS_FILE = './redirects.json';
@@ -76,3 +102,19 @@ for (const redirect of redirects) {
 console.log(
   `[generate-static-redirects] Created: ${created} | Skipped (wildcard): ${skipped_wildcard} | Skipped (real page): ${skipped_real_page}`
 );
+
+// ---------------------------------------------------------------------------
+// Inject wildcard redirect script into 404.html (runs before React hydration)
+// ---------------------------------------------------------------------------
+const notFoundPath = path.join(OUT_DIR, '404.html');
+if (fs.existsSync(notFoundPath)) {
+  let html = fs.readFileSync(notFoundPath, 'utf8');
+  // Only inject once
+  if (!html.includes('revision-vehiculos')) {
+    html = html.replace('<head>', '<head>' + WILDCARD_SCRIPT);
+    fs.writeFileSync(notFoundPath, html);
+    console.log('[generate-static-redirects] Wildcard redirect script injected into 404.html');
+  }
+} else {
+  console.warn('[generate-static-redirects] WARNING: ./out/404.html not found — wildcard redirects not injected');
+}
