@@ -1046,11 +1046,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber/",
-        destination: "/guias/garantias-al-comprar-un-auto-usado-todo-lo-que-debes-saber",
-        permanent: true,
-      },
-      {
         source: "/servicio-gestoria/transferencia-del-automotor/revision-vehiculos/",
         destination: "/servicio-gestoria",
         permanent: true,
@@ -1371,11 +1366,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/guias/para-que-sirve-escanear-un-vehiculo/",
-        destination: "/guias/para-que-sirve-escanear-un-vehiculo",
-        permanent: true,
-      },
-      {
         source: "/consejos/compra-vehiculos/solicitar-turno",
         destination: "/guias",
         permanent: true,
@@ -1496,11 +1486,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/servicio-gestoria/",
-        destination: "/servicio-gestoria",
-        permanent: true,
-      },
-      {
         source: "/consejos/compra-/",
         destination: "/guias",
         permanent: true,
@@ -1508,11 +1493,6 @@ const nextConfig: NextConfig = {
       {
         source: "/consejos/compra-",
         destination: "/guias",
-        permanent: true,
-      },
-      {
-        source: "/solicitar-turno/",
-        destination: "/solicitar-turno",
         permanent: true,
       },
       {
