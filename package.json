@@ -8,7 +8,6 @@
     "dev:api": "node api/local-dev.js",
     "prebuild": "node scripts/deploy-functions.mjs",
     "build": "next build",
-    "postbuild": "node scripts/generate-static-redirects.mjs",
     "start": "next start",
     "lint": "next lint"
   },

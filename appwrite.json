@@ -10,7 +10,7 @@
       "buildRuntime": "node-22",
       "installCommand": "npm install --legacy-peer-deps",
       "buildCommand": "node scripts/deploy-functions.mjs && echo NEXT_PUBLIC_APPWRITE_PROJECT_ID=$APPWRITE_SITE_PROJECT_ID > .env.production && echo NEXT_PUBLIC_APPWRITE_BASE=$APPWRITE_SITE_API_ENDPOINT >> .env.production && echo NEXT_PUBLIC_MULTA_FREE=$NEXT_PUBLIC_MULTA_FREE >> .env.production && echo NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY >> .env.production && echo '=== .env.production ===' && cat .env.production && echo '=== building ===' && npm run build",
-      "buildOutput": "dist",
+      "buildOutput": ".next",
       "enabled": true,
       "logging": false,
       "timeout": 30
