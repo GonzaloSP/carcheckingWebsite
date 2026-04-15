@@ -17,15 +17,17 @@ export async function generateMetadata({
     return { title: 'Consultar Multas | carChecking' };
   }
   const canonicalUrl = `https://www.carchecking.com.ar/consultar-multa/${slug}`;
+  const title = fuente.metaTitle ?? `Consultar Multas ${fuente.label} por Patente | carChecking`;
+  const description = fuente.metaDescription ?? `Consultá multas de tránsito en ${fuente.label} (${fuente.sub}) por patente. Consulta online, sin colas.`;
   return {
-    title: `Consultar Multas ${fuente.label} por Patente | carChecking`,
-    description: `Consultá multas de tránsito en ${fuente.label} (${fuente.sub}) por patente. Consulta online, sin colas.`,
+    title,
+    description,
     alternates: { canonical: canonicalUrl },
     openGraph: {
       type: 'website',
       url: canonicalUrl,
-      title: `Consultar Multas ${fuente.label} | carChecking`,
-      description: `Consultá multas de tránsito en ${fuente.label} por patente.`,
+      title,
+      description,
     },
   };
 }
