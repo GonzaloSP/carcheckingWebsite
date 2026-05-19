@@ -23,8 +23,8 @@ export interface CABAGuide {
 export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
   'como-consultar': {
     slug: 'como-consultar',
-    seoTitle: 'Cómo Consultar Multas en CABA por Patente | carChecking',
-    seoDescription: 'Guía paso a paso para consultar multas e infracciones de tránsito en CABA. Accedemos al portal oficial del GCBA e informamos el resultado en minutos. Gratis.',
+    seoTitle: 'Cómo Consultar Multas en CABA: Guía Paso a Paso | carChecking',
+    seoDescription: 'Guía detallada para consultar multas e infracciones de tránsito en CABA: qué portal usa el GCBA, cuánto tarda, qué información muestra y cómo interpretar el resultado.',
     seoKeywords: 'como consultar multas caba, consultar infracciones caba por patente, verificar multas gcba, multas ciudad buenos aires consulta, buenosaires.gob.ar infracciones',
     h1: 'Cómo consultar multas en CABA por patente',
     intro: 'Verificar si un vehículo tiene multas en la Ciudad Autónoma de Buenos Aires es sencillo usando carChecking. Accedemos directamente al portal oficial del Gobierno de la Ciudad (GCBA) y te mostramos el resultado sin que tengas que completar formularios ni resolver captchas.',
