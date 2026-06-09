@@ -580,9 +580,11 @@ export default function ConsultarMultaPage({
             // PAYMENT_REQUIRED is deterministic — retrying won't help, fail immediately
             const giveUp = data.error === 'PAYMENT_REQUIRED' || attempt >= MAX_ATTEMPTS;
             if (!giveUp) continue; // keep card in 'loading' and retry
+            // TEMP: surface gate diagnostics on-screen while debugging the paid flow
+            const dbg = data._diag ? ` [ref=${data._diag.extRef ?? 'none'} ok=${data._diag.startsWithOK}]` : '';
             setResults(prev => prev && ({
               ...prev,
-              [value]: { status: 'error', infracciones: [], error: data.error || 'Portal no disponible' },
+              [value]: { status: 'error', infracciones: [], error: (data.error || 'Portal no disponible') + dbg },
             }));
             return;
           }

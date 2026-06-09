@@ -2361,19 +2361,19 @@ export default async ({ req, res, log, error: logError }) => {
     const paid = await verifyPayment(extRef, clean);
     log(`[gate] fuente=${fuente} dominio=${clean} extRef=${extRef || '(none)'} paid=${paid}`);
     if (!paid) {
-      const body = { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] };
-      // Temporary diagnostic — append ?diag=1 to inspect how the request arrives.
-      if (readQueryParam(req, 'diag') === '1') {
-        body._diag = {
+      // TEMP diagnostic (always on while we debug the real paid flow): shows whether the
+      // payment reference arrived and whether MercadoPago reports it paid.
+      const body = {
+        error: 'PAYMENT_REQUIRED',
+        message: 'Esta consulta forma parte del informe completo.',
+        fuente,
+        infracciones: [],
+        _diag: {
           extRef: extRef || null,
-          extRefInQuery: !!(req.query && req.query.extRef),
-          queryKeys: req.query ? Object.keys(req.query) : null,
-          pathHasQuery: typeof req.path === 'string' && req.path.includes('?'),
-          urlHasQuery: typeof req.url === 'string' && req.url.includes('?'),
-          pathSample: typeof req.path === 'string' ? req.path.slice(0, 160) : null,
-          urlSample: typeof req.url === 'string' ? req.url.slice(0, 160) : null,
-        };
-      }
+          startsWithOK: !!extRef && extRef.toUpperCase().startsWith(`${clean}-`),
+          // when extRef is present + startsWithOK but still not paid → MercadoPago says unpaid
+        },
+      };
       return res.json(body, 402);
     }
   }
