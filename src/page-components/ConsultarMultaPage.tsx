@@ -566,7 +566,7 @@ export default function ConsultarMultaPage({
     fuentes.forEach(async ({ value }) => {
       try {
         const res = await callMultasApi(
-          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}${er}`,
+          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${er}${rc}`,
           AbortSignal.timeout(TWO_STEP_FUENTES.has(value) ? 90_000 : 70_000)
         );
         const data = await res.json();
@@ -632,7 +632,7 @@ export default function ConsultarMultaPage({
 
     // DNRPA vehicle lookup (captcha-costing)
     if (captchaAux)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}${er}`, AbortSignal.timeout(120_000))
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${er}${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         if (data.vehiculo) {
@@ -658,7 +658,7 @@ export default function ConsultarMultaPage({
 
     // ITV Córdoba (captcha-costing)
     if (captchaAux)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}${er}`, AbortSignal.timeout(60_000))
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${er}${rc}`, AbortSignal.timeout(60_000))
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -711,7 +711,7 @@ export default function ConsultarMultaPage({
 
     // ARBA (captcha-costing)
     if (captchaAux)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}${er}`, AbortSignal.timeout(120_000))
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${er}${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.arba;
@@ -724,7 +724,7 @@ export default function ConsultarMultaPage({
 
     // AGIP (captcha-costing)
     if (captchaAux)
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}${er}`, AbortSignal.timeout(120_000))
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${er}${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.agip;

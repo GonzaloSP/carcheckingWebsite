@@ -2278,14 +2278,35 @@ const REQUIRE_PAYMENT = process.env.MULTA_REQUIRE_PAYMENT === 'true';
 // so the multas function does NOT need its own copy of the MercadoPago secret.
 const MP_VERIFY_URL = process.env.MP_VERIFY_URL || 'https://mp-verify.functions.innsimulation.com';
 
+// Read a query param robustly. In this Appwrite/open-runtimes setup `req.query` is
+// not reliably populated for domain (HTTP) invocations — especially trailing params
+// after a long value like rcToken — so we also parse the raw request URL/path.
+// (mp-verify-preference does the same for external_reference.)
+function readQueryParam(req, ...names) {
+  for (const n of names) {
+    const v = req.query && req.query[n];
+    if (v) return v;
+  }
+  const raw = req.url || req.path || (req.headers && (req.headers['x-forwarded-uri'] || req.headers['x-original-uri'])) || '';
+  const qi = typeof raw === 'string' ? raw.indexOf('?') : -1;
+  if (qi >= 0) {
+    const p = new URLSearchParams(raw.slice(qi + 1));
+    for (const n of names) {
+      const v = p.get(n);
+      if (v) return v;
+    }
+  }
+  return '';
+}
+
 // Verify, server-side, that a real MercadoPago payment exists for this plate.
 // Delegates the MP lookup to mp-verify-preference (returns { paid }).
 // Fails CLOSED: missing/mismatched reference or any error → not paid.
 async function verifyPayment(externalReference, dominio) {
   if (!externalReference) return false;                      // no proof supplied
   // external_reference is created as `${dominio}-${timestamp}` — bind the payment to THIS plate
-  // so one payment can't unlock captcha solves for arbitrary patentes.
-  if (!externalReference.startsWith(`${dominio}-`)) return false;
+  // so one payment can't unlock captcha solves for arbitrary patentes. (case-insensitive)
+  if (!externalReference.toUpperCase().startsWith(`${String(dominio).toUpperCase()}-`)) return false;
   try {
     const r = await axios.get(
       `${MP_VERIFY_URL}/?external_reference=${encodeURIComponent(externalReference)}`,
@@ -2326,8 +2347,9 @@ export default async ({ req, res, log, error: logError }) => {
   // ── Payment gate — never trigger a paid captcha solve without a verified payment ──
   // Runs BEFORE the two-step flow (step 1 is where the captcha task is submitted = cost).
   if (REQUIRE_PAYMENT && CAPTCHA_FUENTES.has(fuente)) {
-    const extRef = req.query.extRef || req.query.external_reference || '';
+    const extRef = readQueryParam(req, 'extRef', 'external_reference');
     const paid = await verifyPayment(extRef, clean);
+    log(`[gate] fuente=${fuente} dominio=${clean} extRef=${extRef || '(none)'} paid=${paid}`);
     if (!paid) {
       return res.json(
         { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
