@@ -2364,26 +2364,11 @@ export default async ({ req, res, log, error: logError }) => {
   if (REQUIRE_PAYMENT && CAPTCHA_FUENTES.has(fuente)) {
     const extRef = readQueryParam(req, 'extRef', 'external_reference');
     const paid = await verifyPayment(extRef, clean);
-    log(`[gate] fuente=${fuente} dominio=${clean} extRef=${extRef || '(none)'} paid=${paid}`);
-    // TEMP test hook: when the gate passes, ?gateonly=1 returns early WITHOUT solving a captcha.
-    if (paid && readQueryParam(req, 'gateonly') === '1') {
-      return res.json({ gate: 'PASS', fuente, extRef }, 200);
-    }
     if (!paid) {
-      // TEMP diagnostic (always on while we debug the real paid flow): shows whether the
-      // payment reference arrived and whether MercadoPago reports it paid.
-      const body = {
-        error: 'PAYMENT_REQUIRED',
-        message: 'Esta consulta forma parte del informe completo.',
-        fuente,
-        infracciones: [],
-        _diag: {
-          extRef: extRef || null,
-          startsWithOK: !!extRef && extRef.toUpperCase().startsWith(`${clean}-`),
-          // when extRef is present + startsWithOK but still not paid → MercadoPago says unpaid
-        },
-      };
-      return res.json(body, 402);
+      return res.json(
+        { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
+        402,
+      );
     }
   }
 
