@@ -2317,15 +2317,22 @@ async function verifyPayment(externalReference, dominio) {
   // external_reference is created as `${dominio}-${timestamp}` — bind the payment to THIS plate
   // so one payment can't unlock captcha solves for arbitrary patentes. (case-insensitive)
   if (!externalReference.toUpperCase().startsWith(`${String(dominio).toUpperCase()}-`)) return false;
-  try {
-    const r = await axios.get(
-      `${MP_VERIFY_URL}/?external_reference=${encodeURIComponent(externalReference)}`,
-      { timeout: 8000 },
-    );
-    return r.data?.paid === true;
-  } catch (_) {
-    return false;                                            // fail closed — never solve on verification error
+  // mp-verify (an Appwrite function that queries MercadoPago) can be slow or briefly fail
+  // under the parallel load of many captcha fuentes verifying at once. Retry with backoff so
+  // a genuinely paid reference is never rejected because of a transient timeout/cold start.
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    try {
+      const r = await axios.get(
+        `${MP_VERIFY_URL}/?external_reference=${encodeURIComponent(externalReference)}`,
+        { timeout: 15000 },
+      );
+      if (r.data?.paid === true) return true;
+    } catch (_) {
+      /* transient (timeout / cold start) — fall through and retry */
+    }
+    if (attempt < 4) await new Promise(res => setTimeout(res, 800 * attempt));
   }
+  return false;                                              // fail closed after retries
 }
 
 // ─── Appwrite Handler ─────────────────────────────────────────────────────────
@@ -2360,6 +2367,10 @@ export default async ({ req, res, log, error: logError }) => {
     const extRef = readQueryParam(req, 'extRef', 'external_reference');
     const paid = await verifyPayment(extRef, clean);
     log(`[gate] fuente=${fuente} dominio=${clean} extRef=${extRef || '(none)'} paid=${paid}`);
+    // TEMP test hook: when the gate passes, ?gateonly=1 returns early WITHOUT solving a captcha.
+    if (paid && readQueryParam(req, 'gateonly') === '1') {
+      return res.json({ gate: 'PASS', fuente, extRef }, 200);
+    }
     if (!paid) {
       // TEMP diagnostic (always on while we debug the real paid flow): shows whether the
       // payment reference arrived and whether MercadoPago reports it paid.
