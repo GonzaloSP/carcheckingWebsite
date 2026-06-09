@@ -307,7 +307,8 @@ export default function ConsultarMultaPage({
     trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
     setSearched(clean);
     setExpanded(new Set());
-    setVehiculo({ status: 'loading' });
+    // Vehicle ID (DNRPA) costs a captcha solve — keep it hidden and unresolved until payment.
+    setVehiculo(null);
     // Only show free fuentes in results initially
     setActiveFuentes(freeFuentes);
 
@@ -387,7 +388,9 @@ export default function ConsultarMultaPage({
     fuentes.forEach(f => { additionalResults[f.value] = { status: 'loading', infracciones: [] }; });
     setResults(prev => prev ? { ...prev, ...additionalResults } : additionalResults);
     runFuenteQueries(dom, fuentes, rc2, extRef);
-    // Payment confirmed — run the deferred captcha-costing aux queries (vehicle, ITV Córdoba, ARBA, AGIP).
+    // Payment confirmed — reveal the vehicle card and run the deferred captcha-costing
+    // aux queries (vehicle/DNRPA, ITV Córdoba, ARBA, AGIP).
+    setVehiculo({ status: 'loading' });
     runAuxQueries(dom, rc2, { freeAux: false, captchaAux: true, extRef });
   }
 
@@ -601,6 +604,20 @@ export default function ConsultarMultaPage({
   }
 
   /**
+   * Re-run a single jurisdiction that errored (e.g. a transient captcha-solve failure).
+   * Reuses the retained payment reference so a paid user is never charged again.
+   */
+  async function retryFuente(value: string) {
+    const entry = activeFuentes.find(f => f.value === value);
+    if (!entry || !searched) return;
+    setResults(prev => (prev ? { ...prev, [value]: { status: 'loading', infracciones: [] } } : prev));
+    let rcToken = '';
+    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
+    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
+    runFuenteQueries(searched, [entry], rc, mpExternalRefRef.current);
+  }
+
+  /**
    * Fire auxiliary (VTV, vehicle, patentes) queries in parallel.
    * The captcha-costing ones (DNRPA vehicle, ITV Córdoba, ARBA, AGIP) are grouped
    * separately so hybrid mode can defer them until payment is confirmed — the backend
@@ -758,6 +775,9 @@ export default function ConsultarMultaPage({
     : 0;
   const loaded    = results ? Object.values(results).filter(r => r.status !== 'loading').length  : 0;
   const withFines = results ? Object.values(results).filter(r => r.status === 'ok').length : 0;
+  // Captcha-costing aux sections (vehicle, ITV Córdoba, ARBA, AGIP) only render once unlocked
+  // (free mode, or after payment) — never shown spinning to an unpaid user.
+  const captchaAuxUnlocked = freeMode || paymentStatus === 'paid';
 
   return (
     <>
@@ -1204,9 +1224,17 @@ export default function ConsultarMultaPage({
                                 </a>
                               )}
                               {displayStatus === 'error' && (
-                                <span className="text-xs text-[#555] max-w-[120px] truncate" title={r.error}>
-                                  {r.error}
-                                </span>
+                                <>
+                                  <span className="text-xs text-[#555] max-w-[100px] truncate" title={r.error}>
+                                    {r.error}
+                                  </span>
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); retryFuente(value); }}
+                                    className="text-xs text-[#C8A161] hover:underline whitespace-nowrap"
+                                  >
+                                    Reintentar
+                                  </button>
+                                </>
                               )}
                             </div>
                           </div>
@@ -1442,6 +1470,7 @@ export default function ConsultarMultaPage({
                       {(() => {
                         const s = vtvCordobaState;
                         const latest = s?.historial[0];
+                        if (!captchaAuxUnlocked) return null;
                         return (
                           <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
                             <div className="px-4 py-3 border-b border-[#2a2a2c] flex items-center justify-between">
@@ -1572,7 +1601,8 @@ export default function ConsultarMultaPage({
                   {activeTab === 'patentes' && (
                     <div className="mb-16 space-y-4">
 
-                      {/* ARBA — Buenos Aires Provincia */}
+                      {/* ARBA — Buenos Aires Provincia (captcha-costing → only shown after payment) */}
+                      {captchaAuxUnlocked && (
                       <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
                         <div className="px-4 py-3 border-b border-[#2a2a2c] flex items-center justify-between">
                           <div>
@@ -1642,8 +1672,10 @@ export default function ConsultarMultaPage({
                           )}
                         </div>
                       </div>
+                      )}
 
-                      {/* AGIP — CABA */}
+                      {/* AGIP — CABA (captcha-costing → only shown after payment) */}
+                      {captchaAuxUnlocked && (
                       <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
                         <div className="px-4 py-3 border-b border-[#2a2a2c] flex items-center justify-between">
                           <div>
@@ -1717,6 +1749,7 @@ export default function ConsultarMultaPage({
                           )}
                         </div>
                       </div>
+                      )}
 
                       {/* Corrientes ACOR */}
                       <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl overflow-hidden">
