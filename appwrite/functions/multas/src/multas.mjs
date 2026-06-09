@@ -2274,10 +2274,6 @@ const CAPTCHA_FUENTES = new Set([
 // Enable enforcement in hybrid/paid deployments. Leave unset for fully-free mode.
 const REQUIRE_PAYMENT = process.env.MULTA_REQUIRE_PAYMENT === 'true';
 
-// Reuse the existing mp-verify-preference function (it already holds MP_ACCESS_TOKEN),
-// so the multas function does NOT need its own copy of the MercadoPago secret.
-const MP_VERIFY_URL = process.env.MP_VERIFY_URL || 'https://mp-verify.functions.innsimulation.com';
-
 // Read a query param robustly. In this Appwrite/open-runtimes setup `req.query` is
 // not reliably populated for domain (HTTP) invocations — especially trailing params
 // after a long value like rcToken — so we also parse the raw request URL/path.
@@ -2310,27 +2306,29 @@ function readQueryParam(req, ...names) {
 }
 
 // Verify, server-side, that a real MercadoPago payment exists for this plate.
-// Delegates the MP lookup to mp-verify-preference (returns { paid }).
-// Fails CLOSED: missing/mismatched reference or any error → not paid.
+// Queries the MercadoPago API DIRECTLY (not the mp-verify function) so the many
+// captcha fuentes verifying in parallel don't overwhelm an Appwrite-function hop
+// with cold starts — MP's API handles the concurrency. Needs MP_ACCESS_TOKEN.
+// Fails CLOSED: missing token/reference, mismatched plate, or error → not paid.
+const PAID_STATUSES = ['approved', 'in_process', 'authorized'];
 async function verifyPayment(externalReference, dominio) {
   if (!externalReference) return false;                      // no proof supplied
   // external_reference is created as `${dominio}-${timestamp}` — bind the payment to THIS plate
   // so one payment can't unlock captcha solves for arbitrary patentes. (case-insensitive)
   if (!externalReference.toUpperCase().startsWith(`${String(dominio).toUpperCase()}-`)) return false;
-  // mp-verify (an Appwrite function that queries MercadoPago) can be slow or briefly fail
-  // under the parallel load of many captcha fuentes verifying at once. Retry with backoff so
-  // a genuinely paid reference is never rejected because of a transient timeout/cold start.
-  for (let attempt = 1; attempt <= 4; attempt++) {
+  const token = process.env.MP_ACCESS_TOKEN;
+  if (!token) return false;                                  // not configured → block paid fuentes
+  for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       const r = await axios.get(
-        `${MP_VERIFY_URL}/?external_reference=${encodeURIComponent(externalReference)}`,
-        { timeout: 15000 },
+        `https://api.mercadopago.com/v1/payments/search?external_reference=${encodeURIComponent(externalReference)}&sort=date_created&criteria=desc&limit=5`,
+        { headers: { Authorization: `Bearer ${token}` }, timeout: 10000 },
       );
-      if (r.data?.paid === true) return true;
+      const results = Array.isArray(r.data?.results) ? r.data.results : [];
+      return results.some(p => PAID_STATUSES.includes(p.status)); // MP answered definitively
     } catch (_) {
-      /* transient (timeout / cold start) — fall through and retry */
+      if (attempt < 3) await new Promise(res => setTimeout(res, 600 * attempt)); // retry only on network error
     }
-    if (attempt < 4) await new Promise(res => setTimeout(res, 800 * attempt));
   }
   return false;                                              // fail closed after retries
 }
