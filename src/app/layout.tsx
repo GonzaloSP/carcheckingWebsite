@@ -43,6 +43,48 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              '@id': 'https://www.carchecking.com.ar/#business',
+              name: 'carChecking',
+              description:
+                'Servicio profesional de inspección de vehículos usados a domicilio. Más de 350 puntos revisados.',
+              url: 'https://www.carchecking.com.ar',
+              telephone: '+54-11-5698-0573',
+              email: 'info@carchecking.com.ar',
+              priceRange: '$$',
+              image: 'https://www.carchecking.com.ar/images/hero_car.jpg',
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'AR',
+                addressRegion: 'Buenos Aires',
+                addressLocality: 'Capital Federal',
+              },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: -34.6037,
+                longitude: -58.3816,
+              },
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                  opens: '09:00',
+                  closes: '19:00',
+                },
+              ],
+              areaServed: [
+                { '@type': 'City', name: 'Capital Federal' },
+                { '@type': 'State', name: 'Buenos Aires' },
+              ],
+              sameAs: ['https://web.whatsapp.com/send?phone=5491156980573'],
+            }),
+          }}
+        />
       </head>
       <body>
         <RecaptchaProvider>

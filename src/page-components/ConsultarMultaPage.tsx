@@ -72,10 +72,13 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
   const params = new URLSearchParams(queryString.replace(/^\?/, ''));
   const fuente = params.get('fuente') ?? '';
   const dominio = params.get('dominio') ?? '';
+  const extRef = params.get('extRef') ?? '';
+  const extRefQs = extRef ? `&extRef=${encodeURIComponent(extRef)}` : '';
 
   // ── Two-step flow for ANSV, CABA, PBA, Córdoba ────────────────────────────
+  // extRef must ride along to step 1 — that's where the captcha task is submitted (cost).
   if (TWO_STEP_FUENTES.has(fuente)) {
-    const step1 = await multasExec(`/?fuente=${fuente}&dominio=${dominio}&step=1`, 'GET', null, signal);
+    const step1 = await multasExec(`/?fuente=${fuente}&dominio=${dominio}&step=1${extRefQs}`, 'GET', null, signal);
     if (!step1.ok) return step1;
     const s1 = await step1.json();
     if (s1.error) return new Response(JSON.stringify(s1), { status: 502, headers: { 'Content-Type': 'application/json' } });
@@ -84,7 +87,7 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
     await new Promise(r => setTimeout(r, TWO_STEP_WAIT_MS[fuente] ?? 35000));
 
     return multasExec(
-      `/?fuente=${fuente}&dominio=${dominio}&step=2`,
+      `/?fuente=${fuente}&dominio=${dominio}&step=2${extRefQs}`,
       'POST',
       JSON.stringify({ taskMeta, session }),
       signal,
@@ -324,8 +327,9 @@ export default function ConsultarMultaPage({
     try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
     const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
 
-    // Run free fuentes + aux immediately
-    runAuxQueries(clean, rc);
+    // Run free fuentes + free aux immediately. The captcha-costing aux queries
+    // (vehicle/DNRPA, ITV Córdoba, ARBA, AGIP) are deferred until payment — see unlockPaidFuentes.
+    runAuxQueries(clean, rc, { freeAux: true, captchaAux: false });
     runFuenteQueries(clean, freeFuentes, rc);
 
     // Store paid fuentes for inline paywall — do NOT show modal automatically
@@ -377,11 +381,14 @@ export default function ConsultarMultaPage({
     let rcToken2 = '';
     try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
     const rc2 = rcToken2 ? `&rcToken=${encodeURIComponent(rcToken2)}` : '';
+    const extRef = mpExternalRefRef.current;
     setActiveFuentes(prev => [...prev, ...fuentes]);
     const additionalResults: Record<string, JurisdiccionState> = {};
     fuentes.forEach(f => { additionalResults[f.value] = { status: 'loading', infracciones: [] }; });
     setResults(prev => prev ? { ...prev, ...additionalResults } : additionalResults);
-    runFuenteQueries(dom, fuentes, rc2);
+    runFuenteQueries(dom, fuentes, rc2, extRef);
+    // Payment confirmed — run the deferred captcha-costing aux queries (vehicle, ITV Córdoba, ARBA, AGIP).
+    runAuxQueries(dom, rc2, { freeAux: false, captchaAux: true, extRef });
   }
 
   async function handleManualVerify() {
@@ -551,11 +558,12 @@ export default function ConsultarMultaPage({
   }
 
   /** Fire API calls for a subset of fuentes, updating results in place (does not reset state). */
-  async function runFuenteQueries(clean: string, fuentes: typeof FUENTES, rc: string) {
+  async function runFuenteQueries(clean: string, fuentes: typeof FUENTES, rc: string, extRef = '') {
+    const er = extRef ? `&extRef=${encodeURIComponent(extRef)}` : '';
     fuentes.forEach(async ({ value }) => {
       try {
         const res = await callMultasApi(
-          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}`,
+          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${rc}${er}`,
           AbortSignal.timeout(TWO_STEP_FUENTES.has(value) ? 90_000 : 70_000)
         );
         const data = await res.json();
@@ -592,10 +600,22 @@ export default function ConsultarMultaPage({
     });
   }
 
-  /** Fire all auxiliary (VTV, vehicle, patentes) queries in parallel. */
-  function runAuxQueries(clean: string, rc: string) {
-    // DNRPA vehicle lookup
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}`, AbortSignal.timeout(120_000))
+  /**
+   * Fire auxiliary (VTV, vehicle, patentes) queries in parallel.
+   * The captcha-costing ones (DNRPA vehicle, ITV Córdoba, ARBA, AGIP) are grouped
+   * separately so hybrid mode can defer them until payment is confirmed — the backend
+   * gate rejects them otherwise, so a paid solve can never happen for free.
+   */
+  function runAuxQueries(
+    clean: string,
+    rc: string,
+    { freeAux = true, captchaAux = true, extRef = '' }: { freeAux?: boolean; captchaAux?: boolean; extRef?: string } = {},
+  ) {
+    const er = extRef ? `&extRef=${encodeURIComponent(extRef)}` : '';
+
+    // DNRPA vehicle lookup (captcha-costing)
+    if (captchaAux)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=dnrpa${rc}${er}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         if (data.vehiculo) {
@@ -606,7 +626,8 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setVehiculo({ status: 'error', error: 'No se pudo identificar el vehículo' }));
 
-    // VTV lookup
+    // VTV lookup (free)
+    if (freeAux)
     callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv${rc}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
@@ -618,8 +639,9 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setVtvState({ status: 'error', historial: [], error: 'No se pudo conectar con el portal VTV' }));
 
-    // ITV Córdoba
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}`, AbortSignal.timeout(60_000))
+    // ITV Córdoba (captcha-costing)
+    if (captchaAux)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-cordoba${rc}${er}`, AbortSignal.timeout(60_000))
       .then(r => r.json())
       .then(data => {
         if (data.historial !== undefined) {
@@ -630,7 +652,8 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setVtvCordobaState({ status: 'error', historial: [], error: 'No se pudo conectar con ITV Córdoba' }));
 
-    // RTO Santa Fe
+    // RTO Santa Fe (free)
+    if (freeAux)
     callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-santafe${rc}`, AbortSignal.timeout(90_000))
       .then(r => r.json())
       .then(data => {
@@ -644,7 +667,8 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setVtvSantaFeState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Santa Fe' }));
 
-    // RTO Catamarca
+    // RTO Catamarca (free)
+    if (freeAux)
     callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=vtv-catamarca${rc}`, AbortSignal.timeout(30_000))
       .then(r => r.json())
       .then(data => {
@@ -656,7 +680,8 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setVtvCatamarcaState({ status: 'error', historial: [], error: 'No se pudo conectar con RTO Catamarca' }));
 
-    // ACOR Corrientes
+    // ACOR Corrientes (free)
+    if (freeAux)
     callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=patentes-corrientes${rc}`, AbortSignal.timeout(60_000))
       .then(r => r.json())
       .then(data => {
@@ -667,8 +692,9 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setAcorState({ status: 'error', error: 'No se pudo conectar con ACOR' }));
 
-    // ARBA
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}`, AbortSignal.timeout(120_000))
+    // ARBA (captcha-costing)
+    if (captchaAux)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=arba${rc}${er}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.arba;
@@ -679,8 +705,9 @@ export default function ConsultarMultaPage({
       })
       .catch(() => setArbaState({ status: 'error', error: 'No se pudo conectar con ARBA' }));
 
-    // AGIP
-    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}`, AbortSignal.timeout(120_000))
+    // AGIP (captcha-costing)
+    if (captchaAux)
+    callMultasApi(`${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=agip${rc}${er}`, AbortSignal.timeout(120_000))
       .then(r => r.json())
       .then(data => {
         const a = data.agip;
@@ -743,6 +770,18 @@ export default function ConsultarMultaPage({
             name: q,
             acceptedAnswer: { '@type': 'Answer', text: a },
           })),
+        }) }} />
+      )}
+
+      {jurisdiccion && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar/' },
+            { '@type': 'ListItem', position: 2, name: 'Consultar Multas', item: 'https://www.carchecking.com.ar/consultar-multa/' },
+            { '@type': 'ListItem', position: 3, name: `Multas en ${jurisdiccion.label}`, item: `https://www.carchecking.com.ar/consultar-multa/${jurisdiccion.slug}/` },
+          ],
         }) }} />
       )}
 

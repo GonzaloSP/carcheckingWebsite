@@ -2259,6 +2259,44 @@ async function verifyCaptcha(token) {
   }
 }
 
+// ─── Payment gate ─────────────────────────────────────────────────────────────
+// Fuentes whose portals require a paid captcha solve (Capsolver / 2captcha).
+// These cost real money per request, so when payment enforcement is enabled they
+// must be proven paid before we trigger a solve. The free, captcha-less portals
+// (santarosa, entrerios, mendozacaminera, villaangostura, infratrack, SIGEIN, etc.)
+// are intentionally NOT in this set and stay free.
+const CAPTCHA_FUENTES = new Set([
+  'ansv', 'caba', 'pba', 'cordoba', 'dnrpa',   // two-step reCAPTCHA (cost incurred at step 1)
+  'rosario', 'tresdefebrero', 'agip',          // reCAPTCHA v2/v3
+  'vtv-cordoba', 'arba',                        // image captcha
+]);
+
+// Enable enforcement in hybrid/paid deployments. Leave unset for fully-free mode.
+const REQUIRE_PAYMENT = process.env.MULTA_REQUIRE_PAYMENT === 'true';
+
+// Reuse the existing mp-verify-preference function (it already holds MP_ACCESS_TOKEN),
+// so the multas function does NOT need its own copy of the MercadoPago secret.
+const MP_VERIFY_URL = process.env.MP_VERIFY_URL || 'https://mp-verify.functions.innsimulation.com';
+
+// Verify, server-side, that a real MercadoPago payment exists for this plate.
+// Delegates the MP lookup to mp-verify-preference (returns { paid }).
+// Fails CLOSED: missing/mismatched reference or any error → not paid.
+async function verifyPayment(externalReference, dominio) {
+  if (!externalReference) return false;                      // no proof supplied
+  // external_reference is created as `${dominio}-${timestamp}` — bind the payment to THIS plate
+  // so one payment can't unlock captcha solves for arbitrary patentes.
+  if (!externalReference.startsWith(`${dominio}-`)) return false;
+  try {
+    const r = await axios.get(
+      `${MP_VERIFY_URL}/?external_reference=${encodeURIComponent(externalReference)}`,
+      { timeout: 8000 },
+    );
+    return r.data?.paid === true;
+  } catch (_) {
+    return false;                                            // fail closed — never solve on verification error
+  }
+}
+
 // ─── Appwrite Handler ─────────────────────────────────────────────────────────
 export default async ({ req, res, log, error: logError }) => {
   if (req.method === 'OPTIONS') return res.empty();
@@ -2283,6 +2321,19 @@ export default async ({ req, res, log, error: logError }) => {
   const clean = dominio.replace(/\s/g, '').toUpperCase();
   if (!/^[A-Z]{3}\d{3}$/.test(clean) && !/^[A-Z]{2}\d{3}[A-Z]{2}$/.test(clean)) {
     return res.json({ error: 'Dominio inválido. Usar formato antiguo (ABC123) o Mercosur (AB123CD).' }, 400);
+  }
+
+  // ── Payment gate — never trigger a paid captcha solve without a verified payment ──
+  // Runs BEFORE the two-step flow (step 1 is where the captcha task is submitted = cost).
+  if (REQUIRE_PAYMENT && CAPTCHA_FUENTES.has(fuente)) {
+    const extRef = req.query.extRef || req.query.external_reference || '';
+    const paid = await verifyPayment(extRef, clean);
+    if (!paid) {
+      return res.json(
+        { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
+        402,
+      );
+    }
   }
 
   try {
