@@ -563,58 +563,57 @@ export default function ConsultarMultaPage({
   /** Fire API calls for a subset of fuentes, updating results in place (does not reset state). */
   async function runFuenteQueries(clean: string, fuentes: typeof FUENTES, rc: string, extRef = '') {
     const er = extRef ? `&extRef=${encodeURIComponent(extRef)}` : '';
-    fuentes.forEach(async ({ value }) => {
-      try {
-        const res = await callMultasApi(
-          `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${er}${rc}`,
-          AbortSignal.timeout(TWO_STEP_FUENTES.has(value) ? 90_000 : 70_000)
-        );
-        const data = await res.json();
-        if (!res.ok || data.error) {
+    const MAX_ATTEMPTS = 3;
+
+    // Captcha portals are slow (two-step solving can exceed 90s) and occasionally fail
+    // transiently — so each fuente is retried automatically up to MAX_ATTEMPTS times.
+    const runOne = async (value: string) => {
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        if (attempt > 1) await new Promise(r => setTimeout(r, 1500)); // brief backoff
+        try {
+          const res = await callMultasApi(
+            `${MULTA_API_URL}?dominio=${encodeURIComponent(clean)}&fuente=${value}${er}${rc}`,
+            AbortSignal.timeout(TWO_STEP_FUENTES.has(value) ? 180_000 : 120_000)
+          );
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            // PAYMENT_REQUIRED is deterministic — retrying won't help, fail immediately
+            const giveUp = data.error === 'PAYMENT_REQUIRED' || attempt >= MAX_ATTEMPTS;
+            if (!giveUp) continue; // keep card in 'loading' and retry
+            setResults(prev => prev && ({
+              ...prev,
+              [value]: { status: 'error', infracciones: [], error: data.error || 'Portal no disponible' },
+            }));
+            return;
+          }
+          if (data.manualUrl) {
+            setResults(prev => prev && ({
+              ...prev,
+              [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
+            }));
+            return;
+          }
           setResults(prev => prev && ({
             ...prev,
-            [value]: { status: 'error', infracciones: [], error: data.error || 'Portal no disponible' },
+            [value]: { status: data.infracciones.length > 0 ? 'ok' : 'empty', infracciones: data.infracciones },
           }));
-        } else if (data.manualUrl) {
-          setResults(prev => prev && ({
-            ...prev,
-            [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
-          }));
-        } else {
+          return;
+        } catch (err: unknown) {
+          if (attempt < MAX_ATTEMPTS) continue; // transient (timeout/network) — retry
+          const isTimeout = err instanceof Error && err.name === 'TimeoutError';
           setResults(prev => prev && ({
             ...prev,
             [value]: {
-              status: data.infracciones.length > 0 ? 'ok' : 'empty',
-              infracciones: data.infracciones,
+              status: 'error',
+              infracciones: [],
+              error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
             },
           }));
         }
-      } catch (err: unknown) {
-        const isTimeout = err instanceof Error && err.name === 'TimeoutError';
-        setResults(prev => prev && ({
-          ...prev,
-          [value]: {
-            status: 'error',
-            infracciones: [],
-            error: isTimeout ? 'Tiempo de espera agotado' : 'No se pudo conectar con el portal',
-          },
-        }));
       }
-    });
-  }
+    };
 
-  /**
-   * Re-run a single jurisdiction that errored (e.g. a transient captcha-solve failure).
-   * Reuses the retained payment reference so a paid user is never charged again.
-   */
-  async function retryFuente(value: string) {
-    const entry = activeFuentes.find(f => f.value === value);
-    if (!entry || !searched) return;
-    setResults(prev => (prev ? { ...prev, [value]: { status: 'loading', infracciones: [] } } : prev));
-    let rcToken = '';
-    try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
-    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
-    runFuenteQueries(searched, [entry], rc, mpExternalRefRef.current);
+    fuentes.forEach(({ value }) => { runOne(value); });
   }
 
   /**
@@ -1224,17 +1223,9 @@ export default function ConsultarMultaPage({
                                 </a>
                               )}
                               {displayStatus === 'error' && (
-                                <>
-                                  <span className="text-xs text-[#555] max-w-[100px] truncate" title={r.error}>
-                                    {r.error}
-                                  </span>
-                                  <button
-                                    onClick={(e) => { e.stopPropagation(); retryFuente(value); }}
-                                    className="text-xs text-[#C8A161] hover:underline whitespace-nowrap"
-                                  >
-                                    Reintentar
-                                  </button>
-                                </>
+                                <span className="text-xs text-[#555] max-w-[120px] truncate" title={r.error}>
+                                  {r.error}
+                                </span>
                               )}
                             </div>
                           </div>
