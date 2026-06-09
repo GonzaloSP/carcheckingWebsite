@@ -2283,13 +2283,23 @@ const MP_VERIFY_URL = process.env.MP_VERIFY_URL || 'https://mp-verify.functions.
 // after a long value like rcToken — so we also parse the raw request URL/path.
 // (mp-verify-preference does the same for external_reference.)
 function readQueryParam(req, ...names) {
+  // 1) the normal query object
   for (const n of names) {
     const v = req.query && req.query[n];
     if (v) return v;
   }
-  const raw = req.url || req.path || (req.headers && (req.headers['x-forwarded-uri'] || req.headers['x-original-uri'])) || '';
-  const qi = typeof raw === 'string' ? raw.indexOf('?') : -1;
-  if (qi >= 0) {
+  // 2) parse EVERY raw source that actually carries a query string. In this
+  // open-runtimes setup the query often lives on req.path (not req.url) — which is
+  // why mp-verify parses req.path. Don't short-circuit on the first truthy source.
+  const sources = [
+    req.path,
+    req.url,
+    req.headers && (req.headers['x-forwarded-uri'] || req.headers['x-original-uri']),
+  ];
+  for (const raw of sources) {
+    if (typeof raw !== 'string') continue;
+    const qi = raw.indexOf('?');
+    if (qi < 0) continue;
     const p = new URLSearchParams(raw.slice(qi + 1));
     for (const n of names) {
       const v = p.get(n);
@@ -2351,10 +2361,20 @@ export default async ({ req, res, log, error: logError }) => {
     const paid = await verifyPayment(extRef, clean);
     log(`[gate] fuente=${fuente} dominio=${clean} extRef=${extRef || '(none)'} paid=${paid}`);
     if (!paid) {
-      return res.json(
-        { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
-        402,
-      );
+      const body = { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] };
+      // Temporary diagnostic — append ?diag=1 to inspect how the request arrives.
+      if (readQueryParam(req, 'diag') === '1') {
+        body._diag = {
+          extRef: extRef || null,
+          extRefInQuery: !!(req.query && req.query.extRef),
+          queryKeys: req.query ? Object.keys(req.query) : null,
+          pathHasQuery: typeof req.path === 'string' && req.path.includes('?'),
+          urlHasQuery: typeof req.url === 'string' && req.url.includes('?'),
+          pathSample: typeof req.path === 'string' ? req.path.slice(0, 160) : null,
+          urlSample: typeof req.url === 'string' ? req.url.slice(0, 160) : null,
+        };
+      }
+      return res.json(body, 402);
     }
   }
 
