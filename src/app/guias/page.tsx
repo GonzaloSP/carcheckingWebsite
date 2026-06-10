@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Guías | carChecking - Consejos y Guías sobre Vehículos Usados',
   description:
     'Artículos, consejos y guías sobre compra segura de vehículos usados. Aprenda a detectar fraudes, negociar precios y verificar el estado de un auto.',
-  alternates: { canonical: 'https://www.carchecking.com.ar/guias' },
+  alternates: { canonical: 'https://www.carchecking.com.ar/guias/' },
   openGraph: {
     type: 'website',
     url: 'https://www.carchecking.com.ar/guias',

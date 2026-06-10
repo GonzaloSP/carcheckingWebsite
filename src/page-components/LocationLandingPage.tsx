@@ -23,7 +23,7 @@ export default function LocationLandingPage({ slug }: { slug: string }) {
   const place = location.name;
   const title = `Revisión de vehículo en ${place} | carChecking`;
   const description = `Servicio de revisión/inspección de autos usados en ${place}. Mecánico a domicilio, escaneo computarizado y reporte escrito con fotos. Coordiná un turno.`;
-  const canonicalUrl = `/revision-vehiculo-en/${location.slug}`;
+  const canonicalUrl = `/revision-vehiculo-en/${location.slug}/`;
 
   return (
     <div className="relative bg-[#0B0B0D] min-h-screen">

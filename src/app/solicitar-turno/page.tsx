@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Solicitar Turno | carChecking - Inspección de Vehículos a Domicilio',
   description:
     'Reserve su turno para inspección de vehículos a domicilio. Más de 350 puntos revisados. CABA y GBA.',
-  alternates: { canonical: 'https://www.carchecking.com.ar/solicitar-turno' },
+  alternates: { canonical: 'https://www.carchecking.com.ar/solicitar-turno/' },
   openGraph: {
     type: 'website',
     url: 'https://www.carchecking.com.ar/solicitar-turno',

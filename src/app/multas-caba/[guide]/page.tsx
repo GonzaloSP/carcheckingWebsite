@@ -16,7 +16,7 @@ export async function generateMetadata({
   if (!content) {
     return { title: 'Multas CABA | carChecking' };
   }
-  const canonicalUrl = `https://www.carchecking.com.ar/multas-caba/${content.slug}`;
+  const canonicalUrl = `https://www.carchecking.com.ar/multas-caba/${content.slug}/`;
   return {
     title: content.seoTitle,
     description: content.seoDescription,
