@@ -109,7 +109,7 @@ export default function CalculadoraTransferenciaPage() {
               Estimador de costos de transferencia de auto
             </h1>
             <p className="text-[#B8B2AA] leading-relaxed mb-8 text-base md:text-lg">
-              Usá este estimador de costos para saber cuánto vas a pagar al transferir un auto en Argentina. Ingresá el precio del vehículo y el estimador calcula en segundos los aranceles registrales del DNRPA, el sellado provincial y los gastos fijos del trámite.
+              Usá este estimador y simulador de costos para saber cuánto vas a pagar al transferir un auto en Argentina. Ingresá el precio del vehículo y la calculadora estima en segundos los aranceles registrales del DNRPA, el sellado provincial y los gastos fijos del trámite.
             </p>
 
             {/* Calculator */}
