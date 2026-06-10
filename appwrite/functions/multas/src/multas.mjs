@@ -2402,8 +2402,14 @@ export default async ({ req, res, log, error: logError }) => {
       const { taskMeta, session } = bodyData;
       if (!taskMeta || !session) return res.json({ error: 'Faltan taskMeta o session en el body.' }, 400);
       if (fuente === 'dnrpa') {
-        const vehiculo = await fetchDNRPAStep2(clean, taskMeta, session);
-        return res.json({ dominio: clean, fuente, vehiculo });
+        // DNRPA's portal currently rejects automated captcha tokens (HTTP 403). Vehicle ID is
+        // supplementary, so degrade gracefully to "not identified" rather than erroring the report.
+        try {
+          const vehiculo = await fetchDNRPAStep2(clean, taskMeta, session);
+          return res.json({ dominio: clean, fuente, vehiculo });
+        } catch (_) {
+          return res.json({ dominio: clean, fuente, vehiculo: null });
+        }
       }
       const infracciones = fuente === 'ansv'
         ? await fetchANSVStep2(clean, taskMeta, session)
