@@ -5,6 +5,7 @@ import { articles } from '@/data/articles';
 import { locations } from '@/data/locations';
 import { JURISDICCIONES_MULTA } from '@/data/multa-jurisdictions';
 import { MULTAS_CABA_GUIDES } from '@/data/multas-caba-guides';
+import { MULTAS_PBA_GUIDES } from '@/data/multas-pba-guides';
 
 const BASE = 'https://www.carchecking.com.ar';
 const now = new Date();
@@ -34,6 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const cabaGuidePages: MetadataRoute.Sitemap = Object.values(MULTAS_CABA_GUIDES).map((g) => ({
     url: `${BASE}/multas-caba/${g.slug}/`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  const pbaGuidePages: MetadataRoute.Sitemap = Object.values(MULTAS_PBA_GUIDES).map((g) => ({
+    url: `${BASE}/multas-pba/${g.slug}/`,
     lastModified: now,
     changeFrequency: 'monthly',
     priority: 0.7,
@@ -71,6 +79,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...multaPages,
     ...cabaGuidePages,
+    ...pbaGuidePages,
     ...locationPages,
     ...articlePages,
   ];

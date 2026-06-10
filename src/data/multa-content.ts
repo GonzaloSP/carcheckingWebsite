@@ -29,8 +29,20 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         title: 'Cómo pagar una multa en Rosario',
         body: 'Podés abonar online en el portal de la Municipalidad de Rosario (rosario.gob.ar/gdm), o presencialmente en sucursales del Banco Credicoop, Nuevo Banco de Santa Fe, Rapipago y Pago Fácil. El pago con descuento (generalmente 20–30 %) aplica dentro de los primeros 30 días desde la notificación.',
       },
+      {
+        title: 'Rosario y el sistema provincial de Santa Fe',
+        body: 'Rosario tiene un registro municipal independiente del Juzgado Virtual de la provincia de Santa Fe. Una infracción labrada dentro del ejido urbano de Rosario va al sistema municipal; una labrada por la Policía Vial en rutas y autopistas provinciales va al Juzgado Virtual provincial. Para una verificación completa de un vehículo rosarino, conviene consultar ambos registros por separado.',
+      },
+      {
+        title: 'Verificar multas de Rosario antes de comprar un auto usado',
+        body: 'Como las infracciones quedan registradas en el dominio del vehículo, la deuda acompaña al auto aunque cambie de titular. Antes de comprar un usado en Rosario, verificá las fotomultas municipales, las infracciones provinciales y la situación registral del dominio para evitar heredar multas o trabas en la transferencia.',
+      },
     ],
     faq: [
+      {
+        q: '¿Cómo consulto multas de Rosario por patente?',
+        a: 'Ingresá la patente en el buscador y seleccioná "Rosario". Accedemos en tiempo real al portal de la Municipalidad de Rosario y te mostramos las fotomultas e infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+      },
       {
         q: '¿Cuánto tiempo tengo para pagar una multa en Rosario sin recargo?',
         a: 'Rosario ofrece un descuento de hasta el 30 % si abonás dentro de los 30 días desde la notificación. Pasado ese plazo se aplican recargos por mora e intereses.',
@@ -44,9 +56,18 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         a: 'Rosario tiene un sistema municipal independiente del Juzgado Virtual de Santa Fe. Las infracciones labradas en la ciudad van al registro municipal; las de rutas provinciales van al sistema provincial.',
       },
       {
+        q: '¿Dónde están las cámaras de fotomulta en Rosario?',
+        a: 'Las cámaras de velocidad y semáforo se concentran en los principales corredores: Bulevar Oroño, Avenida Pellegrini, Av. Francia y los accesos a la ciudad. El sistema registra las infracciones de forma automática y notifica al titular del vehículo.',
+      },
+      {
         q: '¿Puedo impugnar una fotomulta de Rosario?',
         a: 'Sí. Podés presentar un recurso en el Juzgado de Tránsito de Rosario o iniciar el trámite online en el portal municipal dentro del plazo establecido en la notificación.',
       },
+    ],
+    relatedGuides: [
+      { title: 'Multas en Santa Fe (Juzgado Virtual)', url: '/consultar-multa/multas-santa-fe/', description: 'Consultá las infracciones provinciales labradas por la Policía Vial de Santa Fe.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai/', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia/', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
     ],
   },
 
@@ -146,8 +167,20 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         title: 'Cómo pagar multas del Juzgado Virtual de Santa Fe',
         body: 'Las infracciones del Juzgado Virtual pueden pagarse online en el portal provincial o en bocas de cobro autorizadas: Rapipago, Pago Fácil y sucursales del Nuevo Banco de Santa Fe (NBSF). El pago con descuento por pronto pago generalmente aplica dentro de los primeros 30 días.',
       },
+      {
+        title: 'Plazos, descuentos y mora en Santa Fe',
+        body: 'El plazo para abonar una infracción del Juzgado Virtual con descuento por pronto pago suele correr desde la notificación. Pasado ese período, la multa acumula intereses por mora y puede pasar a instancia judicial. Las infracciones impagas pueden derivar en inhibición del titular y trabar la transferencia del vehículo.',
+      },
+      {
+        title: 'Verificar multas santafesinas antes de comprar o transferir',
+        body: 'Como las infracciones quedan asociadas al dominio, conviene verificar el Juzgado Virtual provincial, el sistema municipal de Rosario y los juzgados de Santa Fe capital antes de comprar un auto usado o iniciar una transferencia. Así evitás heredar deuda de multas o encontrarte con restricciones registrales durante el trámite.',
+      },
     ],
     faq: [
+      {
+        q: '¿Cómo consulto multas de Santa Fe por patente?',
+        a: 'Ingresá la patente en el buscador y seleccioná "Santa Fe". Consultamos en tiempo real el Juzgado Virtual provincial y te mostramos las infracciones registradas, gratis y sin crear una cuenta.',
+      },
       {
         q: '¿Este sistema incluye multas de la ciudad de Rosario?',
         a: 'No. Rosario tiene su propio sistema municipal independiente del Juzgado Virtual provincial. En carChecking consultamos ambos por separado.',
@@ -155,6 +188,10 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       {
         q: '¿El Juzgado Virtual cubre todos los municipios de la provincia de Santa Fe?',
         a: 'Cubre las infracciones en rutas y caminos provinciales. Los municipios pueden tener registros propios para infracciones dentro de sus ejidos urbanos.',
+      },
+      {
+        q: '¿Qué es el Juzgado Virtual de Santa Fe?',
+        a: 'Es el sistema provincial (santafe.gov.ar/juzgadovirtual) que centraliza las infracciones de tránsito labradas por la Policía Vial de Santa Fe en rutas y autopistas provinciales, y permite consultarlas y abonarlas online.',
       },
       {
         q: '¿Qué pasa si no pago una multa del Juzgado Virtual de Santa Fe?',
@@ -165,12 +202,17 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         a: 'Sí. El recurso de impugnación debe presentarse dentro del plazo legal ante el juzgado correspondiente al lugar donde se labró la infracción.',
       },
     ],
+    relatedGuides: [
+      { title: 'Multas en Rosario por patente', url: '/consultar-multa/multas-rosario/', description: 'Consultá las fotomultas y multas del sistema municipal de Rosario.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai/', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia/', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
+    ],
   },
 
   'multas-provincia-buenos-aires': {
     seoTitle: 'Multas en Buenos Aires: Consultar Infracciones por Patente | carChecking',
     seoDescription: 'Consultá multas e infracciones de la Provincia de Buenos Aires por patente. Verificamos InfraccionesBA — 135 municipios bonaerenses cubiertos. Gratis e instantáneo.',
-    seoKeywords: 'multas provincia buenos aires, consultar multas buenos aires, infracciones bonaerenses, multas patente buenos aires, infraccionesba, policía bonaerense multas, multas gba',
+    seoKeywords: 'multas provincia buenos aires, consultar multas buenos aires, infracciones bonaerenses, multas patente buenos aires, infraccionesba, policía bonaerense multas, multas gba, multas pba, infracciones provincia, deuda patentes arba',
     intro: 'El portal provincial infraccionesba.gba.gob.ar cubre infracciones de los 135 municipios bonaerenses, incluyendo el conurbano, La Plata y el interior provincial.',
     sections: [
       {
@@ -179,14 +221,34 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
       {
         title: 'Conurbano bonaerense y principales municipios',
-        body: 'El conurbano bonaerense concentra la mayor cantidad de infracciones registradas en la provincia. Municipios como La Plata, Mar del Plata, Bahía Blanca, Quilmes, San Isidro y Tigre registran altos volúmenes de multas tanto en vías urbanas como en rutas de acceso. Las fotomultas en autopistas del conurbano también quedan registradas en este sistema.',
+        body: 'El conurbano bonaerense concentra la mayor cantidad de infracciones registradas en la provincia. Municipios como La Plata, Avellaneda, Lanús, Lomas de Zamora, Quilmes, San Isidro, Tigre y Tres de Febrero registran altos volúmenes de multas tanto en vías urbanas como en rutas de acceso. Las fotomultas en autopistas del conurbano (Acceso Norte, Autopista La Plata-Buenos Aires, Camino del Buen Ayre) también quedan registradas en este sistema.',
       },
       {
         title: 'Cómo pagar multas de la Provincia de Buenos Aires',
-        body: 'Las infracciones pueden pagarse online a través del portal InfraccionesBA, en los juzgados municipales de cada partido o en bocas de cobro habilitadas (Pago Fácil, Rapipago). Muchos municipios también habilitan el pago en sus tesorerías.',
+        body: 'Las infracciones pueden pagarse online a través del portal InfraccionesBA, en los juzgados municipales de cada partido o en bocas de cobro habilitadas (Pago Fácil, Rapipago). Muchos municipios también habilitan el pago en sus tesorerías y ofrecen planes de pago en cuotas para infracciones de mayor importe. Pagando dentro del plazo de notificación se puede acceder a un descuento por pronto pago.',
+      },
+      {
+        title: 'Deuda de patentes (ARBA) en Buenos Aires',
+        body: 'Además de las multas de tránsito, el impuesto a la patente automotor en la Provincia de Buenos Aires lo administra ARBA (Agencia de Recaudación bonaerense). La deuda de patentes es independiente de las infracciones: se consulta por dominio en arba.gov.ar y, si está impaga, puede generar trabas para la transferencia del vehículo o incluso un embargo. Conviene verificar ambas —multas e impuesto de patente— antes de comprar o vender un auto bonaerense.',
+      },
+      {
+        title: 'Plazos, descuentos y prescripción de las multas',
+        body: 'En la Provincia de Buenos Aires el plazo para abonar una infracción sin recargo corre desde la notificación y varía según el municipio. Pasado ese plazo se aplican intereses y la multa puede pasar a instancia de juzgado de faltas. Las infracciones de tránsito tienen un plazo de prescripción, pero cualquier notificación o intimación lo interrumpe y lo reinicia, por lo que no conviene dejarlas acumular.',
       },
     ],
     faq: [
+      {
+        q: '¿Cómo consulto las multas de la Provincia de Buenos Aires por patente?',
+        a: 'Ingresá la patente de tu vehículo en este buscador: accedemos en tiempo real al portal InfraccionesBA del Gobierno de la Provincia de Buenos Aires y te mostramos las infracciones registradas en segundos, gratis y sin necesidad de crear una cuenta.',
+      },
+      {
+        q: '¿Qué es InfraccionesBA y qué cubre?',
+        a: 'InfraccionesBA (infraccionesba.gba.gob.ar) es el sistema oficial que centraliza las infracciones de tránsito de los 135 municipios de la Provincia de Buenos Aires. Cubre multas de la Policía Bonaerense, organismos de tránsito municipales y juzgados de paz, tanto del conurbano como del interior provincial.',
+      },
+      {
+        q: '¿La deuda de patentes de ARBA aparece en esta consulta?',
+        a: 'No. Las multas de tránsito (InfraccionesBA) y el impuesto a la patente automotor (ARBA) son registros distintos. La deuda de patentes se consulta por dominio en arba.gov.ar. Si vas a comprar o transferir un vehículo bonaerense, conviene revisar las dos cosas por separado.',
+      },
       {
         q: '¿Las multas de CABA aparecen en el registro de la Provincia de Buenos Aires?',
         a: 'No. CABA y la Provincia de Buenos Aires tienen registros completamente independientes. Las infracciones del GCBA están en buenosaires.gob.ar, no en infraccionesba.gba.gob.ar.',
@@ -200,9 +262,19 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         a: 'Generalmente 48–72 horas hábiles desde que se labró la infracción, aunque puede demorar más en municipios del interior provincial.',
       },
       {
-        q: '¿Puedo transferir un auto con multas pendientes en la Provincia de Buenos Aires?',
-        a: 'En algunos municipios las infracciones pendientes pueden generar trabas en la transferencia del dominio. Es recomendable regularizar las multas antes de iniciar el trámite de transferencia.',
+        q: '¿Puedo pagar las multas bonaerenses en cuotas o con descuento?',
+        a: 'Muchos municipios de la provincia ofrecen planes de pago en cuotas para infracciones de mayor importe y un descuento por pronto pago si abonás dentro del plazo de notificación. Las condiciones se gestionan en el portal InfraccionesBA o en el juzgado de faltas del partido correspondiente.',
       },
+      {
+        q: '¿Puedo transferir un auto con multas pendientes en la Provincia de Buenos Aires?',
+        a: 'En algunos municipios las infracciones pendientes —y especialmente la deuda de patentes de ARBA— pueden generar trabas en la transferencia del dominio. Es recomendable regularizar multas e impuesto de patente antes de iniciar el trámite de transferencia.',
+      },
+    ],
+    relatedGuides: [
+      { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar/', description: 'Guía paso a paso para verificar infracciones por patente en InfraccionesBA.' },
+      { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar/', description: 'Canales de pago, descuento por pronto pago y juzgados municipales.' },
+      { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba/', description: 'Consultá el impuesto automotor por dominio y por qué importa al transferir.' },
+      { title: 'Multas en La Plata por patente', url: '/consultar-multa/multas-la-plata/', description: 'Consultá infracciones de la capital provincial dentro de InfraccionesBA.' },
     ],
   },
 
