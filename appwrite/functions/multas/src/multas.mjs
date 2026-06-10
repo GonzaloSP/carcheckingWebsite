@@ -1304,10 +1304,19 @@ async function fetchDNRPAStep1() {
 
   const jar = new CookieJar();
   await http.get(PAGE_URL, { jar, withCredentials: true });
+  // DNRPA now protects its API with a CSRF token (double-submit cookie). Fetch it with the
+  // same jar so the XSRF-TOKEN cookie and the X-CSRF-Token header match on the POST.
+  let csrfToken = '';
+  try {
+    const csrf = await http.get(`${BASE}/api/csrf/token`, {
+      jar, withCredentials: true, headers: { Accept: 'application/json' },
+    });
+    csrfToken = csrf.data?.token || '';
+  } catch (_) { /* fall through — POST would 403 and surface */ }
   const cookies = jar.getCookiesSync(BASE).map(c => `${c.key}=${c.value}`).join('; ');
 
   const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL);
-  return { taskMeta, session: { cookies } };
+  return { taskMeta, session: { cookies, csrfToken } };
 }
 
 // ─── DNRPA — Step 2: retrieve captcha token + call API ───────────────────────
@@ -1332,6 +1341,7 @@ async function fetchDNRPAStep2(dominio, taskMeta, session) {
       Origin:             'https://www2.jus.gov.ar',   // Origin must be scheme+host only (no path)
       Referer:            PAGE_URL,
       'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-Token':     session.csrfToken || '',
       Cookie:             session.cookies || '',
     },
   });
