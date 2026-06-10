@@ -1326,11 +1326,13 @@ async function fetchDNRPAStep2(dominio, taskMeta, session) {
     RecaptchaResponse:                            token,
   }, {
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      Accept:         'application/json, text/plain, */*',
-      Origin:         BASE,
-      Referer:        PAGE_URL,
-      Cookie:         session.cookies || '',
+      'Content-Type':     'application/json;charset=UTF-8',
+      Accept:             'application/json, text/plain, */*',
+      'Accept-Language':  'es-AR,es;q=0.9',
+      Origin:             'https://www2.jus.gov.ar',   // Origin must be scheme+host only (no path)
+      Referer:            PAGE_URL,
+      'X-Requested-With': 'XMLHttpRequest',
+      Cookie:             session.cookies || '',
     },
   });
 

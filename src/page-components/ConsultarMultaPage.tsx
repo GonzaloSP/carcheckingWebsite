@@ -12,8 +12,10 @@ import { MULTA_CONTENT } from '../data/multa-content';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
-// These jurisdictions are always queried for free (no payment required)
-const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendozacaminera', 'villaangostura']);
+// These jurisdictions are always queried for free (no payment required).
+// All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
+// free-preview locations (high traffic, captcha-free scrapers).
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
