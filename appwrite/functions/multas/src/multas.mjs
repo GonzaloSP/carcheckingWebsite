@@ -62,6 +62,7 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
   const capsolverKey = process.env.CAPSOLVER_API_KEY;
 
   if (capsolverKey) {
+   try {
     // Use Capsolver HTTP API (no npm package needed)
     const createRes = await axios.post(
       'https://api.capsolver.com/createTask',
@@ -96,6 +97,9 @@ async function solveRecaptchaV3(siteKey, pageUrl, action, minScore = 0.3) {
       if (pollRes.data.status === 'ready') return pollRes.data.solution.gRecaptchaResponse;
     }
     throw new Error('Capsolver timeout después de 2 minutos.');
+   } catch (_capErr) {
+    // Capsolver failed (denied key / timeout / error) — fall back to 2captcha below
+   }
   }
 
   // Fallback: use 2captcha
@@ -175,6 +179,7 @@ async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore =
   const twocaptchaKey = process.env.TWOCAPTCHA_API_KEY;
 
   if (!skipCapsolver && capsolverKey) {
+   try {
     const defaultV2Type = isInvisible ? 'ReCaptchaV2InvisibleTaskProxyLess' : 'ReCaptchaV2TaskProxyLess';
     const taskType = capsolverTaskTypeOverride || (type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : defaultV2Type);
     const task = { type: taskType, websiteURL: pageUrl, websiteKey: siteKey };
@@ -188,6 +193,9 @@ async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore =
       return { service: 'capsolver', taskId: null, token: res.data.solution.gRecaptchaResponse };
     }
     return { service: 'capsolver', taskId: res.data.taskId };
+   } catch (_capErr) {
+    // Capsolver failed (denied key / error) — fall back to 2captcha below
+   }
   }
 
   if (twocaptchaKey) {
