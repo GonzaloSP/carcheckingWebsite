@@ -65,9 +65,9 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
-      { title: 'Multas en Santa Fe (Juzgado Virtual)', url: '/consultar-multa/multas-santa-fe/', description: 'Consultá las infracciones provinciales labradas por la Policía Vial de Santa Fe.' },
-      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai/', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
-      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia/', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
+      { title: 'Multas en Santa Fe (Juzgado Virtual)', url: '/consultar-multa/multas-santa-fe', description: 'Consultá las infracciones provinciales labradas por la Policía Vial de Santa Fe.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
     ],
   },
 
@@ -203,9 +203,9 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
-      { title: 'Multas en Rosario por patente', url: '/consultar-multa/multas-rosario/', description: 'Consultá las fotomultas y multas del sistema municipal de Rosario.' },
-      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai/', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
-      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia/', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
+      { title: 'Multas en Rosario por patente', url: '/consultar-multa/multas-rosario', description: 'Consultá las fotomultas y multas del sistema municipal de Rosario.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
     ],
   },
 
@@ -271,10 +271,10 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
-      { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar/', description: 'Guía paso a paso para verificar infracciones por patente en InfraccionesBA.' },
-      { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar/', description: 'Canales de pago, descuento por pronto pago y juzgados municipales.' },
-      { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba/', description: 'Consultá el impuesto automotor por dominio y por qué importa al transferir.' },
-      { title: 'Multas en La Plata por patente', url: '/consultar-multa/multas-la-plata/', description: 'Consultá infracciones de la capital provincial dentro de InfraccionesBA.' },
+      { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar', description: 'Guía paso a paso para verificar infracciones por patente en InfraccionesBA.' },
+      { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar', description: 'Canales de pago, descuento por pronto pago y juzgados municipales.' },
+      { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba', description: 'Consultá el impuesto automotor por dominio y por qué importa al transferir.' },
+      { title: 'Multas en La Plata por patente', url: '/consultar-multa/multas-la-plata', description: 'Consultá infracciones de la capital provincial dentro de InfraccionesBA.' },
     ],
   },
 
@@ -483,6 +483,142 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         q: '¿Lanús tiene fotomultas propias o usa el sistema provincial?',
         a: 'Lanús tiene su propio sistema municipal de fotomultas gestionado por Infratrack. Las infracciones en rutas nacionales o provinciales que cruzan el partido pueden estar en registros distintos (ANSV o PBA).',
       },
+    ],
+  },
+
+  'multas-misiones': {
+    seoTitle: 'Multas en Misiones por Patente: Monitoreo Vial | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en Misiones por patente. Verificamos el sistema Monitoreo Vial provincial. Resultado en segundos, gratis y sin registro.',
+    seoKeywords: 'multas misiones, consultar multas misiones, infracciones misiones, monitoreo vial misiones, multas patente misiones, policía caminera misiones, multas provincia misiones',
+    intro: 'Consultamos el sistema Monitoreo Vial de la Provincia de Misiones para verificar infracciones de tránsito registradas en rutas y caminos provinciales.',
+    sections: [
+      {
+        title: 'Monitoreo Vial Misiones: qué registra',
+        body: 'La Provincia de Misiones centraliza sus infracciones de tránsito en el sistema Monitoreo Vial, accesible por patente online. El organismo principal que labra infracciones es la Policía de Misiones y los organismos de tránsito municipales. Los tramos de mayor control incluyen la Ruta Nacional 12 (corredor del Mercosur), la Ruta Provincial 17 y los accesos a Posadas, Oberá y Puerto Iguazú.',
+      },
+      {
+        title: 'Rutas y accesos más controlados en Misiones',
+        body: 'Misiones cuenta con una red vial estratégica por su posición fronteriza con Brasil y Paraguay. La RN12 es la arteria más controlada, especialmente entre Posadas y Puerto Iguazú. El tránsito pesado de transporte internacional es especialmente fiscalizado en los pasos fronterizos de Puerto Iguazú, Bernardo de Irigoyen y Alba Posse.',
+      },
+      {
+        title: 'Cómo pagar multas en Misiones',
+        body: 'Las infracciones registradas en el sistema Monitoreo Vial pueden gestionarse en las dependencias de la Policía de Misiones o a través del portal online provincial. Los pagos se realizan en el Banco Macro, en bocas de Rapipago y Pago Fácil, o de forma online. Se aplican descuentos por pronto pago dentro del plazo indicado en el acta.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Cómo consulto multas de Misiones por patente?',
+        a: 'Ingresá la patente en el buscador y seleccioná "Misiones". Accedemos en tiempo real al sistema Monitoreo Vial de la Provincia de Misiones y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+      },
+      {
+        q: '¿Qué es el sistema Monitoreo Vial de Misiones?',
+        a: 'Monitoreo Vial es la plataforma oficial de la Provincia de Misiones para registrar y consultar infracciones de tránsito. Centraliza multas labradas por la Policía de Misiones y organismos de tránsito en rutas y caminos provinciales.',
+      },
+      {
+        q: '¿Las multas de Misiones afectan la transferencia del vehículo?',
+        a: 'Sí. Las infracciones provinciales pueden trabar trámites en el DNRPA. Es importante verificar y regularizar multas antes de comprar o transferir un vehículo con circulación frecuente en Misiones.',
+      },
+      {
+        q: '¿Esta consulta cubre multas de la ciudad de Posadas?',
+        a: 'El sistema Monitoreo Vial cubre infracciones de organismos provinciales. Las multas municipales de Posadas pueden estar en el registro municipal de la ciudad, que también consultamos por separado.',
+      },
+      {
+        q: '¿Las multas en la RN12 aparecen en Monitoreo Vial Misiones?',
+        a: 'Sí, cuando son labradas por la Policía de Misiones. Las infracciones en tramos de jurisdicción nacional de la RN12 pueden aparecer también en el sistema ANSV/SINAI nacional.',
+      },
+    ],
+    relatedGuides: [
+      { title: 'Multas en Entre Ríos por patente', url: '/consultar-multa/multas-entre-rios', description: 'Consultá infracciones vía el sistema Monitoreo Vial de Entre Ríos.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+      { title: 'Calculadora de costos de transferencia', url: '/calculadora-de-costos-de-transferencia', description: 'Estimá el costo de transferir un auto usado en Argentina.' },
+    ],
+  },
+
+  'multas-chaco': {
+    seoTitle: 'Multas en Chaco por Patente: Policía Caminera | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en Chaco por patente. Verificamos el sistema de la Policía Caminera provincial. Resultado en segundos, gratis y sin registro.',
+    seoKeywords: 'multas chaco, consultar multas chaco, infracciones chaco, policía caminera chaco, multas patente chaco, multas resistencia chaco, infracciones tránsito chaco',
+    intro: 'Consultamos el sistema de la Policía Caminera de Chaco para verificar infracciones de tránsito registradas en rutas y caminos provinciales.',
+    sections: [
+      {
+        title: 'Policía Caminera del Chaco: qué registra',
+        body: 'La Provincia del Chaco gestiona sus infracciones de tránsito a través de la Policía Caminera provincial. Las infracciones quedan registradas al dominio del vehículo y pueden consultarse online. Los tramos de mayor control incluyen la Ruta Nacional 16 (Resistencia-Salta), la Ruta Nacional 11 y los accesos a Resistencia y Barranqueras.',
+      },
+      {
+        title: 'Principales rutas controladas en Chaco',
+        body: 'El Chaco es una provincia de tránsito estratégico en la región del NEA. La RN16 (conocida como "el cruce de los camiones") concentra una gran cantidad de controles de tránsito pesado y velocidad. Los accesos al Gran Resistencia también son puntos de fiscalización frecuente de documentación y condiciones del vehículo.',
+      },
+      {
+        title: 'Cómo pagar multas en Chaco',
+        body: 'Las infracciones de la Policía Caminera del Chaco pueden abonarse en dependencias policiales, en el Banco del Chaco o a través de los canales de pago habilitados. Se aplican descuentos por pronto pago dentro del plazo indicado en el acta de infracción.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Cómo consulto multas en Chaco por patente?',
+        a: 'Ingresá la patente en el buscador y seleccioná "Chaco". Consultamos el sistema de la Policía Caminera provincial y te mostramos las infracciones registradas, gratis y sin registro.',
+      },
+      {
+        q: '¿Las multas de Chaco afectan la transferencia del vehículo?',
+        a: 'Sí. Las infracciones provinciales pendientes pueden trabar trámites en el DNRPA. Verificá y regularizá multas antes de comprar o transferir un vehículo.',
+      },
+      {
+        q: '¿Esta consulta incluye multas de la ciudad de Resistencia?',
+        a: 'El sistema consulta infracciones de la Policía Caminera provincial. Las multas municipales de Resistencia pueden estar en el registro de la Municipalidad de Resistencia, que tiene su propio sistema.',
+      },
+      {
+        q: '¿Puedo impugnar una multa de la Caminera del Chaco?',
+        a: 'Sí. El descargo debe presentarse ante la dependencia policial que labró la infracción o ante el juzgado de faltas correspondiente, dentro del plazo indicado en el acta.',
+      },
+    ],
+    relatedGuides: [
+      { title: 'Multas en Misiones por patente', url: '/consultar-multa/multas-misiones', description: 'Consultá infracciones vía el sistema Monitoreo Vial de Misiones.' },
+      { title: 'Multas en Corrientes por patente', url: '/consultar-multa/multas-corrientes', description: 'Consultá infracciones vía el sistema SIGEIN de Corrientes.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+    ],
+  },
+
+  'multas-ezeiza': {
+    seoTitle: 'Multas en Ezeiza por Patente: Consulta Online Gratis | carChecking',
+    seoDescription: 'Consultá multas e infracciones de tránsito en Ezeiza por patente. Verificamos el sistema Infratrack de la Municipalidad de Ezeiza. Resultado al instante, gratis.',
+    seoKeywords: 'multas ezeiza, consultar multas ezeiza, infracciones ezeiza, infratrack ezeiza, multas patente ezeiza, municipalidad ezeiza multas, tránsito ezeiza',
+    intro: 'Consultamos el sistema Infratrack de la Municipalidad de Ezeiza para verificar infracciones de tránsito registradas al dominio de tu vehículo.',
+    sections: [
+      {
+        title: 'Infratrack en Ezeiza: cómo funciona',
+        body: 'Ezeiza utiliza el sistema Infratrack para gestionar sus infracciones de tránsito municipales, la misma plataforma que Lanús y Berisso. Las multas son labradas por agentes de la Dirección de Tránsito y por el sistema de fotomultas en las arterias principales, incluyendo los accesos al Aeropuerto Internacional de Ezeiza, la Autopista Riccheri y la Ruta Provincial 58.',
+      },
+      {
+        title: 'Infracciones frecuentes en Ezeiza',
+        body: 'El tránsito en el partido de Ezeiza está marcado por los flujos al aeropuerto y la zona logística. Las infracciones más comunes son exceso de velocidad en las avenidas de acceso, estacionamiento indebido en zonas de carga y descarga, y circulación sin documentación en regla. Las fotomultas registran infracciones en el Acceso al Aeropuerto y los principales corredores viales.',
+      },
+      {
+        title: 'Cómo regularizar multas en Ezeiza',
+        body: 'Las multas de Ezeiza pueden abonarse en la Municipalidad, en el Juzgado de Faltas o a través de los canales habilitados en Infratrack: Pago Fácil, Rapipago y pago online. El descuento por pago voluntario aplica dentro de los 30 días desde la notificación.',
+      },
+    ],
+    faq: [
+      {
+        q: '¿Cómo consulto multas en Ezeiza por patente?',
+        a: 'Ingresá la patente en el buscador y seleccioná "Ezeiza". Consultamos el sistema Infratrack de la Municipalidad de Ezeiza y te mostramos las infracciones registradas, gratis y sin registro.',
+      },
+      {
+        q: '¿Qué es Infratrack y cómo lo usa Ezeiza?',
+        a: 'Infratrack es una plataforma de gestión de infracciones usada por varios municipios del GBA, entre ellos Ezeiza, Lanús y Berisso. Permite registrar, consultar y pagar multas de tránsito online.',
+      },
+      {
+        q: '¿Las multas de Ezeiza afectan la transferencia del auto?',
+        a: 'Sí. Las deudas de infracciones municipales pueden impedir la transferencia del dominio. Verificá y regularizá cualquier infracción antes de comprar o vender un vehículo.',
+      },
+      {
+        q: '¿Las multas del Aeropuerto de Ezeiza aparecen en este sistema?',
+        a: 'Las infracciones en el acceso al aeropuerto labradas por organismos municipales aparecen en el sistema Infratrack de Ezeiza. Las cometidas en zonas de jurisdicción nacional pueden registrarse en el sistema ANSV/SINAI.',
+      },
+    ],
+    relatedGuides: [
+      { title: 'Multas en Lanús por patente', url: '/consultar-multa/multas-lanus', description: 'Consultá infracciones de Lanús vía el mismo sistema Infratrack.' },
+      { title: 'Multas Provincia de Buenos Aires', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Consultá infracciones en los 135 municipios bonaerenses.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
     ],
   },
 

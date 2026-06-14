@@ -12,6 +12,12 @@ import { MULTA_CONTENT } from '../data/multa-content';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
+const TOP_SLUGS = [
+  'multas-caba', 'multas-provincia-buenos-aires', 'multas-entre-rios', 'multas-misiones',
+  'multas-la-plata', 'multas-rosario', 'multas-santa-fe', 'multas-mendoza',
+  'multas-chaco', 'multas-neuquen', 'multas-lanus', 'multas-ezeiza',
+];
+
 // These jurisdictions are always queried for free (no payment required).
 // All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
 // free-preview locations (high traffic, captcha-free scrapers).
@@ -799,9 +805,9 @@ export default function ConsultarMultaPage({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar/' },
-            { '@type': 'ListItem', position: 2, name: 'Consultar Multas', item: 'https://www.carchecking.com.ar/consultar-multa/' },
-            { '@type': 'ListItem', position: 3, name: `Multas en ${jurisdiccion.label}`, item: `https://www.carchecking.com.ar/consultar-multa/${jurisdiccion.slug}/` },
+            { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar' },
+            { '@type': 'ListItem', position: 2, name: 'Consultar Multas', item: 'https://www.carchecking.com.ar/consultar-multa' },
+            { '@type': 'ListItem', position: 3, name: `Multas en ${jurisdiccion.label}`, item: `https://www.carchecking.com.ar/consultar-multa/${jurisdiccion.slug}` },
           ],
         }) }} />
       )}
@@ -1932,6 +1938,29 @@ export default function ConsultarMultaPage({
                     Todo lo que necesitás para comprar con total seguridad.
                   </p>
                 </div>
+
+                {jurisdiccion && (
+                  <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                    <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">Consultar multas en otras ciudades</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {JURISDICCIONES_MULTA
+                        .filter(j => !j.hideFromList && j.slug !== jurisdiccion.slug && TOP_SLUGS.includes(j.slug))
+                        .sort((a, b) => TOP_SLUGS.indexOf(a.slug) - TOP_SLUGS.indexOf(b.slug))
+                        .slice(0, 6)
+                        .map(j => (
+                          <Link
+                            key={j.slug}
+                            href={`/consultar-multa/${j.slug}`}
+                            className="block p-4 bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg hover:border-[#C8A161]/50 transition-colors group"
+                          >
+                            <p className="text-sm font-semibold text-[#C8A161] group-hover:text-[#d4b070] leading-snug">{j.label}</p>
+                            <p className="text-xs text-[#555] mt-0.5">{j.sub}</p>
+                          </Link>
+                        ))
+                      }
+                    </div>
+                  </div>
+                )}
 
                 <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
                   <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">

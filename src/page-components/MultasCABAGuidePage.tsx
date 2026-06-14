@@ -18,15 +18,15 @@ export default function MultasCABAGuidePage({ guide }: { guide: string }) {
   if (!content) return null;
 
   const related = CABA_GUIDE_RELATED_LINKS[guide!] ?? [];
-  const canonicalUrl = `/multas-caba/${content.slug}/`;
+  const canonicalUrl = `/multas-caba/${content.slug}`;
   const siteUrl = 'https://www.carchecking.com.ar';
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
-      { '@type': 'ListItem', position: 2, name: 'Multas CABA', item: `${siteUrl}/consultar-multa/multas-caba/` },
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Multas CABA', item: `${siteUrl}/consultar-multa/multas-caba` },
       { '@type': 'ListItem', position: 3, name: SLUG_TO_LABEL[content.slug] ?? content.h1, item: `${siteUrl}${canonicalUrl}` },
     ],
   };

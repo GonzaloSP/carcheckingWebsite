@@ -55,6 +55,18 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
         title: 'Diferencia entre CABA y Provincia de Buenos Aires',
         body: 'CABA y la Provincia de Buenos Aires tienen registros completamente independientes. Si un vehículo circuló por rutas provinciales o municipios del conurbano, esas infracciones no aparecen en la consulta de CABA. Para una verificación completa, consultá también "Provincia de Buenos Aires" y "ANSV / SINAI".',
       },
+      {
+        title: '¿Qué hacer si encontrás multas en CABA?',
+        body: 'Si la consulta muestra infracciones, tenés tres opciones: pagar dentro del plazo de 30 días para acceder al descuento por pronto pago (generalmente 20–30 %), solicitar un plan de pagos en cuotas si el importe es elevado, o presentar un descargo ante el Juzgado de Tránsito correspondiente si considerás que la multa fue labrada incorrectamente. El portal de carChecking te muestra el estado actualizado de cada infracción para que puedas decidir rápido.',
+      },
+      {
+        title: 'Consultar multas de CABA antes de comprar un auto usado',
+        body: 'Una de las razones más frecuentes para consultar multas en CABA es verificar un vehículo usado antes de comprarlo. Las infracciones quedan registradas al dominio (la patente), no al conductor, por lo que el comprador hereda las deudas de tránsito del titular anterior. Consultá siempre CABA, Provincia de Buenos Aires y ANSV/SINAI antes de cerrar la compra de un usado en el área metropolitana.',
+      },
+      {
+        title: '¿Con qué frecuencia conviene consultar las multas en CABA?',
+        body: 'Si usás el auto en la ciudad regularmente, es recomendable consultar el registro del GCBA cada 30 a 60 días. Las fotomultas de velocidad y semáforo en rojo pueden aparecer con demora de hasta 72 horas hábiles. Revisarlo con frecuencia te permite detectar infracciones dentro del plazo de descuento y evitar que acumulen intereses.',
+      },
     ],
     faq: [
       {
@@ -72,6 +84,22 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
       {
         q: '¿La consulta accede al portal oficial del GCBA?',
         a: 'Sí. Consultamos directamente el sistema de infracciones oficial de buenosaires.gob.ar. Los datos que ves son los mismos que obtendrías consultando manualmente en el portal del Gobierno de la Ciudad.',
+      },
+      {
+        q: '¿Qué pasa si el resultado dice "sin multas" pero tengo una infracción reciente?',
+        a: 'Las fotomultas de CABA pueden tardar hasta 72 horas hábiles en aparecer en el sistema del GCBA desde que se registran. Si recibiste una notificación pero no figura en la consulta, esperá 3 días hábiles y volvé a verificar.',
+      },
+      {
+        q: '¿Puedo consultar multas de un auto que voy a comprar?',
+        a: 'Sí. Podés ingresar la patente de cualquier vehículo. Es muy recomendable hacerlo antes de comprar un usado para evitar heredar deudas de infracciones del titular anterior, ya que las multas quedan asociadas al dominio (la patente), no a la persona.',
+      },
+      {
+        q: '¿Las fotomultas de CABA aparecen en el resultado?',
+        a: 'Sí. El sistema del GCBA incluye fotomultas de velocidad (Av. 9 de Julio, accesos, autopistas), cruce en rojo de semáforos y otras infracciones automáticas. Todas se muestran en la consulta junto con su fecha, importe y estado de pago.',
+      },
+      {
+        q: '¿La consulta de CABA incluye la deuda de patentes (AGIP)?',
+        a: 'No. Las multas de tránsito (sistema del GCBA) y el impuesto a la patente automotor (AGIP) son registros separados. En carChecking consultamos ambos: las multas en la pestaña "Multas" y la deuda de patentes en la pestaña "Patentes".',
       },
     ],
   },
