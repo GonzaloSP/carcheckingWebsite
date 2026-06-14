@@ -17,7 +17,7 @@ export async function generateMetadata({
     return { title: 'VTV | carChecking' };
   }
   const place = location.name;
-  const canonicalUrl = `https://www.carchecking.com.ar/vtv-en/${slug}/`;
+  const canonicalUrl = `https://www.carchecking.com.ar/vtv-en/${slug}`;
   return {
     title: `VTV en ${place} – Turno, requisitos y costos 2026 | carChecking`,
     description: `Guía 2026 para hacer la VTV en ${place}: cómo sacar turno, requisitos, qué te revisan, costos orientativos y consejos para aprobar sin sorpresas.`,

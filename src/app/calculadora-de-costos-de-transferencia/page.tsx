@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     'estimador de costos de transferencia, calculadora de transferencia, simulador de transferencia, estimador de costos dnrpa, costo transferencia auto, aranceles dnrpa',
   alternates: {
     canonical:
-      'https://www.carchecking.com.ar/calculadora-de-costos-de-transferencia/',
+      'https://www.carchecking.com.ar/calculadora-de-costos-de-transferencia',
   },
   openGraph: {
     type: 'website',

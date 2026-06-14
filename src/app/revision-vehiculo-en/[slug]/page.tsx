@@ -17,7 +17,7 @@ export async function generateMetadata({
     return { title: 'Revisión de Vehículo | carChecking' };
   }
   const place = location.name;
-  const canonicalUrl = `https://www.carchecking.com.ar/revision-vehiculo-en/${slug}/`;
+  const canonicalUrl = `https://www.carchecking.com.ar/revision-vehiculo-en/${slug}`;
   return {
     title: `Revisión de vehículo en ${place} | carChecking`,
     description: `Servicio de revisión/inspección de autos usados en ${place}. Mecánico a domicilio, escaneo computarizado y reporte escrito con fotos. Coordiná un turno.`,

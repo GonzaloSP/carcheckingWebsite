@@ -17,7 +17,7 @@ export async function generateMetadata({
     return { title: 'Verificación Policial | carChecking' };
   }
   const place = location.name;
-  const canonicalUrl = `https://www.carchecking.com.ar/verificacion-policial-en/${slug}/`;
+  const canonicalUrl = `https://www.carchecking.com.ar/verificacion-policial-en/${slug}`;
   return {
     title: `Verificación policial en ${place} – Requisitos y costos | carChecking`,
     description: `Guía práctica para hacer la verificación policial en ${place}: cuándo conviene, qué papeles llevar, cuánto puede costar y consejos para comprar/vender sin sorpresas.`,

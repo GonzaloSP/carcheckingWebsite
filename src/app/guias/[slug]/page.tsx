@@ -16,7 +16,7 @@ export async function generateMetadata({
   if (!article) {
     return { title: 'Artículo no encontrado | carChecking' };
   }
-  const canonicalUrl = `https://www.carchecking.com.ar/guias/${article.slug}/`;
+  const canonicalUrl = `https://www.carchecking.com.ar/guias/${article.slug}`;
   const ogImage = new URL(article.image, 'https://www.carchecking.com.ar/').toString();
   return {
     title: article.metaTitle,

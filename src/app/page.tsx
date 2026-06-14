@@ -7,10 +7,10 @@ export const metadata: Metadata = {
     'Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. Escaneo computarizado, informe escrito con fotos. CABA y GBA.',
   keywords:
     'inspección vehicular, revisión de autos, compra segura de autos usados, mecánico a domicilio, escaneo computarizado, carChecking Argentina, verificación de vehículos',
-  alternates: { canonical: 'https://www.carchecking.com.ar/' },
+  alternates: { canonical: 'https://www.carchecking.com.ar' },
   openGraph: {
     type: 'website',
-    url: 'https://www.carchecking.com.ar/',
+    url: 'https://www.carchecking.com.ar',
     title: 'carChecking | Inspección de Vehículos a Domicilio',
     description:
       'Servicio profesional de revisión de vehículos usados a domicilio. Más de 350 puntos inspeccionados. CABA y GBA.',

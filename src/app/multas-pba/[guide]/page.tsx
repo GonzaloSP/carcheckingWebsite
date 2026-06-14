@@ -16,7 +16,7 @@ export async function generateMetadata({
   if (!content) {
     return { title: 'Multas Provincia de Buenos Aires | carChecking' };
   }
-  const canonicalUrl = `https://www.carchecking.com.ar/multas-pba/${content.slug}/`;
+  const canonicalUrl = `https://www.carchecking.com.ar/multas-pba/${content.slug}`;
   return {
     title: content.seoTitle,
     description: content.seoDescription,
