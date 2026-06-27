@@ -331,6 +331,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       { title: 'Cómo consultar multas en CABA', url: '/multas-caba/como-consultar', description: 'Guía paso a paso para verificar infracciones por patente en el portal oficial del GCBA.' },
       { title: 'Cómo pagar multas en CABA', url: '/multas-caba/como-pagar', description: 'Medios de pago disponibles, descuentos por pronto pago y canales oficiales.' },
       { title: 'Plan de pagos de multas CABA', url: '/multas-caba/plan-de-pagos', description: 'Cómo solicitar cuotas para infracciones de alto importe en el GCBA.' },
+      { title: 'Multas Provincia de Buenos Aires', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Consultá infracciones en el conurbano y los 135 municipios bonaerenses.' },
     ],
   },
 
@@ -370,6 +371,10 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         q: '¿La Plata tiene sistema propio de fotomultas municipal?',
         a: 'La Plata ha implementado controles de velocidad en las avenidas principales. Las fotomultas municipales se registran en el sistema de la Municipalidad de La Plata.',
       },
+    ],
+    relatedGuides: [
+      { title: 'Multas Provincia de Buenos Aires por patente', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'InfraccionesBA cubre La Plata y los 135 municipios bonaerenses.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
     ],
   },
 
@@ -445,6 +450,10 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         a: 'Depende del organismo que labró la infracción. Las multas municipales de Avellaneda van al sistema SIAC del municipio; las de la Policía Bonaerense o rutas provinciales van a InfraccionesBA.',
       },
     ],
+    relatedGuides: [
+      { title: 'Multas Provincia de Buenos Aires', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Las multas de la Bonaerense en Avellaneda aparecen en InfraccionesBA.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
+    ],
   },
 
   'multas-lanus': {
@@ -483,6 +492,11 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
         q: '¿Lanús tiene fotomultas propias o usa el sistema provincial?',
         a: 'Lanús tiene su propio sistema municipal de fotomultas gestionado por Infratrack. Las infracciones en rutas nacionales o provinciales que cruzan el partido pueden estar en registros distintos (ANSV o PBA).',
       },
+    ],
+    relatedGuides: [
+      { title: 'Multas Provincia de Buenos Aires', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Las rutas bonaerenses en Lanús pueden tener multas en InfraccionesBA.' },
+      { title: 'Multas en Ezeiza por patente', url: '/consultar-multa/multas-ezeiza', description: 'Consultá infracciones de Ezeiza vía el mismo sistema Infratrack.' },
+      { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Verificá infracciones nacionales en autopistas y rutas federales.' },
     ],
   },
 
