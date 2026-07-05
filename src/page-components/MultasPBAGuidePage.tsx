@@ -17,7 +17,7 @@ export default function MultasPBAGuidePage({ guide }: { guide: string }) {
   if (!content) return null;
 
   const related = PBA_GUIDE_RELATED_LINKS[guide!] ?? [];
-  const canonicalUrl = `/multas-pba/${content.slug}/`;
+  const canonicalUrl = `/multas-pba/${content.slug}`;
   const siteUrl = 'https://www.carchecking.com.ar';
 
   const breadcrumbSchema = {
@@ -25,7 +25,7 @@ export default function MultasPBAGuidePage({ guide }: { guide: string }) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
-      { '@type': 'ListItem', position: 2, name: 'Multas Provincia de Buenos Aires', item: `${siteUrl}/consultar-multa/multas-provincia-buenos-aires/` },
+      { '@type': 'ListItem', position: 2, name: 'Multas Provincia de Buenos Aires', item: `${siteUrl}/consultar-multa/multas-provincia-buenos-aires` },
       { '@type': 'ListItem', position: 3, name: SLUG_TO_LABEL[content.slug] ?? content.h1, item: `${siteUrl}${canonicalUrl}` },
     ],
   };
@@ -69,7 +69,7 @@ export default function MultasPBAGuidePage({ guide }: { guide: string }) {
             <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-[#B8B2AA] mb-6 flex-wrap">
               <Link href="/" className="hover:text-[#C8A161] transition-colors">Inicio</Link>
               <ChevronRight className="w-3 h-3 text-[#555]" />
-              <Link href="/consultar-multa/multas-provincia-buenos-aires/" className="hover:text-[#C8A161] transition-colors">Multas Provincia de Buenos Aires</Link>
+              <Link href="/consultar-multa/multas-provincia-buenos-aires" className="hover:text-[#C8A161] transition-colors">Multas Provincia de Buenos Aires</Link>
               <ChevronRight className="w-3 h-3 text-[#555]" />
               <span className="text-[#C8A161]">{SLUG_TO_LABEL[content.slug] ?? content.h1}</span>
             </nav>
@@ -107,7 +107,7 @@ export default function MultasPBAGuidePage({ guide }: { guide: string }) {
                 <p className="text-xs text-[#B8B2AA]">Acceso directo al portal InfraccionesBA. Gratis.</p>
               </div>
               <Link
-                href="/consultar-multa/multas-provincia-buenos-aires/"
+                href="/consultar-multa/multas-provincia-buenos-aires"
                 className="btn-primary flex items-center gap-2 text-sm whitespace-nowrap"
               >
                 Consultar patente <ArrowRight className="w-4 h-4" />

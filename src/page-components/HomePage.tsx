@@ -9,6 +9,7 @@ import WhatWeCheckSection from '../sections/WhatWeCheckSection';
 import HowItWorksSection from '../sections/HowItWorksSection';
 import CoverageSection from '../sections/CoverageSection';
 import ServicesSection from '../sections/ServicesSection';
+import MultasToolsSection from '../sections/MultasToolsSection';
 import TestimonialsSection from '../sections/TestimonialsSection';
 import BookingSection from '../sections/BookingSection';
 import FooterSection from '../sections/FooterSection';
@@ -76,6 +77,7 @@ function HomePage() {
           <HeroSection />
           <WhyInspectSection />
           <ServicesSection />
+          <MultasToolsSection />
           <WhatWeCheckSection />
           <HowItWorksSection />
           <CoverageSection />

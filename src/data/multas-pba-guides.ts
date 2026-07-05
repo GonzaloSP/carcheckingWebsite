@@ -193,18 +193,18 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
 
 export const PBA_GUIDE_RELATED_LINKS: Record<string, { title: string; url: string; description: string }[]> = {
   'como-consultar': [
-    { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar/', description: 'Canales de pago, descuentos y juzgados municipales.' },
-    { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba/', description: 'Consultá el impuesto automotor por dominio.' },
-    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires/', description: 'Buscá la patente y verificá en tiempo real.' },
+    { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar', description: 'Canales de pago, descuentos y juzgados municipales.' },
+    { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba', description: 'Consultá el impuesto automotor por dominio.' },
+    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Buscá la patente y verificá en tiempo real.' },
   ],
   'como-pagar': [
-    { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar/', description: 'Guía paso a paso para verificar infracciones.' },
-    { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba/', description: 'Consultá el impuesto automotor por dominio.' },
-    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires/', description: 'Buscá la patente y verificá en tiempo real.' },
+    { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar', description: 'Guía paso a paso para verificar infracciones.' },
+    { title: 'Deuda de patentes ARBA', url: '/multas-pba/deuda-patentes-arba', description: 'Consultá el impuesto automotor por dominio.' },
+    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Buscá la patente y verificá en tiempo real.' },
   ],
   'deuda-patentes-arba': [
-    { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar/', description: 'Guía paso a paso para verificar infracciones.' },
-    { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar/', description: 'Canales de pago, descuentos y juzgados municipales.' },
-    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires/', description: 'Buscá la patente y verificá en tiempo real.' },
+    { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar', description: 'Guía paso a paso para verificar infracciones.' },
+    { title: 'Cómo pagar multas en PBA', url: '/multas-pba/como-pagar', description: 'Canales de pago, descuentos y juzgados municipales.' },
+    { title: 'Consultar multas en PBA', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Buscá la patente y verificá en tiempo real.' },
   ],
 };

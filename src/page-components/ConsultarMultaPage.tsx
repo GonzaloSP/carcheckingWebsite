@@ -1953,7 +1953,7 @@ export default function ConsultarMultaPage({
                             href={`/consultar-multa/${j.slug}`}
                             className="block p-4 bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg hover:border-[#C8A161]/50 transition-colors group"
                           >
-                            <p className="text-sm font-semibold text-[#C8A161] group-hover:text-[#d4b070] leading-snug">{j.label}</p>
+                            <p className="text-sm font-semibold text-[#C8A161] group-hover:text-[#d4b070] leading-snug">Multas {j.label}</p>
                             <p className="text-xs text-[#555] mt-0.5">{j.sub}</p>
                           </Link>
                         ))

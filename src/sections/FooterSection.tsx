@@ -194,6 +194,77 @@ export default function FooterSection() {
         ref={footerRef}
         className="border-t border-[#2a2a2c] py-8 px-6 lg:px-12"
       >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto mb-10">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[#5a5a5c] mb-3">Consultar multas</p>
+            <ul className="space-y-2">
+              {[
+                { label: 'Multas CABA', href: '/consultar-multa/multas-caba' },
+                { label: 'Multas Provincia de Buenos Aires', href: '/consultar-multa/multas-provincia-buenos-aires' },
+                { label: 'Multas Rosario', href: '/consultar-multa/multas-rosario' },
+                { label: 'Multas Santa Fe', href: '/consultar-multa/multas-santa-fe' },
+                { label: 'Multas Entre Ríos', href: '/consultar-multa/multas-entre-rios' },
+                { label: 'Todas las jurisdicciones', href: '/consultar-multa' },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[#5a5a5c] mb-3">Guías de multas</p>
+            <ul className="space-y-2">
+              {[
+                { label: 'Cómo consultar multas en CABA', href: '/multas-caba/como-consultar' },
+                { label: 'Cómo pagar multas en CABA', href: '/multas-caba/como-pagar' },
+                { label: 'Cómo consultar multas en PBA', href: '/multas-pba/como-consultar' },
+                { label: 'Cómo pagar multas en PBA', href: '/multas-pba/como-pagar' },
+                { label: 'Deuda de patentes ARBA', href: '/multas-pba/deuda-patentes-arba' },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[#5a5a5c] mb-3">Herramientas</p>
+            <ul className="space-y-2">
+              {[
+                { label: 'Calculadora de transferencia', href: '/calculadora-de-costos-de-transferencia' },
+                { label: 'Consultar multas por patente', href: '/consultar-multa' },
+                { label: 'Guías y artículos', href: '/guias' },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[#5a5a5c] mb-3">Servicios</p>
+            <ul className="space-y-2">
+              {[
+                { label: 'Inspección pre compra a domicilio', href: '/guias/inspeccion-pre-compra-auto-a-domicilio' },
+                { label: 'Servicio de gestoría', href: '/servicio-gestoria' },
+                { label: 'Solicitar turno', href: '/solicitar-turno' },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm text-[#B8B2AA] hover:text-[#C8A161] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-[#5a5a5c]">
             © carChecking 2011–2026. Todos los derechos reservados.
