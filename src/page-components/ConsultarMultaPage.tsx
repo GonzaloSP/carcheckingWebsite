@@ -218,8 +218,11 @@ export default function ConsultarMultaPage({
   // Controlled via NEXT_PUBLIC_MULTA_FREE env var.
   // 'true'  → hybrid mode: Córdoba + Salta free, rest gated behind payment
   // anything else (including unset) → fully free, no payment
-  // ?dev=nocobrar URL param also bypasses payment for testing purposes
+  // ?dev=nocobrar URL param also bypasses payment for testing purposes. Captcha-costing
+  // fuentes are still gated server-side (MULTA_DEV_BYPASS_KEY) — dev=nocobrar alone isn't
+  // enough, since it's a public URL param. Pass the shared secret via ?devKey=... too.
   const devNoCobrar = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === 'nocobrar';
+  const devKeyParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('devKey') : null;
   const freeMode = process.env.NEXT_PUBLIC_MULTA_FREE !== 'true' || devNoCobrar;
 
   const [dominio, setDominio]             = useState('');
@@ -767,7 +770,8 @@ export default function ConsultarMultaPage({
     // Get reCAPTCHA v3 token (invisible — no user interaction)
     let rcToken = '';
     try { rcToken = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
-    const rc = rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '';
+    const devSuffix = devKeyParam ? `&devKey=${encodeURIComponent(devKeyParam)}` : '';
+    const rc = (rcToken ? `&rcToken=${encodeURIComponent(rcToken)}` : '') + devSuffix;
 
     runAuxQueries(clean, rc);
     runFuenteQueries(clean, fuentes, rc);

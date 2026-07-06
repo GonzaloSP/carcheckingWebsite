@@ -2294,6 +2294,13 @@ const CAPTCHA_FUENTES = new Set([
 // Enable enforcement in hybrid/paid deployments. Leave unset for fully-free mode.
 const REQUIRE_PAYMENT = process.env.MULTA_REQUIRE_PAYMENT === 'true';
 
+// Lets a developer bypass the payment gate for manual testing (e.g. the frontend's
+// ?dev=nocobrar mode) without touching CAPTCHA_FUENTES or the CapSolver→2captcha
+// order. Must be a server-only secret — never bake it into the public frontend
+// bundle — because dev=nocobrar itself is a public, guessable URL param; without a
+// secret gate, anyone could use it to get paid captcha solves for free.
+const DEV_BYPASS_KEY = process.env.MULTA_DEV_BYPASS_KEY || '';
+
 // Read a query param robustly. In this Appwrite/open-runtimes setup `req.query` is
 // not reliably populated for domain (HTTP) invocations — especially trailing params
 // after a long value like rcToken — so we also parse the raw request URL/path.
@@ -2382,13 +2389,17 @@ export default async ({ req, res, log, error: logError }) => {
   // ── Payment gate — never trigger a paid captcha solve without a verified payment ──
   // Runs BEFORE the two-step flow (step 1 is where the captcha task is submitted = cost).
   if (REQUIRE_PAYMENT && CAPTCHA_FUENTES.has(fuente)) {
-    const extRef = readQueryParam(req, 'extRef', 'external_reference');
-    const paid = await verifyPayment(extRef, clean);
-    if (!paid) {
-      return res.json(
-        { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
-        402,
-      );
+    const devKey = readQueryParam(req, 'devKey');
+    const devBypass = Boolean(DEV_BYPASS_KEY) && devKey === DEV_BYPASS_KEY;
+    if (!devBypass) {
+      const extRef = readQueryParam(req, 'extRef', 'external_reference');
+      const paid = await verifyPayment(extRef, clean);
+      if (!paid) {
+        return res.json(
+          { error: 'PAYMENT_REQUIRED', message: 'Esta consulta forma parte del informe completo.', fuente, infracciones: [] },
+          402,
+        );
+      }
     }
   }
 

@@ -24,6 +24,9 @@ Set these in the Appwrite console under **Functions → multas → Settings → 
 | `TWOCAPTCHA_API_KEY` | Yes (fallback) | 2captcha.com API key — used when Capsolver is unavailable |
 | `CAPSOLVER_API_KEY` | Recommended | capsolver.com API key — preferred; faster and higher score for reCAPTCHA v3 |
 | `RECAPTCHA_SECRET_KEY` | Optional | Google reCAPTCHA v3 secret — validates tokens from the frontend form |
+| `MULTA_REQUIRE_PAYMENT` | Optional | Set to `true` to gate captcha-costing fuentes behind a verified MercadoPago payment |
+| `MP_ACCESS_TOKEN` | Yes, if `MULTA_REQUIRE_PAYMENT=true` | MercadoPago API token used to verify payments server-side |
+| `MULTA_DEV_BYPASS_KEY` | Optional | Shared secret that lets `?dev=nocobrar&devKey=<this value>` skip the payment gate for manual testing. Never expose this in frontend code/env — it must stay server-only |
 
 ## Deployment
 
