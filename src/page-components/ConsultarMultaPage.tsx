@@ -82,11 +82,13 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
   const dominio = params.get('dominio') ?? '';
   const extRef = params.get('extRef') ?? '';
   const extRefQs = extRef ? `&extRef=${encodeURIComponent(extRef)}` : '';
+  const devKey = params.get('devKey') ?? '';
+  const devKeyQs = devKey ? `&devKey=${encodeURIComponent(devKey)}` : '';
 
   // ── Two-step flow for ANSV, CABA, PBA, Córdoba ────────────────────────────
-  // extRef must ride along to step 1 — that's where the captcha task is submitted (cost).
+  // extRef/devKey must ride along to step 1 — that's where the captcha task is submitted (cost).
   if (TWO_STEP_FUENTES.has(fuente)) {
-    const step1 = await multasExec(`/?fuente=${fuente}&dominio=${dominio}&step=1${extRefQs}`, 'GET', null, signal);
+    const step1 = await multasExec(`/?fuente=${fuente}&dominio=${dominio}&step=1${extRefQs}${devKeyQs}`, 'GET', null, signal);
     if (!step1.ok) return step1;
     const s1 = await step1.json();
     if (s1.error) return new Response(JSON.stringify(s1), { status: 502, headers: { 'Content-Type': 'application/json' } });
@@ -95,7 +97,7 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
     await new Promise(r => setTimeout(r, TWO_STEP_WAIT_MS[fuente] ?? 35000));
 
     return multasExec(
-      `/?fuente=${fuente}&dominio=${dominio}&step=2${extRefQs}`,
+      `/?fuente=${fuente}&dominio=${dominio}&step=2${extRefQs}${devKeyQs}`,
       'POST',
       JSON.stringify({ taskMeta, session }),
       signal,
