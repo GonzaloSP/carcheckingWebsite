@@ -1190,17 +1190,31 @@ async function fetchMendozaCaminera(dominio) {
 }
 
 // ─── Salta Capital ────────────────────────────────────────────────────────────
+const SALTA_SITE_KEY = '6LcO31EpAAAAACskh5BK2bB86lwBjRxTp5leeiz4';
+const SALTA_PAGE_URL = 'https://rentas.dgrmsalta.gov.ar/automotores/emision-boletas/historial-multas-transito';
+
 async function fetchSalta(dominio) {
+  // Portal enforces reCAPTCHA v3 server-side with a score threshold that proxyless
+  // CapSolver/2captcha solves can't reliably clear (still tries CapSolver → 2captcha
+  // first — occasionally succeeds — but degrades gracefully to manualUrl on rejection,
+  // same pattern as ARBA/VTV Santa Fe, rather than a hard error).
+  const recaptcha = await solveRecaptchaV3(SALTA_SITE_KEY, SALTA_PAGE_URL, 'Automotor/ConsultaDominio', 0.9);
+
   const res = await http.post(
     'https://rentas.dgrmsalta.gov.ar/api/automotores/multas',
-    { dominio, recaptcha: '' },
+    { dominio, recaptcha },
     {
       headers:        { 'Content-Type': 'application/json', Accept: 'application/json' },
-      validateStatus: s => s === 200 || s === 404 || s === 400,
+      validateStatus: s => s === 200 || s === 404 || s === 400 || s === 401,
     }
   );
 
   if (res.status === 404 || /no pos[eé]{1,2} multas/i.test(res.data?.message || '')) return [];
+  if (res.status === 401) {
+    const err = new Error('MANUAL_REQUIRED');
+    err.manualUrl = SALTA_PAGE_URL;
+    throw err;
+  }
   if (res.status === 400) throw new Error(`Salta: ${res.data?.message || 'Dominio inválido.'}`);
 
   const list = res.data?.multas || [];
@@ -2287,7 +2301,7 @@ async function verifyCaptcha(token) {
 // are intentionally NOT in this set and stay free.
 const CAPTCHA_FUENTES = new Set([
   'ansv', 'caba', 'pba', 'cordoba', 'dnrpa',   // two-step reCAPTCHA (cost incurred at step 1)
-  'rosario', 'tresdefebrero', 'agip',          // reCAPTCHA v2/v3
+  'rosario', 'tresdefebrero', 'agip', 'salta', // reCAPTCHA v2/v3
   'vtv-cordoba', 'arba',                        // image captcha
 ]);
 
