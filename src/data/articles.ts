@@ -688,6 +688,8 @@ Antes de comprar, revisá el tema multas porque:
 - Pueden generar deudas
 - En algunos casos pueden trabar trámites o sumar costos inesperados
 
+Podés [consultar las multas por patente](/consultar-multa) gratis — el registro es distinto en cada jurisdicción, por ejemplo [CABA](/consultar-multa/multas-caba) y [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires).
+
 Consejo: dejá claro por escrito cómo se resuelve (quién paga qué) antes de cerrar.
 
 ## 5) VTV vencida: ¿es “no comprar”?
@@ -1248,7 +1250,7 @@ Lo importante es que **lo hablen antes de señar** y lo dejen claro (aunque sea 
 No siempre. **Se negocia**. Pero en operaciones entre particulares, lo más habitual es que el **comprador** pague los **aranceles del registro** y los **sellos**. Si se acuerda “50/50” o si hay agencia/gestoría incluida, puede cambiar.
 
 ### ¿Qué paga el vendedor sí o sí?
-El vendedor debería **entregar el vehículo y la documentación en regla** (y firmar lo necesario). Si tiene **multas, patentes u otras deudas a su nombre** que impiden transferir o encarecen el cierre, lo razonable es que las **regularice** o que se **descuenten del precio**.
+El vendedor debería **entregar el vehículo y la documentación en regla** (y firmar lo necesario). Si tiene **multas, patentes u otras deudas a su nombre** que impiden transferir o encarecen el cierre, lo razonable es que las **regularice** o que se **descuenten del precio**. Antes de cerrar, [consultá las multas por patente](/consultar-multa) para saber si hay deuda.
 
 ### ¿Quién paga sellos, verificación y gestoría?
 - **Sellos/impuestos provinciales:** suelen ir a cargo del **comprador**, salvo acuerdo distinto.
@@ -1542,7 +1544,7 @@ No todos los autos del mismo modelo valen lo mismo. Acá van los factores clave:
 - **Detalles estéticos** (abolladuras, tapizado roto, plásticos dañados)
 - **Mecánica pendiente** (embrague, distribución, suspensión)
 - **GNC mal instalado o vencido**
-- **Deuda de patentes, multas o infracciones**
+- **Deuda de patentes, [multas o infracciones](/consultar-multa)**
 
 ---
 
@@ -1674,7 +1676,7 @@ Estos costos son elevados y, salvo que se negocie otra cosa, los asume el compra
 ### Lo que paga el vendedor
 
 - **Verificación policial**: es requisito para vender y debe estar al día. El vendedor tiene que presentar la verificación vigente.
-- **Deudas de patentes, multas o infracciones**: si el auto tiene deuda, el vendedor debería saldarla antes de la venta (o descontarla del precio).
+- **Deudas de patentes, multas o infracciones**: si el auto tiene deuda, el vendedor debería saldarla antes de la venta (o descontarla del precio). Podés [verificar las multas por patente](/consultar-multa) antes de firmar.
 
 > **Tip:** siempre conviene dejar claro quién paga qué **antes** de cerrar el trato.
 
@@ -2033,6 +2035,8 @@ La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más 
 
 Si buscás hacer la VTV en CABA, esta guía tiene todo: **plantas con horarios y direcciones**, cómo **sacar turno paso a paso**, precios actualizados por categoría, checklist de documentos y qué hacer si te rechazan.
 
+> **Tip:** ya que estás poniendo los papeles al día, aprovechá para [consultar las multas de CABA por patente](/consultar-multa/multas-caba) — es gratis y tarda un minuto.
+
 ---
 
 ## Plantas VTV en CABA: direcciones y horarios 2026
@@ -2349,7 +2353,7 @@ Lo que más mueve el precio:
 - neumáticos y frenos (gastos inmediatos),
 - pérdidas, ruidos, service pendiente,
 - fallas electrónicas detectadas por escaneo,
-- documentación (multas, deudas, prenda, etc.).
+- documentación ([multas](/consultar-multa), deudas, prenda, etc.).
 
 Por eso, si podés, hacé una inspección y llevá el informe a la negociación.
 
@@ -2734,7 +2738,7 @@ Mucha gente compra un auto y se queda con el **08 firmado** para “transferir d
 
 - Si vence el 08, necesitás al vendedor otra vez.
 - Si perdés contacto con el titular, el trámite se complica.
-- El auto sigue a nombre del vendedor (responsabilidad civil, multas, etc.).
+- El auto sigue a nombre del vendedor (responsabilidad civil, [multas](/consultar-multa), etc.).
 
 ---
 
@@ -3375,7 +3379,7 @@ Para un cálculo exacto usá nuestra [calculadora de costos de transferencia](/g
 ## Antes de firmar: checklist de la transferencia de auto
 
 - Pedí el [informe de dominio](/guias/informe-de-dominio-auto-argentina-caba-gba): muestra si tiene prenda, embargo o inhibición.
-- Verificá multas y patentes adeudadas: una deuda puede trabar el trámite.
+- Verificá [multas en Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires) y patentes adeudadas: una deuda puede trabar el trámite. Si el auto está radicado en Capital, revisá también [multas en CABA](/consultar-multa/multas-caba).
 - Si el precio supera el umbral de CeTA, tené el certificado listo antes de ir al registro.
 - No pagues el total sin tener el 08 firmado y certificado en mano.
 ` ,
@@ -3443,6 +3447,8 @@ La consulta cambia por provincia/municipio. En general necesitás:
 - dominio/patente,
 - en algunos casos datos adicionales.
 
+Las **multas de tránsito** van por registro separado de la patente: podés consultarlas gratis en [CABA](/consultar-multa/multas-caba), [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires) y otras jurisdicciones.
+
 ---
 
 ## Qué hacer si hay deuda
@@ -3475,7 +3481,7 @@ Guía complementaria:
 Antes de pagar un auto usado, hacé estos pasos:
 
 ### 1) Infracciones de tránsito
-Revisá multas en la jurisdicción donde circula/radica.
+Revisá multas en la jurisdicción donde circula/radica: [multas en CABA](/consultar-multa/multas-caba), [multas en Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires) o [cualquier otra jurisdicción](/consultar-multa).
 
 ### 2) Deuda de patentes
 - [Cómo revisar deuda de patentes](/guias/como-saber-si-auto-tiene-deuda-de-patentes)
@@ -3756,6 +3762,105 @@ Depende del modelo: puede afectar autonomía/consumo y puede ser costoso. Por es
 Coordinamos una inspección precompra con revisión completa + escaneo.
 
 - Solicitar turno: [/solicitar-turno](/solicitar-turno)
+`,
+  },
+  {
+    id: 'estimador-costos-dnrpa',
+    slug: 'estimador-de-costos-dnrpa',
+    title: 'Estimador de Costos DNRPA: cómo usarlo y calcular tu transferencia (2026)',
+    excerpt:
+      'Qué es el estimador de costos de la DNRPA, cómo usarlo paso a paso para calcular una transferencia, qué incluye el resultado y una calculadora online para obtener el estimado al instante.',
+    author: 'carChecking',
+    date: '2026-07-05',
+    category: 'Documentación',
+    tags: ['estimador de costos', 'DNRPA', 'transferencia', 'aranceles', 'costos', '2026'],
+    image: `${base}images/hero_car.jpg`,
+    metaTitle: 'Estimador de Costos DNRPA 2026: cómo usarlo + calculadora online | carChecking',
+    metaDescription:
+      'Guía del estimador de costos DNRPA: dónde está, cómo usarlo paso a paso y qué incluye. Calculá acá mismo el costo de transferencia de tu auto en 30 segundos.',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: '¿Qué es el estimador de costos de la DNRPA?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Es la herramienta oficial de la Dirección Nacional del Registro de la Propiedad del Automotor (dnrpa.gov.ar) para estimar cuánto cuesta un trámite registral: transferencia, inscripción inicial, cédulas y otros. Calcula los aranceles según el tipo de trámite, el vehículo y su valuación.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: '¿El estimador de la DNRPA incluye todos los costos de la transferencia?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Incluye los aranceles registrales y formularios del trámite. Los sellos o impuestos provinciales y los honorarios de gestoría pueden no estar reflejados según la jurisdicción, por lo que conviene sumarlos aparte para tener el costo total.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: '¿Cuánto cuesta transferir un auto en 2026?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Depende del valor de tasación del vehículo y de la jurisdicción: el componente principal es un porcentaje de la valuación DNRPA (arancel de transferencia) más sellos provinciales y formularios. Con una calculadora online podés obtener un estimado en segundos ingresando el precio del vehículo.',
+          },
+        },
+      ],
+    },
+    content: `
+## Qué es el estimador de costos de la DNRPA
+
+El **estimador de costos** es la herramienta oficial de la **DNRPA** (Dirección Nacional del Registro de la Propiedad del Automotor) para calcular cuánto vas a pagar por un trámite registral: **transferencia**, inscripción inicial (0 km), duplicado de cédula, alta o baja, entre otros.
+
+Se usa desde el sitio oficial **dnrpa.gov.ar** y devuelve un desglose de aranceles según el tipo de trámite, el tipo de vehículo (auto o moto) y su **valuación en la tabla DNRPA**.
+
+Si lo que querés es el número rápido para una transferencia, podés calcularlo acá mismo:
+
+[[transfer_cost_calculator]]
+
+---
+
+## Cómo usar el estimador de costos oficial, paso a paso
+
+1. **Entrá a dnrpa.gov.ar** y buscá la opción "Estimador de costos" dentro de la sección de trámites.
+2. **Elegí el trámite**: para un usado, "Transferencia". Para un 0 km, "Inscripción inicial".
+3. **Seleccioná el tipo de vehículo**: automotor o motovehículo.
+4. **Indicá el vehículo** (marca, modelo, año) para que el sistema tome la **valuación de la tabla DNRPA**, o cargá el valor si el sistema lo pide.
+5. El estimador te muestra el **detalle de aranceles y formularios** del trámite.
+
+> **Importante:** el sitio oficial puede estar lento o en mantenimiento en horarios pico. El cálculo también podés hacerlo con nuestra [calculadora de costos de transferencia](/calculadora-de-costos-de-transferencia), que usa los mismos conceptos (aranceles + sellos) y funciona al instante.
+
+---
+
+## Qué incluye (y qué no) el resultado
+
+| Concepto | ¿Está en el estimador? |
+|---|---|
+| Arancel de transferencia (≈ % de la valuación DNRPA) | Sí |
+| Formularios y aranceles fijos del registro | Sí |
+| Sellos / impuestos provinciales | Depende de la jurisdicción |
+| Honorarios de gestoría | No |
+| Deudas del vehículo (patentes, multas) | No |
+
+Dos cosas que el estimador **no** te avisa y conviene chequear antes de transferir:
+
+- **Deuda de patentes**: [cómo revisarla antes de comprar](/guias/como-saber-si-auto-tiene-deuda-de-patentes).
+- **Multas pendientes**: quedan asociadas al dominio y pueden trabar el trámite. Podés [consultarlas por patente](/consultar-multa) gratis.
+
+---
+
+## La valuación DNRPA manda
+
+Aunque declares un precio de compraventa menor, el registro calcula los aranceles sobre la **tabla de valuación DNRPA** como base mínima. Por eso dos autos del mismo precio de venta pueden pagar transferencias distintas.
+
+Para entender el desglose completo del trámite (quién paga qué, plazos y documentación), mirá nuestra guía de [costos de transferencia de un auto usado](/guias/costo-transferencia-auto-usado-argentina).
+
+---
+
+## ¿Preferís no hacer el trámite vos?
+
+Nuestro [servicio de gestoría](/servicio-gestoria) se encarga de la transferencia de punta a punta: turno en el registro, formularios, y control de que el vehículo esté en condiciones de transferirse.
 `,
   },
 

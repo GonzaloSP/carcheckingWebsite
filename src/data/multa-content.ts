@@ -1,4 +1,7 @@
 export interface MultaContent {
+  // seoTitle/seoDescription/seoKeywords are NOT rendered anywhere.
+  // The page <title>/meta come from metaTitle/metaDescription in
+  // multa-jurisdictions.ts — edit those to change what Google shows.
   seoTitle: string;
   seoDescription: string;
   seoKeywords: string;
@@ -282,7 +285,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     seoTitle: 'Multas en CABA: Consultar Infracciones por Patente | carChecking',
     seoDescription: 'Consultá multas e infracciones de tránsito en CABA por patente. Accedemos al portal oficial del GCBA — fotomultas, estacionamiento, semáforos y más. Gratis.',
     seoKeywords: 'multas caba, consultar multas caba, infracciones caba, multas ciudad buenos aires, fotomultas caba, multas patente caba, gcba multas, policía de la ciudad multas',
-    intro: 'Consultamos el registro oficial del GCBA: fotomultas de velocidad, semáforos, estacionamiento e infracciones de la Policía de la Ciudad.',
+    intro: 'Consultamos el registro oficial del GCBA (Capital Federal): fotomultas de velocidad, semáforos, estacionamiento e infracciones de la Policía de la Ciudad.',
     sections: [
       {
         title: 'Organismos que labran multas en CABA',
@@ -295,6 +298,14 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       {
         title: 'Cómo pagar multas en CABA',
         body: 'Las multas pueden abonarse online en el portal de Buenos Aires Ciudad (buenosaires.gob.ar), en cualquier sede del Banco Ciudad, o mediante los canales de Pago Fácil y Rapipago con el código de pago de la infracción. También es posible gestionar planes de pago para infracciones de mayor importe.',
+      },
+      {
+        title: 'Pago voluntario: 50 % de descuento',
+        body: 'La Ciudad permite el pago voluntario de la mayoría de las infracciones de tránsito con un descuento del 50 % sobre el valor de la multa. La opción aparece al consultar la infracción online y está disponible mientras el expediente no haya pasado a resolución de un controlador de faltas. Al abonar en forma voluntaria la infracción queda cerrada. Las faltas graves (por ejemplo alcoholemia o picadas) están excluidas del pago voluntario y requieren comparecer.',
+      },
+      {
+        title: 'Cómo hacer un descargo si no estás de acuerdo',
+        body: 'Si considerás que una multa es improcedente, podés solicitar una audiencia ante un Controlador Administrativo de Faltas, de manera virtual desde el portal del GCBA o presencial en la Dirección General de Administración de Infracciones (Av. Regimiento de Patricios 1142, Barracas). En la audiencia presentás tu descargo y las pruebas que tengas (fotos, comprobantes, testigos). Si la resolución no te conforma, podés pedir que el caso pase a la Justicia de Faltas de la Ciudad.',
       },
     ],
     faq: [
@@ -325,6 +336,18 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       {
         q: '¿Cuándo prescriben las multas de tránsito en CABA?',
         a: 'Las multas de tránsito en CABA prescriben a los 2 años desde la fecha de la infracción, según el Código de Tránsito y Transporte de la Ciudad (Ley 2148). Sin embargo, cualquier acto de intimación o notificación interrumpe el plazo de prescripción y lo reinicia desde cero.',
+      },
+      {
+        q: '¿Cómo consulto las infracciones de tránsito de CABA por patente?',
+        a: 'Ingresá la patente en el buscador de esta página: consultamos en tiempo real el registro oficial del GCBA y te mostramos las infracciones pendientes con su fecha, motivo e importe. No hace falta registrarse ni cargar datos personales.',
+      },
+      {
+        q: '¿Cuánto es el descuento por pago voluntario en CABA?',
+        a: 'El 50 % del valor de la multa para la mayoría de las infracciones de tránsito, siempre que pagues antes de que el expediente pase a un controlador de faltas. Las faltas graves, como alcoholemia, quedan excluidas del beneficio.',
+      },
+      {
+        q: '¿Dónde se hace el descargo de una multa en CABA?',
+        a: 'Ante los Controladores Administrativos de Faltas: podés pedir la audiencia online desde el portal del GCBA o presentarte en Av. Regimiento de Patricios 1142 (Barracas) con tu DNI, la documentación del vehículo y las pruebas que respalden tu descargo.',
       },
     ],
     relatedGuides: [
