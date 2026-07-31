@@ -18,7 +18,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     seoTitle: 'Multas en Rosario: Consultar Infracciones por Patente | carChecking',
     seoDescription: 'Consultá multas e infracciones de tránsito en Rosario por patente. Accedemos al portal oficial de la Municipalidad de Rosario — fotomultas, Guardia Urbana y más. Gratis.',
     seoKeywords: 'multas rosario, consultar multas rosario, infracciones rosario, multas patente rosario, fotomultas rosario, guardia urbana rosario, municipalidad rosario multas',
-    intro: 'Verificamos en tiempo real el portal de la Municipalidad de Rosario: fotomultas, Guardia Urbana Municipal y juzgados de tránsito.',
+    intro: 'Consultamos el portal de la Municipalidad de Rosario por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas, Guardia Urbana Municipal y juzgados de tránsito, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
         title: 'Quién labra las multas en Rosario',
@@ -216,7 +216,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     seoTitle: 'Multas en Buenos Aires: Consultar Infracciones por Patente | carChecking',
     seoDescription: 'Consultá multas e infracciones de la Provincia de Buenos Aires por patente. Verificamos InfraccionesBA — 135 municipios bonaerenses cubiertos. Gratis e instantáneo.',
     seoKeywords: 'multas provincia buenos aires, consultar multas buenos aires, infracciones bonaerenses, multas patente buenos aires, infraccionesba, policía bonaerense multas, multas gba, multas pba, infracciones provincia, deuda patentes arba',
-    intro: 'El portal provincial infraccionesba.gba.gob.ar cubre infracciones de los 135 municipios bonaerenses, incluyendo el conurbano, La Plata y el interior provincial.',
+    intro: 'Consultamos InfraccionesBA por vos, en tiempo real y sin necesidad de crear una cuenta: cubre infracciones de los 135 municipios bonaerenses, incluyendo el conurbano, La Plata y el interior provincial, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
         title: 'Cobertura del portal InfraccionesBA',
@@ -236,13 +236,25 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
       {
         title: 'Plazos, descuentos y prescripción de las multas',
-        body: 'En la Provincia de Buenos Aires el plazo para abonar una infracción sin recargo corre desde la notificación y varía según el municipio. Pasado ese plazo se aplican intereses y la multa puede pasar a instancia de juzgado de faltas. Las infracciones de tránsito tienen un plazo de prescripción, pero cualquier notificación o intimación lo interrumpe y lo reinicia, por lo que no conviene dejarlas acumular.',
+        body: 'En la Provincia de Buenos Aires el plazo para abonar una infracción sin recargo corre desde la notificación y varía según el municipio. Pasado ese plazo se aplican intereses y la multa puede pasar a instancia de juzgado de faltas. Según la Ley Nacional de Tránsito 24.449, las infracciones leves prescriben a los 2 años y las graves a los 5 años, pero cualquier notificación o intimación interrumpe ese plazo y lo reinicia desde cero, por lo que no conviene dejarlas acumular.',
       },
     ],
     faq: [
       {
-        q: '¿Cómo consulto las multas de la Provincia de Buenos Aires por patente?',
+        q: '¿Cómo saber si tienes multas en la Provincia de Buenos Aires?',
         a: 'Ingresá la patente de tu vehículo en este buscador: accedemos en tiempo real al portal InfraccionesBA del Gobierno de la Provincia de Buenos Aires y te mostramos las infracciones registradas en segundos, gratis y sin necesidad de crear una cuenta.',
+      },
+      {
+        q: '¿Cómo ver multas con patente en la Provincia de Buenos Aires?',
+        a: 'Escribí la patente en el buscador de esta página y elegí "Provincia de Buenos Aires". Consultamos InfraccionesBA en tiempo real y te devolvemos el detalle de cada infracción: fecha, organismo que la labró e importe.',
+      },
+      {
+        q: '¿Cómo saber si tengo multa?',
+        a: 'La forma más rápida es consultar por patente en el sistema oficial correspondiente a la jurisdicción del vehículo. Si es de la Provincia de Buenos Aires, ingresá la patente acá arriba y consultamos InfraccionesBA por vos, en tiempo real y sin registrarte.',
+      },
+      {
+        q: '¿Cuándo caducan las multas de tránsito en la Provincia de Buenos Aires?',
+        a: 'Según la Ley Nacional de Tránsito 24.449, las infracciones leves prescriben a los 2 años y las graves a los 5 años desde que se cometieron. Ojo: cualquier notificación, intimación o actuación judicial interrumpe ese plazo y lo reinicia desde cero, así que una multa "vieja" puede seguir vigente si hubo movimiento oficial en el medio.',
       },
       {
         q: '¿Qué es InfraccionesBA y qué cubre?',
@@ -285,7 +297,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     seoTitle: 'Multas en CABA: Consultar Infracciones por Patente | carChecking',
     seoDescription: 'Consultá multas e infracciones de tránsito en CABA por patente. Accedemos al portal oficial del GCBA — fotomultas, estacionamiento, semáforos y más. Gratis.',
     seoKeywords: 'multas caba, consultar multas caba, infracciones caba, multas ciudad buenos aires, fotomultas caba, multas patente caba, gcba multas, policía de la ciudad multas',
-    intro: 'Consultamos el registro oficial del GCBA (Capital Federal): fotomultas de velocidad, semáforos, estacionamiento e infracciones de la Policía de la Ciudad.',
+    intro: 'Consultamos el registro oficial del GCBA (Capital Federal) por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas de velocidad, semáforos, estacionamiento e infracciones de la Policía de la Ciudad, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
         title: 'Organismos que labran multas en CABA',

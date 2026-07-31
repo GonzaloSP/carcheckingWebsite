@@ -78,12 +78,12 @@ export default function TransferCostCalculator() {
           <div className="mt-5 text-sm text-[#B8B2AA]">
             Tabla DNRPA (valuación de referencia):{' '}
             <a
-              href="http://www.dnrpa.gov.ar/valuacion/informacion/05-04-2018.pdf"
+              href="https://www.dnrpa.gov.ar/portal_dnrpa/valuaciones2.php"
               target="_blank"
               rel="noreferrer"
               className="text-[#C8A161] hover:underline"
             >
-              ver PDF
+              ver tabla vigente
             </a>
           </div>
         </div>
