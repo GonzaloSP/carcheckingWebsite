@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // Consolidated ~227 near-duplicate per-locality revision-vehiculo-en pages (identical
+        // body content, only the city name varied) into one hub page — almost all of them had
+        // zero search impressions ever, even though the few that did rank did so well (pos 2-6).
+        source: "/revision-vehiculo-en/:slug",
+        destination: "/revision-vehiculo-en",
+        permanent: true,
+      },
+      {
         source: "/precio-de-vehiculos-usados",
         destination: "/guias/como-calcular-precio-auto-usado-argentina",
         permanent: true,

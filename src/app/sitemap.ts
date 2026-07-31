@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/servicio-gestoria`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/consultar-multa`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE}/calculadora-de-costos-de-transferencia`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/revision-vehiculo-en`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     {
       url: `${BASE}/guias/recibo-de-sena-de-venta-de-vehiculo`,
       lastModified: now,
@@ -48,12 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const locationPages: MetadataRoute.Sitemap = locations.flatMap((l) => [
-    {
-      url: `${BASE}/revision-vehiculo-en/${l.slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.55,
-    },
     {
       url: `${BASE}/verificacion-policial-en/${l.slug}`,
       lastModified: now,
