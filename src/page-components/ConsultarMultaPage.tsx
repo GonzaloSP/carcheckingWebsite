@@ -18,6 +18,34 @@ const TOP_SLUGS = [
   'multas-chaco', 'multas-neuquen', 'multas-lanus', 'multas-ezeiza',
 ];
 
+// Full directory of every jurisdiction page, grouped by region. Rendered unconditionally
+// (hub and per-jurisdiction pages alike) so every /consultar-multa/:slug has at least one
+// real, crawlable inbound link — not just the ones surfaced by search results or TOP_SLUGS.
+const REGION_GROUPS: { region: string; slugs: string[] }[] = [
+  { region: 'Nacional', slugs: ['multas-ansv-sinai'] },
+  { region: 'CABA', slugs: ['multas-caba'] },
+  {
+    region: 'Provincia de Buenos Aires',
+    slugs: [
+      'multas-provincia-buenos-aires', 'multas-la-plata', 'multas-avellaneda', 'multas-lanus',
+      'multas-berisso', 'multas-ezeiza', 'multas-lomas-de-zamora', 'multas-tres-de-febrero',
+      'multas-hurlingham', 'multas-canuelas', 'multas-san-vicente',
+    ],
+  },
+  { region: 'Córdoba', slugs: ['multas-cordoba', 'multas-rio-tercero'] },
+  { region: 'Santa Fe', slugs: ['multas-santa-fe', 'multas-rosario'] },
+  { region: 'Cuyo', slugs: ['multas-mendoza', 'multas-mendoza-caminera'] },
+  { region: 'NOA', slugs: ['multas-salta'] },
+  { region: 'Patagonia', slugs: ['multas-neuquen', 'multas-villa-la-angostura'] },
+  {
+    region: 'NEA y Pampeana',
+    slugs: [
+      'multas-corrientes', 'multas-entre-rios', 'multas-misiones', 'multas-posadas',
+      'multas-chaco', 'multas-roque-saenz-pena', 'multas-santa-rosa',
+    ],
+  },
+];
+
 // These jurisdictions are always queried for free (no payment required).
 // All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
 // free-preview locations (high traffic, captcha-free scrapers).
@@ -1984,6 +2012,36 @@ export default function ConsultarMultaPage({
                       <div key={t}>
                         <h3 className="text-sm font-semibold text-[#C8A161] mb-1">{t}</h3>
                         <p className="text-sm text-[#B8B2AA] leading-relaxed">{d}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                  <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">
+                    Todas las jurisdicciones disponibles
+                  </h2>
+                  <div className="space-y-6">
+                    {REGION_GROUPS.map(({ region, slugs }) => (
+                      <div key={region}>
+                        <h3 className="text-sm font-semibold text-[#C8A161] uppercase tracking-wide mb-3">
+                          {region}
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {slugs.map(slug => {
+                            const j = JURISDICCIONES_MULTA.find(x => x.slug === slug);
+                            if (!j) return null;
+                            return (
+                              <Link
+                                key={slug}
+                                href={`/consultar-multa/${slug}`}
+                                className="px-3 py-1.5 bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg text-sm text-[#B8B2AA] hover:text-[#C8A161] hover:border-[#C8A161]/50 transition-colors"
+                              >
+                                {j.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </div>
                     ))}
                   </div>

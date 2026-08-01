@@ -1,10 +1,6 @@
 export interface MultaContent {
-  // seoTitle/seoDescription/seoKeywords are NOT rendered anywhere.
-  // The page <title>/meta come from metaTitle/metaDescription in
-  // multa-jurisdictions.ts — edit those to change what Google shows.
-  seoTitle: string;
-  seoDescription: string;
-  seoKeywords: string;
+  // <title>/meta description for these pages come from metaTitle/metaDescription
+  // in multa-jurisdictions.ts, not from anything in this file.
   intro: string;
   sections: { title: string; body: string }[];
   faq: { q: string; a: string }[];
@@ -15,9 +11,6 @@ export interface MultaContent {
 export const MULTA_CONTENT: Record<string, MultaContent> = {
 
   'multas-ansv-sinai': {
-    seoTitle: 'Consultar Multas ANSV / SINAI por Patente Online | carChecking',
-    seoDescription: 'Consultá multas ANSV y SINAI por patente: fotomultas de rutas nacionales y actas de municipios adheridos, gratis, en tiempo real y sin crear cuenta.',
-    seoKeywords: 'multas ANSV, consultar multas SINAI, sistema nacional de infracciones, fotomultas rutas nacionales, agencia nacional de seguridad vial, multas por patente nacional, consulta infracciones seguridadvial.gob.ar',
     intro: 'Consultamos el sistema SINAI de la Agencia Nacional de Seguridad Vial (ANSV) por vos, resolviendo en el momento el captcha que exige el portal oficial: fotomultas de rutas nacionales y actas de los municipios adheridos, con resultado directo desde la patente.',
     sections: [
       {
@@ -75,9 +68,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-provincia-buenos-aires': {
-    seoTitle: 'Consultar Multas Provincia de Buenos Aires por Patente | carChecking',
-    seoDescription: 'Consultá multas en la Provincia de Buenos Aires por patente vía Infracciones BA: fotomultas y actas de los municipios bonaerenses, gratis y sin cuenta.',
-    seoKeywords: 'multas provincia buenos aires, infraccionesba, consultar multas por patente pba, infracciones ba gba, fotomultas conurbano, multas municipios buenos aires, web del infractor',
     intro: 'Consultamos el portal Infracciones BA del Gobierno de la Provincia de Buenos Aires por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas y actas de tránsito de los municipios bonaerenses, con resultado directo desde la patente.',
     sections: [
       {
@@ -139,9 +129,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-la-plata': {
-    seoTitle: 'Consultar Multas en La Plata por Patente Online | carChecking',
-    seoDescription: 'Consultá multas de tránsito en La Plata por patente: fotomultas municipales e infracciones provinciales de Infracciones BA, en tiempo real y sin crear cuenta.',
-    seoKeywords: 'multas la plata, consultar multas la plata por patente, fotomultas la plata, juzgado de faltas la plata, agencia platense de recaudación, infracciones ba la plata, multas municipio la plata',
     intro: 'Consultamos las infracciones de tránsito de La Plata por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas municipales y actas provinciales cargadas en Infracciones BA, con resultado directo desde la patente.',
     sections: [
       {
@@ -199,9 +186,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-caba': {
-    seoTitle: 'Consultar Multas CABA por Patente en Tiempo Real | carChecking',
-    seoDescription: 'Consultá multas de tránsito en CABA por patente: infracciones porteñas, el descuento por pago voluntario y cómo pagarlas, en tiempo real y sin crear cuenta.',
-    seoKeywords: 'multas caba, consultar multas caba por patente, infracciones de transito caba, pago voluntario multas caba, direccion general de administracion de infracciones, multas ciudad de buenos aires',
     intro: 'Consultamos el sistema de infracciones de tránsito del Gobierno de la Ciudad de Buenos Aires por vos, en tiempo real y sin necesidad de crear una cuenta: multas registradas por patente o DNI, con resultado directo desde el dominio del vehículo.',
     sections: [
       {
@@ -259,9 +243,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-cordoba': {
-    seoTitle: 'Consultar Multas Córdoba Caminera por Patente | carChecking',
-    seoDescription: 'Consultá multas de la Policía Caminera de Córdoba por patente, DNI o número de acta. Resultado en segundos, sin registrarte. Enterate del descuento por pronto pago.',
-    seoKeywords: 'multas cordoba, policia caminera cordoba, consultar multas cordoba patente, rentas cordoba multas, multas caminera cordoba',
     intro: 'Consultamos el portal de Rentas Córdoba por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de la Policía Caminera provincial en rutas y autopistas de Córdoba, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -319,9 +300,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-santa-fe': {
-    seoTitle: 'Multas Santa Fe por Patente: Juzgado Virtual | carChecking',
-    seoDescription: 'Consultá multas de la Policía Vial de Santa Fe en el Juzgado Virtual provincial por patente. Resultado inmediato, sin cuenta ni trámites presenciales.',
-    seoKeywords: 'multas santa fe, juzgado virtual santa fe, consultar multas patente santa fe, policia vial santa fe',
     intro: 'Consultamos el Juzgado Virtual de la provincia de Santa Fe por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de la Policía Vial en rutas y autopistas provinciales, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -379,9 +357,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-rosario': {
-    seoTitle: 'Multas en Rosario por Patente: Fotomultas, GUM y Juzgados | carChecking',
-    seoDescription: 'Consultá fotomultas e infracciones de la Guardia Urbana Municipal de Rosario por patente. Resultado en segundos, con info sobre descuentos y cómo impugnar.',
-    seoKeywords: 'multas rosario, fotomultas rosario, consultar multas patente rosario, guardia urbana municipal rosario, multas rosario gob ar',
     intro: 'Consultamos el portal de la Municipalidad de Rosario por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas, Guardia Urbana Municipal y juzgados de tránsito, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -439,9 +414,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-mendoza': {
-    seoTitle: 'Multas en Mendoza Ciudad por Patente | Juzgados de Tránsito | carChecking',
-    seoDescription: 'Consultá multas de los Juzgados Municipales de Tránsito de Mendoza Ciudad por patente en el portal APEX. Resultado al instante, sin turno ni registro.',
-    seoKeywords: 'multas mendoza, multas mendoza capital, apex ciudad de mendoza, juzgados de transito mendoza, consultar multas por patente mendoza',
     intro: 'Consultamos el portal APEX de la Municipalidad Ciudad de Mendoza por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones labradas por los Juzgados Municipales de Tránsito dentro del ejido capitalino, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -499,9 +471,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-mendoza-caminera': {
-    seoTitle: 'Multas Policía Caminera Mendoza por Patente | carChecking',
-    seoDescription: 'Consultá infracciones de la Policía Caminera de Mendoza en rutas provinciales por patente. Sistema independiente del municipal, resultado al instante.',
-    seoKeywords: 'multas caminera mendoza, policia caminera mendoza multas, webvialcaminera, multas rutas provinciales mendoza, consultar multas por patente',
     intro: 'Consultamos el sistema de la Policía Caminera de Mendoza por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones labradas en rutas provinciales por el Ministerio de Seguridad, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -551,9 +520,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-salta': {
-    seoTitle: 'Multas en Salta Capital por Patente | DGR Salta | carChecking',
-    seoDescription: 'Consultá el historial de multas de tránsito de Salta Capital por patente en el sistema de la DGR Municipal. Resultado al instante, sin turno ni cuenta.',
-    seoKeywords: 'multas salta, multas salta capital, dgr salta multas, historial multas transito salta, consultar multas por patente salta',
     intro: 'Consultamos el historial de multas de tránsito de la Dirección General de Rentas Municipal de Salta por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones labradas por el Tribunal de Faltas de la Ciudad de Salta, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -611,9 +577,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-neuquen': {
-    seoTitle: 'Fotomultas en Neuquén por Patente | Municipalidad de Neuquén | carChecking',
-    seoDescription: 'Consultá el sistema de fotomultas de la Municipalidad de Neuquén por patente. Infracciones de velocidad y semáforo detectadas por cámaras, resultado al instante.',
-    seoKeywords: 'fotomultas neuquen, multas neuquen capital, consultar patente neuquen, camaras fotomulta neuquen, multas por patente',
     intro: 'Consultamos el sistema de fotomultas de la Municipalidad de Neuquén por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de velocidad y semáforo detectadas por cámaras en los corredores viales de la ciudad, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -671,9 +634,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-santa-rosa': {
-    seoTitle: 'Multas en Santa Rosa (La Pampa): Consultá por Patente | carChecking',
-    seoDescription: 'Consultá gratis las fotomultas de Santa Rosa, La Pampa por patente. Resultado directo del sistema municipal en menos de un minuto, sin registrarte.',
-    seoKeywords: 'multas santa rosa, fotomultas santa rosa la pampa, consultar multas por patente santa rosa, juzgado de faltas santa rosa',
     intro: 'Consultamos el sistema de fotomultas de la Municipalidad de Santa Rosa por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones captadas por cámaras de velocidad y semáforos en rutas, avenidas y la circunvalación de la ciudad, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -723,9 +683,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-corrientes': {
-    seoTitle: 'Multas en Corrientes: Consultá Fotomultas por Patente | carChecking',
-    seoDescription: 'Consultá gratis las fotomultas de Corrientes Capital por patente en el sistema SIGEIN. Resultado directo en menos de un minuto, sin crear cuenta.',
-    seoKeywords: 'multas corrientes, sigein corrientes, fotomultas corrientes capital, consultar multas por patente corrientes',
     intro: 'Consultamos el sistema SIGEIN de la Municipalidad de Corrientes Capital por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas y actas de tránsito, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -775,9 +732,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-entre-rios': {
-    seoTitle: 'Multas en Entre Ríos: Consultá Monitoreo Vial por Patente | carChecking',
-    seoDescription: 'Consultá gratis las infracciones de Monitoreo Vial Entre Ríos por patente, en toda la provincia. Resultado en menos de un minuto, sin crear cuenta.',
-    seoKeywords: 'multas entre rios, monitoreo vial entre rios, consultar multas por patente entre rios, policia caminera entre rios',
     intro: 'Consultamos el sistema Monitoreo Vial de la Provincia de Entre Ríos por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de la Policía Caminera en rutas y accesos de toda la provincia, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -827,9 +781,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-misiones': {
-    seoTitle: 'Multas en Misiones: Consultá Monitoreo Vial por Patente | carChecking',
-    seoDescription: 'Consultá gratis las infracciones de Monitoreo Vial Misiones por patente, en toda la provincia. Resultado en menos de un minuto, sin crear cuenta.',
-    seoKeywords: 'multas misiones, monitoreo vial misiones, consultar multas por patente misiones, multas posadas provincia',
     intro: 'Consultamos el sistema Monitoreo Vial de la Provincia de Misiones por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de la Policía de Misiones en rutas de toda la provincia, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -879,9 +830,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-posadas': {
-    seoTitle: 'Multas en Posadas: Consultá por Patente | carChecking',
-    seoDescription: 'Consultá gratis las multas municipales de Posadas por patente en el sistema del Tribunal de Faltas. Resultado en menos de un minuto, sin crear cuenta.',
-    seoKeywords: 'multas posadas, tribunal de faltas posadas, consultar multas por patente posadas, actas de transito posadas',
     intro: 'Consultamos el sistema del Tribunal Municipal de Faltas de Posadas por vos, en tiempo real y sin necesidad de crear una cuenta: actas de tránsito labradas por inspectores municipales dentro de la ciudad, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -931,9 +879,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-chaco': {
-    seoTitle: 'Multas en Chaco: Fotomultas y Caminera por Patente | carChecking',
-    seoDescription: 'Consultá gratis las fotomultas y actas de la Policía Caminera de Chaco por patente. Resultado en menos de un minuto, sin crear cuenta.',
-    seoKeywords: 'multas chaco, policia caminera chaco, fotomultas chaco, consultar multas por patente chaco',
     intro: 'Consultamos el sistema de la Policía Caminera de Chaco por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas de radares fijos y actas de control de ruta, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -987,9 +932,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-berisso': {
-    seoTitle: 'Multas en Berisso por Patente: Consultá Infracciones Online | carChecking',
-    seoDescription: 'Consultá multas de tránsito en Berisso ingresando la patente. Resultado inmediato con la info del Juzgado de Faltas Municipal y las fotomultas de la ciudad.',
-    seoKeywords: 'multas berisso, consultar multas berisso patente, infracciones berisso, fotomultas berisso, juzgado de faltas berisso',
     intro: 'Consultamos el sistema de infracciones de Berisso por vos, ingresando solo la patente: fotomultas de las cámaras viales del partido y multas labradas por el Juzgado de Faltas Municipal, con resultado en menos de un minuto y sin necesidad de crear ninguna cuenta.',
     sections: [
       {
@@ -1047,9 +989,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-ezeiza': {
-    seoTitle: 'Multas en Ezeiza por Patente: Consultá Infracciones Online | carChecking',
-    seoDescription: 'Consultá multas de tránsito en Ezeiza por patente: fotomultas municipales y actas del Juzgado de Faltas, con resultado inmediato y sin registrarte.',
-    seoKeywords: 'multas ezeiza, consultar multas ezeiza patente, fotomultas ezeiza, juzgado de faltas ezeiza, infracciones ezeiza',
     intro: 'Consultamos las infracciones de tránsito de Ezeiza por vos, ingresando solo la patente: fotomultas del municipio y actas del Juzgado de Faltas Municipal, con resultado en menos de un minuto y sin necesidad de crear ninguna cuenta.',
     sections: [
       {
@@ -1103,9 +1042,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-lanus': {
-    seoTitle: 'Multas en Lanús por Patente: Consultá Infracciones Online | carChecking',
-    seoDescription: 'Consultá multas y fotomultas en Lanús por patente: resultado inmediato del sistema municipal y del Juzgado de Faltas, sin registrarte.',
-    seoKeywords: 'multas lanus, consultar multas lanus patente, fotomultas lanus, juzgado de faltas lanus, infracciones lanus',
     intro: 'Consultamos las infracciones de tránsito de Lanús por vos, ingresando solo la patente: fotomultas del partido y actas del Juzgado de Faltas Municipal, con resultado en menos de un minuto y sin necesidad de crear ninguna cuenta.',
     sections: [
       {
@@ -1163,9 +1099,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-avellaneda': {
-    seoTitle: 'Multas en Avellaneda por Patente: Sistema SIAC | carChecking',
-    seoDescription: 'Consultá multas de tránsito en Avellaneda por patente, DNI o CUIT en el sistema SIAC de la Municipalidad. Resultado inmediato, sin registrarte.',
-    seoKeywords: 'multas avellaneda, consultar multas avellaneda patente, SIAC avellaneda, mda.gob.ar multas, juzgado de faltas avellaneda',
     intro: 'Consultamos el sistema SIAC de la Municipalidad de Avellaneda (MDA) por vos, en tiempo real y sin necesidad de crear una cuenta: multas de tránsito labradas por agentes municipales y fotomultas, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1223,9 +1156,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-lomas-de-zamora': {
-    seoTitle: 'Multas en Lomas de Zamora: Consultar Infracciones por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Lomas de Zamora por patente. Accedemos al sistema municipal "Consulta de Faltas" en tiempo real. Gratis.',
-    seoKeywords: 'multas lomas de zamora, consultar multas lomas de zamora, infracciones lomas de zamora, multas patente lomas de zamora, juzgado de faltas lomas de zamora, descargo online lomas de zamora, tribunal de faltas lomas de zamora',
     intro: 'Consultamos el sistema municipal de Lomas de Zamora por vos, en tiempo real y sin necesidad de crear una cuenta: la Municipalidad gestiona sus propias infracciones de tránsito a través de la plataforma "Consulta de Faltas", con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1279,9 +1209,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-tres-de-febrero': {
-    seoTitle: 'Multas en Tres de Febrero: Consultar Infracciones por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Tres de Febrero por patente o DNI. Accedemos al portal Mi3F / Mis Trámites en tiempo real. Gratis.',
-    seoKeywords: 'multas tres de febrero, consultar multas tres de febrero, infracciones tres de febrero, mis tramites tres de febrero, fotomultas tres de febrero, juzgado de faltas tres de febrero, multas patente caseros',
     intro: 'Consultamos el portal "Mis Trámites" (Mi3F) de la Municipalidad de Tres de Febrero por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas y faltas de tránsito de Caseros, Ciudadela, Santos Lugares, Villa Bosch y el resto del partido, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1335,9 +1262,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-hurlingham': {
-    seoTitle: 'Multas en Hurlingham: Consultar Infracciones por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Hurlingham por patente. Accedemos a la plataforma GobDigital del municipio en tiempo real. Gratis.',
-    seoKeywords: 'multas hurlingham, consultar multas hurlingham, infracciones hurlingham, gobdigital hurlingham, juzgado de faltas hurlingham, multas patente william morris villa tesei',
     intro: 'Consultamos la plataforma GobDigital de la Municipalidad de Hurlingham por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de tránsito de Hurlingham, William C. Morris y Villa Tesei, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1391,9 +1315,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-canuelas': {
-    seoTitle: 'Multas en Cañuelas: Consultar Infracciones por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Cañuelas, Buenos Aires, por patente. Accedemos al sistema municipal SIGEIN en tiempo real. Gratis, sin registro.',
-    seoKeywords: 'multas cañuelas, consultar multas cañuelas, infracciones cañuelas, multas patente cañuelas, juzgado de faltas cañuelas, sigein cañuelas, multas buenos aires',
     intro: 'Consultamos el sistema municipal de Cañuelas (SIGEIN) por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de tránsito labradas dentro del partido, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1442,9 +1363,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-san-vicente': {
-    seoTitle: 'Multas en San Vicente (Buenos Aires): Consultar por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en San Vicente, Buenos Aires, por patente. Accedemos al sistema municipal SIGEIN en tiempo real. Gratis, sin registro.',
-    seoKeywords: 'multas san vicente, consultar multas san vicente buenos aires, infracciones san vicente, multas patente san vicente, juzgado de faltas san vicente, sigein san vicente',
     intro: 'Consultamos el sistema municipal de San Vicente (SIGEIN) por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de tránsito labradas dentro del partido, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1493,9 +1411,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-roque-saenz-pena': {
-    seoTitle: 'Multas en Roque Sáenz Peña (Chaco): Consultar por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Presidencia Roque Sáenz Peña, Chaco, por patente. Accedemos al sistema municipal SIGEIN en tiempo real. Gratis.',
-    seoKeywords: 'multas roque saenz peña, multas sáenz peña chaco, consultar multas saenz peña, infracciones saenz peña, juzgado de faltas saenz peña, sigein saenz peña, multas chaco',
     intro: 'Consultamos el sistema municipal de Presidencia Roque Sáenz Peña (SIGEIN) por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de tránsito labradas dentro del municipio, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1544,9 +1459,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-villa-la-angostura': {
-    seoTitle: 'Multas en Villa La Angostura: Consultar Fotomultas por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Villa La Angostura, Neuquén, por patente. Accedemos al sistema municipal SIGEIN en tiempo real. Gratis, sin registro.',
-    seoKeywords: 'multas villa la angostura, fotomultas villa la angostura, consultar multas villa la angostura, infracciones villa la angostura, juzgado de faltas villa la angostura, sigein villa la angostura, multas neuquen',
     intro: 'Consultamos el sistema municipal de Villa La Angostura (SIGEIN) por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas por exceso de velocidad e infracciones de tránsito, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
@@ -1595,9 +1507,6 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-rio-tercero': {
-    seoTitle: 'Multas en Río Tercero (Córdoba): Consultar Infracciones por Patente | carChecking',
-    seoDescription: 'Consultá multas e infracciones de tránsito en Río Tercero, Córdoba, por patente. Accedemos al sistema municipal SIGEIN en tiempo real. Gratis, sin registro.',
-    seoKeywords: 'multas rio tercero, consultar multas rio tercero, infracciones rio tercero, fotomultas rio tercero, juzgado de faltas rio tercero, sigein rio tercero, multas cordoba',
     intro: 'Consultamos el sistema municipal de Río Tercero (SIGEIN) por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de tránsito y fotomultas captadas por radares fijos, con resultado en menos de un minuto directo desde la patente.',
     sections: [
       {
