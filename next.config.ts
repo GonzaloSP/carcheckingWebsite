@@ -6,6 +6,20 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // Force https first so http+apex only needs a single hop straight to the canonical URL.
+        source: "/:path*",
+        has: [{ type: "header", key: "x-forwarded-proto", value: "http" }],
+        destination: "https://www.carchecking.com.ar/:path*",
+        permanent: true,
+      },
+      {
+        // Apex -> www. Host matcher is an exact match, so this won't also catch the www host.
+        source: "/:path*",
+        has: [{ type: "host", value: "carchecking.com.ar" }],
+        destination: "https://www.carchecking.com.ar/:path*",
+        permanent: true,
+      },
+      {
         // Consolidated ~227 near-duplicate per-locality revision-vehiculo-en pages (identical
         // body content, only the city name varied) into one hub page — almost all of them had
         // zero search impressions ever, even though the few that did rank did so well (pos 2-6).
