@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import MultasCABAGuidePage from '@/page-components/MultasCABAGuidePage';
 import { MULTAS_CABA_GUIDES } from '@/data/multas-caba-guides';
 
@@ -37,5 +38,6 @@ export default async function Page({
   params: Promise<{ guide: string }>;
 }) {
   const { guide } = await params;
+  if (!MULTAS_CABA_GUIDES[guide]) notFound();
   return <MultasCABAGuidePage guide={guide} />;
 }

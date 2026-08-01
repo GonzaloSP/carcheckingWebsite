@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import ArticlePage from '@/page-components/ArticlePage';
 import { getArticleBySlug, articles } from '@/data/articles';
 
@@ -42,5 +43,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (!getArticleBySlug(slug)) notFound();
   return <ArticlePage slug={slug} />;
 }

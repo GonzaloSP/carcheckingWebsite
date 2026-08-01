@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import MultasPBAGuidePage from '@/page-components/MultasPBAGuidePage';
 import { MULTAS_PBA_GUIDES } from '@/data/multas-pba-guides';
 
@@ -37,5 +38,6 @@ export default async function Page({
   params: Promise<{ guide: string }>;
 }) {
   const { guide } = await params;
+  if (!MULTAS_PBA_GUIDES[guide]) notFound();
   return <MultasPBAGuidePage guide={guide} />;
 }

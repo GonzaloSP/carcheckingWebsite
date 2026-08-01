@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import VtvLocationPage from '@/page-components/VtvLocationPage';
 import { locations, getLocationBySlug } from '@/data/locations';
 
@@ -37,5 +38,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (!getLocationBySlug(slug)) notFound();
   return <VtvLocationPage slug={slug} />;
 }

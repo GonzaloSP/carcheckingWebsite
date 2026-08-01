@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import ConsultarMultaJurisdiccionPage from '@/page-components/ConsultarMultaJurisdiccionPage';
 import { JURISDICCIONES_MULTA } from '@/data/multa-jurisdictions';
 
@@ -38,5 +39,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (!JURISDICCIONES_MULTA.some((j) => j.slug === slug)) notFound();
   return <ConsultarMultaJurisdiccionPage slug={slug} />;
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import VerificacionPolicialLocationPage from '@/page-components/VerificacionPolicialLocationPage';
 import { locations, getLocationBySlug } from '@/data/locations';
 
@@ -37,5 +38,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (!getLocationBySlug(slug)) notFound();
   return <VerificacionPolicialLocationPage slug={slug} />;
 }
