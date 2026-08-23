@@ -1555,3 +1555,70 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
 };
+
+/**
+ * Content for the /consultar-multa HUB page itself (no jurisdiction selected).
+ *
+ * Deliberately NOT an entry in MULTA_CONTENT: that record is keyed by jurisdiction
+ * slug and drives the per-jurisdiction render branch in ConsultarMultaPage, which
+ * dereferences `jurisdiccion!` — feeding it a hub entry would crash the hub page.
+ *
+ * These FAQs target the generic, place-less queries the hub already ranks for in
+ * Search Console ("multas nacionales por patente", "multas por patente nacional",
+ * "multas en argentina por patente", "multas nacionales por dominio") — the hub was
+ * the only multa page on the site with no FAQ section and no FAQPage schema.
+ */
+export const HUB_FAQ: { q: string; a: string }[] = [
+  {
+    q: '¿Se pueden consultar multas nacionales por patente?',
+    a: 'Sí. Las infracciones nacionales se registran en el SINAI, el Sistema Nacional de Infracciones que administra la Agencia Nacional de Seguridad Vial (ANSV): fotomultas de rutas y autopistas nacionales y actas de los municipios adheridos al sistema. Con la patente consultamos ese registro junto con los provinciales y municipales en la misma búsqueda.',
+  },
+  {
+    q: '¿Existe un único registro con todas las multas del país?',
+    a: 'No. En Argentina no hay un padrón único: la Ley Nacional de Tránsito N° 24.449 fija el marco, pero cada provincia y cada municipio mantiene su propio organismo y su propio registro de infracciones. Por eso una multa puede no aparecer en el sistema nacional y sí en el provincial o el municipal, y hay que consultar cada registro por separado.',
+  },
+  {
+    q: '¿Qué diferencia hay entre la patente y el dominio?',
+    a: 'Son lo mismo. "Dominio" es el término registral que usan los organismos oficiales y el Registro Automotor; "patente" o "chapa" es el uso corriente. Para consultar multas da igual cuál busques: se ingresa la misma combinación de letras y números.',
+  },
+  {
+    q: '¿Alcanza con la patente o necesito el DNI del titular?',
+    a: 'Alcanza con la patente. Aceptamos los dos formatos vigentes: el anterior de tres letras y tres números (ABC123) y el Mercosur de dos letras, tres números y dos letras (AB123CD). No pedimos DNI, número de acta ni datos del titular.',
+  },
+  {
+    q: '¿Cuántas jurisdicciones se consultan en una sola búsqueda?',
+    a: 'Consultamos en paralelo los registros oficiales de las principales jurisdicciones del país: el sistema nacional (ANSV / SINAI), CABA, la Provincia de Buenos Aires y sus municipios, Córdoba, Santa Fe y Rosario, Mendoza, Salta, Chaco, Corrientes, Entre Ríos, Misiones, Neuquén y La Pampa, entre otras. Cada resultado indica de qué organismo proviene.',
+  },
+  {
+    q: '¿Hace falta crear una cuenta para consultar multas?',
+    a: 'No. No hay registro, ni usuario, ni contraseña: se ingresa la patente y se consulta. Accedemos a los portales oficiales en tiempo real y resolvemos por vos los captchas que varios de ellos exigen.',
+  },
+  {
+    q: '¿La multa queda a nombre del titular o de quien manejaba?',
+    a: 'Queda registrada a nombre del titular del vehículo, incluso si la infracción la cometió otra persona al volante. Por eso conviene verificar el estado de multas antes de comprar un auto usado: las deudas siguen al dominio y pueden generar complicaciones al nuevo titular, además de trabar la transferencia en algunas jurisdicciones.',
+  },
+];
+
+/**
+ * Visible, numbered steps on the hub page. Rendered as copy only — there is no HowTo
+ * JSON-LD, because Google deprecated HowTo rich results in 2023 and the markup would
+ * render nothing.
+ *
+ * These describe carChecking's own lookup flow (verifiable against the form and the
+ * results rendering in ConsultarMultaPage), not any government portal's procedure —
+ * so nothing here is an unverifiable claim about a third-party system.
+ */
+export const HUB_HOWTO_STEPS: { name: string; text: string }[] = [
+  {
+    name: 'Ingresá la patente del vehículo',
+    text: 'Escribí el dominio en el buscador, en formato anterior (ABC123) o Mercosur (AB123CD). No hacen falta otros datos.',
+  },
+  {
+    name: 'Consultamos los registros oficiales',
+    text: 'Al presionar Consultar accedemos en simultáneo a los portales oficiales de cada jurisdicción y resolvemos los captchas que exigen. El resultado llega en menos de un minuto.',
+  },
+  {
+    name: 'Revisá el detalle de cada infracción',
+    text: 'Cada multa se muestra con su número de acta, fecha, descripción, lugar, importe y estado, agrupada por el organismo que la labró, con el enlace al portal oficial para pagarla o impugnarla.',
+  },
+];

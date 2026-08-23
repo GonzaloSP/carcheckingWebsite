@@ -8,7 +8,7 @@ import Navigation from '../sections/Navigation';
 import FooterSection from '../sections/FooterSection';
 import { trackEvent } from '../lib/analytics';
 import { JURISDICCIONES_MULTA, type JurisdiccionMulta } from '../data/multa-jurisdictions';
-import { MULTA_CONTENT } from '../data/multa-content';
+import { MULTA_CONTENT, HUB_FAQ, HUB_HOWTO_STEPS } from '../data/multa-content';
 
 const FUENTES = JURISDICCIONES_MULTA.filter(j => !j.hideFromList);
 
@@ -244,6 +244,12 @@ export default function ConsultarMultaPage({
 }: { defaultFuente?: string; jurisdiccionOverride?: JurisdiccionMulta } = {}) {
   const jurisdiccion = jurisdiccionOverride ?? (defaultFuente ? FUENTES.find(f => f.value === defaultFuente) : undefined);
   const content = jurisdiccion ? MULTA_CONTENT[jurisdiccion.slug] : undefined;
+  // The hub (/consultar-multa) renders with no jurisdiction, so `content` is undefined
+  // there — which is what used to switch off its FAQ and its FAQPage/BreadcrumbList
+  // schema. `content` is deliberately left undefined so the render ternary below keeps
+  // taking the hub branch; hub copy comes from HUB_FAQ / HUB_HOWTO_STEPS instead.
+  const isHub = !jurisdiccion;
+  const faqEntries = content?.faq ?? (isHub ? HUB_FAQ : undefined);
   const { executeRecaptcha } = useGoogleReCaptcha();
   // Controlled via NEXT_PUBLIC_MULTA_FREE env var.
   // 'true'  → hybrid mode: Córdoba + Salta free, rest gated behind payment
@@ -822,11 +828,16 @@ export default function ConsultarMultaPage({
 
   return (
     <>
-      {content?.faq && (
+      {/* FAQPage earns no rich result any more (retired 2026-05-07, and restricted to
+          gov/health sites since 2023 — verified against GSC: this site shows no CTR step at
+          either date, so it never had them). Kept because all 29 jurisdiction pages emit it,
+          unused structured data is harmless, and it plausibly still helps AI Overviews.
+          Treat it as consistency, not as an SEO lever. */}
+      {faqEntries && faqEntries.length > 0 && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
-          mainEntity: content.faq.map(({ q, a }) => ({
+          mainEntity: faqEntries.map(({ q, a }) => ({
             '@type': 'Question',
             name: q,
             acceptedAnswer: { '@type': 'Answer', text: a },
@@ -834,17 +845,27 @@ export default function ConsultarMultaPage({
         }) }} />
       )}
 
-      {jurisdiccion && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar' },
-            { '@type': 'ListItem', position: 2, name: 'Consultar Multas', item: 'https://www.carchecking.com.ar/consultar-multa' },
-            { '@type': 'ListItem', position: 3, name: `Multas en ${jurisdiccion.label}`, item: `https://www.carchecking.com.ar/consultar-multa/${jurisdiccion.slug}` },
-          ],
-        }) }} />
-      )}
+      {/* No HowTo JSON-LD here on purpose: Google deprecated HowTo rich results in 2023,
+          so the markup would render nothing. The numbered steps live as visible copy in the
+          hub branch below, which is where their value actually is. */}
+
+      {/* BreadcrumbList is the one schema type on this page Google still renders as a rich
+          result — FAQ rich results were retired 2026-05-07. The hub previously emitted no
+          breadcrumb schema at all because this block was gated on `jurisdiccion`. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: jurisdiccion
+          ? [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar' },
+              { '@type': 'ListItem', position: 2, name: 'Consultar Multas', item: 'https://www.carchecking.com.ar/consultar-multa' },
+              { '@type': 'ListItem', position: 3, name: `Multas en ${jurisdiccion.label}`, item: `https://www.carchecking.com.ar/consultar-multa/${jurisdiccion.slug}` },
+            ]
+          : [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.carchecking.com.ar' },
+              { '@type': 'ListItem', position: 2, name: 'Consultar Multas por Patente', item: 'https://www.carchecking.com.ar/consultar-multa' },
+            ],
+      }) }} />
 
       {/* Payment modal */}
       {showPaymentModal && (
@@ -1870,6 +1891,39 @@ export default function ConsultarMultaPage({
                   </>
                 ) : (
                   <>
+                    {/* Task-shaped lead section. The generic "multas por patente" query is a
+                        how-do-I, so the hub leads with the procedure and its differentiator
+                        (one plate → every registry) before the definitional content below. */}
+                    <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                      <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">
+                        Cómo consultar multas por patente en todo el país
+                      </h2>
+                      <p className="text-[#B8B2AA] leading-relaxed mb-6">
+                        En Argentina no existe un padrón único de infracciones: cada provincia y cada
+                        municipio mantiene su propio registro, además del sistema nacional que administra
+                        la ANSV. Eso obliga a repetir la misma consulta en un portal tras otro, cada uno
+                        con su propio formulario y su propio captcha. Acá se hace una sola vez:
+                        <strong className="text-[#F4F1EC]"> ingresás la patente y consultamos en simultáneo
+                        los registros oficiales de {FUENTES.length} jurisdicciones</strong>, sin crear una cuenta.
+                      </p>
+                      <ol className="space-y-4">
+                        {HUB_HOWTO_STEPS.map(({ name, text }, i) => (
+                          <li key={name} id={`paso-${i + 1}`} className="flex gap-4">
+                            <span
+                              aria-hidden="true"
+                              className="flex-shrink-0 w-7 h-7 rounded-full bg-[#0B0B0D] border border-[#C8A161]/40 text-[#C8A161] text-sm font-bold flex items-center justify-center"
+                            >
+                              {i + 1}
+                            </span>
+                            <div>
+                              <h3 className="text-base font-semibold text-[#C8A161] mb-1">{name}</h3>
+                              <p className="text-sm text-[#B8B2AA] leading-relaxed">{text}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+
                     <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
                       <h2 className="text-2xl font-bold text-[#F4F1EC] mb-4">
                         ¿Qué son las multas de tránsito en Argentina?
@@ -1952,6 +2006,23 @@ export default function ConsultarMultaPage({
                             municipal en Posadas.
                           </p>
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Hub FAQ — feeds the FAQPage JSON-LD emitted at the top of this component.
+                        Every jurisdiction page already had one; the hub was the only multa page
+                        without either the section or the schema. */}
+                    <div className="bg-[#141416] border border-[#2a2a2c] rounded-xl p-8">
+                      <h2 className="text-2xl font-bold text-[#F4F1EC] mb-6">
+                        Preguntas frecuentes sobre consultar multas por patente
+                      </h2>
+                      <div className="space-y-5">
+                        {HUB_FAQ.map(({ q, a }) => (
+                          <div key={q}>
+                            <h3 className="text-base font-semibold text-[#C8A161] mb-1">{q}</h3>
+                            <p className="text-sm text-[#B8B2AA] leading-relaxed">{a}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </>
