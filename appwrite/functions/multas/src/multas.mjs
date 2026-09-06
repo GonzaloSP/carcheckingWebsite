@@ -118,7 +118,10 @@ async function solveRecaptchaV2(siteKey, pageUrl, isInvisible = false) {
         'https://api.capsolver.com/createTask',
         {
           clientKey: capsolverKey,
-          task: { type: isInvisible ? 'ReCaptchaV2InvisibleTaskProxyLess' : 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
+          // Capsolver retired ReCaptchaV2InvisibleTaskProxyLess (it now answers
+          // ERROR_TYPE_NOT_SUPPORTED). ReCaptchaV2TaskProxyLess handles invisible
+          // widgets too, so it is used for both cases.
+          task: { type: 'ReCaptchaV2TaskProxyLess', websiteURL: pageUrl, websiteKey: siteKey },
         },
         { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
       );
@@ -180,7 +183,9 @@ async function submitCaptchaTask(type, siteKey, pageUrl, action = '', minScore =
 
   if (!skipCapsolver && capsolverKey) {
    try {
-    const defaultV2Type = isInvisible ? 'ReCaptchaV2InvisibleTaskProxyLess' : 'ReCaptchaV2TaskProxyLess';
+    // Same as above: Capsolver no longer accepts a separate "Invisible" task type,
+    // so invisible widgets go through ReCaptchaV2TaskProxyLess as well.
+    const defaultV2Type = 'ReCaptchaV2TaskProxyLess';
     const taskType = capsolverTaskTypeOverride || (type === 'v3' ? 'ReCaptchaV3TaskProxyLess' : defaultV2Type);
     const task = { type: taskType, websiteURL: pageUrl, websiteKey: siteKey };
     if (type === 'v3') { task.pageAction = action; task.minScore = minScore; }
@@ -358,9 +363,12 @@ async function fetchPBAStep1(_dominio) {
   if (!csrfMatch) throw new Error('No se encontró el CSRF token en el portal PBA.');
   const csrfToken = csrfMatch[1];
 
-  // PBA uses invisible reCAPTCHA v2. Capsolver returns 400 for invisible tasks on this site;
-  // skip it and use 2captcha with invisible=1 which reliably solves this captcha.
-  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL, '', 0.3, null, true, true);
+  // PBA uses invisible reCAPTCHA v2. Capsolver used to be skipped here because the
+  // old ReCaptchaV2InvisibleTaskProxyLess task type errored out; with the correct
+  // task type it solves this captcha fine (verified against this site key), so
+  // Capsolver is tried first and 2captcha stays as the fallback. Relying on a single
+  // provider is what took PBA down when the 2captcha balance ran out.
+  const taskMeta = await submitCaptchaTask('v2', SITE_KEY, PAGE_URL, '', 0.3, null, false, true);
   return { taskMeta, session: { rawCookies, csrfToken, pageUrl: PAGE_URL } };
 }
 
