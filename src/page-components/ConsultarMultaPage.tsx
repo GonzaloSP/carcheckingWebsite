@@ -58,24 +58,38 @@ const APPWRITE_PROJECT = APPWRITE_PROJECT_ID;
 // Direct function domain — no execution API wrapper, no X-Appwrite-Project needed.
 const MULTA_API_URL = MULTAS_FUNCTION_URL;
 
-const MP_CREATE_URL = 'https://mp-create.functions.innsimulation.com';
-const MP_VERIFY_URL = 'https://mp-verify.functions.innsimulation.com';
-
-/** Call an MP payment function via its direct domain. */
+/**
+ * Call an MP payment function through the Appwrite execution API.
+ *
+ * NOT via the per-function domains (mp-create/mp-verify.functions.innsimulation.com):
+ * those get their own Let's Encrypt certificate, and when one fails to renew the
+ * browser aborts the request before it leaves the device — no status, no CORS
+ * error, just a dead "Generar QR" button. That is exactly what happened when
+ * mp-create's certificate expired on 2026-09-03. The execution API lives on the
+ * project's main API domain, whose certificate is the one Appwrite actually keeps
+ * renewed, so payments no longer depend on a per-function cert.
+ */
 async function callAppwriteFn(
   fnId: string,
   method: string,
   body?: Record<string, unknown>,
   query?: Record<string, string>,
 ): Promise<any> {
-  const base = fnId === 'mp-create-preference' ? MP_CREATE_URL : MP_VERIFY_URL;
-  const qs = query ? '?' + new URLSearchParams(query).toString() : '';
-  const res = await fetch(`${base}/${qs}`, {
-    method,
-    headers: body ? { 'Content-Type': 'application/json' } : undefined,
-    ...(body ? { body: JSON.stringify(body) } : {}),
+  const path = query ? '/?' + new URLSearchParams(query).toString() : '/';
+  const res = await fetch(`${APPWRITE_BASE}/functions/${fnId}/executions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: false, method, path, ...(body ? { body: JSON.stringify(body) } : {}) }),
   });
-  return res.json();
+  const exec = await res.json();
+  // The execution API reports its own failures (404/401/rate limit) at this level;
+  // the function's own payload is the JSON string in responseBody.
+  if (!res.ok) throw new Error(exec?.message || `Appwrite ${res.status}`);
+  try {
+    return JSON.parse(exec.responseBody || '{}');
+  } catch {
+    throw new Error('Respuesta inválida del servidor de pagos');
+  }
 }
 
 /** Call the multas function directly via its domain. */
