@@ -684,31 +684,108 @@ async function fetchCorrientes(dominio) {
 }
 
 // ─── Entre Ríos ───────────────────────────────────────────────────────────────
+// El portal se mudó a monitoreovialentrerios.info (SPA Angular); la API sigue en
+// api.monitoreovialentrerios.ar pero la consulta pasó a /api/v3/69fa0e115c1082b8
+// y ya NO lleva Authorization — cualquier valor en ese header devuelve 401.
+//   consulta=1 → "Por Dominio" (valor del radio del portal)
+//   pagina = per_page, page = número de página
+// Respuesta: paginador Laravel dentro de `datos` → { data: [...], next_page_url }.
 async function fetchEntreRios(dominio) {
-  const BASE    = 'https://api.monitoreovialentrerios.ar';
-  const BEARER  = '3cWREV3JLU3E3ZEpwMlE9PSIsInZhbHVlIjoiS2';
-  const headers = { Authorization: BEARER, Accept: 'application/json' };
+  const URL_CONSULTA = 'https://api.monitoreovialentrerios.ar/api/v3/69fa0e115c1082b8';
+  const PER_PAGE     = 50;
+  const MAX_PAGES    = 5;
 
-  const valid = await http.post(`${BASE}/api/v1/dominio`, { dominio }, { headers });
-  if (valid.data && valid.data.error) throw new Error('Entre Ríos: dominio no encontrado.');
+  const infracciones = [];
 
-  const params = new URLSearchParams({ consulta: 'dominio', id: dominio, pagina: '1', page: '1' });
-  const res = await http.post(`${BASE}/api/entre_rios/infracciones_v1`, params.toString(), {
-    headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' },
-  });
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    const params = new URLSearchParams({
+      consulta: '1',
+      id:       dominio,
+      pagina:   String(PER_PAGE),
+      page:     String(page),
+    });
 
-  const list = res.data.infracciones || res.data.data || res.data.items || res.data || [];
+    const res = await http.post(URL_CONSULTA, params.toString(), {
+      headers: {
+        Accept:         'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Origin:         'https://monitoreovialentrerios.info',
+        Referer:        'https://monitoreovialentrerios.info/',
+      },
+    });
+
+    // Dominio inexistente o consulta inválida → 200 con body vacío.
+    const datos = res.data && res.data.datos;
+    const list  = (datos && datos.data) || [];
+    if (!Array.isArray(list) || list.length === 0) break;
+
+    list.forEach(i => infracciones.push(mapEntreRios(i)));
+
+    if (!datos.next_page_url) break;
+  }
+
+  return infracciones;
+}
+
+/** Convierte un acta de Entre Ríos al formato común de infracciones. */
+function mapEntreRios(i) {
+  // idTipoInfraccion 900 = acta labrada con PDA; el resto son cinemómetros.
+  const esPDA = Number(i.idTipoInfraccion) === 900;
+  const acta  = (esPDA ? i.num_acta_pda : i.num_acta) || i.num_acta || i.num_acta_pda || null;
+
+  let descripcion = null;
+  if (i.velocidad_medida) {
+    descripcion = `Exceso de velocidad: ${conKmh(i.velocidad_medida)}${i.vel_max ? ` (máximo ${conKmh(i.vel_max)})` : ''}`;
+  } else {
+    // lista_motivos llega como JSON de códigos ("[417]"); el portal no publica la
+    // tabla que los traduce, así que se muestra el código en vez de inventar texto.
+    const codigos = codigosMotivo(i.lista_motivos);
+    descripcion = codigos.length
+      ? `Infracción de tránsito (código ${codigos.join(', ')})`
+      : (esPDA ? 'Infracción de tránsito' : 'Infracción registrada por cinemómetro');
+  }
+
+  const hora  = i.hora_infraccion ? String(i.hora_infraccion).slice(0, 5) : null;
+  const fecha = [isoADmy(i.fecha_infraccion), hora].filter(Boolean).join(' ') || null;
+
+  // estado llega como IMPAGA / PAGADA / SIN REGISTRO — "impaga" también contiene
+  // "pag", así que hay que comparar el valor completo, no un substring.
+  const estadoRaw = String(i.estado || '').trim().toUpperCase();
+
+  return {
+    acta,
+    fecha,
+    vencimiento: isoADmy(i.vto1),
+    descripcion,
+    lugar:       i.zona || null,
+    importe:     Number(i.monto_a_pagar || i.multa || 0) || null,
+    url:         i.url_qr || null,
+    estado:      estadoRaw === 'PAGADA' ? 'pagada' : 'pendiente',
+    jurisdiccion: 'Entre Ríos',
+  };
+}
+
+/** Agrega "km/h" cuando la API devuelve la velocidad pelada ("72.50"). */
+function conKmh(val) {
+  const s = String(val).trim();
+  return /km\/h/i.test(s) ? s : `${s} km/h`;
+}
+
+/** "[417]" o [417,9] → ['417', '9']; cualquier otra cosa → []. */
+function codigosMotivo(raw) {
+  let list = raw;
+  if (typeof raw === 'string') {
+    try { list = JSON.parse(raw); } catch { return []; }
+  }
   if (!Array.isArray(list)) return [];
+  return list.map(m => (m && typeof m === 'object' ? m.descripcion || m.motivo || m.codigo : m)).filter(m => m != null && m !== '').map(String);
+}
 
-  return list.map(i => ({
-    acta:        i.nroActa || i.acta || i.numero || null,
-    fecha:       parseDate(i.fecha || i.fechaInfraccion || null),
-    descripcion: i.descripcion || i.motivo || i.articulo || null,
-    lugar:       i.lugar || i.direccion || null,
-    importe:     parseFloat(i.importe || i.monto || i.deuda || 0) || null,
-    estado:      (i.estado || 'pendiente').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
-    jurisdiccion: i.jurisdiccion || 'Entre Ríos',
-  }));
+/** "2025-07-02" → "02/07/2025" (deja pasar cualquier otro formato tal cual). */
+function isoADmy(val) {
+  if (!val) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(val));
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : String(val);
 }
 
 // ─── Misiones Provincia ───────────────────────────────────────────────────────
