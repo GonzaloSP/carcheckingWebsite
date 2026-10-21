@@ -2241,20 +2241,41 @@ async function fetchLomasDeZamora(dominio) {
 
   const $        = cheerio.load(String(res.data));
   const bodyText = $('body').text();
-  if (/no registra|no se encontr|sin infraccion|no tiene infracc/i.test(bodyText)) return [];
+  // "El Dominio X No posee infracciones en Lomas de Zamora al dd/mm/aaaa."
+  if (/no posee infracc|no registra|no se encontr|sin infraccion|no tiene infracc/i.test(bodyText)) return [];
+
+  // La grilla (GridView1) trae: [Recibo] [Info] Causa | Dominio | Infractor |
+  // Documento | Infracciones | Fecha Infracción | Lugar Infracción — sin importe
+  // ni estado (el importe sólo sale del postback "Info"). Se ubican las columnas
+  // por encabezado, no por posición, y nunca se exponen Infractor/Documento.
+  const headers = $('#GridView1 tr').first().find('th')
+    .map((_, th) => $(th).text().trim().toLowerCase()).get();
+  const col = name => headers.findIndex(h => h.startsWith(name));
+  const iCausa = col('causa'), iInf = col('infracciones'), iFecha = col('fecha'), iLugar = col('lugar');
+  if (iCausa < 0) throw new Error('Lomas de Zamora: cambió el formato de la grilla de resultados.');
 
   const infracciones = [];
-  $('table tbody tr, table tr').each((i, row) => {
-    if (i === 0) return;
-    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
-    if (cols.length < 2) return;
+  $('#GridView1 tr').slice(1).each((_, row) => {
+    const tds  = $(row).find('td');
+    const cell = i => (i >= 0 ? tds.eq(i).text().trim() : '');
+    const acta = cell(iCausa);
+    if (!acta) return;
+
+    // Una causa agrupa varias infracciones, una por línea; "Derechos de Oficina"
+    // es el arancel administrativo, no una infracción.
+    const items = (iInf >= 0 ? tds.eq(iInf).text() : '')
+      .split('\n')
+      .map(l => l.replace(/^-+/, '').trim())
+      .filter(l => l && !/^derechos de oficina$/i.test(l));
+
     infracciones.push({
-      acta:        cols[0] || null,
-      fecha:       cols[1] || null,
-      descripcion: cols[2] || null,
-      lugar:       cols[3] || null,
-      importe:     parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
-      estado:      (cols[5] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+      acta,
+      fecha:       cell(iFecha) || null,
+      descripcion: items.join(' · ') || null,
+      lugar:       cell(iLugar) || null,
+      importe:     null,
+      // Las causas listadas son las que tienen "Recibo" para pagar: siguen abiertas.
+      estado:      'pendiente',
       jurisdiccion: 'Lomas de Zamora',
     });
   });
