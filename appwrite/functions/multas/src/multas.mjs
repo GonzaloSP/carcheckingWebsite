@@ -962,54 +962,41 @@ async function fetchNeuquen(dominio) {
 }
 
 // ─── Santa Rosa (La Pampa) ────────────────────────────────────────────────────
+// El portal se mudó de fotomultas.santarosa.gob.ar (form PHP con csrf_token) a
+// www.santarosa.gob.ar/fotomultas (Astro). La consulta es ahora un POST JSON
+// { valor } — el mismo campo sirve para DNI o dominio, el tipo no se envía.
+// Respuesta: { infracciones: [{ id, dominio, nroActa, estado, descripcion,
+// fecha, vencimiento, importe, urlPago }] }, o { error } con status != 2xx.
 async function fetchSantaRosa(dominio) {
-  const BASE = 'https://fotomultas.santarosa.gob.ar/';
-  const jar  = new CookieJar();
-  const home = await http.get(BASE, { jar, withCredentials: true });
-  const $h   = cheerio.load(home.data);
-  const csrf = $h('input[name="csrf_token"]').val();
-  if (!csrf) throw new Error('No se encontró el CSRF token en el portal de Santa Rosa.');
-
-  const form    = new URLSearchParams({ csrf_token: csrf, busqueda_tipo: 'Dominio', dominio });
-  const cookies = jar
-    .getCookiesSync('https://fotomultas.santarosa.gob.ar')
-    .map(c => `${c.key}=${c.value}`)
-    .join('; ');
-
-  const res = await http.post(BASE, form.toString(), {
-    jar,
-    withCredentials: true,
+  const BASE = 'https://www.santarosa.gob.ar';
+  const res  = await http.post(`${BASE}/api/fotomultas/infracciones`, { valor: dominio }, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Referer:        BASE,
-      Cookie:         cookies,
+      Accept:         'application/json',
+      'Content-Type': 'application/json',
+      Origin:         BASE,
+      Referer:        `${BASE}/fotomultas/`,
     },
   });
 
-  const $ = cheerio.load(String(res.data));
-  if ($('body').text().includes('No se encontraron infracciones')) return [];
+  const list = res.data && res.data.infracciones;
+  if (!Array.isArray(list)) throw new Error('Santa Rosa: respuesta inesperada del portal.');
 
-  const errText = $('article.red li, .red li').first().text().trim();
-  if (errText) throw new Error(`Santa Rosa: ${errText}`);
-
-  const infracciones = [];
-  $('table tbody tr').each((_, row) => {
-    const cols = $(row).find('td').map((_, td) => $(td).text().trim()).get();
-    if (cols.length < 2) return;
-    infracciones.push({
-      acta:        cols[0] || null,
-      fecha:       cols[1] || null,
-      descripcion: cols[2] || null,
-      lugar:       cols[3] || null,
-      importe:
-        parseFloat((cols[4] || '').replace(/[^0-9.,]/g, '').replace(',', '.')) || null,
-      estado:
-        (cols[5] || cols[3] || '').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
+  return list.map(i => {
+    // estado: el portal distingue "vencida" y "pagada"; "impaga" también contiene
+    // "pag", así que sólo cuenta como pagada si empieza con "pagad".
+    const estadoRaw = String(i.estado || '').trim().toLowerCase();
+    return {
+      acta:        i.nroActa != null ? String(i.nroActa) : null,
+      fecha:       isoADmy(i.fecha),
+      vencimiento: isoADmy(i.vencimiento),
+      descripcion: i.descripcion || null,
+      lugar:       null,
+      importe:     Number(i.importe) || null,
+      url:         i.urlPago || (i.id != null ? `${BASE}/api/fotomultas/acta/${i.id}.pdf` : null),
+      estado:      estadoRaw.startsWith('pagad') ? 'pagada' : 'pendiente',
       jurisdiccion: 'Santa Rosa (La Pampa)',
-    });
+    };
   });
-
-  return infracciones;
 }
 
 // ─── Ciudad de Mendoza ────────────────────────────────────────────────────────
@@ -2637,6 +2624,7 @@ export default async ({ req, res, log, error: logError }) => {
         rosario:         'https://www.rosario.gob.ar/gdm/patente.do?accion=ir',
         mendozacaminera: 'https://www.mendoza.gov.ar/policia-caminera/consulta-de-infracciones/',
         entrerios:       'https://monitoreovialentrerios.info/#/consulta-infracciones',
+        santarosa:       'https://www.santarosa.gob.ar/fotomultas/',
       };
       const manualUrl = MANUAL_URLS[fuente] || null;
       if (manualUrl) return res.json({ dominio: clean, fuente, infracciones: [], manualUrl });
