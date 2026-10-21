@@ -57,7 +57,7 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
       },
       {
         title: '¿Qué hacer si encontrás multas en CABA?',
-        body: 'Si la consulta muestra infracciones, tenés tres opciones: pagar dentro del plazo de 30 días para acceder al descuento por pronto pago (generalmente 20–30 %), solicitar un plan de pagos en cuotas si el importe es elevado, o presentar un descargo ante el Juzgado de Tránsito correspondiente si considerás que la multa fue labrada incorrectamente. El portal de carChecking te muestra el estado actualizado de cada infracción para que puedas decidir rápido.',
+        body: 'Si la consulta muestra infracciones, tenés tres opciones: pagarla con el pago voluntario (50% de descuento dentro de los 40 días desde la notificación), solicitar un plan de pagos en cuotas si el importe es elevado, o pedir una audiencia ante un controlador de faltas si considerás que la multa fue labrada incorrectamente (al hacerlo se pierde el descuento). El portal de carChecking te muestra el estado actualizado de cada infracción para que puedas decidir rápido.',
       },
       {
         title: 'Consultar multas de CABA antes de comprar un auto usado',
@@ -107,14 +107,14 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
   'como-pagar': {
     slug: 'como-pagar',
     seoTitle: 'Cómo Pagar Multas en CABA: Medios de Pago y Descuentos | carChecking',
-    seoDescription: 'Todos los medios para pagar multas de tránsito en CABA: portal online del GCBA, Banco Ciudad, Pago Fácil y Rapipago. Descuento por pronto pago dentro de los 30 días.',
+    seoDescription: 'Todos los medios para pagar multas de tránsito en CABA: portal online del GCBA, Banco Ciudad, Pago Fácil y Rapipago. Pago voluntario con 50% de descuento dentro de los 40 días.',
     seoKeywords: 'como pagar multas caba, pagar infracciones caba online, pago multas gcba, banco ciudad multas, pago facil multas caba, descuento multas caba, multas caba portal',
     h1: 'Cómo pagar multas en CABA: medios de pago y descuentos',
-    intro: 'Una vez que verificaste que tu vehículo tiene multas en CABA, el siguiente paso es regularizar la deuda. El GCBA ofrece varios canales de pago, tanto online como presenciales, y aplica un descuento por pronto pago si abonás dentro de los primeros 30 días desde la notificación.',
+    intro: 'Una vez que verificaste que tu vehículo tiene multas en CABA, el siguiente paso es regularizar la deuda. El GCBA ofrece varios canales de pago, tanto online como presenciales, y ofrece el pago voluntario: 50% de descuento si abonás dentro de los 40 días desde la notificación.',
     steps: [
       {
         title: 'Consultá el estado actualizado de la infracción',
-        body: 'Antes de pagar, verificá el monto actualizado de cada infracción en el portal del GCBA (buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones) o usando el buscador de carChecking. El importe puede incluir intereses si venció el plazo de pronto pago.',
+        body: 'Antes de pagar, verificá el monto actualizado de cada infracción en el portal del GCBA (buenosaires.gob.ar/licenciasdeconducir/consulta-de-infracciones) o usando el buscador de carChecking. Si venció el plazo del pago voluntario, el importe ya no tiene descuento.',
       },
       {
         title: 'Elegí el medio de pago',
@@ -131,8 +131,8 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
     ],
     extraSections: [
       {
-        title: 'Descuento por pronto pago en CABA',
-        body: 'Si abonás la infracción dentro de los 30 días desde la fecha de notificación, podés acceder al descuento por pronto pago. El porcentaje varía según el tipo de infracción, pero habitualmente ronda el 20 al 30 %. Pasado el plazo, el importe original se incrementa con intereses moratorios calculados mensualmente según la tasa oficial del GCBA.',
+        title: 'Pago voluntario de multas en CABA: 50% de descuento',
+        body: 'Si abonás la infracción dentro de los 40 días desde la fecha de notificación, accedés al pago voluntario con un 50% de descuento sobre el monto de la multa. Pasado ese plazo corresponde abonar el monto completo. Si pedís una audiencia ante un controlador de faltas para disputar la infracción, perdés el beneficio. Las infracciones graves, como conducir alcoholizado o participar de picadas, quedan excluidas del pago voluntario.',
       },
       {
         title: 'Qué pasa si no pagás una multa en CABA',
@@ -150,7 +150,7 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
       },
       {
         q: '¿Cuántos días tengo para pagar con descuento en CABA?',
-        a: '30 días corridos desde la fecha de notificación. Pasado ese plazo se aplican intereses moratorios y se pierde el beneficio del descuento.',
+        a: '40 días desde la fecha de notificación. Dentro de ese plazo, el pago voluntario te da un 50% de descuento; pasado el plazo, se pierde el beneficio y corresponde el monto completo.',
       },
       {
         q: '¿Qué pasa si pago una multa de CABA pero sigue apareciendo en el sistema?',
@@ -169,7 +169,7 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
     steps: [
       {
         title: 'Verificá el monto total de infracciones',
-        body: 'Consultá la patente en carChecking o en el portal del GCBA para conocer el importe actualizado de todas las infracciones. Recordá que los montos ya incluyen los intereses acumulados si venció el plazo de pronto pago.',
+        body: 'Consultá la patente en carChecking o en el portal del GCBA para conocer el importe actualizado de todas las infracciones. Recordá que si venció el plazo del pago voluntario (40 días), los montos ya no tienen el 50% de descuento.',
       },
       {
         title: 'Accedé al portal o visitá una sucursal del Banco Ciudad',
