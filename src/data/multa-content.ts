@@ -731,8 +731,12 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     ],
   },
 
+  // Entre Ríos bloquea la IP de nuestro servidor (403), así que la consulta
+  // termina en el link manual al portal oficial: el copy no promete un resultado
+  // automático. Si la consulta vuelve a funcionar (p. ej. vía proxy), revisar
+  // este intro y el metaDescription en multa-jurisdictions.ts.
   'multas-entre-rios': {
-    intro: 'Consultamos el sistema Monitoreo Vial de la Provincia de Entre Ríos por vos, en tiempo real y sin necesidad de crear una cuenta: infracciones de la Policía Caminera en rutas y accesos de toda la provincia, con resultado en menos de un minuto directo desde la patente.',
+    intro: 'Te guiamos para consultar el sistema Monitoreo Vial de la Provincia de Entre Ríos: infracciones de la Policía Caminera en rutas y accesos de toda la provincia. Ingresá la patente y te llevamos directo al portal oficial de consulta, sin crear una cuenta; más abajo te explicamos qué cubre, cómo pagar y dónde reclamar.',
     sections: [
       {
         title: 'Qué es Monitoreo Vial y quién lo administra',
