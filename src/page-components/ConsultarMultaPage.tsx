@@ -49,7 +49,11 @@ const REGION_GROUPS: { region: string; slugs: string[] }[] = [
 // These jurisdictions are always queried for free (no payment required).
 // All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
 // free-preview locations (high traffic, captcha-free scrapers).
-const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'lomasdezamora', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
+// Fuentes que hoy sólo devuelven un link manual (Entre Ríos bloquea la IP del
+// servidor). No van en el pre-pago de la búsqueda nacional, pero en su propia
+// página tampoco se cobran: sería cobrar por un link.
+const MANUAL_ONLY_FUENTES = new Set(['entrerios']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
@@ -373,8 +377,9 @@ export default function ConsultarMultaPage({
     }
 
     // Hybrid mode: run free fuentes immediately, gate the rest behind payment
-    const freeFuentes = fuentes.filter(f => FREE_MULTA_FUENTES.has(f.value));
-    const paidFuentes = fuentes.filter(f => !FREE_MULTA_FUENTES.has(f.value));
+    const isFree = (v: string) => FREE_MULTA_FUENTES.has(v) || (!!jurisdiccion && MANUAL_ONLY_FUENTES.has(v));
+    const freeFuentes = fuentes.filter(f => isFree(f.value));
+    const paidFuentes = fuentes.filter(f => !isFree(f.value));
 
     trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
     setSearched(clean);
@@ -1443,7 +1448,7 @@ export default function ConsultarMultaPage({
                               Consultá las {pendingFuentes.length} jurisdicciones restantes
                             </h3>
                             <p className="text-sm text-[#B8B2AA] leading-relaxed max-w-lg">
-                              Ya tenés los 4 resultados gratuitos de arriba. Para consultar el resto de Argentina —
+                              Ya tenés los {activeFuentes.length} resultados gratuitos de arriba. Para consultar el resto de Argentina —
                               ANSV nacional, Buenos Aires, CABA, Córdoba, Salta y más — pagá una vez y los resultados aparecen al instante.
                             </p>
                           </div>
