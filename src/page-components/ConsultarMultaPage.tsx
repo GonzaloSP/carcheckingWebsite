@@ -303,6 +303,13 @@ export default function ConsultarMultaPage({
   const pendingDominioRef = useRef('');
   const paymentStatusRef  = useRef<PaymentStatus>('idle');
   const mpExternalRefRef  = useRef('');
+  // Al apretar "Consultar" bajamos hasta las pestañas de resultados. Un contador
+  // (no `searched`) para que también scrollee al repetir la misma patente.
+  const resultsTabsRef = useRef<HTMLDivElement>(null);
+  const [scrollToResults, setScrollToResults] = useState(0);
+  useEffect(() => {
+    if (scrollToResults) resultsTabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [scrollToResults]);
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [verifyMessage, setVerifyMessage]       = useState('');
 
@@ -351,6 +358,7 @@ export default function ConsultarMultaPage({
     e.preventDefault();
     const clean = dominio.replace(/\s/g, '').toUpperCase();
     if (clean.length < 6 || clean.length > 7) return;
+    setScrollToResults(n => n + 1);
 
     const isOldFormat = /^[A-Z]{3}\d{3}$/.test(clean);
     const baseFuentes = jurisdiccion ? [jurisdiccion] : FUENTES;
@@ -840,6 +848,22 @@ export default function ConsultarMultaPage({
   // (free mode, or after payment) — never shown spinning to an unpaid user.
   const captchaAuxUnlocked = freeMode || paymentStatus === 'paid';
 
+  // Botón de pago del paywall inline: se muestra arriba (debajo del texto) y abajo
+  // (después de la grilla de jurisdicciones bloqueadas).
+  const paywallCta = (
+    <button
+      onClick={handleStartPayment}
+      disabled={paymentStatus === 'creating'}
+      className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-6 sm:px-8 py-3 text-base font-bold text-center whitespace-normal sm:whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+    >
+      {paymentStatus === 'creating' ? (
+        <><Loader2 className="w-4 h-4 animate-spin" />Preparando pago…</>
+      ) : (
+        <>Consultar todas las jurisdicciones →</>
+      )}
+    </button>
+  );
+
   return (
     <>
       {/* FAQPage earns no rich result any more (retired 2026-05-07, and restricted to
@@ -1181,7 +1205,7 @@ export default function ConsultarMultaPage({
                   </div>
 
                   {/* Tab navigation */}
-                  <div className="flex flex-wrap gap-2 mb-5">
+                  <div ref={resultsTabsRef} className="flex flex-wrap gap-2 mb-5 scroll-mt-24">
                     {(['multas', 'vtv', 'patentes'] as const).map(tab => {
                       const labels = { multas: 'Multas', vtv: 'VTV', patentes: 'Patentes' };
                       const arbaDebt = arbaState?.tieneDeuda === true;
@@ -1419,6 +1443,9 @@ export default function ConsultarMultaPage({
                           </div>
                         </div>
 
+                        {/* CTA arriba, debajo del texto — fuera de la columna del ícono para que entre en mobile */}
+                        <div className="flex mb-6">{paywallCta}</div>
+
                         {/* Locked locations grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-6">
                           {pendingFuentes.map(f => (
@@ -1432,19 +1459,7 @@ export default function ConsultarMultaPage({
                         </div>
 
                         {/* CTA */}
-                        <div className="flex">
-                          <button
-                            onClick={handleStartPayment}
-                            disabled={paymentStatus === 'creating'}
-                            className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-8 py-3 text-base font-bold whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
-                          >
-                            {paymentStatus === 'creating' ? (
-                              <><Loader2 className="w-4 h-4 animate-spin" />Preparando pago…</>
-                            ) : (
-                              <>Consultar todas las jurisdicciones →</>
-                            )}
-                          </button>
-                        </div>
+                        <div className="flex">{paywallCta}</div>
 
                         {/* Trust signals */}
                         <div className="flex flex-wrap gap-x-6 gap-y-1.5 mt-5 pt-5 border-t border-[#252520]">
