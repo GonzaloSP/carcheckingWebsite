@@ -41,7 +41,7 @@ export default async ({ req, res }) => {
       {
         title: `Consulta de multas por patente ${dominio}`,
         quantity: 1,
-        unit_price: 2000,
+        unit_price: 3000,
         currency_id: 'ARS',
       },
     ],
