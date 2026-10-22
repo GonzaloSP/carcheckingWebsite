@@ -49,7 +49,7 @@ const REGION_GROUPS: { region: string; slugs: string[] }[] = [
 // These jurisdictions are always queried for free (no payment required).
 // All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
 // free-preview locations (high traffic, captcha-free scrapers).
-const FREE_MULTA_FUENTES = new Set(['santarosa', 'lomasdezamora', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'roquesaenzpena', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
 // Fuentes que hoy sólo devuelven un link manual (Entre Ríos bloquea la IP del
 // servidor). No van en el pre-pago de la búsqueda nacional, pero en su propia
 // página tampoco se cobran: sería cobrar por un link.
