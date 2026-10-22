@@ -1,5 +1,9 @@
 import https from 'https';
 
+// Precio de la consulta de multas (ARS). Única fuente de verdad: se devuelve en la
+// respuesta como `amount` y el popup de pago lo muestra desde ahí.
+const PRECIO_CONSULTA = 3000;
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -41,7 +45,7 @@ export default async ({ req, res }) => {
       {
         title: `Consulta de multas por patente ${dominio}`,
         quantity: 1,
-        unit_price: 3000,
+        unit_price: PRECIO_CONSULTA,
         currency_id: 'ARS',
       },
     ],
@@ -68,5 +72,5 @@ export default async ({ req, res }) => {
   }
 
   const { id: preference_id, init_point } = mpRes.data;
-  return r({ preference_id, init_point, external_reference });
+  return r({ preference_id, init_point, external_reference, amount: PRECIO_CONSULTA });
 };

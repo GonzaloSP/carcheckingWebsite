@@ -54,6 +54,7 @@ const FREE_MULTA_FUENTES = new Set(['santarosa', 'entrerios', 'mendozacaminera',
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
 import { APPWRITE_BASE, APPWRITE_PROJECT_ID, MULTAS_FUNCTION_URL } from '@/config/appwrite';
+import { priceText } from '@/config/pricing';
 const APPWRITE_PROJECT = APPWRITE_PROJECT_ID;
 // Direct function domain — no execution API wrapper, no X-Appwrite-Project needed.
 const MULTA_API_URL = MULTAS_FUNCTION_URL;
@@ -296,6 +297,8 @@ export default function ConsultarMultaPage({
   const [paymentStatus, setPaymentStatus]       = useState<PaymentStatus>('idle');
   const [mpInitPoint, setMpInitPoint]           = useState('');
   const [mpExternalRef, setMpExternalRef]       = useState('');
+  // Monto que cobra mp-create-preference (lo devuelve la función, no se duplica acá).
+  const [mpAmount, setMpAmount]                 = useState<number | null>(null);
   const [paymentError, setPaymentError]         = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // Refs keep values current inside stale interval/async closures
@@ -409,6 +412,7 @@ export default function ConsultarMultaPage({
     pendingFuentesRef.current = paidFuentes;
     setMpInitPoint('');
     setMpExternalRef('');
+    setMpAmount(null);
     setPaymentError('');
     setPaymentStatus('idle');
   }
@@ -423,6 +427,7 @@ export default function ConsultarMultaPage({
         if (!data.init_point) throw new Error(data.error ?? 'Error al crear preferencia');
         setMpInitPoint(data.init_point);
         setMpExternalRef(data.external_reference);
+        setMpAmount(typeof data.amount === 'number' ? data.amount : null);
         setPaymentStatus('waiting');
 
         pollRef.current = setInterval(async () => {
@@ -928,6 +933,7 @@ export default function ConsultarMultaPage({
               </div>
               <p className="text-sm text-[#B8B2AA] mb-6">
                 Patente <span className="font-bold text-[#F4F1EC] tracking-widest">{pendingDominio}</span> · {pendingFuentes.length} registros oficiales
+                {mpAmount != null && <> por un monto de <span className="font-bold text-[#F4F1EC]">{priceText(mpAmount)}</span></>}
               </p>
 
               <div className="flex flex-col md:flex-row gap-6">
