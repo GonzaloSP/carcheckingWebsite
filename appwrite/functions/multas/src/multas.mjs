@@ -967,16 +967,37 @@ async function fetchNeuquen(dominio) {
 // { valor } — el mismo campo sirve para DNI o dominio, el tipo no se envía.
 // Respuesta: { infracciones: [{ id, dominio, nroActa, estado, descripcion,
 // fecha, vencimiento, importe, urlPago }] }, o { error } con status != 2xx.
+// El portal tiene caídas cortas (502/503 durante ~1 min): se reintenta ante 5xx o
+// error de red, acotado a ~15s para no pasar el límite síncrono de 30s de Appwrite.
+// Si sigue caído, se degrada al link manual en vez de devolver un 502.
 async function fetchSantaRosa(dominio) {
   const BASE = 'https://www.santarosa.gob.ar';
-  const res  = await http.post(`${BASE}/api/fotomultas/infracciones`, { valor: dominio }, {
-    headers: {
-      Accept:         'application/json',
-      'Content-Type': 'application/json',
-      Origin:         BASE,
-      Referer:        `${BASE}/fotomultas/`,
-    },
-  });
+  const start = Date.now();
+  let res;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      res = await http.post(`${BASE}/api/fotomultas/infracciones`, { valor: dominio }, {
+        timeout: 8000,
+        headers: {
+          Accept:         'application/json',
+          'Content-Type': 'application/json',
+          Origin:         BASE,
+          Referer:        `${BASE}/fotomultas/`,
+        },
+      });
+      break;
+    } catch (err) {
+      const status = err.response?.status;
+      const transient = !status || status >= 500;
+      if (!transient) throw err;
+      if (attempt >= 3 || Date.now() - start > 12000) {
+        const manual = new Error('MANUAL_REQUIRED');
+        manual.manualUrl = `${BASE}/fotomultas/`;
+        throw manual;
+      }
+      await new Promise(r => setTimeout(r, 1500 * attempt));
+    }
+  }
 
   const list = res.data && res.data.infracciones;
   if (!Array.isArray(list)) throw new Error('Santa Rosa: respuesta inesperada del portal.');
