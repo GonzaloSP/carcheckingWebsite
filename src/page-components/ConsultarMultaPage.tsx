@@ -115,6 +115,64 @@ async function multasExec(path: string, method: string, body: string | null, sig
   return res;
 }
 
+// Fuentes que pueden pasar los 30s que Appwrite permite a una ejecución síncrona
+// (hardcodeado en Appwrite) — resuelven captcha. Se ejecutan async vía la API de
+// ejecuciones; la función guarda el resultado cifrado en multas/jobs/{jobId} con
+// una clave que sólo conoce este navegador, y acá se levanta por polling.
+const ASYNC_FUENTES = new Set(['vtv', 'tresdefebrero', 'agip', 'arba']);
+
+const toB64Url = (bytes: Uint8Array) =>
+  btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const fromB64 = (s: string) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) return reject(signal.reason);
+    const t = setTimeout(() => { signal?.removeEventListener('abort', onAbort); resolve(); }, ms);
+    function onAbort() { clearTimeout(t); reject(signal!.reason); }
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+const jsonResponse = (data: unknown, status: number) =>
+  new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
+
+async function multasAsync(queryString: string, signal?: AbortSignal): Promise<Response> {
+  const jobId = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
+  const rawKey = crypto.getRandomValues(new Uint8Array(32));
+  const path = `/${queryString}${queryString ? '&' : '?'}jobId=${jobId}&jobKey=${toB64Url(rawKey)}`;
+
+  const start = await fetch(`${APPWRITE_BASE}/functions/multas/executions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': APPWRITE_PROJECT },
+    body: JSON.stringify({ async: true, method: 'GET', path }),
+    signal,
+  });
+  if (!start.ok) {
+    const e = await start.json().catch(() => null);
+    return jsonResponse({ error: e?.message || 'Portal no disponible' }, 502);
+  }
+
+  const key = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['decrypt']);
+  const docUrl = `${APPWRITE_BASE}/databases/multas/collections/jobs/documents/${jobId}`;
+  // El caller pone el límite total con su AbortSignal.timeout
+  await sleep(3000, signal);
+  for (;;) {
+    const r = await fetch(docUrl, { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT }, cache: 'no-store', signal });
+    if (r.ok) {
+      const doc = await r.json();
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(doc.iv) }, key, fromB64(doc.data));
+      const { status, body } = JSON.parse(new TextDecoder().decode(plain));
+      return new Response(body || '{}', {
+        status: status === 204 ? 200 : status,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    // 404 = todavía no terminó; cualquier otro error se reintenta igual hasta el timeout
+    await sleep(2000, signal);
+  }
+}
+
 // Fuentes that use two-step sync flow: step 1 submits captcha task, client waits, step 2 retrieves result
 // dnrpa uses recaptcha v2 which can take 30-60s — two-step avoids Appwrite's function timeout
 const TWO_STEP_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba', 'dnrpa']);
@@ -150,6 +208,8 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
       signal,
     );
   }
+
+  if (ASYNC_FUENTES.has(fuente)) return multasAsync(queryString, signal);
 
   // Regular single-step — direct GET to function domain
   return multasExec(`/${queryString}`, 'GET', null, signal);
