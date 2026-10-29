@@ -25,6 +25,7 @@
       "entrypoint": "src/index.js",
       "ignore": ["node_modules", ".git"],
       "execute": ["any"],
+      "scopes": ["documents.write", "rows.write"],
       "events": [],
       "schedule": "",
       "timeout": 300,

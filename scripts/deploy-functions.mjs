@@ -58,6 +58,7 @@ async function deployFunction(fn) {
       name:       fn.name,
       runtime:    fn.runtime,
       execute:    fn.execute || ['any'],
+      scopes:     fn.scopes || [],
       entrypoint: fn.entrypoint,
       timeout:    fn.timeout || 300,
       enabled:    fn.enabled !== false,
