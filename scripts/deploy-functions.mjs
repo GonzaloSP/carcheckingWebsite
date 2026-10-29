@@ -72,6 +72,15 @@ async function deployFunction(fn) {
     console.log('  Created.');
   } else {
     console.log('  Function exists.');
+    // Functions connected to GitHub with a root directory are deployed by Appwrite
+    // itself on each push — deploying them here too would create a second deployment
+    // per push. A connection with an empty root directory builds the whole repo
+    // (wrong entrypoint, never activated), so those are still deployed from here.
+    const { providerRepositoryId, providerRootDirectory } = check.data || {};
+    if (providerRepositoryId && providerRootDirectory) {
+      console.log(`  Connected to GitHub (root: ${providerRootDirectory}) — deployed by Appwrite VCS, skipping.`);
+      return true;
+    }
   }
 
   const pkg = JSON.parse(readFileSync(join(fnPath, 'package.json'), 'utf-8'));
