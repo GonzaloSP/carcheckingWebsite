@@ -790,34 +790,56 @@ function isoADmy(val) {
 }
 
 // ─── Misiones Provincia ───────────────────────────────────────────────────────
+// Desde el 2026-10-28 /infracciones exige un token de Cloudflare Turnstile
+// (campo cf_turnstile_token; sin él responde 403 "No pudimos verificar la
+// consulta") → es fuente paga (CAPTCHA_FUENTES) y async en el frontend.
+// Respuesta: paginador Laravel en datos.data, con num_acta, fecha_infraccion
+// (ISO), zona, estado ("IMPAGA"…), multa, vto1. montoTotal = suma de multa.
 async function fetchMisiones(dominio) {
-  const BASE    = 'https://api.monitoreovialmisiones.info/api';
+  const BASE     = 'https://api.monitoreovialmisiones.info/api';
   const BEARER  = '5a49/AaqwnY-BFHJu-fNoYhW2q39is8=EOOgeP-soK2!M-73MADLwLQUPBdKHrZ!rynfOGF/ji5ykmbBoreT-yO!/nA7vymR/PdJTaGh4VVCc412q?eH1EAYA45VduBNbGYib8bC1qmJvEG?/d8ryiNUggzUEki86GQuM5=095r3etYmie4Yp59j4pVm2?5YULIuF5P!YUqPb0pe8LNLz7JkEBN9TMpG9kQ7HRZbrrycP9QjEzgbAM!v2drsy6vXRtBIhj?llXmqFHeXvWCYUxB4p6-JH!j-143tUq?wMZIr6k7WUzA0JjuTt/JBl0OunudtlKeidKkcGx!spUlCRWitnQDfPEaFti/xLavb97XWXmtwaOF2vnv69DncJfu1EOjrEX-?ZTBL?zi6v/4H7-EqsZ?TIpgj40ZiZ-ria9LIhDnbdbxP?xzngzgxmOsaHBd9Jru=Uc1evzaKz8Q2!C60Q-uuvv0JXFvd?VJ=eCFZDHm24H';
-  const headers = { Authorization: `Bearer ${BEARER}`, Accept: 'application/json' };
+  const PAGE_URL = 'https://monitoreovialmisiones.info/';
+  const SITE_KEY = '0x4AAAAAAFp5zLN0OH7PsqQp';
+  const MAX_PAGES = 5;
 
-  const valid = await http.post(`${BASE}/dominio`, { dominio }, { headers });
-  if (valid.data && valid.data.error) throw new Error('Misiones: dominio no encontrado.');
+  const infracciones = [];
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    // El token de Turnstile es de un solo uso: uno por request
+    const token = await solveTurnstile(PAGE_URL, SITE_KEY);
+    const params = new URLSearchParams({
+      consulta: '1', id: dominio, pagina: '200', page: String(page), id_user: '', cf_turnstile_token: token,
+    });
+    const res = await http.post(`${BASE}/infracciones`, params.toString(), {
+      headers: {
+        Authorization:  `Bearer ${BEARER}`,
+        Accept:         'application/json, text/plain, */*',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        Origin:         'https://monitoreovialmisiones.info',
+        Referer:        PAGE_URL,
+      },
+    });
 
-  const params = new URLSearchParams({ consulta: 'dominio', id: dominio, pagina: '1', page: '1' });
-  const res = await http.post(`${BASE}/infracciones`, params.toString(), {
-    headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' },
-  });
+    const pageData = res.data && res.data.datos;
+    const list = pageData && pageData.data;
+    if (!Array.isArray(list)) throw new Error('Misiones: respuesta inesperada del portal.');
 
-  const data = res.data;
-  const list =
-    (data && data.datos && data.datos.infracciones) ||
-    data.infracciones || data.data || data.items || [];
-  if (!Array.isArray(list)) return [];
-
-  return list.map(i => ({
-    acta:        i.nroActa || i.acta || i.numero || null,
-    fecha:       parseDate(i.fecha || i.fechaInfraccion || null),
-    descripcion: i.descripcion || i.motivo || i.articulo || null,
-    lugar:       i.lugar || i.direccion || null,
-    importe:     parseFloat(i.importe || i.monto || i.deuda || 0) || null,
-    estado:      (i.estado || 'pendiente').toLowerCase().includes('pag') ? 'pagada' : 'pendiente',
-    jurisdiccion: i.jurisdiccion || 'Misiones',
-  }));
+    for (const i of list) {
+      const estado = String(i.estado || '').trim().toUpperCase();
+      infracciones.push({
+        acta:         i.num_acta != null ? String(i.num_acta) : null,
+        fecha:        isoADmy(i.fecha_infraccion),
+        vencimiento:  isoADmy(i.vto1),
+        descripcion:  null,
+        lugar:        (i.zona || '').replace(/\s+/g, ' ').trim() || null,
+        importe:      Number(i.multa) || null,
+        // "IMPAGA" contiene "PAGA": sólo cuenta como pagada si empieza con PAGA
+        estado:       /^PAGAD?A/.test(estado) ? 'pagada' : 'pendiente',
+        jurisdiccion: 'Misiones',
+      });
+    }
+    if (!pageData.last_page || page >= pageData.last_page) break;
+  }
+  return infracciones;
 }
 
 // ─── Chaco (Policía Caminera) ─────────────────────────────────────────────────
@@ -2470,6 +2492,7 @@ const CAPTCHA_FUENTES = new Set([
   'ansv', 'caba', 'pba', 'cordoba', 'dnrpa',   // two-step reCAPTCHA (cost incurred at step 1)
   'rosario', 'tresdefebrero', 'agip', 'salta', // reCAPTCHA v2/v3
   'vtv-cordoba', 'arba',                        // image captcha
+  'misiones',                                   // Cloudflare Turnstile (desde 2026-10-28)
 ]);
 
 // Enable enforcement in hybrid/paid deployments. Leave unset for fully-free mode.

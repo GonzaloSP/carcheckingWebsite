@@ -47,9 +47,10 @@ const REGION_GROUPS: { region: string; slugs: string[] }[] = [
 ];
 
 // These jurisdictions are always queried for free (no payment required).
-// All are captcha-free (no Capsolver/2captcha cost). santafe + misiones added as
-// free-preview locations (high traffic, captcha-free scrapers).
-const FREE_MULTA_FUENTES = new Set(['santarosa', 'roquesaenzpena', 'mendozacaminera', 'villaangostura', 'santafe', 'misiones']);
+// All are captcha-free (no Capsolver/2captcha cost). santafe added as a
+// free-preview location (high traffic, captcha-free scraper). misiones salió el
+// 2026-10-31: su portal exige Cloudflare Turnstile desde el 28/10 (costo 2captcha).
+const FREE_MULTA_FUENTES = new Set(['santarosa', 'roquesaenzpena', 'mendozacaminera', 'villaangostura', 'santafe']);
 // Fuentes que hoy sólo devuelven un link manual (Entre Ríos bloquea la IP del
 // servidor). No van en el pre-pago de la búsqueda nacional, pero en su propia
 // página tampoco se cobran: sería cobrar por un link.
@@ -119,7 +120,7 @@ async function multasExec(path: string, method: string, body: string | null, sig
 // (hardcodeado en Appwrite) — resuelven captcha. Se ejecutan async vía la API de
 // ejecuciones; la función guarda el resultado cifrado en multas/jobs/{jobId} con
 // una clave que sólo conoce este navegador, y acá se levanta por polling.
-const ASYNC_FUENTES = new Set(['vtv', 'tresdefebrero', 'agip', 'arba']);
+const ASYNC_FUENTES = new Set(['vtv', 'tresdefebrero', 'agip', 'arba', 'misiones']);
 
 const toB64Url = (bytes: Uint8Array) =>
   btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
