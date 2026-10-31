@@ -1501,7 +1501,9 @@ async function fetchVTV(dominio) {
       'User-Agent':        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36',
     },
     validateStatus: () => true,
-    timeout: 20000,
+    // La API de VTV PBA a veces tarda >20s. vtv corre async (ASYNC_FUENTES en el
+    // frontend, sin el corte de 30s de Appwrite) y la página espera hasta 120s.
+    timeout: 60000,
   });
 
   const data = res.data;
