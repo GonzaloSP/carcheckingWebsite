@@ -38,7 +38,7 @@ export const PRICING: PricingConfig = {
   services: {
     inspection: {
       name: 'Servicio Premium a Domicilio',
-      amount: 89999,
+      amount: 99999,
       description:
         'Inspección profesional del vehículo antes de comprar: mecánica, electrónica y carrocería.',
       includedLine:
@@ -73,7 +73,7 @@ export const PRICING: PricingConfig = {
 
   // aliases
   serviceName: 'Servicio Premium a Domicilio',
-  amount: 89999,
+  amount: 99999,
   includedLine: 'Incluye revisión completa + escaneo computarizado + informe escrito',
 };
 
