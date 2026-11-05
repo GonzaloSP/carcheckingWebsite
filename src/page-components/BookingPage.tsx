@@ -27,10 +27,6 @@ export default function BookingPage() {
     nombre: '',
     telefono: '',
     email: '',
-    zona: '',
-    fecha: '',
-    horario: '',
-    mensaje: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -119,7 +115,6 @@ export default function BookingPage() {
 
     trackEvent('lead_submit', {
       source: 'booking_page_form',
-      has_message: Boolean(formData.mensaje && formData.mensaje.trim()),
     });
 
     // Send the user to WhatsApp with the filled-in info
@@ -132,10 +127,6 @@ export default function BookingPage() {
         nombre: '',
         telefono: '',
         email: '',
-        zona: '',
-        fecha: '',
-        horario: '',
-        mensaje: '',
       });
     }, 3000);
   };
@@ -248,60 +239,6 @@ export default function BookingPage() {
                             placeholder="juan@email.com"
                           />
                         </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                          Zona / Dirección
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.zona}
-                          onChange={(e) => setFormData({ ...formData, zona: e.target.value })}
-                          className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors"
-                          placeholder="(opcional)"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                          <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                            Fecha preferida
-                          </label>
-                          <input
-                            type="date"
-                            value={formData.fecha}
-                            onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
-                            className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] focus:border-[#C8A161] focus:outline-none transition-colors"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                            Horario preferido
-                          </label>
-                          <select
-                            value={formData.horario}
-                            onChange={(e) => setFormData({ ...formData, horario: e.target.value })}
-                            className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] focus:border-[#C8A161] focus:outline-none transition-colors"
-                          >
-                            <option value="">Seleccionar</option>
-                            <option value="mañana">Mañana (9-13hs)</option>
-                            <option value="tarde">Tarde (13-17hs)</option>
-                            <option value="noche">Noche (17-19hs)</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs text-[#B8B2AA] uppercase tracking-wider mb-2">
-                          Mensaje adicional
-                        </label>
-                        <textarea
-                          value={formData.mensaje}
-                          onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
-                          className="w-full bg-[#0B0B0D] border border-[#2a2a2c] rounded px-4 py-3 text-[#F4F1EC] placeholder-[#5a5a5c] focus:border-[#C8A161] focus:outline-none transition-colors h-24 resize-none"
-                          placeholder="Información adicional sobre el vehículo..."
-                        />
                       </div>
 
                       <button
