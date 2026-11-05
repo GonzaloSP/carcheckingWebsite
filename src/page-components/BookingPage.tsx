@@ -169,6 +169,17 @@ export default function BookingPage() {
               <p className="text-lg text-[#B8B2AA] max-w-2xl mx-auto">
                 Complete el formulario y nos pondremos en contacto para confirmar su inspección.
               </p>
+              <p className="mt-4 text-base text-[#B8B2AA] max-w-2xl mx-auto">
+                ¿Prefiere coordinar directamente? Escríbanos por WhatsApp al{' '}
+                <button
+                  type="button"
+                  onClick={() => openWhatsApp('Hola! Quiero solicitar un turno.')}
+                  className="inline-flex items-center gap-1.5 font-semibold text-[#C8A161] hover:underline"
+                >
+                  <WhatsAppLogo className="w-4 h-4" />
+                  11-5698-0573
+                </button>
+              </p>
             </div>
           </div>
 
