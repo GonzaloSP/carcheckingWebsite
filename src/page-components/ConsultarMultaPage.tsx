@@ -445,7 +445,12 @@ export default function ConsultarMultaPage({
     // Hybrid mode: run free fuentes immediately, gate the rest behind payment
     const isFree = (v: string) => FREE_MULTA_FUENTES.has(v) || (!!jurisdiccion && (MANUAL_ONLY_FUENTES.has(v) || !CAPTCHA_MULTA_FUENTES.has(v)));
     const freeFuentes = fuentes.filter(f => isFree(f.value));
-    const paidFuentes = fuentes.filter(f => !isFree(f.value));
+    const ownPaidFuentes = fuentes.filter(f => !isFree(f.value));
+    // Página de una jurisdicción gratuita: después de su resultado ofrecemos el mismo
+    // upsell que la búsqueda nacional, con el resto de las jurisdicciones del país.
+    const paidFuentes = jurisdiccion && freeFuentes.length > 0 && ownPaidFuentes.length === 0
+      ? (isOldFormat ? FUENTES : FUENTES.filter(f => f.value !== 'ansv')).filter(f => f.value !== jurisdiccion.value)
+      : ownPaidFuentes;
 
     trackEvent('multa_search', { dominio: clean, format: clean.length === 6 ? 'antiguo' : 'mercosur' });
     setSearched(clean);
@@ -1539,7 +1544,7 @@ export default function ConsultarMultaPage({
                               {activeFuentes.length === 0 && pendingFuentes.length === 1
                                 ? <>Todavía no consultamos nada para esta patente: la consulta de {pendingFuentes[0].label} es paga.
                                   Pagás una sola vez, ves el precio antes de confirmar y el resultado aparece en esta misma página.</>
-                                : <>Ya tenés los {activeFuentes.length} resultados gratuitos de arriba. Para consultar el resto de Argentina —
+                                : <>{activeFuentes.length === 1 ? 'Ya tenés el resultado gratuito de arriba' : `Ya tenés los ${activeFuentes.length} resultados gratuitos de arriba`}. Para consultar el resto de Argentina —
                                   ANSV nacional, Buenos Aires, CABA, Córdoba, Salta y más — pagá una vez y los resultados aparecen al instante.</>}
                             </p>
                           </div>
