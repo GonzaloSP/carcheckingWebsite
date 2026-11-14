@@ -75,7 +75,7 @@ export const MULTAS_CABA_GUIDES: Record<string, CABAGuide> = {
       },
       {
         q: '¿Es gratis consultar multas en CABA?',
-        a: 'Sí. La consulta de multas en carChecking es completamente gratuita para la jurisdicción CABA.',
+        a: 'No. La consulta automática de CABA en carChecking es paga: se abona una única vez por patente y el precio se informa antes de pagar. La alternativa gratuita es consultar directamente en el portal oficial del Gobierno de la Ciudad, cargando la patente y resolviendo la verificación.',
       },
       {
         q: '¿Qué datos necesito para consultar multas en CABA?',

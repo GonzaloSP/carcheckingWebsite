@@ -930,7 +930,9 @@ export default function ConsultarMultaPage({
       {paymentStatus === 'creating' ? (
         <><Loader2 className="w-4 h-4 animate-spin" />Preparando pago…</>
       ) : (
-        <>Consultar todas las jurisdicciones →</>
+        <>{activeFuentes.length === 0 && pendingFuentes.length === 1
+          ? `Consultar ${pendingFuentes[0].label} →`
+          : 'Consultar todas las jurisdicciones →'}</>
       )}
     </button>
   );
@@ -1228,7 +1230,10 @@ export default function ConsultarMultaPage({
                     </div>
                   )}
 
-                  {/* Total de multas banner */}
+                  {/* Total de multas banner — oculto si todavía no se consultó ninguna jurisdicción
+                      (página de una jurisdicción paga antes del pago): mostrar "0 / Sin infracciones"
+                      ahí sería un falso negativo. */}
+                  {activeFuentes.length > 0 && (<>
                   <div className={`rounded-xl border mb-6 p-5 ${
                     totalInfracciones > 0 ? 'bg-amber-950/20 border-amber-700/40' : 'bg-[#141416] border-[#2a2a2c]'
                   }`}>
@@ -1275,6 +1280,7 @@ export default function ConsultarMultaPage({
                       Descargar PDF
                     </button>
                   </div>
+                  </>)}
 
                   {/* Tab navigation */}
                   <div ref={resultsTabsRef} className="flex flex-wrap gap-2 mb-5 scroll-mt-24">
@@ -1506,11 +1512,16 @@ export default function ConsultarMultaPage({
                           </div>
                           <div>
                             <h3 className="text-xl font-bold text-[#F4F1EC] mb-1">
-                              Consultá las {pendingFuentes.length} jurisdicciones restantes
+                              {activeFuentes.length === 0 && pendingFuentes.length === 1
+                                ? `Consultá las multas de ${pendingFuentes[0].label}`
+                                : `Consultá las ${pendingFuentes.length} jurisdicciones restantes`}
                             </h3>
                             <p className="text-sm text-[#B8B2AA] leading-relaxed max-w-lg">
-                              Ya tenés los {activeFuentes.length} resultados gratuitos de arriba. Para consultar el resto de Argentina —
-                              ANSV nacional, Buenos Aires, CABA, Córdoba, Salta y más — pagá una vez y los resultados aparecen al instante.
+                              {activeFuentes.length === 0 && pendingFuentes.length === 1
+                                ? <>Todavía no consultamos nada para esta patente: la consulta de {pendingFuentes[0].label} es paga.
+                                  Pagás una sola vez, ves el precio antes de confirmar y el resultado aparece en esta misma página.</>
+                                : <>Ya tenés los {activeFuentes.length} resultados gratuitos de arriba. Para consultar el resto de Argentina —
+                                  ANSV nacional, Buenos Aires, CABA, Córdoba, Salta y más — pagá una vez y los resultados aparecen al instante.</>}
                             </p>
                           </div>
                         </div>

@@ -104,7 +104,7 @@ export default function MultasPBAGuidePage({ guide }: { guide: string }) {
             <div className="bg-[#141416] border border-[#C8A161]/25 rounded-xl p-6 mb-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex-1">
                 <p className="text-sm font-semibold text-[#F4F1EC] mb-0.5">Consultá multas en Provincia de Buenos Aires ahora</p>
-                <p className="text-xs text-[#B8B2AA]">Acceso directo al portal InfraccionesBA. Gratis.</p>
+                <p className="text-xs text-[#B8B2AA]">Acceso directo al portal InfraccionesBA.</p>
               </div>
               <Link
                 href="/consultar-multa/multas-provincia-buenos-aires"

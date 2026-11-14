@@ -59,7 +59,7 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
     faq: [
       {
         q: '¿Cómo consulto multas de la Provincia de Buenos Aires por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Provincia de Buenos Aires". Accedemos en tiempo real al portal InfraccionesBA y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Provincia de Buenos Aires". Accedemos en tiempo real al portal InfraccionesBA y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Qué datos necesito para consultar?',
@@ -67,7 +67,7 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
       },
       {
         q: '¿La consulta es gratis?',
-        a: 'Sí. La consulta de multas de la Provincia de Buenos Aires en carChecking es gratuita.',
+        a: 'No. La consulta automática de la Provincia de Buenos Aires en carChecking es paga: se abona una única vez por patente y el precio se informa antes de pagar. La alternativa gratuita es consultar directamente en el portal oficial InfraccionesBA, cargando la patente y resolviendo la verificación.',
       },
       {
         q: '¿Aparecen las multas de CABA en este registro?',
@@ -137,11 +137,11 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
 
   'deuda-patentes-arba': {
     slug: 'deuda-patentes-arba',
-    seoTitle: 'Deuda de Patentes ARBA por Dominio: Cómo Consultarla | carChecking',
-    seoDescription: 'Cómo consultar la deuda de patente automotor de ARBA en la Provincia de Buenos Aires por dominio. Diferencia con las multas, cómo pagar y por qué importa al transferir.',
-    seoKeywords: 'deuda patentes arba, consultar patente arba por dominio, impuesto automotor buenos aires, deuda patente provincia buenos aires, arba automotor, patentes bonaerenses',
+    seoTitle: 'Deuda de Patentes ARBA por Dominio: Autos y Motos en Provincia | carChecking',
+    seoDescription: 'Cómo consultar la deuda de patentes de ARBA por dominio, para autos y motos de la Provincia de Buenos Aires: sin clave, paso a paso. Diferencia con las multas, cómo pagar y qué revisar al transferir.',
+    seoKeywords: 'deuda patentes arba, consultar patente arba por dominio, impuesto automotor buenos aires, deuda patente provincia buenos aires, arba automotor, patentes bonaerenses, arba patentes motos, deuda de patentes motos provincia, patentes provincia de buenos aires',
     h1: 'Deuda de patentes (ARBA) en la Provincia de Buenos Aires',
-    intro: 'En la Provincia de Buenos Aires, el impuesto a la patente automotor lo administra ARBA (Agencia de Recaudación bonaerense) y es independiente de las multas de tránsito. Verificar la deuda de patente por dominio es clave antes de comprar o transferir un vehículo bonaerense.',
+    intro: 'En la Provincia de Buenos Aires, el impuesto a la patente automotor lo administra ARBA (Agencia de Recaudación bonaerense) y es independiente de las multas de tránsito. Verificar la deuda de patente por dominio es clave antes de comprar o transferir un vehículo bonaerense, y el trámite es el mismo para autos y para motos: alcanza con la patente, sin clave ni usuario.',
     steps: [
       {
         title: 'Identificá el dominio del vehículo',
@@ -149,7 +149,7 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
       },
       {
         title: 'Consultá la deuda en ARBA',
-        body: 'La deuda de patente automotor se consulta por dominio en el sitio oficial de ARBA (arba.gov.ar), en la sección de Automotores. Allí figura el saldo del impuesto, las cuotas vencidas y los planes vigentes.',
+        body: 'La deuda de patente automotor se consulta por dominio en el sitio oficial de ARBA (arba.gov.ar), en la sección de Automotores. No hace falta clave ni usuario: se ingresa el dominio y el código de seguridad que muestra la pantalla. Allí figura el saldo del impuesto, las cuotas vencidas y los planes vigentes.',
       },
       {
         title: 'Diferenciá la deuda de patente de las multas',
@@ -161,6 +161,14 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
       },
     ],
     extraSections: [
+      {
+        title: 'Deuda de patentes de motos en la Provincia de Buenos Aires',
+        body: 'Las motos radicadas en la Provincia de Buenos Aires también tributan el impuesto automotor, y la deuda se consulta igual que la de un auto: en el sitio de ARBA, sección Automotores, ingresando el dominio de la moto. No se necesita clave. El importe depende del modelo, la valuación y el municipio de radicación, por lo que conviene mirar el detalle de cuotas vencidas y no solo el total. Si vas a comprar una moto usada, pedí el libre deuda de patentes junto con el informe de dominio: la deuda queda asociada a la patente y pasa al nuevo titular.',
+      },
+      {
+        title: 'Patentes y multas en una sola consulta',
+        body: 'La patente (ARBA) y las multas (InfraccionesBA) son registros distintos y hay que revisar los dos. La consulta completa por patente de carChecking, que es paga, reúne en un mismo informe las infracciones y, en la pestaña Patentes, la deuda de ARBA del dominio. Si preferís hacerlo por tu cuenta y sin costo, cada organismo ofrece su consulta oficial por separado.',
+      },
       {
         title: 'Por qué la deuda de patente viaja con el auto',
         body: 'El impuesto a la patente automotor recae sobre el vehículo (el dominio), de modo que la deuda acumulada no se "borra" al venderlo: el nuevo titular puede encontrarse con saldos impagos de períodos anteriores. Por eso, al comprar un usado bonaerense, verificar la patente de ARBA es tan importante como revisar las multas y la situación registral del dominio.',
@@ -182,6 +190,14 @@ export const MULTAS_PBA_GUIDES: Record<string, PBAGuide> = {
       {
         q: '¿Puede frenar la transferencia una deuda de patente?',
         a: 'Sí. Una deuda de patente impaga puede generar trabas en la transferencia del dominio y, en casos de mora prolongada, intimaciones o embargos. Conviene regularizarla antes del trámite.',
+      },
+      {
+        q: '¿Cómo consulto la deuda de patentes de una moto en Provincia?',
+        a: 'Igual que la de un auto: en arba.gov.ar, sección Automotores, ingresando el dominio de la moto y el código de seguridad. No hace falta clave. Vas a ver las cuotas vencidas, el saldo y las opciones de pago.',
+      },
+      {
+        q: '¿Necesito clave de ARBA para ver la deuda de patentes?',
+        a: 'No. La consulta de deuda del impuesto automotor es por dominio y no requiere usuario ni clave; solo hay que completar el código de seguridad que aparece en pantalla.',
       },
       {
         q: '¿Dónde consulto y pago la patente de ARBA?',

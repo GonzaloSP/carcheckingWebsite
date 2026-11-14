@@ -688,7 +688,7 @@ Antes de comprar, revisá el tema multas porque:
 - Pueden generar deudas
 - En algunos casos pueden trabar trámites o sumar costos inesperados
 
-Podés [consultar las multas por patente](/consultar-multa) gratis — el registro es distinto en cada jurisdicción, por ejemplo [CABA](/consultar-multa/multas-caba) y [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires).
+Podés [consultar las multas por patente](/consultar-multa) — el registro es distinto en cada jurisdicción, por ejemplo [CABA](/consultar-multa/multas-caba) y [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires).
 
 Consejo: dejá claro por escrito cómo se resuelve (quién paga qué) antes de cerrar.
 
@@ -2035,7 +2035,7 @@ La VTV puede aprobar un auto con detalles leves. Si estás por comprar, lo más 
 
 Si buscás hacer la VTV en CABA, esta guía tiene todo: **plantas con horarios y direcciones**, cómo **sacar turno paso a paso**, precios actualizados por categoría, checklist de documentos y qué hacer si te rechazan.
 
-> **Tip:** ya que estás poniendo los papeles al día, aprovechá para [consultar las multas de CABA por patente](/consultar-multa/multas-caba) — es gratis y tarda un minuto.
+> **Tip:** ya que estás poniendo los papeles al día, aprovechá para [consultar las multas de CABA por patente](/consultar-multa/multas-caba) — tarda un minuto.
 
 ---
 
@@ -3447,7 +3447,7 @@ La consulta cambia por provincia/municipio. En general necesitás:
 - dominio/patente,
 - en algunos casos datos adicionales.
 
-Las **multas de tránsito** van por registro separado de la patente: podés consultarlas gratis en [CABA](/consultar-multa/multas-caba), [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires) y otras jurisdicciones.
+Las **multas de tránsito** van por registro separado de la patente: podés consultarlas en [CABA](/consultar-multa/multas-caba), [Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires) y otras jurisdicciones.
 
 ---
 
@@ -3846,7 +3846,7 @@ Si lo que querés es el número rápido para una transferencia, podés calcularl
 Dos cosas que el estimador **no** te avisa y conviene chequear antes de transferir:
 
 - **Deuda de patentes**: [cómo revisarla antes de comprar](/guias/como-saber-si-auto-tiene-deuda-de-patentes).
-- **Multas pendientes**: quedan asociadas al dominio y pueden trabar el trámite. Podés [consultarlas por patente](/consultar-multa) gratis.
+- **Multas pendientes**: quedan asociadas al dominio y pueden trabar el trámite. Podés [consultarlas por patente](/consultar-multa).
 
 ---
 

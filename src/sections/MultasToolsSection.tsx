@@ -21,7 +21,7 @@ export default function MultasToolsSection() {
             </h2>
             <p className="text-base lg:text-lg text-[#B8B2AA] leading-relaxed max-w-3xl">
               Verificá multas e infracciones de tránsito en los registros oficiales de cada
-              jurisdicción, gratis y sin registro. Ideal antes de comprar un usado o transferir.
+              jurisdicción, sin registro ni trámites. Ideal antes de comprar un usado o transferir.
             </p>
           </div>
 

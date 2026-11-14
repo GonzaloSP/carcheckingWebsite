@@ -37,7 +37,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas ANSV / SINAI por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "ANSV / SINAI". Resolvemos por vos el captcha del portal oficial de la Agencia Nacional de Seguridad Vial y te mostramos las infracciones de rutas nacionales y municipios adheridos, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "ANSV / SINAI". Resolvemos por vos el captcha del portal oficial de la Agencia Nacional de Seguridad Vial y te mostramos las infracciones de rutas nacionales y municipios adheridos, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Qué diferencia hay entre SINAI y las multas de CABA o de la Provincia de Buenos Aires?',
@@ -98,7 +98,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de la Provincia de Buenos Aires por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Provincia de Buenos Aires". Accedemos en tiempo real al portal Infracciones BA y te mostramos las multas registradas en el municipio correspondiente, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Provincia de Buenos Aires". Accedemos en tiempo real al portal Infracciones BA y te mostramos las multas registradas en el municipio correspondiente, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Infracciones BA cubre a todos los municipios bonaerenses?',
@@ -155,7 +155,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de La Plata por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "La Plata". Accedemos en tiempo real al sistema provincial Infracciones BA y te mostramos las infracciones registradas a nombre del titular del vehículo en el municipio, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "La Plata". Accedemos en tiempo real al sistema provincial Infracciones BA y te mostramos las infracciones registradas a nombre del titular del vehículo en el municipio, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Las multas de La Plata usan un sistema distinto al de la Provincia de Buenos Aires?',
@@ -212,7 +212,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de CABA por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "CABA". Accedemos en tiempo real al portal del Gobierno de la Ciudad de Buenos Aires y te mostramos las infracciones registradas a nombre del titular, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "CABA". Accedemos en tiempo real al portal del Gobierno de la Ciudad de Buenos Aires y te mostramos las infracciones registradas a nombre del titular, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Es cierto que en CABA se puede pagar una multa con 50% de descuento?',
@@ -705,7 +705,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Corrientes por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Corrientes. Consultamos en tiempo real el sistema SIGEIN de la Municipalidad de Corrientes Capital y te mostramos las fotomultas registradas, gratis y sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Corrientes. Consultamos en tiempo real el sistema SIGEIN de la Municipalidad de Corrientes Capital y te mostramos las fotomultas registradas, sin crear una cuenta.',
       },
       {
         q: '¿Qué es SIGEIN?',
@@ -807,7 +807,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Misiones por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Misiones. Accedemos en tiempo real al sistema Monitoreo Vial de la Provincia y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Misiones. Accedemos en tiempo real al sistema Monitoreo Vial de la Provincia y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Qué tipos de infracciones registra Monitoreo Vial Misiones?',
@@ -856,7 +856,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Posadas por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Posadas. Consultamos en tiempo real el sistema del Tribunal Municipal de Faltas y te mostramos las actas de tránsito registradas, gratis y sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Posadas. Consultamos en tiempo real el sistema del Tribunal Municipal de Faltas y te mostramos las actas de tránsito registradas, sin crear una cuenta.',
       },
       {
         q: '¿Esta consulta incluye las multas provinciales de Misiones?',
@@ -909,7 +909,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Chaco por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Chaco. Consultamos en tiempo real el sistema de la Policía Caminera y te mostramos tanto fotomultas como actas de control de ruta, gratis y sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Chaco. Consultamos en tiempo real el sistema de la Policía Caminera y te mostramos tanto fotomultas como actas de control de ruta, sin crear una cuenta.',
       },
       {
         q: '¿Cuál es la diferencia entre fotomultas y multas de la Caminera en Chaco?',
@@ -1186,7 +1186,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Lomas de Zamora por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Lomas de Zamora". Consultamos en tiempo real el sistema municipal "Consulta de Faltas" y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Lomas de Zamora". Consultamos en tiempo real el sistema municipal "Consulta de Faltas" y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Lomas de Zamora usa un sistema propio o un proveedor externo?',
@@ -1239,7 +1239,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Tres de Febrero por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Tres de Febrero". Consultamos en tiempo real el portal Mis Trámites (Mi3F) de la Municipalidad y te mostramos las infracciones registradas, gratis y sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Tres de Febrero". Consultamos en tiempo real el portal Mis Trámites (Mi3F) de la Municipalidad y te mostramos las infracciones registradas, sin crear una cuenta.',
       },
       {
         q: '¿Qué es "Mi3F" o "Mis Trámites" de Tres de Febrero?',
@@ -1292,7 +1292,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Hurlingham por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Hurlingham". Consultamos en tiempo real la plataforma GobDigital del municipio y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Hurlingham". Consultamos en tiempo real la plataforma GobDigital del municipio y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Qué es GobDigital?',
@@ -1341,7 +1341,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Cañuelas por patente?',
-        a: 'Ingresá la patente y seleccioná "Cañuelas". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "Cañuelas". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Dónde queda el Juzgado de Faltas de Cañuelas?',
@@ -1389,7 +1389,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de San Vicente por patente?',
-        a: 'Ingresá la patente y seleccioná "San Vicente". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "San Vicente". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Cuánto tiempo tengo para hacer un descargo en San Vicente?',
@@ -1533,7 +1533,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Río Tercero por patente?',
-        a: 'Ingresá la patente y seleccioná "Río Tercero". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "Río Tercero". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Río Tercero tiene radares fijos de fotomultas?',

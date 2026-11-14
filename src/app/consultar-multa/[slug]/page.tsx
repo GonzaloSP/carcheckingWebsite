@@ -19,7 +19,7 @@ export async function generateMetadata({
   }
   const canonicalUrl = `https://www.carchecking.com.ar/consultar-multa/${slug}`;
   const title = fuente.metaTitle ?? `Consultar Multas ${fuente.label} por Patente | carChecking`;
-  const description = fuente.metaDescription ?? `Consultá multas e infracciones en ${fuente.label} por patente o dominio, gratis y en segundos. Verificación online directa, sin registro ni filas.`;
+  const description = fuente.metaDescription ?? `Consultá multas e infracciones en ${fuente.label} por patente o dominio. Verificación online directa, sin registro ni filas.`;
   return {
     title,
     description,
