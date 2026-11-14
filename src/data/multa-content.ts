@@ -36,6 +36,10 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     ],
     faq: [
       {
+        q: '¿Cómo consulto multas nacionales por patente?',
+        a: 'Las multas nacionales son las que labra la Agencia Nacional de Seguridad Vial en rutas y autopistas nacionales, más las de los municipios adheridos a su sistema SINAI. Se consultan por patente en el buscador de esta página, eligiendo "ANSV / SINAI". No reemplazan a las multas provinciales o municipales: esas se revisan en el registro de cada jurisdicción.',
+      },
+      {
         q: '¿Cómo consulto multas ANSV / SINAI por patente?',
         a: 'Ingresá la patente en el buscador y seleccioná "ANSV / SINAI". Resolvemos por vos el captcha del portal oficial de la Agencia Nacional de Seguridad Vial y te mostramos las infracciones de rutas nacionales y municipios adheridos, sin necesidad de crear una cuenta.',
       },
@@ -61,6 +65,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
+      { title: 'Libre deuda de multas por patente', url: '/guias/libre-deuda-de-multas-por-patente', description: 'Qué es, cómo se obtiene en cada jurisdicción y cuándo lo piden al transferir.' },
       { title: 'Multas en CABA por patente', url: '/consultar-multa/multas-caba', description: 'Consultá si un vehículo tiene infracciones registradas en la Ciudad de Buenos Aires.' },
       { title: 'Multas en Provincia de Buenos Aires', url: '/consultar-multa/multas-provincia-buenos-aires', description: 'Revisá infracciones de tránsito en los municipios bonaerenses a través de Infracciones BA.' },
       { title: 'Informe de dominio del auto en Argentina', url: '/guias/informe-de-dominio-auto-argentina-caba-gba', description: 'Entendé qué muestra un informe de dominio y por qué conviene pedirlo antes de comprar un usado.' },
@@ -122,6 +127,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
+      { title: 'Libre deuda de multas por patente', url: '/guias/libre-deuda-de-multas-por-patente', description: 'Qué es, cómo se obtiene en cada jurisdicción y cuándo lo piden al transferir.' },
       { title: 'Multas en La Plata por patente', url: '/consultar-multa/multas-la-plata', description: 'La consulta enfocada en la capital provincial, dentro del mismo sistema de Infracciones BA.' },
       { title: 'Cómo consultar multas en PBA', url: '/multas-pba/como-consultar', description: 'Guía paso a paso para revisar infracciones bonaerenses por patente o DNI.' },
       { title: 'Cómo saber si un auto tiene deuda de patentes', url: '/guias/como-saber-si-auto-tiene-deuda-de-patentes', description: 'Diferenciá la deuda impositiva del vehículo de las multas de tránsito antes de comprarlo.' },
@@ -129,11 +135,11 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
   },
 
   'multas-la-plata': {
-    intro: 'Consultamos las infracciones de tránsito de La Plata por vos, en tiempo real y sin necesidad de crear una cuenta: fotomultas municipales y actas provinciales cargadas en Infracciones BA, con resultado directo desde la patente.',
+    intro: 'Consultamos por vos el sistema de infracciones de la Municipalidad de La Plata, gratis, en tiempo real y sin necesidad de crear una cuenta: fotomultas y actas de tránsito municipales, vencidas o no, con resultado directo desde la patente.',
     sections: [
       {
         title: 'Quién labra las multas en La Plata',
-        body: 'En La Plata las infracciones de tránsito se gestionan a través de la Subsecretaría de Justicia de Faltas y Control Urbano del municipio, con el respaldo administrativo de la Agencia Platense de Recaudación (APR). Como La Plata es uno de los municipios (partidos) de la Provincia de Buenos Aires, sus infracciones también quedan registradas en el sistema provincial Infracciones BA, consultable por dominio o por DNI del titular.',
+        body: 'En La Plata las infracciones de tránsito se gestionan a través de la Subsecretaría de Justicia de Faltas y Control Urbano del municipio, con el respaldo administrativo de la Agencia Platense de Recaudación (APR). El municipio tiene su propio portal de consulta de infracciones por patente o por documento, que es el que consulta esta página y se actualiza a diario. Las actas labradas por organismos provinciales se revisan aparte, en el sistema Infracciones BA.',
       },
       {
         title: 'La Plata, capital provincial y con su propia red de fotomultas',
@@ -145,21 +151,21 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
       {
         title: 'Cómo pagar o hacer un descargo en La Plata',
-        body: 'El pago y la consulta de infracciones platenses se gestionan principalmente a través de Infracciones BA, el portal provincial, donde se puede descargar el comprobante o pagar con Provincia Net Pago y Rapipago. Para trámites presenciales, descargos o un certificado de libre deuda, hay que dirigirse a la Subsecretaría de Justicia de Faltas y Control Urbano, en calle 48 N.º 786, La Plata.',
+        body: 'Las infracciones municipales se pagan online con tarjeta de crédito o débito desde el portal de autogestión del municipio, donde también se puede pedir una prórroga por única vez y presentar el descargo en línea. Si la notificación ya venció hay que solicitar primero una extensión. Para trámites presenciales, el Juzgado de Faltas atiende en calle 48 N.º 786, La Plata, de 8 a 14.',
       },
       {
-        title: 'La Plata y el sistema provincial: mismo registro, mirada local',
-        body: 'Aunque esta página está pensada específicamente para el municipio de La Plata, técnicamente las infracciones platenses forman parte del mismo sistema que el resto de la Provincia de Buenos Aires. Si el vehículo circuló además por rutas nacionales (como los accesos entre La Plata y Buenos Aires), conviene revisar también la consulta nacional ANSV / SINAI, que es un registro independiente.',
+        title: 'La Plata y el sistema provincial: dos registros distintos',
+        body: 'Esta página consulta el registro municipal de La Plata. Las infracciones cargadas en el sistema provincial se revisan por separado en la consulta de la Provincia de Buenos Aires, así que antes de comprar o transferir un vehículo conviene mirar las dos. Si el vehículo circuló además por rutas nacionales (como los accesos entre La Plata y Buenos Aires), conviene revisar también la consulta nacional ANSV / SINAI, que es un registro independiente.',
       },
     ],
     faq: [
       {
         q: '¿Cómo consulto multas de La Plata por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "La Plata". Accedemos en tiempo real al sistema provincial Infracciones BA y te mostramos las infracciones registradas a nombre del titular del vehículo en el municipio, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador de esta página. Consultamos en tiempo real el sistema de infracciones de la Municipalidad de La Plata y te mostramos las fotomultas y actas registradas para ese dominio, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Las multas de La Plata usan un sistema distinto al de la Provincia de Buenos Aires?',
-        a: 'No, La Plata es un municipio (partido) de la Provincia de Buenos Aires y sus infracciones se registran en el mismo sistema provincial, Infracciones BA. Esta página apunta específicamente a la ciudad de La Plata, con su propia red de fotomultas y su juzgado de faltas municipal.',
+        a: 'Sí. La Plata tiene su propia red de fotomultas, su juzgado de faltas y un portal municipal de consulta, que es el que usa esta página. El sistema provincial Infracciones BA es un registro aparte y se consulta por separado.',
       },
       {
         q: '¿Dónde están las cámaras de fotomultas en La Plata?',
@@ -167,15 +173,15 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
       {
         q: '¿Cómo pago una multa de La Plata?',
-        a: 'El pago se gestiona a través de Infracciones BA, donde podés descargar el comprobante o pagar con Provincia Net Pago y Rapipago. Para descargos o un certificado de libre deuda hay que presentarse en la Subsecretaría de Justicia de Faltas y Control Urbano, en calle 48 N.º 786.',
+        a: 'Online, con tarjeta de crédito o débito, desde el portal de autogestión del municipio; ahí mismo se puede pedir una prórroga o presentar el descargo. Si la notificación está vencida hay que pedir antes una extensión. La atención presencial es en el Juzgado de Faltas, calle 48 N.º 786, de 8 a 14.',
       },
       {
         q: '¿Qué pasa si el auto también circuló por una ruta nacional?',
-        a: 'En ese caso puede existir además una infracción nacional registrada en el sistema ANSV / SINAI, que es independiente del registro provincial de La Plata. Conviene consultar ambas jurisdicciones por separado antes de comprar o transferir el vehículo.',
+        a: 'En ese caso puede existir además una infracción nacional registrada en el sistema ANSV / SINAI, que es independiente del registro municipal de La Plata. Conviene consultar ambas jurisdicciones por separado antes de comprar o transferir el vehículo.',
       },
       {
         q: '¿Puedo consultar multas de La Plata por DNI en lugar de patente?',
-        a: 'Sí, Infracciones BA permite buscar tanto por dominio del vehículo como por DNI del titular. Nuestro buscador está optimizado para la consulta por patente.',
+        a: 'El portal municipal permite buscar por patente o por documento. Nuestro buscador hace la consulta por patente.',
       },
     ],
     relatedGuides: [
@@ -236,6 +242,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
       },
     ],
     relatedGuides: [
+      { title: 'Libre deuda de multas por patente', url: '/guias/libre-deuda-de-multas-por-patente', description: 'Qué es, cómo se obtiene en cada jurisdicción y cuándo lo piden al transferir.' },
       { title: 'Cómo pagar multas en CABA', url: '/multas-caba/como-pagar', description: 'Todos los canales de pago y el detalle del descuento por pago voluntario en la Ciudad.' },
       { title: 'Multas ANSV / SINAI', url: '/consultar-multa/multas-ansv-sinai', description: 'Revisá infracciones nacionales en rutas y autopistas, un registro separado del porteño.' },
       { title: 'Informe de dominio del auto en Argentina', url: '/guias/informe-de-dominio-auto-argentina-caba-gba', description: 'Entendé qué muestra un informe de dominio antes de comprar un usado en CABA o GBA.' },
@@ -705,7 +712,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Corrientes por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Corrientes. Consultamos en tiempo real el sistema SIGEIN de la Municipalidad de Corrientes Capital y te mostramos las fotomultas registradas, sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Corrientes. Consultamos en tiempo real el sistema SIGEIN de la Municipalidad de Corrientes Capital y te mostramos las fotomultas registradas, gratis y sin crear una cuenta.',
       },
       {
         q: '¿Qué es SIGEIN?',
@@ -856,7 +863,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Posadas por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Posadas. Consultamos en tiempo real el sistema del Tribunal Municipal de Faltas y te mostramos las actas de tránsito registradas, sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Posadas. Consultamos en tiempo real el sistema del Tribunal Municipal de Faltas y te mostramos las actas de tránsito registradas, gratis y sin crear una cuenta.',
       },
       {
         q: '¿Esta consulta incluye las multas provinciales de Misiones?',
@@ -909,7 +916,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas en Chaco por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná Chaco. Consultamos en tiempo real el sistema de la Policía Caminera y te mostramos tanto fotomultas como actas de control de ruta, sin crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná Chaco. Consultamos en tiempo real el sistema de la Policía Caminera y te mostramos tanto fotomultas como actas de control de ruta, gratis y sin crear una cuenta.',
       },
       {
         q: '¿Cuál es la diferencia entre fotomultas y multas de la Caminera en Chaco?',
@@ -1186,7 +1193,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Lomas de Zamora por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Lomas de Zamora". Consultamos en tiempo real el sistema municipal "Consulta de Faltas" y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Lomas de Zamora". Consultamos en tiempo real el sistema municipal "Consulta de Faltas" y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Lomas de Zamora usa un sistema propio o un proveedor externo?',
@@ -1292,7 +1299,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Hurlingham por patente?',
-        a: 'Ingresá la patente en el buscador y seleccioná "Hurlingham". Consultamos en tiempo real la plataforma GobDigital del municipio y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente en el buscador y seleccioná "Hurlingham". Consultamos en tiempo real la plataforma GobDigital del municipio y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Qué es GobDigital?',
@@ -1341,7 +1348,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Cañuelas por patente?',
-        a: 'Ingresá la patente y seleccioná "Cañuelas". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "Cañuelas". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Dónde queda el Juzgado de Faltas de Cañuelas?',
@@ -1389,7 +1396,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de San Vicente por patente?',
-        a: 'Ingresá la patente y seleccioná "San Vicente". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "San Vicente". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Cuánto tiempo tengo para hacer un descargo en San Vicente?',
@@ -1533,7 +1540,7 @@ export const MULTA_CONTENT: Record<string, MultaContent> = {
     faq: [
       {
         q: '¿Cómo consulto multas de Río Tercero por patente?',
-        a: 'Ingresá la patente y seleccioná "Río Tercero". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, sin necesidad de crear una cuenta.',
+        a: 'Ingresá la patente y seleccioná "Río Tercero". Accedemos en tiempo real al sistema municipal SIGEIN y te mostramos las infracciones registradas, gratis y sin necesidad de crear una cuenta.',
       },
       {
         q: '¿Río Tercero tiene radares fijos de fotomultas?',

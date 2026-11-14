@@ -3846,7 +3846,7 @@ Si lo que querés es el número rápido para una transferencia, podés calcularl
 Dos cosas que el estimador **no** te avisa y conviene chequear antes de transferir:
 
 - **Deuda de patentes**: [cómo revisarla antes de comprar](/guias/como-saber-si-auto-tiene-deuda-de-patentes).
-- **Multas pendientes**: quedan asociadas al dominio y pueden trabar el trámite. Podés [consultarlas por patente](/consultar-multa).
+- **Multas pendientes**: quedan asociadas al dominio y pueden trabar el trámite. Podés [consultarlas por patente](/consultar-multa). Si necesitás la constancia, mirá [cómo obtener el libre deuda de multas](/guias/libre-deuda-de-multas-por-patente).
 
 ---
 
@@ -3861,6 +3861,89 @@ Para entender el desglose completo del trámite (quién paga qué, plazos y docu
 ## ¿Preferís no hacer el trámite vos?
 
 Nuestro [servicio de gestoría](/servicio-gestoria) se encarga de la transferencia de punta a punta: turno en el registro, formularios, y control de que el vehículo esté en condiciones de transferirse.
+`,
+  },
+  {
+    id: 'libre-deuda-multas-por-patente',
+    slug: 'libre-deuda-de-multas-por-patente',
+    title: 'Libre deuda de multas por patente: qué es y cómo obtenerlo',
+    excerpt:
+      'Qué es el libre deuda de infracciones de tránsito, cómo se obtiene por patente en CABA y en la Provincia de Buenos Aires, cuándo te lo piden y qué hacer si aparecen multas.',
+    author: 'carChecking',
+    date: '2026-11-14',
+    category: 'Documentación',
+    tags: ['libre deuda', 'multas', 'infracciones', 'patente', 'transferencia'],
+    image: `${base}images/hero_mecanico_03.jpg`,
+    metaTitle: 'Libre Deuda de Multas por Patente: cómo obtenerlo (CABA y Provincia) | carChecking',
+    metaDescription:
+      'Cómo sacar el libre deuda de multas de tránsito por patente en CABA y Provincia de Buenos Aires: dónde se pide, qué pasa si hay infracciones impagas y cuándo lo exigen al transferir.',
+    content: `
+## Qué es el libre deuda de multas
+
+El **libre deuda de multas** (o libre deuda de infracciones) es la constancia de que un vehículo —o una persona— no registra infracciones de tránsito impagas en una jurisdicción. No existe un único libre deuda nacional: **cada jurisdicción emite el suyo**, porque cada una lleva su propio registro de infracciones.
+
+Por eso, antes de pedirlo, el primer paso siempre es el mismo: saber en qué jurisdicciones tiene multas la patente.
+
+---
+
+## Paso 1: revisá si la patente tiene multas
+
+Las infracciones quedan asociadas al dominio. Un mismo auto puede tener multas en CABA, en la Provincia de Buenos Aires, en un municipio con sistema propio y en rutas nacionales, todo a la vez y en registros separados.
+
+- [Consultar multas por patente](/consultar-multa) en varias jurisdicciones desde un solo lugar.
+- [Multas en CABA](/consultar-multa/multas-caba)
+- [Multas en Provincia de Buenos Aires](/consultar-multa/multas-provincia-buenos-aires)
+- [Multas nacionales (ANSV / SINAI)](/consultar-multa/multas-ansv-sinai)
+
+---
+
+## Paso 2: cómo se obtiene en cada jurisdicción
+
+### Ciudad de Buenos Aires
+
+La consulta se hace por patente en el portal de infracciones del Gobierno de la Ciudad. **Si el dominio no tiene infracciones pendientes, el mismo sistema permite descargar el libre deuda.** Si las tiene, primero hay que pagarlas o resolverlas ante un controlador de faltas. Más detalle en [cómo consultar multas en CABA](/multas-caba/como-consultar) y [cómo pagarlas](/multas-caba/como-pagar).
+
+### Provincia de Buenos Aires
+
+Las infracciones de los municipios bonaerenses se consultan por dominio en el portal provincial **InfraccionesBA**. Para obtener el libre deuda hay que tener las multas pagas o resueltas. Paso a paso en [cómo consultar multas en Provincia](/multas-pba/como-consultar).
+
+Tené en cuenta que algunos municipios bonaerenses usan además un sistema propio de fotomultas, por lo que conviene revisar también el municipio donde circula el vehículo.
+
+### Otras provincias y municipios
+
+Cada provincia o municipio tiene su propio trámite. Lo habitual es que el libre deuda se emita desde el mismo portal donde se consultan las infracciones, o en el juzgado o tribunal de faltas correspondiente.
+
+---
+
+## Cuándo te lo piden
+
+- **Compra-venta de un usado:** aunque no te lo exijan, pedirle al vendedor el libre deuda de multas (junto con el de patentes) es la forma más simple de no heredar deudas, porque las infracciones siguen al dominio.
+- **Transferencia en el Registro Automotor:** el Registro Seccional puede consultar por sistema las infracciones de las jurisdicciones que tienen convenio con la DNRPA, y pedir que se regularicen antes de inscribir el trámite. Los requisitos cambian según la jurisdicción y con el tiempo, así que conviene **confirmarlo con el registro donde vas a presentar la transferencia** antes de ir.
+- **Licencia de conducir:** para sacarla o renovarla suele pedirse no tener infracciones impagas en la jurisdicción que la emite.
+
+---
+
+## Qué hacer si aparecen multas
+
+1. **Verificá que sean tuyas.** Mirá fecha, lugar y dominio: si la infracción es anterior a tu compra, corresponde reclamarle al titular de ese momento.
+2. **Fijate si están prescriptas.** En la Ciudad de Buenos Aires las faltas prescriben a los cinco años. En el régimen de la Ley Nacional de Tránsito, que sigue la Provincia de Buenos Aires, las faltas leves prescriben a los dos años y las graves a los cinco. La prescripción no es automática: hay que plantearla.
+3. **Pagá o hacé el descargo.** Muchas jurisdicciones ofrecen un descuento por pago voluntario dentro de un plazo desde la notificación.
+4. **Volvé a pedir el libre deuda** una vez que el pago impacte en el sistema.
+
+---
+
+## Libre deuda de multas y de patentes no son lo mismo
+
+Son dos constancias distintas. Las multas son infracciones de tránsito; la patente es un impuesto. Al comprar un usado conviene pedir las dos:
+
+- [Cómo saber si un auto tiene deuda de patentes](/guias/como-saber-si-auto-tiene-deuda-de-patentes)
+- [Deuda de patentes ARBA por dominio](/multas-pba/deuda-patentes-arba)
+
+---
+
+## ¿Vas a transferir?
+
+Calculá cuánto sale el trámite con la [calculadora de costos de transferencia](/calculadora-de-costos-de-transferencia), o dejalo en manos de nuestro [servicio de gestoría](/servicio-gestoria).
 `,
   },
 

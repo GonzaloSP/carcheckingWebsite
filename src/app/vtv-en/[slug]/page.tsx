@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import VtvLocationPage from '@/page-components/VtvLocationPage';
 import { locations, getLocationBySlug } from '@/data/locations';
+import { vtvMeta } from '@/data/vtv-plants';
 
 export async function generateStaticParams() {
   return locations.map((l) => ({ slug: l.slug }));
@@ -20,8 +21,7 @@ export async function generateMetadata({
   const place = location.name;
   const canonicalUrl = `https://www.carchecking.com.ar/vtv-en/${slug}`;
   return {
-    title: `VTV en ${place} – Turno, requisitos y costos 2026 | carChecking`,
-    description: `Guía 2026 para hacer la VTV en ${place}: cómo sacar turno, requisitos, qué te revisan, costos orientativos y consejos para aprobar sin sorpresas.`,
+    ...vtvMeta(place, slug),
     alternates: { canonical: canonicalUrl },
     openGraph: {
       type: 'website',

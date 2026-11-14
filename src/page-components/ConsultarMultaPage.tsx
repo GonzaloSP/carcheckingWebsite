@@ -55,6 +55,11 @@ const FREE_MULTA_FUENTES = new Set(['santarosa', 'roquesaenzpena', 'mendozacamin
 // servidor). No van en el pre-pago de la búsqueda nacional, pero en su propia
 // página tampoco se cobran: sería cobrar por un link.
 const MANUAL_ONLY_FUENTES = new Set(['entrerios']);
+// Espejo de CAPTCHA_FUENTES del backend (multas.mjs): portales cuya consulta nos cuesta
+// una resolución de captcha. En la página propia de una jurisdicción, todo lo que NO
+// esté acá se consulta gratis (no nos cuesta nada y es la consulta que la página promete);
+// en la búsqueda nacional sigue gratis sólo FREE_MULTA_FUENTES. Mantener en sync con el backend.
+const CAPTCHA_MULTA_FUENTES = new Set(['ansv', 'caba', 'pba', 'cordoba', 'rosario', 'tresdefebrero', 'salta', 'misiones']);
 
 type PaymentStatus = 'idle' | 'creating' | 'waiting' | 'paid' | 'error';
 
@@ -438,7 +443,7 @@ export default function ConsultarMultaPage({
     }
 
     // Hybrid mode: run free fuentes immediately, gate the rest behind payment
-    const isFree = (v: string) => FREE_MULTA_FUENTES.has(v) || (!!jurisdiccion && MANUAL_ONLY_FUENTES.has(v));
+    const isFree = (v: string) => FREE_MULTA_FUENTES.has(v) || (!!jurisdiccion && (MANUAL_ONLY_FUENTES.has(v) || !CAPTCHA_MULTA_FUENTES.has(v)));
     const freeFuentes = fuentes.filter(f => isFree(f.value));
     const paidFuentes = fuentes.filter(f => !isFree(f.value));
 
@@ -1281,6 +1286,20 @@ export default function ConsultarMultaPage({
                     </button>
                   </div>
                   </>)}
+                  {/* ANSV/SINAI sólo admite formato antiguo: con una patente Mercosur en su página no hay
+                      nada que consultar ni que cobrar. Decirlo en vez de mostrar una pantalla vacía. */}
+                  {activeFuentes.length === 0 && pendingFuentes.length === 0 && jurisdiccion && (
+                    <div className="rounded-xl border border-amber-700/40 bg-amber-950/20 mb-6 p-5">
+                      <p className="text-sm text-[#F4F1EC] font-semibold mb-1">
+                        {jurisdiccion.label} no admite patentes Mercosur ({searched})
+                      </p>
+                      <p className="text-sm text-[#B8B2AA] leading-relaxed">
+                        El portal oficial sólo permite consultar patentes en formato antiguo (ABC123), por lo que no hicimos
+                        ninguna consulta. Para una patente Mercosur revisá las multas en la jurisdicción donde circula el
+                        vehículo desde la <Link href="/consultar-multa" className="text-[#C8A161] underline">búsqueda por patente</Link>.
+                      </p>
+                    </div>
+                  )}
 
                   {/* Tab navigation */}
                   <div ref={resultsTabsRef} className="flex flex-wrap gap-2 mb-5 scroll-mt-24">

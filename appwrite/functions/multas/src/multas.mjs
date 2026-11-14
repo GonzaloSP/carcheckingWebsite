@@ -2190,7 +2190,7 @@ async function fetchInfratrack(municipio, dominio) {
   }));
 }
 
-// ─── SIGEIN — Cañuelas / San Vicente ─────────────────────────────────────────
+// ─── SIGEIN — Cañuelas / San Vicente / La Plata y otros ─────────────────────────────────────────
 // Shared ASP.NET WebForms platform.  Same form fields as Corrientes SIGEIN.
 async function fetchSIGEINMunicipio(host, nombre, dominio) {
   const PAGE_URL = `https://${host}/home.aspx`;
@@ -2241,6 +2241,13 @@ async function fetchSIGEINMunicipio(host, nombre, dominio) {
       jurisdiccion: nombre,
     });
   });
+
+  // El portal no dijo "sin infracciones" y tampoco pudimos leer ninguna fila: no es un
+  // resultado limpio, es una respuesta que no entendemos (cambio de layout, error del
+  // portal). Fallar en vez de devolver [] para no mostrar un falso "sin multas".
+  if (infracciones.length === 0) {
+    throw new Error(`SIGEIN (${nombre}): respuesta no reconocida del portal.`);
+  }
 
   return infracciones;
 }
@@ -2713,6 +2720,7 @@ export default async ({ req, res, log, error: logError }) => {
       case 'roquesaenzpena':  infracciones = await fetchSIGEINMunicipio('rsp.sigein.net', 'Roque Sáenz Peña', clean);       break;
       case 'villaangostura':  infracciones = await fetchSIGEINMunicipio('vla.sigein.net', 'Villa La Angostura', clean);     break;
       case 'riotercero':      infracciones = await fetchSIGEINMunicipio('riotercero.sigein.net', 'Río Tercero', clean);     break;
+      case 'laplata':         infracciones = await fetchSIGEINMunicipio('laplata.sigein.net', 'La Plata', clean);           break;
       case 'hurlingham':      infracciones = await fetchHurlingham(clean);                        break;
       case 'lomasdezamora':   infracciones = await fetchLomasDeZamora(clean);                     break;
       case 'tresdefebrero':   infracciones = await fetchTresDeFebbrero(clean);                    break;

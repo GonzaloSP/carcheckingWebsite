@@ -115,6 +115,8 @@ export default function ArticleTemplate({
     const lines = rawContent.split('\n');
     let inList = false;
     let listItems: string[] = [];
+    let inTable = false;
+    let tableRows: string[][] = [];
     const elements: React.ReactElement[] = [];
     let key = 0;
 
@@ -143,8 +145,50 @@ export default function ArticleTemplate({
       }
     };
 
+    // Tablas markdown (mismo render que ArticlePage)
+    const flushTable = () => {
+      if (!inTable || tableRows.length === 0) return;
+      const [header, ...body] = tableRows;
+      elements.push(
+        <div key={`table-${key++}`} className="overflow-x-auto mb-6">
+          <table className="w-full text-sm border-collapse border border-[#2a2a2c] rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-[#1a1a1c]">
+                {header.map((cell, i) => (
+                  <th key={i} className="text-left py-2 px-4 text-[#F4F1EC] font-semibold border-b border-[#2a2a2c]"
+                    dangerouslySetInnerHTML={{ __html: formatInline(cell) }} />
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {body.map((row, ri) => (
+                <tr key={ri} className={ri % 2 === 0 ? 'bg-[#111113]' : 'bg-[#141416]'}>
+                  {row.map((cell, ci) => (
+                    <td key={ci} className="py-2 px-4 text-[#B8B2AA] border-b border-[#1a1a1c]"
+                      dangerouslySetInnerHTML={{ __html: formatInline(cell) }} />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      tableRows = [];
+      inTable = false;
+    };
+
     lines.forEach((line) => {
       const trimmed = line.trim();
+
+      if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+        flushList();
+        const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+        if (cells.every(c => /^[-: ]+$/.test(c))) return; // fila separadora
+        inTable = true;
+        tableRows.push(cells);
+        return;
+      }
+      flushTable();
 
       if (trimmed === '[[transfer_cost_calculator]]') {
         flushList();
@@ -232,6 +276,7 @@ export default function ArticleTemplate({
     });
 
     flushList();
+    flushTable();
     return elements;
   };
 
