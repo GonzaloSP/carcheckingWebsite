@@ -6,7 +6,7 @@ import { Search, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronUp, Lo
 import { QRCodeSVG } from 'qrcode.react';
 import Navigation from '../sections/Navigation';
 import FooterSection from '../sections/FooterSection';
-import { trackEvent } from '../lib/analytics';
+import { trackEvent, trackMultaPurchase } from '../lib/analytics';
 import { JURISDICCIONES_MULTA, type JurisdiccionMulta } from '../data/multa-jurisdictions';
 import { MULTA_CONTENT, HUB_FAQ, HUB_HOWTO_STEPS } from '../data/multa-content';
 
@@ -101,6 +101,24 @@ async function callAppwriteFn(
   } catch {
     throw new Error('Respuesta inválida del servidor de pagos');
   }
+}
+
+/**
+ * Browser identifiers forwarded to mp-verify-preference so its server-side Meta
+ * Conversions API Purchase matches the same person as the Pixel event.
+ */
+function metaMatchParams(): Record<string, string> {
+  if (typeof document === 'undefined') return {};
+  const cookie = (name: string) =>
+    document.cookie.split('; ').find(c => c.startsWith(name + '='))?.slice(name.length + 1) ?? '';
+  const out: Record<string, string> = { ua: navigator.userAgent, url: window.location.origin + window.location.pathname };
+  const fbp = cookie('_fbp');
+  // _fbc only exists if the pixel already stored the click; otherwise rebuild it from ?fbclid.
+  const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+  const fbc = cookie('_fbc') || (fbclid ? `fb.1.${Date.now()}.${fbclid}` : '');
+  if (fbp) out.fbp = fbp;
+  if (fbc) out.fbc = fbc;
+  return out;
 }
 
 /** Call the multas function directly via its domain. */
@@ -376,6 +394,7 @@ export default function ConsultarMultaPage({
   const pendingDominioRef = useRef('');
   const paymentStatusRef  = useRef<PaymentStatus>('idle');
   const mpExternalRefRef  = useRef('');
+  const mpAmountRef       = useRef<number | null>(null);
   // Al apretar "Consultar" bajamos hasta las pestañas de resultados. Un contador
   // (no `searched`) para que también scrollee al repetir la misma patente.
   const resultsTabsRef = useRef<HTMLDivElement>(null);
@@ -412,7 +431,7 @@ export default function ConsultarMultaPage({
       if (paymentStatusRef.current !== 'waiting') return;
       const ref = mpExternalRefRef.current;
       if (!ref) return;
-      callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: ref })
+      callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: ref, ...metaMatchParams() })
         .then(pd => {
           if (pd.paid && paymentStatusRef.current === 'waiting') {
             if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
@@ -489,6 +508,7 @@ export default function ConsultarMultaPage({
     setMpInitPoint('');
     setMpExternalRef('');
     setMpAmount(null);
+    mpAmountRef.current = null;
     setPaymentError('');
     setPaymentStatus('idle');
   }
@@ -504,11 +524,12 @@ export default function ConsultarMultaPage({
         setMpInitPoint(data.init_point);
         setMpExternalRef(data.external_reference);
         setMpAmount(typeof data.amount === 'number' ? data.amount : null);
+        mpAmountRef.current = typeof data.amount === 'number' ? data.amount : null;
         setPaymentStatus('waiting');
 
         pollRef.current = setInterval(async () => {
           try {
-            const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: data.external_reference });
+            const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: data.external_reference, ...metaMatchParams() });
             if (pd.paid) {
               if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
               setPaymentStatus('paid');
@@ -528,6 +549,9 @@ export default function ConsultarMultaPage({
     // Use refs — always current regardless of when this is called
     const fuentes = pendingFuentesRef.current;
     const dom     = pendingDominioRef.current;
+    // Every confirmed-payment path (polling, return from the MP app, manual verify)
+    // lands here, so this is where the multa Purchase is reported to Meta.
+    trackMultaPurchase(mpExternalRefRef.current, mpAmountRef.current);
     if (!fuentes.length) return;
     let rcToken2 = '';
     try { rcToken2 = await executeRecaptcha?.('consultar_multa') ?? ''; } catch (_) {}
@@ -549,7 +573,7 @@ export default function ConsultarMultaPage({
     setVerifyingPayment(true);
     setVerifyMessage('');
     try {
-      const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: mpExternalRef });
+      const pd = await callAppwriteFn('mp-verify-preference', 'GET', undefined, { external_reference: mpExternalRef, ...metaMatchParams() });
       if (pd.paid) {
         if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
         setPaymentStatus('paid');

@@ -101,6 +101,41 @@ export function trackPageView(path: string) {
   }
 }
 
+/**
+ * Meta Pixel `Purchase` for a paid multas lookup (MercadoPago payment confirmed).
+ *
+ * This is the only place a Purchase is sent, and only for the multas product, so
+ * Meta campaigns can optimize for real multa sales. `orderId` is the MercadoPago
+ * external_reference: it is sent as the eventID (so a future server-side
+ * Conversions API event with the same id is deduplicated) and used to make sure
+ * one payment never fires more than one Purchase, even across reloads.
+ */
+export function trackMultaPurchase(orderId: string, value: number | null) {
+  if (!isEnabled() || !orderId) return;
+  if (!ANALYTICS.metaPixelId || !window.fbq) return;
+
+  const storageKey = `multa_purchase_tracked:${orderId}`;
+  try {
+    if (sessionStorage.getItem(storageKey)) return;
+    sessionStorage.setItem(storageKey, '1');
+  } catch { /* storage unavailable — the caller's own guard still applies */ }
+
+  window.fbq(
+    'track',
+    'Purchase',
+    {
+      value: value ?? 0,
+      currency: 'ARS',
+      content_type: 'product',
+      content_ids: ['consulta-multas'],
+      content_name: 'Consulta de multas',
+      content_category: 'multas',
+      num_items: 1,
+    },
+    { eventID: orderId },
+  );
+}
+
 export type AnalyticsEventName =
   | 'whatsapp_click'
   | 'lead_submit'
