@@ -1350,9 +1350,41 @@ async function fetchSalta(dominio) {
   }));
 }
 
+// ─── Córdoba Provincia (Caminera) — maintenance pre-flight ────────────────────
+// When Rentas Córdoba is down, every URL on the domain (site, CMS and API) 301s to
+// mantenimiento.rentascordoba.gob.ar. Probe the API without following redirects
+// BEFORE paying for a captcha solve, so a maintenance window costs nothing.
+const CORDOBA_MANUAL_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
+
+function cordobaMaintenanceError() {
+  const err = new Error('PORTAL_MAINTENANCE');
+  err.manualUrl = CORDOBA_MANUAL_URL;
+  err.portalMessage = 'El portal de Rentas Córdoba está en mantenimiento. Intentá más tarde.';
+  return err;
+}
+
+async function assertCordobaAvailable() {
+  let res;
+  try {
+    res = await axios.get('https://app.rentascordoba.gob.ar/WSRestDeudaAnt/public/all/caminera/dominio/AA000AA', {
+      headers:        { Accept: 'application/json' },
+      maxRedirects:   0,
+      validateStatus: () => true,
+      timeout:        8000,
+    });
+  } catch (_) {
+    return; // network hiccup on the probe — let the real request decide
+  }
+  const location = String(res.headers?.location || '');
+  if (res.status >= 300 && res.status < 400 && location.includes('mantenimiento')) {
+    throw cordobaMaintenanceError();
+  }
+}
+
 // ─── Córdoba Provincia (Caminera) — Step 1 ────────────────────────────────────
 // Submits the reCAPTCHA task (takes <5s); step 2 retrieves the token and calls the API.
 async function fetchCordobaStep1() {
+  await assertCordobaAvailable();
   const CORDOBA_SITE_KEY = '6LepYkkUAAAAAK-FX-2M5BUJXsShVU7-xhHnlR7E';
   const CORDOBA_PAGE_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
   const taskMeta = await submitCaptchaTask('v2', CORDOBA_SITE_KEY, CORDOBA_PAGE_URL);
@@ -1376,7 +1408,7 @@ async function fetchCordobaStep2(dominio, taskMeta) {
     const finalUrl = res.request?.res?.responseUrl || res.request?.responseURL || '';
     const bodyStr  = typeof body === 'string' ? body : '';
     if (finalUrl.includes('mantenimiento') || bodyStr.includes('mantenimiento')) {
-      throw new Error('El portal de Córdoba está en mantenimiento. Intentá más tarde.');
+      throw cordobaMaintenanceError();
     }
     throw new Error('El portal de Córdoba no está disponible en este momento.');
   }
@@ -1419,6 +1451,7 @@ async function fetchCordobaStep2(dominio, taskMeta) {
 
 // ─── Córdoba Provincia (Caminera) — legacy single-step (may timeout on Appwrite sync) ─
 async function fetchCordoba(dominio) {
+  await assertCordobaAvailable();
   const CORDOBA_SITE_KEY = '6LepYkkUAAAAAK-FX-2M5BUJXsShVU7-xhHnlR7E';
   const CORDOBA_PAGE_URL = 'https://www.rentascordoba.gob.ar/gestiones/';
   const captchaToken = await solveRecaptchaV2(CORDOBA_SITE_KEY, CORDOBA_PAGE_URL, false);
@@ -2730,6 +2763,16 @@ export default async ({ req, res, log, error: logError }) => {
     }
     return res.json({ dominio: clean, fuente, infracciones });
   } catch (err) {
+    // PORTAL_MAINTENANCE: the official portal itself is down — deterministic, so return 200
+    // (the frontend must not retry and burn more captcha solves) with a manual link.
+    if (err.message === 'PORTAL_MAINTENANCE') {
+      return res.json({
+        dominio: clean, fuente, infracciones: [],
+        manualUrl: err.manualUrl || null,
+        maintenance: true,
+        message: err.portalMessage || 'El portal oficial está en mantenimiento.',
+      });
+    }
     // MANUAL_REQUIRED: portal needs captcha that can't be automated — send a 200 with manualUrl
     if (err.message === 'MANUAL_REQUIRED') {
       const manualUrl = err.manualUrl || null;

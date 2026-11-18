@@ -221,6 +221,8 @@ async function callMultasApi(url: string, signal?: AbortSignal): Promise<Respons
     if (!step1.ok) return step1;
     const s1 = await step1.json();
     if (s1.error) return new Response(JSON.stringify(s1), { status: 502, headers: { 'Content-Type': 'application/json' } });
+    // Portal down (e.g. maintenance) — backend answered without submitting a captcha task.
+    if (s1.manualUrl) return new Response(JSON.stringify(s1), { status: 200, headers: { 'Content-Type': 'application/json' } });
 
     const { taskMeta, session } = s1;
     await new Promise(r => setTimeout(r, TWO_STEP_WAIT_MS[fuente] ?? 35000));
@@ -261,6 +263,7 @@ interface JurisdiccionState {
   infracciones: Infraccion[];
   error?:      string;
   manualUrl?:  string;
+  maintenance?: boolean;
 }
 
 interface VehiculoInfo {
@@ -763,7 +766,7 @@ export default function ConsultarMultaPage({
           if (data.manualUrl) {
             setResults(prev => prev && ({
               ...prev,
-              [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl },
+              [value]: { status: 'manual', infracciones: [], manualUrl: data.manualUrl, maintenance: Boolean(data.maintenance) },
             }));
             return;
           }
@@ -1445,8 +1448,8 @@ export default function ConsultarMultaPage({
                                 <span className="text-xs text-green-500">Sin multas</span>
                               )}
                               {displayStatus === 'manual' && (
-                                <a href={r.manualUrl || '#'} target="_blank" rel="noopener noreferrer" className="text-xs text-[#C8A161] hover:underline whitespace-nowrap" onClick={e => e.stopPropagation()}>
-                                  Verificar manualmente →
+                                <a href={r.manualUrl || '#'} target="_blank" rel="noopener noreferrer" className="text-xs text-[#C8A161] hover:underline whitespace-nowrap" onClick={e => e.stopPropagation()} title={r.maintenance ? 'El portal oficial está en mantenimiento' : undefined}>
+                                  {r.maintenance ? 'Portal en mantenimiento →' : 'Verificar manualmente →'}
                                 </a>
                               )}
                               {displayStatus === 'error' && (
