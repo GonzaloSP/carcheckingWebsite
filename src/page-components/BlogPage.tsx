@@ -113,11 +113,11 @@ export default function BlogPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Link
-                  href="/guias/revision-precompra-a-domicilio-caba-gba"
+                  href="/"
                   className="group bg-[#0B0B0D] border border-[#2a2a2c] rounded-lg p-5 hover:border-[#C8A161]/60 transition-colors"
                 >
                   <h3 className="text-base font-semibold text-[#F4F1EC] group-hover:text-[#C8A161] transition-colors mb-2">
-                    Revisión precompra a domicilio en CABA y GBA
+                    Revisión de autos usados a domicilio en CABA y GBA
                   </h3>
                   <p className="text-sm text-[#B8B2AA]">
                     Qué incluye, cuánto tarda y cuánto cuesta revisar un auto antes de comprar.

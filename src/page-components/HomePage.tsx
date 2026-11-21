@@ -11,6 +11,7 @@ import CoverageSection from '../sections/CoverageSection';
 import ServicesSection from '../sections/ServicesSection';
 import MultasToolsSection from '../sections/MultasToolsSection';
 import TestimonialsSection from '../sections/TestimonialsSection';
+import RevisionFaqSection from '../sections/RevisionFaqSection';
 import BookingSection from '../sections/BookingSection';
 import FooterSection from '../sections/FooterSection';
 
@@ -77,12 +78,15 @@ function HomePage() {
           <HeroSection />
           <WhyInspectSection />
           <ServicesSection />
-          <MultasToolsSection />
           <WhatWeCheckSection />
           <HowItWorksSection />
           <CoverageSection />
+          <RevisionFaqSection />
           <TestimonialsSection />
           <BookingSection />
+          {/* Multas tools stay on the homepage (internal links to the jurisdiction pages) but sit
+              below the inspection content: the homepage is the page for "revisión de autos usados". */}
+          <MultasToolsSection />
           <FooterSection />
         </main>
       </div>

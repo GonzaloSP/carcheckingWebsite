@@ -169,7 +169,7 @@ export default function HeroSection() {
     }
   };
 
-  const headlineWords = 'LA FORMA SEGURA DE COMPRAR SU VEHÍCULO'.split(' ');
+  const headlineWords = 'REVISIÓN DE AUTOS USADOS A DOMICILIO'.split(' ');
 
   return (
     <section
@@ -208,9 +208,12 @@ export default function HeroSection() {
           ref={headlineRef}
           className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#F4F1EC] leading-[0.95] mb-8"
         >
+          {/* Real spaces between the word spans so the H1's text reads as words, not
+              "REVISIÓNDEAUTOS…" (the per-word spans exist for the GSAP entrance animation). */}
           {headlineWords.map((word, i) => (
-            <span key={i} className="word inline-block mr-[0.3em]">
-              {word}
+            <span key={i}>
+              <span className="word inline-block">{word}</span>
+              {i < headlineWords.length - 1 ? ' ' : ''}
             </span>
           ))}
         </h1>
@@ -220,8 +223,9 @@ export default function HeroSection() {
           ref={subheadRef}
           className="text-base lg:text-lg text-[#B8B2AA] max-w-md mb-10 leading-relaxed"
         >
-          Revisión mecánica a domicilio + escaneo computarizado. Más de 350
-          puntos inspeccionados.
+          La forma segura de comprar su vehículo: inspección precompra con
+          mecánico + escaneo computarizado donde esté el auto. Más de 350
+          puntos inspeccionados e informe con fotos.
         </p>
 
         {/* CTAs */}

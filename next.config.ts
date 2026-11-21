@@ -20,11 +20,23 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        // Consolidated ~227 near-duplicate per-locality revision-vehiculo-en pages (identical
-        // body content, only the city name varied) into one hub page — almost all of them had
-        // zero search impressions ever, even though the few that did rank did so well (pos 2-6).
+        // The ~227 per-locality revision-vehiculo-en pages were first consolidated into a
+        // /revision-vehiculo-en hub (Jul 2026). That hub duplicated the homepage's sections and
+        // Google kept ranking the homepage instead, so both now point at "/" — the homepage is
+        // the single page for "revisión de autos usados" searches (Nov 2026).
         source: "/revision-vehiculo-en/:slug",
-        destination: "/revision-vehiculo-en",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/revision-vehiculo-en",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        // Merged into the inspección pre compra guide (near-duplicate topic, Nov 2026).
+        source: "/guias/revision-precompra-a-domicilio-caba-gba",
+        destination: "/guias/inspeccion-pre-compra-auto-a-domicilio",
         permanent: true,
       },
       {

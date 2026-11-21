@@ -252,7 +252,8 @@ export default function FooterSection() {
             <p className="text-xs uppercase tracking-wider text-[#5a5a5c] mb-3">Servicios</p>
             <ul className="space-y-2">
               {[
-                { label: 'Inspección pre compra a domicilio', href: '/guias/inspeccion-pre-compra-auto-a-domicilio' },
+                { label: 'Revisión de autos usados a domicilio', href: '/' },
+                { label: 'Qué incluye la inspección pre compra', href: '/guias/inspeccion-pre-compra-auto-a-domicilio' },
                 { label: 'Servicio de gestoría', href: '/servicio-gestoria' },
                 { label: 'Solicitar turno', href: '/solicitar-turno' },
               ].map(({ label, href }) => (

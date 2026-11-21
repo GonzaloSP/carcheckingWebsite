@@ -72,139 +72,6 @@ Si preferís evitar filas y asegurarte de no cometer errores en la documentació
     `,
   },
   {
-    id: 'caba-gba-revision-precompra-domicilio',
-    slug: 'revision-precompra-a-domicilio-caba-gba',
-    title: 'Revisión precompra a domicilio en CABA y GBA: qué incluye, cuánto tarda y cuánto cuesta',
-    excerpt:
-      'Guía práctica para revisar un auto antes de comprar en CABA y Gran Buenos Aires: qué se controla, cuánto tarda una inspección, rangos de precio y cómo coordinar.',
-    author: 'carChecking',
-    date: '2026-02-05',
-    category: 'Revisión del Vehículo',
-    tags: [
-      'revisión precompra',
-      'inspección pre compra',
-      'mecánico a domicilio',
-      'revisar auto antes de comprar',
-      'CABA',
-      'GBA',
-      'autos usados',
-      'escaneo OBD',
-      'informe con fotos',
-    ],
-    image: `${base}images/mechanic_working.jpg`,
-    metaTitle:
-      'Revisión precompra a domicilio en CABA y GBA: qué incluye, cuánto tarda y precio | carChecking',
-    metaDescription:
-      'Revisión precompra a domicilio en CABA y Gran Buenos Aires: qué incluye (mecánica, OBD, carrocería), cuánto tarda, rangos de precio y cómo solicitar turno.',
-    content: `
-## Revisión precompra a domicilio en CABA y GBA: la forma práctica de revisar un auto antes de comprar
-
-Si estás por comprar un usado, la pregunta más común es simple: **¿cómo reviso el auto antes de pagar?**
-
-En CABA y Gran Buenos Aires, lo más cómodo es una **revisión precompra a domicilio**: el mecánico va donde está el vehículo (casa del vendedor, concesionaria, cochera) y hace una inspección completa para detectar problemas ocultos.
-
-> Objetivo: **comprar con tranquilidad** y evitar sorpresas (kilometraje adulterado, choques ocultos, fallas electrónicas, pérdidas, etc.).
-
----
-
-## ¿Qué incluye una revisión precompra completa?
-
-Una revisión precompra bien hecha no es “mirar por arriba”. En general incluye:
-
-### 1) Revisión mecánica
-- Motor (pérdidas, ruidos, humo, correas/mangueras visibles)
-- Caja/embrague (sensaciones, ruidos, vibraciones)
-- Tren delantero y trasero (juegos, ruidos, suspensión)
-- Frenos (estado general, tacto, desviaciones)
-
-### 2) Carrocería y estructura
-- Señales de repintado y reparaciones
-- Alineaciones (puertas, capot, baúl)
-- Chasis / puntos clave visibles
-- Evidencia de granizo, choques o inundación
-
-### 3) Interior y equipamiento
-- Funcionamiento de comandos y accesorios
-- Señales de desgaste incoherentes con el kilometraje declarado
-
-### 4) **Escaneo OBD (cuando aplica)**
-- Lectura de fallas en la ECU
-- Parámetros básicos para detectar inconsistencias
-
-### 5) Prueba dinámica (si se puede)
-- Cómo se comporta en marcha: ruidos, vibraciones, cambios, temperatura, frenos.
-
-### 6) Informe
-- Resumen claro de hallazgos
-- Recomendaciones y “alertas rojas”
-- Idealmente con fotos/documentación
-
----
-
-## ¿Cuánto tarda una revisión precompra a domicilio?
-
-Depende del vehículo y del acceso (luz, espacio, posibilidad de prueba), pero como referencia:
-
-- **Revisión completa:** 60–120 minutos
-- Si hay que revisar cosas puntuales o el vehículo tiene particularidades (GNC, importado, etc.), puede extenderse.
-
----
-
-## ¿Cuánto cuesta revisar un auto antes de comprar en CABA y GBA?
-
-El precio depende de:
-- tipo de vehículo y complejidad
-- distancia/zona
-- nivel de detalle y si incluye escaneo + informe
-
-En carChecking ofrecemos un servicio con **precio publicado** e incluye:
-- revisión completa
-- escaneo computarizado
-- informe escrito
-
-Podés ver el precio y solicitar turno acá:
-
-- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
-
----
-
-## ¿Qué NO hace una revisión precompra (para que sea claro)?
-
-Una inspección a domicilio no reemplaza:
-- desarme profundo
-- “abrir motor”
-- análisis de laboratorio
-
-Pero sí sirve para detectar **la mayoría de los problemas típicos** que hacen que un usado sea una mala compra.
-
----
-
-## Cobertura
-
-Actualmente trabajamos en:
-- **CABA**
-- **Gran Buenos Aires**
-
----
-
-## Preguntas rápidas
-
-**¿Conviene revisar si el auto parece impecable?**
-Sí: muchas fallas y choques reparados no se ven en una visita rápida.
-
-**¿La revisión sirve para negociar el precio?**
-Totalmente: un informe con hallazgos te da base para negociar o para salir de la operación.
-
----
-
-## ¿Querés que revisemos el auto por vos?
-
-Coordinamos por WhatsApp y vamos al lugar.
-
-- **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
-    `,
-  },
-  {
     id: 'donde-revisar-auto-caba-gba',
     slug: 'donde-revisar-auto-antes-de-comprar-caba-gba',
     title:
@@ -234,7 +101,7 @@ Coordinamos por WhatsApp y vamos al lugar.
 
 Si estás a punto de comprar un usado, una de las mejores decisiones que podés tomar es **revisarlo antes de señar/pagar**. La pregunta es: **¿dónde conviene hacerlo en CABA y Gran Buenos Aires?**
 
-Acá va una comparativa simple (con pros y contras reales) para elegir bien.
+Acá va una comparativa simple (con pros y contras reales) para elegir bien. Si ya sabés que querés que vaya un mecánico al auto, mirá nuestra [revisión de autos usados a domicilio](/) en CABA y GBA: precio, qué incluye y cómo pedir turno.
 
 ---
 
@@ -270,7 +137,7 @@ Acá va una comparativa simple (con pros y contras reales) para elegir bien.
 - No es un desarme profundo
 - Depende de condiciones del lugar (luz/espacio)
 
-Si querés entender bien cómo es, mirá esta guía: [revisión precompra a domicilio en CABA y GBA](/guias/revision-precompra-a-domicilio-caba-gba).
+Si querés entender bien qué incluye, mirá esta guía: [inspección pre compra a domicilio](/guias/inspeccion-pre-compra-auto-a-domicilio), o directamente nuestro servicio de [revisión de autos usados a domicilio en CABA y GBA](/).
 
 ---
 
@@ -308,7 +175,7 @@ Si querés entender bien cómo es, mirá esta guía: [revisión precompra a domi
 
 ## ¿Querés que lo revisemos por vos en CABA o GBA?
 
-Coordinamos por WhatsApp y vamos al lugar.
+Coordinamos por WhatsApp y vamos al lugar. Conocé el servicio de [revisión de autos usados a domicilio](/) (precio, qué revisamos y cuánto tarda).
 
 - **Solicitar turno:** [/solicitar-turno](/solicitar-turno)
     `,
@@ -424,7 +291,7 @@ Esto es cómodo porque:
 - No perdés tiempo coordinando traslados
 - Podés tomar una decisión con información real (y no “a ojo”)
 
-Si estás buscando “**mecánico a domicilio para revisar auto usado**”, esto es exactamente lo que necesitás.
+Si estás buscando “**mecánico a domicilio para revisar auto usado**”, esto es exactamente lo que necesitás. En CABA y Gran Buenos Aires lo hacemos nosotros: [revisión de autos usados a domicilio con carChecking](/).
 
 ## ¿Qué incluye una inspección mecánica pre compra?
 
@@ -492,15 +359,33 @@ Si buscás “**inspección vehicular CABA / GBA / [ciudad]**”, antes de reser
 - ¿Cuánto tarda?
 - ¿Qué pasa si el auto no está apto?
 
+## ¿Cuánto tarda una inspección pre compra a domicilio?
+
+Depende del vehículo y del acceso (luz, espacio, posibilidad de prueba), pero como referencia:
+
+- **Revisión completa:** 60–120 minutos
+- Si hay que revisar cosas puntuales o el vehículo tiene particularidades (GNC, importado, etc.), puede extenderse.
+
 ## ¿Cuánto cuesta inspección precompra auto?
 
-La respuesta real: depende. El precio varía por:
+En general, el precio varía por:
 - Tipo de vehículo (auto, SUV, pick-up)
 - Complejidad del escaneo y la revisión
 - Zona/ciudad y traslado
 - Si incluye informe con fotos y prueba de manejo
 
 Consejo honesto: más que mirar solo el precio, mirá **qué incluye**. Una inspección completa suele salir muchísimo menos que una reparación grande (o que comprar un problema).
+
+En carChecking el precio está publicado e incluye revisión completa, escaneo computarizado e informe escrito: lo ves en la página de [revisión de autos usados a domicilio en CABA y GBA](/).
+
+## ¿Qué NO hace una inspección a domicilio?
+
+Para que sea claro, una inspección a domicilio no reemplaza:
+- desarme profundo
+- “abrir motor”
+- análisis de laboratorio
+
+Pero sí sirve para detectar **la mayoría de los problemas típicos** que hacen que un usado sea una mala compra.
 
 ## Preguntas rápidas (las que todos hacen)
 
@@ -516,6 +401,10 @@ No todo, pero detecta un montón de cosas que a simple vista se pasan.
 
 Es una señal de alerta. Si está todo bien, lo normal es que no haya problema con una inspección.
 
+### “¿La revisión sirve para negociar el precio?”
+
+Totalmente: un informe con hallazgos te da base para negociar o para salir de la operación.
+
 ---
 
 ## También te puede interesar
@@ -526,7 +415,7 @@ Si estás armando tu compra paso a paso, estas dos guías te van a servir muchí
 
 [Qué papeles revisar al comprar un auto usado en Argentina](/guias/papeles-auto-usado-argentina-informe-dominio-verificacion-policial)
 
-Si estás por comprar un usado, una inspección pre compra auto a domicilio te ayuda a decidir con tranquilidad y, si hace falta, a negociar con argumentos.
+Si estás por comprar un usado, una inspección pre compra auto a domicilio te ayuda a decidir con tranquilidad y, si hace falta, a negociar con argumentos. En CABA y GBA podés [pedir la revisión de tu auto usado a domicilio](/).
     `
   },
   {
@@ -539,14 +428,14 @@ Si estás por comprar un usado, una inspección pre compra auto a domicilio te a
     category: 'Comprando un Vehículo Usado',
     tags: ['qué revisar antes de comprar un auto usado', 'checklist compra auto usado', 'prueba de manejo', 'auto chocado', 'auto inundado', 'kilometraje adulterado', 'escaneo OBD'],
     image: `${base}images/hero_car.jpg`,
-    metaTitle: 'Qué revisar antes de comprar un auto usado: checklist completo | carChecking',
+    metaTitle: 'Qué revisar al comprar un auto usado: checklist paso a paso | carChecking',
     metaDescription: 'Checklist práctico para comprar un auto usado: qué mirar en motor, carrocería, interior, prueba de manejo y señales de choque, inundación o kilometraje adulterado.',
     content: `
 ## Qué revisar antes de comprar un auto usado: checklist simple (pero muy efectiva)
 
 Si estás por comprar un auto usado, te conviene ir con una checklist. No hace falta ser mecánico: con algunas observaciones básicas podés evitar errores típicos.
 
-Acá tenés una guía práctica con lo que más importa. Y si querés ir a lo seguro, lo ideal es sumar una inspección pre compra profesional (acá explicamos cómo es: [inspección pre compra auto a domicilio](/guias/inspeccion-pre-compra-auto-a-domicilio)).
+Acá tenés una guía práctica con lo que más importa. Y si querés ir a lo seguro, lo ideal es sumar una inspección pre compra profesional (acá explicamos cómo es: [inspección pre compra auto a domicilio](/guias/inspeccion-pre-compra-auto-a-domicilio)). En CABA y GBA podés pedir una [revisión de autos usados a domicilio](/) con mecánico, escaneo e informe con fotos.
 
 ## 1) Motor: lo que conviene mirar primero
 - ¿Ves pérdidas de aceite o refrigerante?
@@ -629,7 +518,7 @@ Sirve para:
 
 ## Conclusión
 
-Esta checklist te ayuda a reducir el riesgo. Pero si querés tomar la mejor decisión (y negociar mejor), lo ideal es una inspección pre compra completa: mecánica + prueba + escaneo OBD + informe.
+Esta checklist te ayuda a reducir el riesgo. Pero si querés tomar la mejor decisión (y negociar mejor), lo ideal es una inspección pre compra completa: mecánica + prueba + escaneo OBD + informe. Si estás en CABA o GBA, [lo revisamos por vos a domicilio](/).
 
 ## También te puede interesar
 
@@ -2307,7 +2196,8 @@ Más que buscar una promesa de garantía, elegí un servicio por:
 - independencia (que no te quiera vender repuestos).
 
 Si estás por comprar un usado, lo ideal es combinar inspección y escaneo:
-- [Revisión precompra a domicilio en CABA y GBA](/guias/revision-precompra-a-domicilio-caba-gba)
+- [Revisión de autos usados a domicilio en CABA y GBA](/)
+- [Qué incluye una inspección pre compra](/guias/inspeccion-pre-compra-auto-a-domicilio)
 
 Y si querés coordinar:
 - [/solicitar-turno](/solicitar-turno)
@@ -3701,7 +3591,7 @@ Además de lo clásico (chapa, chasis, mecánica), en un híbrido hay que revisa
 
 ## Qué revisamos en carChecking (enfoque precompra)
 
-En carChecking revisamos el auto **completo**:
+En carChecking hacemos la [revisión de autos usados a domicilio](/) (híbridos incluidos) y revisamos el auto **completo**:
 
 ### 1) Estructura y carrocería
 - señales de choque/reparaciones,
